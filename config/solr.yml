@@ -1,4 +1,4 @@
-dev:
+test:
   :url: http://your_solr_base_url
       
 dev:
