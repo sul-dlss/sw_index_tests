@@ -1,0 +1,20 @@
+## PROJECT
+.bundle
+rdoc
+doc
+.yardoc
+*.lock
+
+## vim
+*.swp
+
+## MAC OS
+.DS_Store
+
+## TextMate
+*.tmproj
+tmtags
+
+## Rubymine
+.idea/*
+

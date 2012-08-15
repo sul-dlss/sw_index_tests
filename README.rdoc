@@ -1,0 +1,10 @@
+= SearchWorks Index Tests
+
+an application for testing the SearchWorks index
+
+== Usage
+
+1.  Set up config/solr.yml
+2.  'rake'    # blah blah about which environment from config
+
+== Releases (?)
