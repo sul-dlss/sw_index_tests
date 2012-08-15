@@ -5,6 +5,9 @@ an application for testing the SearchWorks index
 == Usage
 
 1.  Set up config/solr.yml
-2.  'rake'    # blah blah about which environment from config
+2.  If you wish to keep your solr url out of a remote repo, you can do this:
+  git update-index --assume-unchanged config/solr.yml
+
+3.  'rake'    # blah blah about which environment from config
 
 == Releases (?)
