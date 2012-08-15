@@ -5,7 +5,6 @@ require 'rsolr'
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
 RSpec.configure do |config|
-  # Set up solr connection and make available to all the specs
   # FIXME:  hardcoded yml group
   solr_config = YAML::load_file('config/solr.yml')["test"]
   @@solr = RSolr.connect(solr_config)
