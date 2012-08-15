@@ -1,4 +1,3 @@
-#require 'settings'
 require "yaml"
 require 'rsolr'
 
@@ -17,5 +16,11 @@ end
 # @return [RSpecSolr::SolrResponseHash] object for rspec-solr testing the Solr response 
 def solr_response(solr_params, req_handler='select')  
   RSpecSolr::SolrResponseHash.new(@@solr.send_and_receive(req_handler, {:method => :get, :params => solr_params}))
+end
+
+# use these Solr params to reduce the size of the Solr responses
+# @return [Hash] Solr HTTP params so documents returned will only have id fields, and there will be no facets
+def doc_ids_only
+  {'fl'=>'id', 'facet'=>'false'}
 end
 
