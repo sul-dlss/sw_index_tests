@@ -5,19 +5,19 @@ require 'rspec-solr'
 describe "Chinese Searching with Traditional and Simplified Scripts", :chinese => true do
 
   it "Traditional chars 三國誌 should get the same results as simplified chars 三国志" do
-    resp = solr_resp_doc_ids_only({'q'=>'三國誌'})
+    resp = solr_resp_doc_ids_only({'q'=>'三國誌'})  # 0 results in prod
     resp.should have_at_least(240).documents
-    resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'三国志'}))
+    resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'三国志'})) # 23 results in prod
   end
   
   it "Traditional chars 紅樓夢 should get the same results as simplified chars 红楼梦" do
-    resp = solr_resp_doc_ids_only({'q'=>'紅樓夢'})
+    resp = solr_resp_doc_ids_only({'q'=>'紅樓夢'})  # 247 in prod
     resp.should have_at_least(640).documents
-    resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'红楼梦'}))
+    resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'红楼梦'})) # 306 in prod
   end
   
   it "Mixed traditional and simplified characters in same search string" do
-    resp = solr_resp_doc_ids_only({'q'=>'全宋筆记'})
+    resp = solr_resp_doc_ids_only({'q'=>'全宋筆记'})  # 1 in prod: 5701106;  全宋筆記 4 in prod
     resp.should have_at_least(12).documents
     resp.should include("5701106") # orig query string   全宋筆记
     resp.should include(["9579321", "9579315", "6734714"]) # diff string  全宋筆記
@@ -58,17 +58,17 @@ describe "Chinese Searching with Traditional and Simplified Scripts", :chinese =
   
   context "Author search" do
     it "Simplified chars 张爱玲 should get the same results as traditional chars 張愛玲" do
-      resp = solr_resp_doc_ids_only({'q'=>'紅樓夢', 'qt'=>'search_author'})
+      resp = solr_resp_doc_ids_only({'q'=>'紅樓夢', 'qt'=>'search_author'}) # 0 in prod
       resp.should have_at_least(70).documents
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'红楼梦', 'qt'=>'search_author'}))
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'红楼梦', 'qt'=>'search_author'})) # 5 in prod
     end
   end
   
   context "Title search" do
     it "Simplified  中国地方志集成 vs. Traditional 中 國地方誌集成" do
-      resp = solr_resp_doc_ids_only({'q'=>'中国地方志集成', 'qt'=>'search_title'})
+      resp = solr_resp_doc_ids_only({'q'=>'中国地方志集成', 'qt'=>'search_title'}) # 9 in prod
       resp.should have_at_least(520).documents
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'中 國地方誌集成', 'qt'=>'search_title'}))
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'中 國地方誌集成', 'qt'=>'search_title'})) # 0 in prod
     end
     
   end

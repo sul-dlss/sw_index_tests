@@ -5,9 +5,10 @@ require 'rspec-solr'
 describe "Chinese Searching - Variant Characters", :chinese => true do
   
   it "囯 vs  国" do
-    resp = solr_resp_doc_ids_only({'q'=>'民囯时期社会调查丛编'}) # A (囯) is second char
+    resp = solr_resp_doc_ids_only({'q'=>'民囯时期社会调查丛编'}) # A (囯) is second char  # 1 in prod: 8593449
     resp.should have_at_least(3).documents
-    resp.should include("8940619")  # has title 民国时期社会调查丛编 - B (国) is second char
+    resp.should include("8593449")
+    resp.should include("8940619")  # has title 民国时期社会调查丛编 - B (国) is second char  # 1 in prod: 8940619
     pending("need to implement regex matcher to look for  民国时期社会调查丛编  in vern_title_display-ish")
   end
   
