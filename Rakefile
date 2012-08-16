@@ -10,10 +10,27 @@ end
 
 require 'rspec/core/rake_task'
 
-desc "run specs" 
-RSpec::Core::RakeTask.new(:rspec) do |spec|
-  spec.rspec_opts = ["-c", "-f progress", "-r ./spec/spec_helper.rb", "-t ~chinese", "-t ~japanese"]
+desc "run specs expected to pass" 
+RSpec::Core::RakeTask.new(:passing) do |spec|
+  spec.rspec_opts = ["-c", "-f progress", "-r ./spec/spec_helper.rb", "-t ~fixme"]
 end
 
-task :spec => :rspec
-task :default => :rspec
+desc "run spec expected to pass and send output to file" 
+RSpec::Core::RakeTask.new(:passing_to_file) do |spec|
+  spec.rspec_opts = ["-f documentation", "-r ./spec/spec_helper.rb", "-t ~fixme"] 
+end
+
+desc "run specs NOT expected to pass" 
+RSpec::Core::RakeTask.new(:fixme) do |spec|
+  spec.rspec_opts = ["-c", "-f progress", "-r ./spec/spec_helper.rb", "-t fixme"] 
+end
+
+desc "run only CJK specs" 
+RSpec::Core::RakeTask.new(:cjk) do |spec|
+  spec.rspec_opts = ["-c", "-f progress", "-r ./spec/spec_helper.rb", "-t chinese", "-t japanese", "-t korean"] 
+end
+
+
+task :spec => :passing
+task :rspec => :passing
+task :default => :passing
