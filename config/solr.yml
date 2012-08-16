@@ -1,8 +1,9 @@
 test:
-  :url: http://your_solr_base_url
+  :url: http://your.solr.baseurl
       
 dev:
-  :url: http://your_solr_base_url
+  :url: http://your.solr.baseurl
   
 ci:
-  :url: http://your_solr_base_url
+  :url: http://your.solr.baseurl
+  

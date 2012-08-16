@@ -2,7 +2,7 @@
 require 'spec_helper'
 require 'rspec-solr'
 
-describe "Chinese Searching with Traditional and Simplified Scripts" do
+describe "Chinese Searching with Traditional and Simplified Scripts", :chinese => true do
 
   it "Traditional chars 三國誌 should get the same results as simplified chars 三国志" do
     resp = solr_resp_doc_ids_only({'q'=>'三國誌'})

@@ -2,7 +2,7 @@
 require 'spec_helper'
 require 'rspec-solr'
 
-describe "Chinese Searching - Word Segmentation" do
+describe "Chinese Searching - Word Segmentation", :chinese => true do
   # TODO:  query time parsing  vs.   index time parsing
   
   it "should parse out 中国 (china)  经济 （economic)  政策 (policy)" do
