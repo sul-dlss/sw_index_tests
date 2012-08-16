@@ -2,7 +2,7 @@
 require 'spec_helper'
 require 'rspec-solr'
 
-describe "Japanese: hiragana, katakana, kanji, and romaji scripts", :japanese => true do
+describe "Japanese: hiragana, katakana, kanji, and romaji scripts", :japanese => true, :fixme => true do
 
   it "(manga) まんが should get the same results as マンガ" do
     resp = solr_resp_doc_ids_only({'q'=>'まんが'}) # 3 in prod, 111 in soc

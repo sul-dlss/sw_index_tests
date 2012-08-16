@@ -2,7 +2,7 @@
 require 'spec_helper'
 require 'rspec-solr'
 
-describe "Japanese: imported words", :japanese => true do
+describe "Japanese: imported words", :japanese => true, :fixme => true do
 
   it "supotsu (sports) should get the same results as スポーツ" do
     resp = solr_resp_doc_ids_only({'q'=>'supotsu'}) # 67 in prod, 67 in soc

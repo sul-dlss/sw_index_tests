@@ -2,7 +2,7 @@
 require 'spec_helper'
 require 'rspec-solr'
 
-describe "Japanese: variant chars for author, geographic place names, and subjects", :japanese => true do
+describe "Japanese: variant chars for author, geographic place names, and subjects", :japanese => true, :fixme => true do
 
   it "(minami manshu tetsudo kabushiki kaisha) 南滿洲鐵道株式會社 should get the same results as 満鉄" do
     # FIXME:  not right yet ...

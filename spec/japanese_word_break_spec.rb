@@ -2,7 +2,7 @@
 require 'spec_helper'
 require 'rspec-solr'
 
-describe "Japanese: Word Breaks", :japanese => true do
+describe "Japanese: Word Breaks", :japanese => true, :fixme => true do
 
   it "query string  近世仮名遣い without spaces retrieves title  近世仮名  遣い論の研究  with spaces" do
     resp = solr_resp_doc_ids_only({'q'=>'近世仮名遣い'}) # 0 in prod, 1 in soc (7926218)

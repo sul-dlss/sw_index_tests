@@ -2,7 +2,7 @@
 require 'spec_helper'
 require 'rspec-solr'
 
-describe "Chinese: Variant Characters", :chinese => true do
+describe "Chinese: Variant Characters", :chinese => true, :fixme => true do
   
   it "囯 vs  国" do
     resp = solr_resp_doc_ids_only({'q'=>'民囯时期社会调查丛编'}) # A (囯) is second char  # 1 in prod: 8593449, 2 in soc

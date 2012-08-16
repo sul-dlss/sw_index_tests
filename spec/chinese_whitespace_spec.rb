@@ -2,7 +2,7 @@
 require 'spec_helper'
 require 'rspec-solr'
 
-describe "Chinese: Extraneous Spaces (from old RLIN records?)", :chinese => true do
+describe "Chinese: Extraneous Spaces (from old RLIN records?)", :chinese => true, :fixme => true do
 
   it "whitespace variants of 金瓶梅 should get similar results" do
     resp = solr_resp_doc_ids_only({'q'=>'金瓶梅'}) # 0 in prod, 169 in soc

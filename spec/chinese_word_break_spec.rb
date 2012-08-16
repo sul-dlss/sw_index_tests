@@ -2,7 +2,7 @@
 require 'spec_helper'
 require 'rspec-solr'
 
-describe "Chinese: Word Breaks", :chinese => true do
+describe "Chinese: Word Breaks", :chinese => true, :fixme => true do
   # TODO:  query time parsing  vs.   index time parsing
   
   it "should parse out 中国 (china)  经济 （economic)  政策 (policy)" do
