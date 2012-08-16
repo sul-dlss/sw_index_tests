@@ -46,7 +46,7 @@ describe "Default Request Handler" do
     resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'k conway jill'}))
   end
   
-  it "history of the jews by paul johnson" do
+  it "history of the jews by paul johnson", :jira => 'VUF-510' do
     resp = solr_resp_doc_ids_only({'q'=>'history of the jews by paul johnson'})
     resp.should include(["1665541", "3141358"]).in_first(3).results
   end

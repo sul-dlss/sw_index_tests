@@ -3,7 +3,7 @@ require 'rspec-solr'
 
 describe "Terms with Letters and Numbers or other oddities" do
   
-  it "q of 'Two3' should have excellent results" do
+  it "q of 'Two3' should have excellent results", :jira => 'VUF-386' do
     resp = solr_resp_doc_ids_only({'q'=>'Two3'})
     resp.should have_at_most(10).documents
     resp.should include("5732752").as_first_result
