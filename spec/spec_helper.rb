@@ -8,6 +8,9 @@ RSpec.configure do |config|
   solr_config = YAML::load_file('config/solr.yml')["test"]
   @@solr = RSolr.connect(solr_config)
   puts "Solr initialized with solr: #{@@solr.inspect}"
+  @@schema_xml = @@solr.send_and_receive('admin/file/', {:method => :get, :params => {'file'=>'schema.xml', :wt=>'xml'}}) 
+  #@@solrconfig_xml = @@solr.send_and_receive('admin/file/', {:method => :get, :params => {'file'=>'solrconfig.xml', :wt=>'xml'}}) 
+  puts "Solr schema: #{@@schema_xml}"
 end
 
 # send a GET request to the default Solr request handler with the indicated Solr parameters
@@ -38,3 +41,4 @@ end
 def doc_ids_only
   @@doc_ids_only
 end
+
