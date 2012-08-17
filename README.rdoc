@@ -1,8 +1,8 @@
-= SearchWorks Index Tests
+= SearchWorks Solr Index Tests
 
-An "application" for testing the Stanford University Libraries SearchWorks index, using rspec-solr and rsolr.  
+A ruby "application" for testing the Stanford University Libraries SearchWorks Solr index, using rspec-solr and rsolr gems.  
 
-The main reason it's living in publically accessible web space is to allow it to serve as an exemplar for folks who want to use rspec-solr or who want to figure out a way to automate testing searches against a Solr index.
+The main reason this is in publicly accessible web space is to allow it to serve as an exemplar for folks who want to use rspec-solr or who want to figure out a way to automate testing searches against a Solr index.
 
 == Usage
 
@@ -21,13 +21,18 @@ If you wish to create a similar app for YOUR Solr index, you can fork this proje
 === Deal with the hardcoding as you wish:
 * in spec/spec_helper.rb, line 8 or so has a hardcoded "test" for getting the Solr base url from config/solr.yml:
  solr_config = YAML::load_file('config/solr.yml')["test"]
-* contribute!   Send me a pull request!
+
+Hint: Contribute!   Send me a pull request!
  
 === Write specs for YOUR Solr index!
-See rspec-solr documentation for syntax.  Documentation around here somewhere:
+
+There are lots of examples in the spec folder.
+
+See rspec-solr Gem documentation for the full syntax.  Documentation around here somewhere:
 * http://rubydoc.info/github/sul-dlss/rspec-solr
 * https://github.com/sul-dlss/rspec-solr/blob/master/MATCHERS.rdoc
 * https://github.com/sul-dlss/rspec-solr
+
 
 === Contribute helper methods here or to rspec-solr.
 
