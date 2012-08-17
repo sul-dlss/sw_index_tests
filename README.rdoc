@@ -26,7 +26,15 @@ If you wish to create a similar app for YOUR Solr index, you can fork this proje
 4.  Write specs for YOUR Solr index!
 See rspec-solr documentation for syntax.  Documentation around here somewhere:
 * http://rubydoc.info/github/sul-dlss/rspec-solr
-* https://github.com/sul-dlss/rspec-solr/blob/master/expectation_matchers.rdoc
+* https://github.com/sul-dlss/rspec-solr/blob/master/MATCHERS.rdoc
 * https://github.com/sul-dlss/rspec-solr
 
 5.  Contribute helper methods here or to rspec-solr.
+
+== Contributing
+
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Added some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
