@@ -16,44 +16,15 @@ describe "Chinese: Traditional and Simplified Scripts", :chinese => true, :fixme
     resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'红楼梦'})) # 306 in prod, 649 in soc
   end
   
-  it "Mixed traditional and simplified characters in same search string" do
+  it "Mixed traditional and simplified characters in same search string" do 
+    # more details: email on gryph-search week of 8/13 w subject chinese search test - question 1 
     resp = solr_resp_doc_ids_only({'q'=>'全宋筆记'})  # 1 in prod: 5701106;  全宋筆記 4 in prod, 12 in soc
     resp.should have_at_least(12).documents
     resp.should include("5701106") # orig query string   全宋筆记
-    resp.should include(["9579321", "9579315", "6734714"]) # diff string  全宋筆記
+    resp.should include(["9579321", "9579315", "6734714", "8146870"]) # diff string  全宋筆記
     resp2 = solr_resp_doc_ids_only({'q'=>'全宋筆記'})  # diff string;  4 in prod, 9 in soc
-    resp2.should include(["9579321", "9579315", "6734714"]) # diff string  全宋筆記
+    resp2.should include(["9579321", "9579315", "6734714", "8146870"]) # diff string  全宋筆記
     resp2.should include("5701106") # orig query string   全宋筆记
-    
-# query  全宋筆记
-#        全宋筆记    A
-#        全宋筆記    B
-    
-# search:   全宋筆记:    A   
-# 1  ["9622614", 
-# 2 "9579321 --  全宋筆記",  B 
-# 3 "9579315 -- 全宋筆記",  B
-# 4 "9541298 --"
-# 5 "9269083 --"
-# 6 "8519220"
-# 7 "8146870" -- 全宋筆記  B
-# 8 "6734714" -- 全宋筆記  B
-# 9 "5701106"  全宋筆记  A
-# 10 "9424729"
-# 11 "6343926"
-# 12 "6295610"
-#    ]
-
-# search:     全宋筆記   B
-# 1 "9579321"   全宋筆記 B
-# 2 "9579315"  B
-# 3 "9541298"  
-# 4 "8519220"
-# 5 "8146870"
-# 6 "6734714"  B
-# 7 "9424729"
-# 8 "6343926"
-# 9 "6295610"
   end
   
   context "Author search" do
