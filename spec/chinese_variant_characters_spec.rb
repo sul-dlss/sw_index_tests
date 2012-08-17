@@ -11,7 +11,8 @@ describe "Chinese: Variant Characters", :chinese => true, :fixme => true do
     resp.should include("8940619")  # has title 民国时期社会调查丛编 - B (国) is second char  # 1 in prod: 8940619, 1 in soc
     pending("need to implement regex matcher to look for  民国时期社会调查丛编  in vern_title_display-ish")
   end
-  
+
+=begin  
   it "敎 vs  教" do
     pending "to be implemented"
   end
@@ -23,5 +24,6 @@ describe "Chinese: Variant Characters", :chinese => true, :fixme => true do
   it "户 vs  戸" do
     pending "to be implemented"
   end
+=end  
   
 end
