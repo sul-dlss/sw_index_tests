@@ -5,6 +5,7 @@ rdoc
 doc
 .yardoc
 *.lock
+tmp/
 
 ## vim
 *.swp
