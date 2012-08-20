@@ -16,6 +16,12 @@ describe "Chinese: Traditional and Simplified Scripts", :chinese => true, :fixme
     resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'红楼梦'})) # 306 in prod, 649 in soc
   end
   
+  it "Traditional chars  廣州 should get the same results as simplified chars  光州" do
+    resp = solr_resp_doc_ids_only({'q'=>'廣州'}) 
+    resp.should have_at_least(4725).documents # 1928 in prod, 4739 in soc
+    resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'光州'})) # 22 in prod, 701 in soc
+  end
+  
   it "Mixed traditional and simplified characters in same search string" do 
     # more details: email on gryph-search week of 8/13 w subject chinese search test - question 1 
     resp = solr_resp_doc_ids_only({'q'=>'全宋筆记'})  # 1 in prod: 5701106;  全宋筆記 4 in prod, 12 in soc
