@@ -25,6 +25,11 @@ describe "Chinese: Traditional and Simplified Scripts", :chinese => true, :fixme
     resp2 = solr_resp_doc_ids_only({'q'=>'全宋筆記'})  # diff string;  4 in prod, 9 in soc
     resp2.should include(["9579321", "9579315", "6734714", "8146870"]) # diff string  全宋筆記
     resp2.should include("5701106") # orig query string   全宋筆记
+    resp3 = solr_resp_doc_ids_only({'q'=>'全  宋  筆記'}) # these 3 terms are how it should parse  (3rd char is trad)
+    resp.should have_the_same_number_of_results_as(resp3)
+    resp4 = solr_resp_doc_ids_only({'q'=>'全  宋  笔記'}) # these 3 terms are how it should parse   (3rd char is simplified)
+    resp.should have_the_same_number_of_results_as(resp4)
+    resp3.should have_the_same_number_of_results_as(resp4)
   end
   
   context "Author search" do
@@ -40,6 +45,24 @@ describe "Chinese: Traditional and Simplified Scripts", :chinese => true, :fixme
       resp = solr_resp_doc_ids_only({'q'=>'中国地方志集成', 'qt'=>'search_title'}) # 9 in prod, 523 in soc
       resp.should have_at_least(520).documents
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'中 國地方誌集成', 'qt'=>'search_title'})) # 0 in prod, 523 in soc
+    end
+  end
+  
+  context "Single character searches" do
+    it "title  飄 (trad) should get the same results as  飘 (simplified)" do
+      resp = solr_resp_doc_ids_only({'q'=>'飄', 'qt'=>'search_title'}) 
+      resp.should have_at_least(110).documents # 2 in prod, 117 title in soc, 115 lang chinese in soc, 154 everything in soc
+      resp.should include("6701323") # trad
+      resp.should include("4181771") # simp
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'飘', 'qt'=>'search_title'})) # 0 title in prod, 115 title in soc 
+    end
+    
+    it "title Zen  禪 (trad) should get the same results as  禅 (simplified)" do
+      resp = solr_resp_doc_ids_only({'q'=>'禪', 'qt'=>'search_title', 'fq'=>'language:Chinese'}) 
+      resp.should have_at_least(485).documents # 0 in prod, 487 in soc
+      resp.should include("6815304") # trad
+      resp.should include("6428618") # simp
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'禅', 'qt'=>'search_title', 'fq'=>'language:Chinese'})) # 2 in prod, 487 in soc 
     end
   end
 
