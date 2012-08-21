@@ -25,4 +25,31 @@ describe "Chinese: Single Character Searches", :chinese => true, :fixme => true 
     resp.should have_at_least(890).documents # 7 in prod, 890 title in soc
   end
   
+=begin  
+# waiting for feedback from Vitus on whether these tests have any utility.
+  it "的 should not get many results as a single character" do
+    # see http://www.opensourceconnections.com/2011/12/23/indexing-chinese-in-solr/
+    resp = solr_resp_doc_ids_only({'q'=>'的'})  # 90 in prod, 43400 in soc
+    resp.should have_at_least(100).documents
+    resp.should have_at_most(9).documents # FIXME:  I need a decent number
+  end
+  
+  it "chars for reptile  爬蟲 should not retrieve results from individual chars climb  爬 and insect  蟲" do
+    resp = solr_resp_doc_ids_only({'q'=>'爬蟲'})  # 0 in prod, 7 in soc
+    resp.should have_at_least(5).documents
+    resp.should have_fewer_results_than(solr_resp_doc_ids_only({'q'=>'爬  蟲'})) # FIXME:  true?  false?
+  end
+  
+  it "chars for Hồ Chí Minh  胡志明 should not retrieve results from individual chars  胡 (recklessly), 志 (will), 明 (bright)" do
+    resp = solr_resp_doc_ids_only({'q'=>'胡志明'})  # 16 in prod, 60 in soc
+    resp.should include["6639990", "6639989"]  # title and subject
+    resp.should include["6639992", "4212852"]  # subject
+    resp.should include["6639996", "6639993"]  # subject and author
+    resp.should include["6639995", "6693163"] # author
+# is 4193803  desired?        
+    resp2 = solr_resp_doc_ids_only({'q'=>'胡 志 明'})  # 0 in prod, 89 in soc
+    resp.should have_fewer_results_than(resp2)  # FIXME:  true?  false?
+  end
+=end
+  
 end
