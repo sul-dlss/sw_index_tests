@@ -28,6 +28,9 @@ describe "Chinese: Single Character Searches", :chinese => true, :fixme => true 
 =begin  
 # waiting for feedback from Vitus on whether these tests have any utility.
   it "的 should not get many results as a single character" do
+# yes, there are lots of cases where this alone is a valid word
+#   searching this with another char should NOT match the single char
+#   searching this alone -->  no one would use it as a search  
     # see http://www.opensourceconnections.com/2011/12/23/indexing-chinese-in-solr/
     resp = solr_resp_doc_ids_only({'q'=>'的'})  # 90 in prod, 43400 in soc
     resp.should have_at_least(100).documents
@@ -37,6 +40,9 @@ describe "Chinese: Single Character Searches", :chinese => true, :fixme => true 
   it "chars for reptile  爬蟲 should not retrieve results from individual chars climb  爬 and insect  蟲" do
     resp = solr_resp_doc_ids_only({'q'=>'爬蟲'})  # 0 in prod, 7 in soc
     resp.should have_at_least(5).documents
+    8443700 # has both simplified and traditional
+    8702994 # simplified only
+    
     resp.should have_fewer_results_than(solr_resp_doc_ids_only({'q'=>'爬  蟲'})) # FIXME:  true?  false?
   end
   
