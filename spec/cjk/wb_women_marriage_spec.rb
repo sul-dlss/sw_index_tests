@@ -52,7 +52,6 @@ describe "Chinese: Word Breaks - Women Marriage", :chinese => true, :fixme => tr
     #   NEW 6543322   woman (as  婦女) 245a, 260b, 500a; marriage 500a
     # 
     # 
-    # 
     #  妇女婚姻 no spaces 
     #    CJK1: 679  (parsed  to   妇女  女婚  婚姻) 
     #       4222208   woman 245a, 490a, 830a;  marriage 245a
@@ -67,16 +66,20 @@ describe "Chinese: Word Breaks - Women Marriage", :chinese => true, :fixme => tr
     #           ...
     # 
     #  妇女婚姻 no spaces
-    #    cjk2: 0  (parsed to "妇女 女婚 婚姻")
+    #    cjk2: 0  (parsed to "妇女 女婚 婚姻" as phrase)
     #    cjk3: 0  (parsed  to   妇女  女婚  婚姻)
     #    cjk4: 679  (parsed  to   妇女  女婚  婚姻) -- same as cjk1
-    #    cjk5: 679  (parsed  to   妇女  女婚  婚姻)
+    #    cjk5: 0  (parsed to 妇女婚姻 even though agpq=false)
     # 
-    #  婦女婚姻 no spaces with traditional char
-    # 
+    #  婦女婚姻 no spaces - traditional char
+    #    cjk1: 935 (parsed to  婦女  女婚  婚姻)
+    #    cjk2: 0 (parsed to "婦女  女婚  婚姻" as phrase)
+    #    cjk3: 0 (parsed to  婦女  女婚  婚姻)
+    #    cjk4: 935 (parsed to  婦女  女婚  婚姻) -- same as cjk1
+    #    cjk5: 0 (parsed to  婦女婚姻 even though agpq=false)
     # 
     #  妇女 婚姻 space
-    #    cjk1: 9   
+    #    cjk1: 9   (treated as 2 separate terms)
     #       4222208   woman 245a, 490a, 830a;  marriage 245a
     #       9229845   woman 245b, 246a;  marriage 245a
     #       4401219   woman 245a;  marriage 245a 
@@ -88,10 +91,10 @@ describe "Chinese: Word Breaks - Women Marriage", :chinese => true, :fixme => tr
     #       7808424   woman 245a, 246a;  marriage 245a, 246a
     # 
     #  妇女 婚姻 space
-    #    cjk2: 0  (parsed to "妇女 女婚 婚姻")
-    #    cjk3: 0  (parsed  to   妇女  女婚  婚姻)
-    #    cjk4: 679  (parsed  to   妇女  女婚  婚姻) -- same as cjk1
-    #    cjk5: 679  (parsed  to   妇女  女婚  婚姻)
+    #    cjk2: 9 (treated as 2 separate terms)
+    #    cjk3: 0 (treated as 2 separate terms)
+    #    cjk4:   (parsed to ) -- same as cjk1
+    #    cjk5: 0 (treated as 2 separate terms)
     # 
     
     #  should our query be  (妇女 OR 婦女) AND 婚姻

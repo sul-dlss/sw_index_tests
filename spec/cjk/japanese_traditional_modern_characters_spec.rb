@@ -2,7 +2,7 @@
 require 'spec_helper'
 require 'rspec-solr'
 
-describe "Japanese: Traditional and Modern Characters", :japanese => true, :fixme => true do
+describe "Japanese: Traditional and Modern Kanji (Han) Characters", :japanese => true, :fixme => true do
 
   it "(bukkyogaku) Traditional (Han) chars 佛教學 should get the same results as simplified/kanji chars 仏教学" do
     resp = solr_resp_doc_ids_only({'q'=>'bukkyogaku'}) # 49 in prod

@@ -4,7 +4,7 @@ require 'rspec-solr'
 
 describe "Japanese: hiragana, katakana, kanji, and romaji scripts", :japanese => true, :fixme => true do
 
-  it "(manga) まんが should get the same results as マンガ" do
+  it "(manga) まんが (hirigana) should get the same results as マンガ (katakana)" do
     resp = solr_resp_doc_ids_only({'q'=>'まんが'}) # 3 in prod, 111 in soc
     resp.should have_at_least(105).documents
     resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'マンガ'})) # 13 in prod, 140 in soc
