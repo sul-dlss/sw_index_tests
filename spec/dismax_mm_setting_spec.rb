@@ -29,10 +29,8 @@ describe "mm threshold setting for dismax (6 as of 2012/08)" do
     end
   end
   
-  
+# TODO: move these to hyphen spec  
   context "hyphen variants for long multi-word query" do
-    # see also:  boolean features (these queries with and, AND)
-    
     it "South Africa, Shakespeare post-colonial culture" do
       resp = solr_resp_doc_ids_only({'q'=>'South Africa, Shakespeare post-colonial culture'})
       resp.should have_documents
@@ -53,7 +51,6 @@ describe "mm threshold setting for dismax (6 as of 2012/08)" do
       resp.should have_documents
     end
   end
-  
 
 end
   
