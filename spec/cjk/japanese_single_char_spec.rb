@@ -5,6 +5,8 @@ require 'rspec-solr'
 # need these to work -- CJKBigram approach could interfere with that
 describe "Japanese: Single Character Searches", :japanese => true, :fixme => true do
   
+  # TODO:  want  hiragana, katakana?  but only matters if we bigram?
+  
   it "title  乱 (modern) should get results" do
     resp = solr_response({'q'=>'乱', 'fl'=>'id,vern_title_245a_display', 'qt'=>'search_title', 'facet'=>false}) 
     resp.should include('vern_title_245a_display'=>'乱').in_first(4).documents 

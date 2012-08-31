@@ -7,12 +7,14 @@ describe "Japanese: Word Breaks", :japanese => true, :fixme => true, :wordbreak 
   it "query string  近世仮名遣い without spaces retrieves title  近世仮名  遣い論の研究  with spaces" do
     resp = solr_resp_doc_ids_only({'q'=>'近世仮名遣い'}) # 0 in prod, 1 in soc (7926218)
     resp.should include("7926218")  #  has title   近世仮名  遣い論の研究 
+    resp.should have_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>' 近世仮名  遣い'})) 
     resp.should have_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>' 近世仮名  遣い論の研究'})) # 0 in prod, 1 in soc
   end
   
   it "query string  釘貫 without spaces retrieves author name  釘  貫亨 with spaces" do
     resp = solr_resp_doc_ids_only({'q'=>'釘貫'}) # 0 in prod, 1 in soc (7926218)
     resp.should include("7926218")  #  has author   釘  貫亨 
+    resp.should have_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>' 釘  貫'})) # ???
     resp.should have_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>' 釘  貫亨'})) # 0 in prod, 1 in soc
   end
   
@@ -35,12 +37,27 @@ describe "Japanese: Word Breaks", :japanese => true, :fixme => true, :wordbreak 
     resp3.should include("7926218")
   end
   
-  it "word breaks for latin-ized japanese (kanazukairon)" do
+  it "word breaks for romanji (kanazukairon)" do
     resp = solr_resp_doc_ids_only({'q'=>'Kinsei kanazukairon'}) # 1 in prod, 0 in soc
     resp.should include("7926218")
     resp2 = solr_resp_doc_ids_only({'q'=>'Kinsei kanazukai'})
     resp2.should have_at_least(resp.size).results  # 'Kinsei kanazukai'  also matches 6279261
     resp2.should include("7926218")
+  end
+  
+  context "author name  釘貫亨   Kuginuki Toro" do
+    it "shorter query string for romanji" do
+      resp = solr_resp_doc_ids_only({'q'=>'Kuginuki Toro'})
+      resp2 = solr_resp_doc_ids_only({'q'=>'Kuginuki'})
+      resp2.should have_results
+      resp.should have_the_same_number_of_results_as(resp2) # ????
+    end
+    it "釘貫亨  vs  釘貫" do
+      resp = solr_resp_doc_ids_only({'q'=>'釘貫亨'})
+      resp2 = solr_resp_doc_ids_only({'q'=>'釘貫'})
+      resp2.should have_results
+      resp.should have_the_same_number_of_results_as(resp2) # ????
+    end
   end
     
 end
