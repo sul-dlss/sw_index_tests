@@ -2,7 +2,7 @@
 require 'spec_helper'
 require 'rspec-solr'
 
-describe "Chinese: Word Breaks", :chinese => true, :fixme => true, :wordbreak => true do
+describe "Chinese: Word Breaks", :chinese => true, :fixme => true, :wordbreak => true, :vitus_vetted => true do
 
   context " 郑州 (a place in China)  地理 (geography)" do
 
