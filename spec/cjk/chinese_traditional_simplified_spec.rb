@@ -47,10 +47,10 @@ describe "Chinese: Traditional and Simplified Scripts", :chinese => true, :fixme
   end
   
   context "Title search" do
-    it "Simplified  中国地方志集成 vs. Traditional 中 國地方誌集成" do
+    it "Simplified  中国地方志集成 vs. Traditional 中國地方誌集成" do
       resp = solr_resp_doc_ids_only({'q'=>'中国地方志集成', 'qt'=>'search_title'}) # 9 in prod, 523 in soc
       resp.should have_at_least(520).documents
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'中 國地方誌集成', 'qt'=>'search_title'})) # 0 in prod, 523 in soc
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'中國地方誌集成', 'qt'=>'search_title'})) # 0 in prod, 523 in soc
     end
   end
   
