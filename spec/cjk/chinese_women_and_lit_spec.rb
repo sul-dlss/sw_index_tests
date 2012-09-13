@@ -61,6 +61,10 @@ describe "Chinese Women and Literature:  婦女 (women)  與 (and)   文學 (lit
       before(:all) do
         @resp = solr_resp_doc_ids_only({'q'=>'婦女與文學', 'qt'=>'search_title', 'rows'=>'25'})
       end
+      # soc:                         11
+      # cjk1 (bigrams):           6,723
+      # cjk7 (unigrams only):   102,211
+      # cjk6cn (chinese dict):   32,505  
       it_behaves_like "great search results in title for 妇女与文学" do
         let (:resp) { @resp }
       end
