@@ -4,10 +4,10 @@ require 'rspec-solr'
 
 describe "Chinese: Single Character Searches", :chinese => true, :fixme => true do
   
-  it "title  飄 should get results" do
+  it "title  飄 should get results", :vitus_vetted => true do
     resp = solr_response({'q'=>'飄', 'fl'=>'id,vern_title_245a_display', 'qt'=>'search_title', 'facet'=>false}) 
     resp.should include('vern_title_245a_display'=>'飄').in_first(2).documents 
-    resp.should include("6701323")
+    resp.should include(["6701323", "7737681"]).in_first(2).documents
     resp.should have_at_least(110).documents # 2 in prod, 117 title in soc, 154 everything in soc
   end
   
