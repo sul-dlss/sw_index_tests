@@ -8,30 +8,57 @@ describe "Chinese: Word Breaks", :chinese => true, :fixme => true, :wordbreak =>
 
     context "title search" do
       
-      shared_context "title search tests" do
+      # 119747:  trad 鄭州  in 245a;  
+      # 9612993:  both words in 245a, but separated;  record not in cjk batch
+      
+      shared_context "ts" do
         shared_examples "great title search results for 郑州地理" do
           describe do
             it "should only retrieve the documents with both words in 245a" do
               resp.should include("9612993").as_first.result 
+            end
+            it "should have an appropriate number of results" do
               resp.should have_at_most(1).document 
             end
           end
         end
       end
-      include_context "title search tests"
+      include_context "ts"
       
-      context "no spaces  郑州地理" do
+      # cjk9:
+      #  郑州地理 title 1
+      #  郑州 地理 title 0
+      #  郑州 title: 1
+      #  地理  title:  19
+      # 
+      
+      # 郑州地理   simplified
+      # 鄭州地理  traditional
+      
+      context "trad  鄭州地理 (no space)" do
+        it_behaves_like "great title search results for 郑州地理" do
+          let (:resp) { solr_resp_doc_ids_only({'q'=>'鄭州地理', 'qt'=>'search_title'}) }
+        end
+      end
+      
+      context "trad  鄭州 地理 (space)" do
+        it_behaves_like "great title search results for 郑州地理" do
+          let (:resp) { solr_resp_doc_ids_only({'q'=>'鄭州 地理', 'qt'=>'search_title'}) }
+        end
+      end   
+         
+      context "simplified  郑州地理 (no space)" do
         it_behaves_like "great title search results for 郑州地理" do
           let (:resp) { solr_resp_doc_ids_only({'q'=>'郑州地理', 'qt'=>'search_title'}) }
         end
       end
       
-      context "space between words 郑州 地理" do
+      context "simplified  郑州 地理 (space)" do
         it_behaves_like "great title search results for 郑州地理" do
           let (:resp) { solr_resp_doc_ids_only({'q'=>'郑州 地理', 'qt'=>'search_title'}) }
         end
       end   
-         
+
     end # context title_search
 
 =begin
