@@ -14,6 +14,7 @@ describe "Chinese Author Search (Fang, Baochuan)", :chinese => true, :fixme => t
           resp.should include(["4160175"]).in_first(10).results
         end
         it "should get an appropriate number of documents" do
+          resp.should have_at_least(6).documents
           resp.should have_at_most(15).documents
         end
         # 7 in soc
