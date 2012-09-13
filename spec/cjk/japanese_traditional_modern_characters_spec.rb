@@ -29,8 +29,8 @@ describe "Japanese: Traditional and Modern Kanji (Han) Characters", :japanese =>
   
   it "manga  漫画 (modern char 2) should get the same results as  漫畫 (traditional char 2)" do
     resp_kanji_m = solr_resp_doc_ids_only({'q'=>'漫画'}) # 22 in prod, 409 in soc
-    resp_kanji_m.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'漫畫'})
-    resp_kanji_m.should have_at_least(400).results
+    resp_kanji_m.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'漫畫'}))
+    resp_kanji_m.should have_at_least(400).documents
     # TODO:  ckeys expected?  
   end
   
