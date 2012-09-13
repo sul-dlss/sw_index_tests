@@ -4,6 +4,7 @@ require 'rspec-solr'
 
 describe "Chinese: Word Breaks - Unigrams", :chinese => true, :fixme => true, :wordbreak => true do
   # see chinese_old_fiction_spec  for  "舊小說 (old fiction) becomes  舊 (unigram) and  小說 (bigram)
+  # see women_and_literature_spec for  "婦女與文學 becomes  婦女 (women)  與 (and)   文學 (literature)
   
   context "婦女與文學 becomes  婦女 (women)  與 (and)   文學 (literature)" do
     #  婦女與文學    has 17 hits in soc;  soc would put it in the 3 units
