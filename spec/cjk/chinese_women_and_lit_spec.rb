@@ -2,7 +2,7 @@
 require 'spec_helper'
 require 'rspec-solr'
 
-describe "Chinese Women and Literature:  婦女 (women)  與 (and)   文學 (literature)", :chinese => true, :fixme => true, :wordbreak => true do
+describe "Chinese: Women and Literature:  婦女 (women)  與 (and)   文學 (literature)", :chinese => true, :fixme => true, :wordbreak => true do
   # 婦女與文學  traditional  婦女  與  文學
   #   女與   (BC chars)  has no meaning
   #   與文   (CD chars)  has no meaning on its own
