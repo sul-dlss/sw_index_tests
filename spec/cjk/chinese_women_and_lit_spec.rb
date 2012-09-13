@@ -3,192 +3,109 @@ require 'spec_helper'
 require 'rspec-solr'
 
 describe "Chinese Women and Literature:  婦女 (women)  與 (and)   文學 (literature)", :chinese => true, :fixme => true, :wordbreak => true do
-
+  # 婦女與文學  traditional  婦女  與  文學
+  #   女與   (BC chars)  has no meaning
+  #   與文   (CD chars)  has no meaning on its own
+  # 妇女与文学  simplified   妇女  与  文学
+  
   shared_context "results" do
-    shared_examples "great search results for 婦女與文學" do
+    shared_examples "great search results in title for 妇女与文学" do
       describe do
-        it "gets the traditional char matches" do
-          resp.should include(["6343505", "8246653"]).as_first(2).documents
-          resp.should include(["4724601", "8250645", "6343719", "6343720"]).in_first(6).documents  # script as is
-          #resp.should include(["9262744", "6797638", "6695967"]) # in 245a
-          #resp.should include(["6695904", "6699444", "6696790"]) # in 245a and b
+        it "gets the traditional char title 245 matches" do
+          # 婦女與文學  traditional  婦女  與  文學
+          resp.should include(["6343505", "8246653"])  # as is in 245a - sole contents
+          resp.should include(["8250645", "4724601", "6343719", "6343720"])  # as is in 245a  (but other chars too)
         end
-        it "gets the simplified char matches" do
-          # 旧小说
-          resp.should include("8834455") #  旧小说 in 245a
-          resp.should include("4192734")  # diff word order in 245a  小说旧
-          resp.should include("8834455").before("4192734")
+        it "gets the simplified char title 245, 246 matches" do
+          # 妇女与文学  simplified   妇女  与  文学
+          #    8802530	simpl  lit then women in 245a, and in 245b
+          #    7944106	simpl  women in 245a, and in 245a, lit 245a, but char between women and and:  妇女观与文学
+          #    7833961	simpl  lit then women in 245a, other chars between
+          #    5930857  simpl  women in  245b, 246a, other 246a;   lit in 245b, 246a, other 246a;   chars between
+          resp.should include(["8802530", "7944106", "7833961", "5930857"])
         end
         it "ranks highest the documents with adjacent words in 245a" do
-          #   9262744 - old fiction: 245a
-          #   6797638 - old fiction: 245a
-          #   6695967 - old fiction: 245a
-          #   8834455 - translated to simplified, all three in 245a
-          resp.should include(["9262744", "6797638", "6695967", "8834455"]).in_first(5).results
+          resp.should include(["6343505", "8246653"]).in_first(3).results  # trad  as is in 245a - sole contents
+          resp.should include(["8250645", "4724601", "6343719", "6343720"]).in_first(7).results  # trad as is in 245a  (but other chars too)
         end
         it "ranks very high the documents with both words in 245a but not adjacent" do
-          #   4192734 - diff word order in 245a  小说旧
-          resp.should include(["4192734"]).in_first(6).results
+          #    7944106	simpl  women in 245a, and in 245a, lit 245a, but char between women and and:  妇女观与文学
+          #    7833961	simpl  lit then women in 245a, other chars between
+          resp.should include(["7944106", "7833961"]).in_first(10).results
         end
-        it "ranks high the documents with one word in 245a and the other in 245b" do
-          #   6695904 - fiction 245a; old 245a
-          #   6699444 - old 245a; fiction 245b
-          #   6696790 - old 245a; fiction 245a
-          #   7198256 - old 245b; fiction: 245a
-          resp.should include(["6695904", "6699444", "6696790", "7198256"]).in_first(12).results
+        it "ranks high the documents with words in 245b or 246a" do
+          #    8802530	simpl  lit then women in 245a, and in 245b
+          #    5930857  simpl  women in  245b, 246a, other 246a;   lit in 245b, 246a, other 246a;   chars between
+          resp.should include(["8802530", "5930857"]).in_first(15).results
         end
-        it "includes other relevant results" do
-          #   7198256 - only 2nd and 3rd characters found in 245a
-          #   6793760 - only 2nd and 3rd characters found in 245a, 3rd character in simplified
-          #   6288832 - old 505t; fiction 505t x2
-          #   7699186 - 1st character in simplified in 245a, 2nd and 3rd in 490 and 830, 3rd character in simplified
-          #   6204747 - old 245a; fiction 490a; 830a
-          #   6698466 - old 245a; fiction 490a, 830a
-          resp.should include(["7198256", "6793760", "6288832", "7699186", "6204747", "6698466"])
-        end
+        
       end # describe
-    end
-
-    #  婦女與文學    parses to  婦女 (women)  與 (and)   文學 (literature) 
-    #   女與   (BC chars)  has no meaning
-    #   與文   (CD chars)  has no meaning on its own
-    # simplified:   妇女 与	文学
-
-    # title  婦女與文學
-    # # soc:                  11
-    #    8802530
-    #    8234101
-    #    7944106
-    #    7833961
-    #    8250645
-    #    8246653
-    #    5930857
-    #    4724601
-    #    6343719
-    #    6343505
-    #    6343720
-    # cjk1 (bigrams):         6,723
-    # cjk7 (unigrams):      102,211
-    # cjk6cn (chinese dict): 32,505  
-    
-    # title spaces  婦女 與 文學
-    # soc:                    11
-    #    8802530
-    #    8234101
-    #    7944106
-    #    7833961
-    #    8250645
-    #    8246653
-    #    5930857
-    #    4724601
-    #    6343719
-    #    6343505
-    #    6343720
-    # cjk1 (bigrams):          0
-    # cjk7 (unigrams):        61
-    # cjk6cn (chinese dict):  13
-    
-
-    #  婦女與文學   
-    # soc:                        17 
-    # cjk1 (bigrams):          7,201
-    # cjk7 (unigrams):       117,716
-    # cjk6cn (chinese dict):  34,601
-
-    # "婦女 與 文學 (spaces)
-    # soc:                    21
-    # cjk1 (bigrams):          0
-    # cjk7 (unigrams):       107
-    # cjk6cn (chinese dict):  15
-    
-
+    end # shared_examples  great search results in title for 婦女與文學
   end # shared_context results
-
-
-
-  context "婦女與文學 becomes  婦女 (women)  與 (and)   文學 (literature)" do
-    
-    it "婦女與文學 (no spaces) should have good search results" do
-      resp = solr_resp_doc_ids_only({'q'=>'婦女與文學', 'rows'=>'20'}) 
-    end
-    it "婦女 與 文學 (spaces) should have good search results" do
-      resp = solr_resp_doc_ids_only({'q'=>'婦女 與 文學', 'rows'=>'20'}) 
-    end
-    
-    context "title search" do
-      it "婦女與文學 (no spaces) should have good search results" do
-        resp = solr_resp_doc_ids_only({'q'=>'婦女與文學', 'rows'=>'20', 'qt'=>'search_title'}) 
-
-      end
-      it "婦女 與 文學 (spaces) should have good search results" do
-        resp = solr_resp_doc_ids_only({'q'=>'婦女 與 文學', 'rows'=>'20', 'qt'=>'search_title'}) 
-      end
-  
-    end  # title search
-    
-  end # women and literature
-
-
-
 
   context "title search" do
     shared_context "ts" do
-      shared_examples "great title search results for 舊小說" do
+      shared_examples "great title search results for 妇女与文学" do
         describe do
           it "gets a reasonable number of results" do
-            resp.should have_at_least(8).documents
+            resp.should have_at_least(10).documents
             resp.should have_at_most(15).documents
           end
         end 
       end
     end
-    include_context "old fiction results"
+    include_context "results"
     include_context "ts"
 
-    context "traditional  舊小說 no spaces" do
+    context "traditional  婦女與文學 no spaces" do
       before(:all) do
-        @resp = solr_resp_doc_ids_only({'q'=>'舊小說', 'qt'=>'search_title', 'rows'=>'25'})
+        @resp = solr_resp_doc_ids_only({'q'=>'婦女與文學', 'qt'=>'search_title', 'rows'=>'25'})
       end
-      it_behaves_like "great search results for 舊小說" do
+      it_behaves_like "great search results in title for 妇女与文学" do
         let (:resp) { @resp }
       end
-      it_behaves_like "great title search results for 舊小說" do
+      it_behaves_like "great title search results for 妇女与文学" do
         let (:resp) { @resp }
       end
     end
 
-    context "traditional  舊 小說  with space" do
+    context "traditional  婦女 與 文學 (spaces)" do
       before(:all) do
-        @resp = solr_resp_doc_ids_only({'q'=>'舊 小說', 'qt'=>'search_title', 'rows'=>'25'})
+        @resp = solr_resp_doc_ids_only({'q'=>'婦女 與 文學', 'qt'=>'search_title', 'rows'=>'25'})
       end
-      it_behaves_like "great search results for 舊小說" do
+      # title spaces  婦女 與 文學
+      # soc:                    11
+      # cjk1 (bigrams):          0
+      # cjk7 (unigrams):        61
+      # cjk6cn (chinese dict):  13
+      it_behaves_like "great search results in title for 妇女与文学" do
         let (:resp) { @resp }
       end
-      it_behaves_like "great title search results for 舊小說" do
+      it_behaves_like "great title search results for 妇女与文学" do
         let (:resp) { @resp }
       end
     end
     
-    context "simplified  旧小说 no spaces" do
+    context "simplified  妇女与文学 no spaces" do
       before(:all) do
-        @resp = solr_resp_doc_ids_only({'q'=>'旧小说', 'qt'=>'search_title', 'rows'=>'25'})
+        @resp = solr_resp_doc_ids_only({'q'=>'妇女与文学', 'qt'=>'search_title', 'rows'=>'25'})
       end
-      it_behaves_like "great search results for 舊小說" do
+      it_behaves_like "great search results in title for 妇女与文学" do
         let (:resp) { @resp }
       end
-      it_behaves_like "great title search results for 舊小說" do
+      it_behaves_like "great title search results for 妇女与文学" do
         let (:resp) { @resp }
       end
     end
     
-    context "simplified  旧 小说  with space" do
+    context "simplified  妇女 与 文学  with spaces" do
       before(:all) do
-        @resp = solr_resp_doc_ids_only({'q'=>'旧 小说', 'qt'=>'search_title', 'rows'=>'25'})
+        @resp = solr_resp_doc_ids_only({'q'=>'妇女 与 文学', 'qt'=>'search_title', 'rows'=>'25'})
       end
-      it_behaves_like "great search results for 舊小說" do
+      it_behaves_like "great search results in title for 妇女与文学" do
         let (:resp) { @resp }
       end
-      it_behaves_like "great title search results for 舊小說" do
+      it_behaves_like "great title search results for 妇女与文学" do
         let (:resp) { @resp }
       end
     end
@@ -197,65 +114,122 @@ describe "Chinese Women and Literature:  婦女 (women)  與 (and)   文學 (lit
 
   context "everything search" do
     shared_context "es" do
-      shared_examples "great everything search results for 舊小說" do
+      shared_examples "great everything search results for 妇女与文学" do
         describe do
           it "gets a reasonable number of results" do
-            resp.should have_at_least(20).documents
-            resp.should have_at_most(40).documents
+            resp.should have_at_least(15).documents
+            resp.should have_at_most(30).documents
+          end
+          it "gets the traditional char 5xx matches" do
+            #    8234101	trad found in the 505, but not together
+            #  8925289  trad  lit, women in 505a, but not together
+            resp.should include(["8234101", "8925289"]) 
+          end
+          it "gets the simplified char 5xx matches" do
+            #  8705135  simpl  lit x2 in 520a, women x2 in 520a, not together
+            #  8625928  simpl  women, lit in 520a, not together
+            #  8336358  simpl  women  in  245b, 246a, 520a;  lit in 520a
+            #  7925586  simpl  lit then women in 520, not together
+            #  6192248  simpl  lit, then women  in 505, not together
+            resp.should include(["8705135", "8625928", "8336358", "7925586", "6192248"]) 
           end
         end 
       end
     end
     include_context "es"
 
-    context "traditional  舊小說 no spaces" do
+    context "traditional  婦女與文學 no spaces" do
       before(:all) do
-        @resp = solr_resp_doc_ids_only({'q'=>'舊小說', 'rows'=>'25'})
+        @resp = solr_resp_doc_ids_only({'q'=>'婦女與文學', 'rows'=>'25'})
       end
-      it_behaves_like "great search results for 舊小說" do
+      # soc:                        17 
+      # cjk1 (bigrams):          7,201
+      # cjk7 (unigrams):       117,716
+      # cjk6cn (chinese dict):  34,601
+      it_behaves_like "great search results in title for 妇女与文学" do
         let (:resp) { @resp }
       end
-      it_behaves_like "great everything search results for 舊小說" do
+      it_behaves_like "great everything search results for 妇女与文学" do
         let (:resp) { @resp }
       end
     end
 
-    context "traditional  舊 小說  with space" do
+    context "traditional  婦女 與 文學 (spaces)" do
       before(:all) do
-        @resp = solr_resp_doc_ids_only({'q'=>'舊 小說', 'rows'=>'25'})
+        @resp = solr_resp_doc_ids_only({'q'=>'婦女 與 文學', 'rows'=>'25'})
       end
-      it_behaves_like "great search results for 舊小說" do
+      # "婦女 與 文學 (spaces)
+      # soc:                    21
+      # cjk1 (bigrams):          0
+      # cjk7 (unigrams):       107
+      # cjk6cn (chinese dict):  15
+      it_behaves_like "great search results in title for 妇女与文学" do
         let (:resp) { @resp }
       end
-      it_behaves_like "great everything search results for 舊小說" do
+      it_behaves_like "great everything search results for 妇女与文学" do
         let (:resp) { @resp }
       end
     end
     
-    context "simplified  旧小说 no spaces" do
+    context "simplified  妇女与文学 no spaces" do
       before(:all) do
-        @resp = solr_resp_doc_ids_only({'q'=>'旧小说', 'rows'=>'25'})
+        @resp = solr_resp_doc_ids_only({'q'=>'妇女与文学', 'rows'=>'25'})
       end
-      it_behaves_like "great search results for 舊小說" do
+      it_behaves_like "great search results in title for 妇女与文学" do
         let (:resp) { @resp }
       end
-      it_behaves_like "great everything search results for 舊小說" do
+      it_behaves_like "great everything search results for 妇女与文学" do
         let (:resp) { @resp }
       end
     end
     
-    context "simplified  旧 小说  with space" do
+    context "simplified  妇女 与 文学  with spaces" do
       before(:all) do
-        @resp = solr_resp_doc_ids_only({'q'=>'旧 小说', 'rows'=>'25'})
+        @resp = solr_resp_doc_ids_only({'q'=>'妇女 与 文学', 'qt'=>'search_title', 'rows'=>'25'})
       end
-      it_behaves_like "great search results for 舊小說" do
+      it_behaves_like "great search results in title for 妇女与文学" do
         let (:resp) { @resp }
       end
-      it_behaves_like "great everything search results for 舊小說" do
+      it_behaves_like "great title search results for 妇女与文学" do
         let (:resp) { @resp }
       end
     end
     
   end # context everything search
 
+  # soc title:                            11
+  #    8802530	simpl  lit then women in 245a, and in 245b
+  #    8234101	trad found in the 505, but not together
+  #    7944106	simpl  women in 245a, and in 245a, lit 245a, but char between women and and:  妇女观与文学
+  #    7833961	simpl  lit then women in 245a, other chars between
+  #    8250645	trad as is in 245a  (but other chars too)
+  #    8246653	trad as is in 245a - sole contents
+  #    5930857  simpl  women in  245b, 246a, other 246a;   lit in 245b, 246a, other 246a;   chars between
+  #    4724601	trad as is in 245a  (but other chars too)
+  #    6343719	trad as is in 245a  (but other chars too)
+  #    6343505	trad as is in 245a - sole contents
+  #    6343720	trad as is in 245a  (but other chars too)
+  
+  # soc everything:   17
+  #  8925289  trad  lit, women in 505a, but not together
+  #    8802530	simpl  lit then women in 245a, 3rd in 245b
+  #  8705135  simpl  lit x2 in 520a, women x2 in 520a, not together
+  #  8625928  simpl  women, lit in 520a, not together
+  #  8336358  simpl  women  in  245b, 246a, 520a;  lit in 520a
+  #    8234101	trad found in the 505, but not together
+  #    7944106	simpl  women in 245a, and in 245a, lit 245a, but char between women and and:  妇女观与文学
+  #  7925586  simpl  lit then women in 520, not together
+  #    7833961	simpl  lit then women in 245a, other chars between
+  #    8250645	trad as is in 245a  (but other chars too)
+  #    8246653	trad as is in 245a - sole contents
+  #    5930857  simpl  women in  245b, 246a, other 246a;   lit in 245b, 246a, other 246a;   chars between
+  #    4724601	trad as is in 245a  (but other chars too)
+  #  6192248  simpl  lit, then women  in 505, not together
+  #    6343719	trad as is in 245a  (but other chars too)
+  #    6343505	trad as is in 245a - sole contents
+  #    6343720	trad as is in 245a  (but other chars too)
+  # cjk1 (bigrams):         6,723
+  # cjk7 (unigrams):      102,211
+  # cjk6cn (chinese dict): 32,505  
+  
 end
