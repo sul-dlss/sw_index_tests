@@ -42,9 +42,10 @@ describe "Chinese: Women and Literature:  婦女 (women)  與 (and)   文學 (li
       end # describe
     end # shared_examples  great search results in title for 婦女與文學
   end # shared_context results
+  include_context "results"
 
   context "title search" do
-    shared_context "ts" do
+    shared_context "ts婦女與文學" do
       shared_examples "great title search results for 妇女与文学" do
         describe do
           it "gets a reasonable number of results" do
@@ -54,8 +55,7 @@ describe "Chinese: Women and Literature:  婦女 (women)  與 (and)   文學 (li
         end 
       end
     end
-    include_context "results"
-    include_context "ts"
+    include_context "ts婦女與文學"
 
     context "traditional  婦女與文學 no spaces" do
       before(:all) do
@@ -117,7 +117,7 @@ describe "Chinese: Women and Literature:  婦女 (women)  與 (and)   文學 (li
   end # context title search
 
   context "everything search" do
-    shared_context "es" do
+    shared_context "es婦女與文學" do
       shared_examples "great everything search results for 妇女与文学" do
         describe do
           it "gets a reasonable number of results" do
@@ -140,7 +140,7 @@ describe "Chinese: Women and Literature:  婦女 (women)  與 (and)   文學 (li
         end 
       end
     end
-    include_context "es"
+    include_context "es婦女與文學"
 
     context "traditional  婦女與文學 no spaces" do
       before(:all) do

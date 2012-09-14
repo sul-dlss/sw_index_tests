@@ -18,7 +18,7 @@ describe "Chinese: 郑州 (a place in China)  地理 (geography)", :chinese => t
   include_context "st"
 
   context "title search" do
-    shared_context "ts" do
+    shared_context "ts郑州" do
       shared_examples "great title search results for 郑州地理" do
         describe do
           it "should have an appropriate number of results" do
@@ -27,7 +27,7 @@ describe "Chinese: 郑州 (a place in China)  地理 (geography)", :chinese => t
         end
       end
     end
-    include_context "ts"
+    include_context "ts郑州"
     
     # cjk9:
     #  郑州地理 title 1
