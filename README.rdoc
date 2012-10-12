@@ -12,17 +12,15 @@ If you wish to create a similar app for YOUR Solr index, you can fork this proje
 * Rakefile
 * Gemfile
 * spec/spec_helper.rb
-* config/solr.yml
 
-=== Set up config/solr.yml 
-* If you wish to keep your solr url out of a remote git repo, you can do this:
+=== Choose a way to pass your solr baseurl to the app
+Use a command line argument:
+ rake passing URL=http://your_solr_baseurl
+Use a config file
+ copy config/solr.yml from this project
+If you wish to keep your solr url out of a remote git repo, you can do this:
  git update-index --assume-unchanged config/solr.yml
-
-=== Deal with the hardcoding as you wish:
-* in spec/spec_helper.rb, line 8 or so has a hardcoded "test" for getting the Solr base url from config/solr.yml:
- solr_config = YAML::load_file('config/solr.yml')["test"]
-
-Hint: Contribute!   Send me a pull request!
+ NOTE: in spec/spec_helper.rb, line 10 or shows the default expected yml group is "test"
  
 === Write specs for YOUR Solr index!
 
