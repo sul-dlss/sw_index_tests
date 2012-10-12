@@ -23,6 +23,19 @@ def solr_resp_doc_ids_only(solr_params)
   solr_response(solr_params.merge(@@doc_ids_only))
 end
 
+def author_search_args(query_str)
+  {'q'=>"{!qf=$qf_author pf=$pf_author}#{query_str}", 'qt'=>'search'}
+end
+def subject_search_args(query_str)
+  {'q'=>"{!qf=$qf_subject pf=$pf_subject}#{query_str}", 'qt'=>'search'}
+end
+def series_search_args(query_str)
+  {'q'=>"{!qf=$qf_series pf=$pf_series}#{query_str}", 'qt'=>'search'}
+end
+def title_search_args(query_str)
+  {'q'=>"{!qf=$qf_title pf=$pf_title}#{query_str}", 'qt'=>'search'}
+end
+
 private
 
 # send a GET request to the indicated Solr request handler with the indicated Solr parameters
@@ -30,7 +43,7 @@ private
 # @param req_handler [String] the pathname of the desired Solr request handler (defaults to 'select') 
 # @return [RSpecSolr::SolrResponseHash] object for rspec-solr testing the Solr response 
 def solr_response(solr_params, req_handler='select')  
-  RSpecSolr::SolrResponseHash.new(@@solr.send_and_receive(req_handler, {:method => :get, :params => solr_params}))
+  RSpecSolr::SolrResponseHash.new(@@solr.send_and_receive(req_handler, {:method => :get, :params => solr_params.merge("testing"=>"sw_index_test")}))
 end
 
 # use these Solr HTTP params to reduce the size of the Solr responses
