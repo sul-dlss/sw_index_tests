@@ -33,15 +33,15 @@ describe "boolean operators" do
 
     context "author search" do
       it "more search terms should get fewer results" do
-        resp = solr_resp_doc_ids_only({'q'=>'michaels', 'qt'=>'search_author'})
-        resp.should have_more_documents_than(solr_resp_doc_ids_only({'q'=>'leonard michaels', 'qt'=>'search_author'}))
+        resp = solr_resp_doc_ids_only(author_search_args('michaels'))
+        resp.should have_more_documents_than(solr_resp_doc_ids_only(author_search_args('leonard michaels')))
       end
     end
     
     context "title search" do
       it "more search terms should get fewer results" do
-        resp = solr_resp_doc_ids_only({'q'=>'turtles', 'qt'=>'search_title'})
-        resp.should have_more_documents_than(solr_resp_doc_ids_only({'q'=>'sea turtles', 'qt'=>'search_title'}))
+        resp = solr_resp_doc_ids_only(title_search_args('turtles'))
+        resp.should have_more_documents_than(solr_resp_doc_ids_only(title_search_args('sea turtles')))
       end
     end
     

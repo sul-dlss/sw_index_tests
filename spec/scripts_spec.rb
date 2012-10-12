@@ -17,7 +17,7 @@ describe "Non-Latin, Non-CJK scripts" do
     end
 
     it "Cyrillic: пушкин pushkin" do
-      resp = solr_resp_doc_ids_only({'q'=>'пушкин pushkin', 'qt'=>'search_title'})
+      resp = solr_resp_doc_ids_only(title_search_args('пушкин pushkin'))
       resp.should have_at_least(50).documents # 128 in soc?  2012-08-16
       resp.should include(["7829897", "2972618", "7773771"])
     end

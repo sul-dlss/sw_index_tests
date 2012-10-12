@@ -28,24 +28,24 @@ describe "Terms with Numbers or other oddities" do
   end
   
   it "period at end of term should be ignored" do
-    resp = solr_resp_doc_ids_only({'q'=>'Nature.', 'qt'=>'search_title'})
+    resp = solr_resp_doc_ids_only(title_search_args('Nature.'))
     resp.should include("1337040")
     # Journal:  7917346, 3195844  Other books:  581294, 1361438
-    resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'Nature', 'qt'=>'search_title'}))
+    resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('Nature')))
   end
   
   context "ellipses" do
     it "leading ellipsis should be ignored" do
-      resp = solr_resp_doc_ids_only({'q'=>'...Nature', 'qt'=>'search_title'})
+      resp = solr_resp_doc_ids_only(title_search_args('...Nature'))
       resp.should include("1361438")
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'Nature', 'qt'=>'search_title'}))
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('Nature')))
     end
     it "trailing ellipsis should be ignored" do
-      resp = solr_resp_doc_ids_only({'q'=>'why...', 'qt'=>'search_title'})
+      resp = solr_resp_doc_ids_only(title_search_args('why...'))
       resp.should include(["85217", "4272319"]).in_first(10).results
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'why', 'qt'=>'search_title'}))
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'why ...', 'qt'=>'search_title'}))
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'why... ', 'qt'=>'search_title'}))
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('why')))
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('why ...')))
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('why... ')))
     end
   end
   
@@ -61,7 +61,7 @@ describe "Terms with Numbers or other oddities" do
     end
     
     it "within numbers, no letters (33 1/3)", :jira => 'VUF-178' do
-      resp = solr_resp_doc_ids_only({'q'=>'33 1/3', 'qt'=>'search_title'})
+      resp = solr_resp_doc_ids_only(title_search_args('33 1/3'))
       resp.should have_at_least(85).results  # Socrates gets 104 titles as of 2010-11-03
       resp.should include("6721172").in_first(3).results
     end

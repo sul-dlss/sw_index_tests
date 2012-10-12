@@ -24,10 +24,10 @@ describe "ampersands in queries" do
     end
     context "title search" do
       before(:all) do
-        @tresp_amp = solr_resp_doc_ids_only({'q'=>'Bandits & Bureaucrats', 'qt'=>'search_title'})
-        @tresp_plain = solr_resp_doc_ids_only({'q'=>'Bandits Bureaucrats', 'qt'=>'search_title'})
-        @tresp_phrase = solr_resp_doc_ids_only({'q'=>'"Bandits Bureaucrats"', 'qt'=>'search_title'})
-        @tresp_amp_phrase = solr_resp_doc_ids_only({'q'=>'"Bandits & Bureaucrats"', 'qt'=>'search_title'})
+        @tresp_amp = solr_resp_doc_ids_only(title_search_args('Bandits & Bureaucrats'))
+        @tresp_plain = solr_resp_doc_ids_only(title_search_args('Bandits Bureaucrats'))
+        @tresp_phrase = solr_resp_doc_ids_only(title_search_args('"Bandits Bureaucrats"'))
+        @tresp_amp_phrase = solr_resp_doc_ids_only(title_search_args('"Bandits & Bureaucrats"'))
       end
       it "should ignore the ampersand (same as AND if # terms is less than mm threshold)" do
         @tresp_amp.should have_at_most(5).documents
@@ -58,14 +58,14 @@ describe "ampersands in queries" do
     end
     context "title search" do
       before(:all) do
-        @tresp = solr_resp_doc_ids_only({'q'=>'time & money', 'qt'=>'search_title'})
+        @tresp = solr_resp_doc_ids_only(title_search_args('time & money'))
       end
       it "should ignore the ampersand (same as AND if # terms is less than mm threshold)" do
         @tresp.should include("3042571").in_first(2).documents
-        @tresp.should have_the_same_number_of_documents_as(solr_resp_doc_ids_only({'q'=>'time money', 'qt'=>'search_title'}))
+        @tresp.should have_the_same_number_of_documents_as(solr_resp_doc_ids_only(title_search_args('time money')))
       end
       it "should have more results than a phrase query" do
-        @tresp.should have_more_documents_than(solr_resp_doc_ids_only({'q'=>'"time money"', 'qt'=>'search_title'}))
+        @tresp.should have_more_documents_than(solr_resp_doc_ids_only(title_search_args('"time money"')))
       end
     end
   end # context  time & money
@@ -87,12 +87,12 @@ describe "ampersands in queries" do
     end
     context "title search" do
       before(:all) do
-        @tresp = solr_resp_doc_ids_only({'q'=>'of time & place', 'qt'=>'search_title'})
-        @ptresp = solr_resp_doc_ids_only({'q'=>'"of time & place"', 'qt'=>'search_title'})
+        @tresp = solr_resp_doc_ids_only(title_search_args('of time & place'))
+        @ptresp = solr_resp_doc_ids_only(title_search_args('"of time & place"'))
       end
       it "should ignore the ampersand (same as AND if # terms is less than mm threshold)" do
         @tresp.should include("2186298").as_first.document
-        @tresp.should have_the_same_number_of_documents_as(solr_resp_doc_ids_only({'q'=>'of time place', 'qt'=>'search_title'}))
+        @tresp.should have_the_same_number_of_documents_as(solr_resp_doc_ids_only(title_search_args('of time place')))
       end
       context "phrase query" do
 #        @tresp.should have_more_documents_than(@ptresp)
@@ -118,12 +118,12 @@ describe "ampersands in queries" do
     end
     context "title search" do
       before(:all) do
-        @tresp = solr_resp_doc_ids_only({'q'=>'ESRI data & maps', 'qt'=>'search_title'})
-        @ptresp = solr_resp_doc_ids_only({'q'=>'"ESRI data & maps"', 'qt'=>'search_title'})
+        @tresp = solr_resp_doc_ids_only(title_search_args('ESRI data & maps'))
+        @ptresp = solr_resp_doc_ids_only(title_search_args('"ESRI data & maps"'))
       end
       it "should ignore the ampersand (same as AND if # terms is less than mm threshold)" do
         @tresp.should include(["5468146", "4244185", "5412572", "5412597", "4798829", "4554456", "7652136", "5675395", "6738945", "5958512"]).in_first(15).documents
-        @tresp.should have_the_same_number_of_documents_as(solr_resp_doc_ids_only({'q'=>'ESRI data maps', 'qt'=>'search_title'}))
+        @tresp.should have_the_same_number_of_documents_as(solr_resp_doc_ids_only(title_search_args('ESRI data maps')))
       end
       context "phrase query" do
 #        @tresp.should have_more_results_than(@ptresp)
