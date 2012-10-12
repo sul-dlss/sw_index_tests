@@ -4,8 +4,13 @@ require 'rsolr'
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
 RSpec.configure do |config|
-  # FIXME:  hardcoded yml group
-  solr_config = YAML::load_file('config/solr.yml')["test"]
+  baseurl = ENV["URL"]
+  if baseurl
+    solr_config = {:url => baseurl}
+  else
+    yml_group = ENV["YML_GROUP"] ||= 'test'
+    solr_config = YAML::load_file('config/solr.yml')[yml_group]
+  end
   @@solr = RSolr.connect(solr_config)
   puts "Solr URL: #{@@solr.uri}"
 end
