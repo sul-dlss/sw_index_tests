@@ -28,4 +28,15 @@ describe "Non-Latin, Non-CJK scripts" do
       #  Пушкинa is not stemmed.  Пушкинa does not give the same results as a search for Пушкин.
     end
 
+    it "should boost 880 fields less than their counterparts: 'searching'", :fixme => 'true' do
+      #  There are two records:  4216963, 4216961  that have the word "search" in the 245, 
+      # and also have the word "search" in the 880 vernacular 245 field. 
+      # Because the term appears twice:  in the 245a and the corresponding 880a, these records are 
+      # appearing first.  I think the solution will be to boost the "regular" instances of fields 
+      # slightly more than the 880 vernacular instances of the same.
+      resp = solr_resp_doc_ids_only(title_search_args('searching').merge({:rows => 100}))
+      resp.should include("228732").before("4216963")  # 228732 has a 245a 'searching'
+      resp.should include("228732").before("4216961")
+    end
+
 end
