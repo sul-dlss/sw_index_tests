@@ -21,7 +21,7 @@ describe "Author Search" do
   end
   
   it "unstemmed author names should precede stemmed variants" do
-    pending "need regex match"
+    pending "need regex match in rspec-solr"
     resp = solr_resp_doc_ids_only(author_search_args('Zare').merge({'fl'=>'id,author_person_display', 'rows'=>'30'}))
     resp.should_not include(":author_person_display" => "Zare").in_first(20).documents
     resp.should_not include(":author_person_display" => "Zaring, Wilson M.").in_first(20).documents
