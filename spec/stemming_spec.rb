@@ -64,6 +64,10 @@ describe "Stemming of English words" do
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'figure'}))
     end
 
+    # TODO:  see VUF-2009   Volney ruines
+    # TODO:  see VUF-1657   Plutarch's Morals should also lead to records on Plutarch's "Moralia."
+    # TODO:  see VUF-1765   eugenics vs eugene
+
   end # context exact before stemmed
 
 end
