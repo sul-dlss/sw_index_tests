@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'rspec-solr'
 
-describe "Author Search Request Handler" do
+describe "Author Search" do
   
   it "Corporate author should be included in author search" do
     resp = solr_resp_doc_ids_only(author_search_args('Anambra State'))    
