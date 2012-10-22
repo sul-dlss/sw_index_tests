@@ -50,7 +50,7 @@ describe "Terms with Numbers or other oddities" do
   end
   
   context "slash" do
-    it "surround by spaces in alpha search should be ignored" do
+    it "surround by spaces should be ignored" do
       resp = solr_resp_doc_ids_only({'q'=>'Physical chemistry / Ira N Levine'})
       resp.should include(["1726910", "3016212", "4712578", "7633476"]).in_first(5).results
     end
