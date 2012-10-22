@@ -31,22 +31,22 @@ describe "mm threshold setting for dismax (6 as of 2012/08)" do
   
 # TODO: move these to hyphen spec  
   context "hyphen variants for long multi-word query" do
-    it "South Africa, Shakespeare post-colonial culture" do
+    it "hyphen: post-colonial" do
       resp = solr_resp_doc_ids_only({'q'=>'South Africa, Shakespeare post-colonial culture'})
       resp.should have_documents
     end
 
-    it "South Africa, Shakespeare postcolonial culture" do
+    it "no hyphen: postcolonial" do
       resp = solr_resp_doc_ids_only({'q'=>'South Africa, Shakespeare postcolonial culture'})
       resp.should have_documents
     end
     
-    it "South Africa, Shakespeare post colonial culture" do
+    it "space instead of hyphen: post colonial" do
       resp = solr_resp_doc_ids_only({'q'=>'South Africa, Shakespeare post colonial culture'})
       resp.should have_documents
     end
 
-    it 'South Africa, Shakespeare "post colonial" culture' do
+    it 'phrase instead of hyphen: "post colonial"' do
       resp = solr_resp_doc_ids_only({'q'=>'South Africa, Shakespeare "post colonial" culture'})
       resp.should have_documents
     end
