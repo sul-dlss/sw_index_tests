@@ -25,6 +25,7 @@ describe "boolean operators" do
         resp.should have_more_documents_than(solr_resp_doc_ids_only({'q'=>'french horn'}))
       end
       it "loggerhead turtles should not have Shakespeare in facets", :fixme => 'need facet parsing' do
+        pending "need facet parsing in rspec-solr"
         resp = solr_resp_doc_ids_only({'q'=>'loggerhead turtles'})
         # this was in the facets when default was "OR"
         # Then I should not see "Shakespeare"
@@ -135,9 +136,10 @@ describe "boolean operators" do
         @resp = solr_resp_doc_ids_only({'q'=>'mark twain NOT "tom sawyer"'})
       end
       
-      it "should have no results with 'tom sawyer' as a phrase", :fixme => true do
-        @resp.should have_at_least(2).documents
-        # TODO:  implement regular expression matcher
+      it "should have no results with 'tom sawyer' as a phrase" do
+        resp = solr_response({'q'=>'mark twain NOT "tom sawyer"', 'fl'=>'id,title_245a_display', 'facet'=>false}) 
+        resp.should have_at_least(2).documents
+        resp.should_not include("title_245a_display" => /tom sawyer/i).in_each_of_first(20).documents
       end
       it "should be equivalent to mark twain -'tom sawyer'" do
         @resp =  have_the_same_number_of_documents_as(solr_resp_doc_ids_only({'q'=>'mark twain -"tom sawyer"'}))
