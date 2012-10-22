@@ -10,23 +10,29 @@ describe "Author Search" do
     # other examples:  "Plateau State", tanganyika, gold coast
   end
   
-  it "Thesis advisors (720 fields) should be included in author search" do
-    resp = solr_resp_doc_ids_only(author_search_args('Zare'))
+  it "Thesis advisors (720 fields) should be included in author search", :jira => 'VUF-433' do
+    resp = solr_response(author_search_args('Zare').merge({'fl'=>'id,format,author_person_display', 'fq'=>'format:Thesis', 'facet'=>false}))
     resp.should have_at_least(100).documents
+    resp.should_not include("author_person_display" => /Zare\W/).in_each_of_first(20).documents
   end
   
-  it "added authors (700 fields) should be included in author search" do
+  it "added authors (700 fields) should be included in author search", :jira => 'VUF-255' do
     resp = solr_resp_doc_ids_only(author_search_args('jane hannaway'))
     resp.should include("2503795")
     resp.should have_at_least(8).documents
   end
   
+  it "added authors (700 fields) : author search for jane austen should get video results", :jira => 'VUF-255' do
+    resp = solr_response(author_search_args('jane austen').merge({'fl'=>'id,format,author_person_display', 'facet.field'=>'format'}))
+    resp.should have_at_least(275).documents
+    pending "need include().as_facet_value in rspec-solr"
+#    Then I should see "Video"
+  end
+  
   it "unstemmed author names should precede stemmed variants", :jira => ['VUF-120', 'VUF-433'] do
-    pending "need regex match in rspec-solr"
-    resp = solr_resp_doc_ids_only(author_search_args('Zare').merge({'fl'=>'id,author_person_display', 'rows'=>'30'}))
-    resp.should_not include(":author_person_display" => "Zare").in_first(20).documents
-    resp.should_not include(":author_person_display" => "Zaring, Wilson M.").in_first(20).documents
-    resp.should_not include(":author_person_display" => "Stone, Grace Zaring, 1891-.").in_first(20).documents
+    resp = solr_response(author_search_args('Zare').merge({'fl'=>'id,author_person_display', 'facet'=>false}))
+    resp.should include("author_person_display" => /Zare\W/).in_each_of_first(3).documents
+    resp.should_not include("author_person_display" => /Zaring/).in_each_of_first(20).documents
   end
   
   it "non-existent author 'jill kerr conway' should get 0 results" do
