@@ -16,10 +16,18 @@ describe "Diacritics" do
     resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'verita'}))
   end
   
-  it "Umlaut ä" do
-    resp = solr_resp_doc_ids_only({'q'=>'Ränsch-Trill'})
-    resp.should include("2911735")
-    resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'Ransch-Trill'}))
+  context "Umlaut" do
+    it "ä (German)" do
+      resp = solr_resp_doc_ids_only({'q'=>'Ränsch-Trill'})
+      resp.should include("2911735")
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'Ransch-Trill'}))
+    end
+    it "ü (Turkish)", :jira => 'SW-497' do
+      resp = solr_response({'q'=>"Türkiye'de üniversite", 'fl'=>'id,title_245a_display', 'facet'=>false})
+      resp.should have_at_least(8).documents
+      resp.should include("title_245a_display" => /T[üu]rkiye'de [üu]niversite/i).in_each_of_first(2).documents
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"Turkiye'de universite"}))
+    end
   end
   
   it "Circumflex ê" do
@@ -40,10 +48,20 @@ describe "Diacritics" do
     resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'exaltacao'}))
   end
   
-  it "Russian ligature: tysi͡acha" do
-    resp = solr_resp_doc_ids_only({'q'=>'tysi͡acha'})
-    resp.should have_documents
-    resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'tysiacha'}))
+  context "Russian ligature ͡ " do
+    it "tysi͡acha" do
+      resp = solr_resp_doc_ids_only({'q'=>'tysi͡acha'})
+      resp.should have_documents
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'tysiacha'}))
+    end
+    it "Fevralʹskogo", :jira => 'SW-621' do
+      resp = solr_resp_doc_ids_only({'q'=>'Fevralʹskogo'})
+      resp.should have_at_least(7).documents
+      resp.should include("8797373")
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'Fevralskogo'}))
+      # not designed to work with apostrophe substitution, esp. as apostrophe is Solr operator
+#      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"Fevral'skogo"}))
+    end   
   end
   
   it "Soft Znak ś" do
@@ -87,24 +105,34 @@ describe "Diacritics" do
     resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"zydow'"}))
   end
 
-  it "macron ī (russian)" do
-    resp = solr_resp_doc_ids_only({'q'=>'istorīi'})
-    resp.should have_documents
-    resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"istorii'"}))
-  end
-
-  it "macron ō" do
-    resp = solr_resp_doc_ids_only({'q'=>'Kuginuki, Tōru'}) 
-    resp.should include("7926218")
-    resp2 = solr_resp_doc_ids_only({'q'=>'Kuginuki, Toru'})
-    resp2.should have_the_same_number_of_results_as(resp2)
-    resp2.should include("7926218")
-  end
-  
-  it "macron ū" do
-    resp = solr_resp_doc_ids_only({'q'=>'Rekishi yūgaku'})
-    resp.should include("5338009")
-    resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'Rekishi yugaku'}))
+  context "macron" do
+    it "ī (russian)" do
+      resp = solr_resp_doc_ids_only({'q'=>'istorīi'})
+      resp.should have_documents
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"istorii'"}))
+    end
+    it "ō" do
+      resp = solr_resp_doc_ids_only({'q'=>'Kuginuki, Tōru'}) 
+      resp.should include("7926218")
+      resp2 = solr_resp_doc_ids_only({'q'=>'Kuginuki, Toru'})
+      resp2.should have_the_same_number_of_results_as(resp2)
+      resp2.should include("7926218")
+    end
+    it "ū" do
+      resp = solr_resp_doc_ids_only({'q'=>'Rekishi yūgaku'})
+      resp.should include("5338009")
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'Rekishi yugaku'}))
+    end
+    it "ē Greek" do
+      resp = solr_resp_doc_ids_only({'q'=>'Tsiknakēs'})
+      resp.should include(["7822463", "8216759"])
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'Tsiknakes'}))
+    end
+    it "ō Greek" do
+      resp = solr_resp_doc_ids_only({'q'=>'Kōstas'})
+      resp.should have_at_least(700).documents
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'Kostas'}))
+    end
   end
   
   it "Kreska Ṡ" do
@@ -113,10 +141,24 @@ describe "Diacritics" do
     resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'Spiewy polskie'}))
   end
   
-  it "Polish chars Ż ł ó " do
-    resp = solr_resp_doc_ids_only({'q'=>'Żułkoós'})
-    resp.should include("1885035")
-    resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'Zulkoos'}))
+  it "d with crossbar lower case" do
+    resp = solr_resp_doc_ids_only({'q'=>'Tuđina'})
+    resp.should include(["150102", "2408677"]).in_first(3).documents
+    resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'Tudina'}))
+  end
+
+  context "Polish chars Ż ł ó" do
+    it "ł in Białe usta" do
+      resp = solr_resp_doc_ids_only({'q'=>'Białe usta'})
+      resp.should include("3160696").in_first(3).results
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'Biale usta'}))
+    end
+    
+    it "Żułkoós" do
+      resp = solr_resp_doc_ids_only({'q'=>'Żułkoós'})
+      resp.should include("1885035")
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'Zulkoos'}))
+    end
   end
   
   it "Hebrew transliteration Ḥ" do
@@ -146,6 +188,11 @@ describe "Diacritics" do
     resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=> "ـأ" }))
     resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>  "أ" }))
   end
+  it "Arabic alif variantإ", :jira => 'SW-719' do
+    resp = solr_resp_doc_ids_only({'q'=> "إمام السفينة" })
+    resp.should include("7829122")
+    resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>  "امام السفينة" }))
+  end
   
   it "Greek ῆ" do
     resp = solr_resp_doc_ids_only({'q'=>'τῆς'})
@@ -153,10 +200,70 @@ describe "Diacritics" do
     resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'της'}))
   end
   
+  context "Turkish ı (undotted i) (Unicode U+0131)", :jira => 'SW-497' do
+    it "Batı" do
+      resp = solr_resp_doc_ids_only({'q'=>'Batı'})
+      resp.should have_at_least(350).documents
+      resp.should include("6330638")
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'Bati'}))
+    end
+    it "Vakıflar dergisi" do
+      resp = solr_resp_doc_ids_only({'q'=>'Vakıflar dergisi'})
+      resp.should have_at_least(2).documents
+      resp.should include(["6666891", "6733701"]).as_first(2).documents
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'Vakiflar dergisi'}))
+    end
+    it "anlayısının", :jira => ['SW-718', 'SW-497'] do
+      resp = solr_response({'q'=>"anlayısının", 'fl'=>'id,title_245a_display', 'facet'=>false})
+      resp.should have_at_least(4).documents
+      resp.should include("title_245a_display" => /anlay[ıi][sş][ıi]n[ıi]n/i).in_each_of_first(2).documents
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"anlayisinin"}))
+    end    
+  end
+  
+  it "Turkish ğ", :jira => 'SW-497' do
+    resp = solr_resp_doc_ids_only({'q'=>'Doğu'})
+    resp.should have_at_least(350).documents
+    resp.should include("6330638").in_first(10).documents
+    resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'Dogu'}))
+  end
+  
+  it "Turkish ş", :jira => 'SW-497' do
+    resp = solr_response({'q'=>"gelişimi", 'fl'=>'id,title_245a_display', 'facet'=>false})
+    resp.should have_at_least(40).documents
+    resp.should include("title_245a_display" => /geli[şs]imi/i).in_each_of_first(20).documents
+    resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"gelisimi"}))
+  end
+  
+  context "Icelandic  ðýþ" do
+    it "Đ, ð (d with crossbar)" do
+      resp = solr_resp_doc_ids_only({'q'=>'Điðriks'})
+      resp.should have_at_least(20).documents
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'Diðriks'}))
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'ðiðriks'}))
+    end
+    it "Þ, þ (thorn)" do
+      resp = solr_resp_doc_ids_only({'q'=>'Þiðriks'})
+      resp.should have_at_least(8).documents
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'þiðriks'}))
+    end
+    it "Ý, ý " do
+      resp = solr_resp_doc_ids_only({'q'=>'Þiðriks'})
+      resp.should have_at_least(8).documents
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'þiðriks'}))
+    end
+  end
+  
+  it "@o", :jira => 'SW-648', :fixme => true do
+    resp = solr_resp_doc_ids_only({'q'=>'@oEtudes @oeconomiques'})
+    resp.should include("386893").as_first
+#    resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'Etudes economiques'}))
+  end
+    
   it "Ae ligature uppercase Æ" do
     resp = solr_resp_doc_ids_only({'q'=>'Æon'})
     resp.should include(["6197318", "6628532"])
-    resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'aeon'}))
+    resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'AEon'}))
   end 
   
   it "ae ligature lowercase æ" do
@@ -176,5 +283,25 @@ describe "Diacritics" do
     resp.should include("3053956")
     resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'Lap Ban do phan Viet'}))
   end 
+  
+  it "ʻ (Korean)", :jira => ['SW-754', 'SW-648'], :fixme => true do
+    resp = solr_resp_doc_ids_only({'q'=>"yi t'ae-jun"})
+    resp.should have_at_least(15).documents
+    resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"yi tʻae-jun"}))
+#    resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"yi tae-jun"}))
+  end
+  
+  context "music  ♯ and  ♭" do
+    it "♭ vs. b", :jira => ['SW-648'], :fixme => true do
+      resp = solr_resp_doc_ids_only({'q'=>"Concertos, horn, orchestra, K. 417, E♭ major"})
+      resp.should have_at_least(70).documents
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"Concertos, horn, orchestra, K. 417, Eb major"}))
+    end
+    it "♯ vs #"do
+      resp = solr_resp_doc_ids_only({'q'=>"Symphonies, no. 5, C♯ minor"})
+      resp.should have_at_least(45).documents
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"Symphonies, no. 5, C# minor"}))
+    end
+  end
   
 end
