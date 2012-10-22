@@ -4,39 +4,34 @@ require 'rspec-solr'
 describe "Stemming of English words" do
   context "exact matches before stemmed matches" do
     
-    it "cooking" do
-      resp = solr_resp_doc_ids_only({'q'=>'cooking'})
+    it "cooking", :jira => 'VUF-212' do
+      resp = solr_response({'q'=>'cooking', 'fl'=>'id,title_245a_display', 'facet'=>false}) 
       resp.should include("4779910").as_first_result
-      pending "need regex match in rspec-solr"
-#      And I should get result titles that contain "cooking" as the first 18 results
+      resp.should include("title_245a_display" => /Cooking/i).in_each_of_first(20).documents
     end
     
-    it "modeling" do
-      resp = solr_resp_doc_ids_only({'q'=>'modeling'})
-      pending "need regex match in rspec-solr"
-#      And I should get result titles that contain "modeling" as the first 20 results
+    it "modeling", :jira => 'VUF-212' do
+      resp = solr_response({'q'=>'modeling', 'fl'=>'id,title_245a_display', 'facet'=>false}) 
+      resp.should include("title_245a_display" => /modeling/i).in_each_of_first(20).documents
     end
     
-    it "modeling" do
-      resp = solr_resp_doc_ids_only({'q'=>'photographing'})
+    it "photographing", :jira => 'VUF-212' do
+      resp = solr_response({'q'=>'photographing', 'fl'=>'id,title_245a_display', 'facet'=>false}) 
+      resp.should include("title_245a_display" => /photographing/i).in_each_of_first(20).documents
       # example of a two word title, starting with query term
       resp.should include("685794").in_first(10).results
-      pending "need regex match in rspec-solr"
-#      And I should get result titles that contain "photographing" as the first 20 results
     end
     
-    it "arabic" do
-      resp = solr_resp_doc_ids_only({'q'=>'arabic'})
-      pending "need regex match in rspec-solr"
-#      And I should get result titles that contain "arabic" as the first 20 results
+    it "arabic (rather than arab or arabs)", :jira => 'VUF-212' do
+      resp = solr_response({'q'=>'arabic', 'fl'=>'id,title_245a_display', 'facet'=>false}) 
+      resp.should include("title_245a_display" => /arabic/i).in_each_of_first(20).documents
     end
     
-    it "'searching'" do
-      resp = solr_resp_doc_ids_only({'q'=>'searching'})
+    it "'searching'", :jira => 'VUF-212' do
+      resp = solr_response({'q'=>'searching', 'fl'=>'id,title_245a_display', 'facet'=>false}) 
+      resp.should include("title_245a_display" => /searching/i).in_each_of_first(20).documents
       resp.should_not include("4216963")
       resp.should_not include("4216961")
-      pending "need regex match in rspec-solr"
-#      And I should get result titles that contain "searching" as the first 20 results
     end
     
     it "Austen also gives Austenland, Austen's" do
