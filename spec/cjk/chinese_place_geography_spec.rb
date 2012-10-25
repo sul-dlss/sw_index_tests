@@ -37,7 +37,7 @@ describe "Chinese: 郑州 (a place in China)  地理 (geography)", :chinese => t
 
     context "trad  鄭州地理 (no space)" do
       before(:all) do
-        @resp = solr_resp_doc_ids_only({'q'=>'鄭州地理', 'qt'=>'search_title'})
+        @resp = solr_resp_doc_ids_only(title_search_args('鄭州地理'))
       end
       it_behaves_like "great search results in title for 郑州地理" do
         let (:resp) { @resp }
@@ -49,7 +49,7 @@ describe "Chinese: 郑州 (a place in China)  地理 (geography)", :chinese => t
     
     context "trad  鄭州 地理 (space)" do
       before(:all) do
-        @resp = solr_resp_doc_ids_only({'q'=>'鄭州 地理', 'qt'=>'search_title'})
+        @resp = solr_resp_doc_ids_only(title_search_args('鄭州 地理'))
       end
       it_behaves_like "great search results in title for 郑州地理" do
         let (:resp) { @resp }
@@ -61,7 +61,7 @@ describe "Chinese: 郑州 (a place in China)  地理 (geography)", :chinese => t
        
     context "simplified  郑州地理 (no space)" do
       before(:all) do
-        @resp = solr_resp_doc_ids_only({'q'=>'郑州地理', 'qt'=>'search_title'})
+        @resp = solr_resp_doc_ids_only(title_search_args('郑州地理'))
       end
       it_behaves_like "great search results in title for 郑州地理" do
         let (:resp) { @resp }
@@ -73,7 +73,7 @@ describe "Chinese: 郑州 (a place in China)  地理 (geography)", :chinese => t
     
     context "simplified  郑州 地理 (space)" do
       before(:all) do
-        @resp = solr_resp_doc_ids_only({'q'=>'郑州 地理', 'qt'=>'search_title'})
+        @resp = solr_resp_doc_ids_only(title_search_args('郑州 地理'))
       end
       it_behaves_like "great search results in title for 郑州地理" do
         let (:resp) { @resp }

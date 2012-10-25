@@ -30,7 +30,7 @@ describe "Chinese: Word Breaks - Unigrams", :chinese => true, :fixme => true, :w
     
     context "title search" do
       it "三國誌 (no spaces) should have good search results" do
-        resp = solr_resp_doc_ids_only({'q'=>'三國誌', 'rows'=>'20', 'qt'=>'search_title'}) 
+        resp = solr_resp_doc_ids_only(title_search_args('三國誌')) 
         # soc:                           162
         # cjk1 (bigrams and unigrams):   315
         # cjk3 (bigrams only):           315
@@ -39,7 +39,7 @@ describe "Chinese: Word Breaks - Unigrams", :chinese => true, :fixme => true, :w
         # cjk8 (chinese dict no pos):    150
       end
       it "三國 誌 (space) should have good search results" do
-        resp = solr_resp_doc_ids_only({'q'=>'三國 誌', 'rows'=>'20', 'qt'=>'search_title'}) 
+        resp = solr_resp_doc_ids_only(title_search_args('三國 誌')) 
         # soc:                           162
         # cjk1 (bigrams and unigrams):     0
         # cjk3 (bigrams only):             0 

@@ -38,7 +38,7 @@ describe "Japanese only variants of han characters", :japanese => true, :fixme =
       
       
       before(:all) do
-        @resp_mod = solr_resp_doc_ids_only({'q'=>'南満州鉄道株式会社', 'qt'=>'search_author'}) 
+        @resp_mod = solr_resp_doc_ids_only(author_search_args('南満州鉄道株式会社'))
       end
 
       it "南満州鉄道株式会社 (modern chars - Japanese variants: 2,4) should get great search results" do
@@ -47,15 +47,15 @@ describe "Japanese only variants of han characters", :japanese => true, :fixme =
       end
 
       it "南滿洲鐵道株式會社 (traditional chars 2,4) should also get the results for 南満州鉄道株式会社 (modern chars 2,4)" do
-        i_haz_great_search_results(solr_resp_doc_ids_only({'q'=>'南滿洲鐵道株式會社', 'qt'=>'search_author'})) 
+        i_haz_great_search_results(solr_resp_doc_ids_only(author_search_args('南滿洲鐵道株式會社'))) 
       end
       
       it "char 2 traditional, char 4 modern:  南滿洲鉄道株式會社" do
-        i_haz_great_search_results(solr_resp_doc_ids_only({'q'=>'南滿洲鉄道株式會社', 'qt'=>'search_author'}))
+        i_haz_great_search_results(solr_resp_doc_ids_only(author_search_args('南滿洲鉄道株式會社')))
       end
 
       it "char 2 modern, char 4 traditional:  南満洲鐵道株式會社" do
-        i_haz_great_search_results(solr_resp_doc_ids_only({'q'=>'南満洲鐵道株式會社', 'qt'=>'search_author'}))
+        i_haz_great_search_results(solr_resp_doc_ids_only(author_search_args('南満洲鐵道株式會社')))
       end
 
       # simplified Chinese version of these two characters are 满 (U+6EE1) and 铁 (U+94C1). These are used in Chinese and not Japanese.

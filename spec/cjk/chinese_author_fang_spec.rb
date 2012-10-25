@@ -46,13 +46,13 @@ describe "Chinese Author Search (Fang, Baochuan)", :chinese => true, :fixme => t
   
   context "traditional  方寶川" do
     it_behaves_like "great results" do
-      let (:resp) { solr_resp_doc_ids_only({'q'=>'方寶川', 'qt'=>'search_author'}) }
+      let (:resp) { solr_resp_doc_ids_only(author_search_args('方寶川')) }
     end
   end
   
   context "simplified  方宝川" do
     it_behaves_like "great results" do
-      let (:resp) { solr_resp_doc_ids_only({'q'=>'方宝川', 'qt'=>'search_author'}) }
+      let (:resp) { solr_resp_doc_ids_only(author_search_args('方宝川')) }
     end
   end   
     

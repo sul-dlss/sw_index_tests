@@ -40,35 +40,35 @@ describe "Chinese: Traditional and Simplified Scripts", :chinese => true, :fixme
   
   context "Author search" do
     it "Simplified chars 张爱玲 should get the same results as traditional chars 張愛玲" do
-      resp = solr_resp_doc_ids_only({'q'=>'紅樓夢', 'qt'=>'search_author'}) # 0 in prod, 17 in soc
+      resp = solr_resp_doc_ids_only(author_search_args('紅樓夢')) # 0 in prod, 17 in soc
       resp.should have_at_least(70).documents
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'红楼梦', 'qt'=>'search_author'})) # 5 in prod, 17 in soc
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(author_search_args('红楼梦'))) # 5 in prod, 17 in soc
     end
   end
   
   context "Title search" do
     it "Simplified  中国地方志集成 vs. Traditional 中國地方誌集成" do
-      resp = solr_resp_doc_ids_only({'q'=>'中国地方志集成', 'qt'=>'search_title'}) # 9 in prod, 523 in soc
+      resp = solr_resp_doc_ids_only(title_search_args('中国地方志集成')) # 9 in prod, 523 in soc
       resp.should have_at_least(520).documents
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'中國地方誌集成', 'qt'=>'search_title'})) # 0 in prod, 523 in soc
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('中國地方誌集成'))) # 0 in prod, 523 in soc
     end
   end
   
   context "Single character searches" do
     it "title  飄 (trad) should get the same results as  飘 (simplified)" do
-      resp = solr_resp_doc_ids_only({'q'=>'飄', 'qt'=>'search_title'}) 
+      resp = solr_resp_doc_ids_only(title_search_args('飄')) 
       resp.should have_at_least(110).documents # 2 in prod, 117 title in soc, 115 lang chinese in soc, 154 everything in soc
       resp.should include("6701323") # trad
       resp.should include("4181771") # simp
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'飘', 'qt'=>'search_title'})) # 0 title in prod, 115 title in soc 
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('飘'))) # 0 title in prod, 115 title in soc 
     end
     
     it "title Zen  禪 (trad) should get the same results as  禅 (simplified)" do
-      resp = solr_resp_doc_ids_only({'q'=>'禪', 'qt'=>'search_title', 'fq'=>'language:Chinese'}) 
+      resp = solr_resp_doc_ids_only(title_search_args('禪').merge({'fq'=>'language:Chinese'}))
       resp.should have_at_least(485).documents # 0 in prod, 487 in soc
       resp.should include("6815304") # trad
       resp.should include("6428618") # simp
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'禅', 'qt'=>'search_title', 'fq'=>'language:Chinese'})) # 2 in prod, 487 in soc 
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('禅').merge({'fq'=>'language:Chinese'}))) # 2 in prod, 487 in soc 
     end
   end
 

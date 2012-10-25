@@ -27,11 +27,11 @@ describe "Japanese: hiragana, katakana, kanji, and romaji scripts", :japanese =>
         @resp_hirigana.should include(@exp_ckeys).in_first(@threshhold).documents
       end
       it "hiragana should get fewer than kanji" do
-        @resp_hirigana.should have_fewer_than(@resp_kanji_m)
-        @resp_hirigana.should have_fewer_than(@resp_kanji_t)
+        @resp_hirigana.should have_fewer_results_than(@resp_kanji_m)
+        @resp_hirigana.should have_fewer_results_than(@resp_kanji_t)
       end
       it "hiragana should get fewer than romanji" do
-        @resp_hirigana.should have_fewer_than(@resp_romanji)
+        @resp_hirigana.should have_fewer_results_than(@resp_romanji)
       end
     end
     context "katakana" do
@@ -41,11 +41,11 @@ describe "Japanese: hiragana, katakana, kanji, and romaji scripts", :japanese =>
         @resp_katakana.should include(@exp_ckeys).in_first(@threshhold).documents
       end
       it "katakana should get fewer than kanji" do
-        @resp_katakana.should have_fewer_than(@resp_kanji_m)
-        @resp_katakana.should have_fewer_than(@resp_kanji_t)
+        @resp_katakana.should have_fewer_results_than(@resp_kanji_m)
+        @resp_katakana.should have_fewer_results_than(@resp_kanji_t)
       end
       it "katakana should get fewer than romanji" do
-        @resp_katakana.should have_fewer_than(@resp_romanji)
+        @resp_katakana.should have_fewer_results_than(@resp_romanji)
       end
     end
   end # end manga
@@ -62,7 +62,7 @@ describe "Japanese: hiragana, katakana, kanji, and romaji scripts", :japanese =>
 
     it " けいちゅう (hiragana) should get the same results as modern kanji author name  契沖" do
       expected_results = ["6675613", "6675393", "7191966", "6274534", "4783602"]
-      resp = solr_resp_doc_ids_only({'q'=>'契沖', 'qt'=>'search_author'}) # 5 in prod, 5 in soc
+      resp = solr_resp_doc_ids_only(author_search_args('契沖')) # 5 in prod, 5 in soc
       resp.should include(expected_results)
       resp2 = solr_resp_doc_ids_only({'q'=>'けいちゅう'}) # 0 in prod, 1 in soc
       resp2.should include(expected_results)  # has author name  契沖
@@ -75,7 +75,7 @@ describe "Japanese: hiragana, katakana, kanji, and romaji scripts", :japanese =>
     context "kanji and hiragana" do
       context "近世仮名遣い論の研究 -- chars 6, 8:  い  の  are hiragana   _Kinsei kanazukairon no kenkyu_ by Kuginuki Toru" do
         it "does something" do
-          resp = solr_resp_doc_ids_only({'q'=>'近世仮名遣い論の研究', 'qt'=>'search_title'})
+          resp = solr_resp_doc_ids_only(title_search_args('q'=>'近世仮名遣い論の研究'))
           resp.should include("7926218").as_first_result
           # should we get 6279261
           # cjk6ja   as title search,  38,900 results, but first one is excellent 7926218

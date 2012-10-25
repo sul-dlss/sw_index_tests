@@ -16,7 +16,7 @@ describe "Chinese: Word Breaks", :chinese => true, :fixme => true, :wordbreak =>
   # 中国 AND 国经 AND 经济 AND 济政 AND 政策   gets 6 results
 
   it "should parse out 中国 (china)  经济 （economic)  政策 (policy) - title search" do
-    resp = solr_resp_doc_ids_only({'q'=>'中国经济政策', 'qt'=>'search_title'}) # 0 in prod, 51 in soc, 10063 in cjk1
+    resp = solr_resp_doc_ids_only(title_search_args('中国经济政策')) # 0 in prod, 51 in soc, 10063 in cjk1
     # top results in cjk1 not good
     # as phrase:  0 in cjk1
     # 中国  经济  政策:  9 in cjk1:   1,2,4,5, 9 are good    6820329, 9154183, 6780057, 6782474 - two terms in title, one in series ... not as good as we hoped
@@ -25,7 +25,7 @@ describe "Chinese: Word Breaks", :chinese => true, :fixme => true, :wordbreak =>
     # what about " 中国  经济  政策"  as a phrase  vs.  not?  Does that address autoGeneratePhraseQueries?
     resp.should have_at_least(50).documents
     resp.should have_at_most(75).documents
-    resp.size.should be_within(5).of(solr_resp_doc_ids_only({'q'=>'中国  经济  政策', 'qt'=>'search_title'}).size) # 0 in prod, 51 in soc
+    resp.size.should be_within(5).of(solr_resp_doc_ids_only(title_search_args('中国  经济  政策')).size) # 0 in prod, 51 in soc
     resp.should have_fewer_results_than(solr_resp_doc_ids_only({'q'=>'中国经济政策'})) # 0 in prod, 88 in soc
     # 
     # "中 国 经 济 政 策" cjk1 (indexUnigrams true, autogenphraseq false) - 0 results

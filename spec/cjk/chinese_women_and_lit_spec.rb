@@ -59,7 +59,7 @@ describe "Chinese: Women and Literature:  婦女 (women)  與 (and)   文學 (li
 
     context "traditional  婦女與文學 no spaces" do
       before(:all) do
-        @resp = solr_resp_doc_ids_only({'q'=>'婦女與文學', 'qt'=>'search_title', 'rows'=>'25'})
+        @resp = solr_resp_doc_ids_only(title_search_args('婦女與文學').merge({'rows'=>'25'}))    
       end
       # soc:                         11
       # cjk1 (bigrams):           6,723
@@ -75,7 +75,7 @@ describe "Chinese: Women and Literature:  婦女 (women)  與 (and)   文學 (li
 
     context "traditional  婦女 與 文學 (spaces)" do
       before(:all) do
-        @resp = solr_resp_doc_ids_only({'q'=>'婦女 與 文學', 'qt'=>'search_title', 'rows'=>'25'})
+        @resp = solr_resp_doc_ids_only(title_search_args('婦女 與 文學').merge({'rows'=>'25'}))    
       end
       # title spaces  婦女 與 文學
       # soc:                    11
@@ -92,7 +92,7 @@ describe "Chinese: Women and Literature:  婦女 (women)  與 (and)   文學 (li
     
     context "simplified  妇女与文学 no spaces" do
       before(:all) do
-        @resp = solr_resp_doc_ids_only({'q'=>'妇女与文学', 'qt'=>'search_title', 'rows'=>'25'})
+        @resp = solr_resp_doc_ids_only(title_search_args('妇女与文学').merge({'rows'=>'25'}))    
       end
       it_behaves_like "great search results in title for 妇女与文学" do
         let (:resp) { @resp }
@@ -104,7 +104,7 @@ describe "Chinese: Women and Literature:  婦女 (women)  與 (and)   文學 (li
     
     context "simplified  妇女 与 文学  with spaces" do
       before(:all) do
-        @resp = solr_resp_doc_ids_only({'q'=>'妇女 与 文学', 'qt'=>'search_title', 'rows'=>'25'})
+        @resp = solr_resp_doc_ids_only(title_search_args('妇女 与 文学').merge({'rows'=>'25'}))    
       end
       it_behaves_like "great search results in title for 妇女与文学" do
         let (:resp) { @resp }
@@ -189,7 +189,7 @@ describe "Chinese: Women and Literature:  婦女 (women)  與 (and)   文學 (li
     
     context "simplified  妇女 与 文学  with spaces" do
       before(:all) do
-        @resp = solr_resp_doc_ids_only({'q'=>'妇女 与 文学', 'qt'=>'search_title', 'rows'=>'25'})
+        @resp = solr_resp_doc_ids_only(title_search_args('妇女 与 文学').merge({'rows'=>'25'}))    
       end
       it_behaves_like "great search results in title for 妇女与文学" do
         let (:resp) { @resp }

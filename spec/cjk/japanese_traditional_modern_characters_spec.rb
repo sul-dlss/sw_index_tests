@@ -37,19 +37,19 @@ describe "Japanese: Traditional and Modern Kanji (Han) Characters", :japanese =>
   context "Single character searches" do
         
     it "title  乱 (modern) should get same results as  亂 (trad)" do
-      resp = solr_resp_doc_ids_only({'q'=>'乱', 'qt'=>'search_title', 'fq'=>'language:Japanese'}) 
+      resp = solr_resp_doc_ids_only(title_search_args('乱').merge({'fq'=>'language:Japanese'}))
       resp.should have_at_least(320).documents # 4 in prod, 323 in soc
       resp.should include("6260985") # famous movie by Akira Kurosawa
       resp.should include("4176905") # trad
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'亂', 'qt'=>'search_title', 'fq'=>'language:Japanese'})) # 0 in prod, 323 in soc 
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('亂').merge({'fq'=>'language:Japanese'}))) # 0 in prod, 323 in soc 
     end
 
     it "title Zen  禪 (trad) should get same results as  禅 (modern)" do
-      resp = solr_resp_doc_ids_only({'q'=>'禪', 'qt'=>'search_title', 'fq'=>'language:Japanese'}) 
+      resp = solr_resp_doc_ids_only(title_search_args('禪').merge({'fq'=>'language:Japanese'})) 
       resp.should have_at_least(425).documents # 1 in prod, 435 in soc
       resp.should include("6667691")  # trad
       resp.should include("4193363")  # modern
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'禅', 'qt'=>'search_title', 'fq'=>'language:Japanese'})) # 5 in prod, 435 in soc 
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('禅').merge({'fq'=>'language:Japanese'}))) # 5 in prod, 435 in soc 
     end
   end
   
