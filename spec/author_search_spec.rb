@@ -30,7 +30,7 @@ describe "Author Search" do
   
   it "unstemmed author names should precede stemmed variants", :jira => ['VUF-120', 'VUF-433'] do
     resp = solr_response(author_search_args('Zare').merge({'fl'=>'id,author_person_display', 'facet'=>false}))
-    resp.should include("author_person_display" => /^Zare,/).in_each_of_first(3).documents
+    resp.should include("author_person_display" => /\bZare\W/).in_each_of_first(3).documents
     resp.should_not include("author_person_display" => /Zaring/).in_each_of_first(20).documents
   end
   
