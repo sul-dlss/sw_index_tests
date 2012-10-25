@@ -24,11 +24,12 @@ describe "boolean operators" do
         resp = solr_resp_doc_ids_only({'q'=>'horn'})
         resp.should have_more_documents_than(solr_resp_doc_ids_only({'q'=>'french horn'}))
       end
-      it "loggerhead turtles should not have Shakespeare in facets", :fixme => 'need facet parsing' do
-        pending "need facet parsing in rspec-solr"
-        resp = solr_resp_doc_ids_only({'q'=>'loggerhead turtles'})
-        # this was in the facets when default was "OR"
-        # Then I should not see "Shakespeare"
+      it "loggerhead turtles should not have Shakespeare in facets" do
+        resp = solr_response({'q'=>'loggerhead turtles', 'fl' => 'id'})
+        # Shakespeare was in the facets when default was "OR"
+        resp.should_not have_facet_field("author_person_facet").with_value("Shakespeare, William, 1564-1616")
+        resp = solr_response({'q'=>'turtles', 'fl' => 'id'})
+        resp.should have_facet_field("author_person_facet").with_value("Shakespeare, William, 1564-1616")
       end
     end
 
