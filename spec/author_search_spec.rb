@@ -25,13 +25,12 @@ describe "Author Search" do
   it "added authors (700 fields) : author search for jane austen should get video results", :jira => 'VUF-255' do
     resp = solr_response(author_search_args('jane austen').merge({'fl'=>'id,format,author_person_display', 'facet.field'=>'format'}))
     resp.should have_at_least(275).documents
-    pending "need include().as_facet_value in rspec-solr"
-#    Then I should see "Video"
+    resp.should have_facet_field("format").with_value("Video")
   end
   
   it "unstemmed author names should precede stemmed variants", :jira => ['VUF-120', 'VUF-433'] do
     resp = solr_response(author_search_args('Zare').merge({'fl'=>'id,author_person_display', 'facet'=>false}))
-    resp.should include("author_person_display" => /\bZare\W/).in_each_of_first(3).documents
+    resp.should include("author_person_display" => /^Zare,/).in_each_of_first(3).documents
     resp.should_not include("author_person_display" => /Zaring/).in_each_of_first(20).documents
   end
   
