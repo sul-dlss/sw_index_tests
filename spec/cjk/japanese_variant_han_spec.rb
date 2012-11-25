@@ -2,7 +2,7 @@
 require 'spec_helper'
 require 'rspec-solr'
 
-describe "Japanese only variants of han characters", :japanese => true, :fixme => true, :vitus_vetted => true do
+describe "Japanese only variants of han characters", :japanese => true, :fixme => true, :vetted => 'vitus' do
 
 #  近世仮名遣い論の研究 ???
 # cjk6ja   as title search,  38,900 results, but first one is excellent 7926218
