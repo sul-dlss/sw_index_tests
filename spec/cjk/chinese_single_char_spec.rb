@@ -4,7 +4,7 @@ require 'rspec-solr'
 
 describe "Chinese: Single Character Searches", :chinese => true, :fixme => true do
   
-  it "title  飄 should get results", :vitus_vetted => true do
+  it "title  飄 should get results", :vetted => 'vitus' do
     resp = solr_response(title_search_args('飄').merge({'fl'=>'id,vern_title_245a_display', 'facet'=>false})) 
     resp.should include('vern_title_245a_display'=>'飄').in_first(2).documents 
     resp.should include(["6701323", "7737681"]).in_first(2).documents
