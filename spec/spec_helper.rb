@@ -27,6 +27,9 @@ end
 def author_search_args(query_str)
   {'q'=>"{!qf=$qf_author pf=$pf_author}#{query_str}", 'qt'=>'search'}
 end
+def callnum_search_args(query_str)
+  {'q'=>"#{query_str}", 'defType'=>'lucene', 'df'=>'callnum_search', 'qt'=>'search'}
+end
 def subject_search_args(query_str)
   {'q'=>"{!qf=$qf_subject pf=$pf_subject}#{query_str}", 'qt'=>'search'}
 end
