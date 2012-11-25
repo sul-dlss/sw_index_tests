@@ -40,9 +40,19 @@ RSpec::Core::RakeTask.new(:cjk) do |spec|
   spec.rspec_opts = ["-c", "-f progress", "-r ./spec/spec_helper.rb", "-t chinese", "-t japanese", "-t korean", "#{ENV['ROPTS']}"] 
 end
 
+desc "run only Chinese specs" 
+RSpec::Core::RakeTask.new(:zh) do |spec|
+  spec.rspec_opts = ["-c", "-f progress", "-r ./spec/spec_helper.rb", "-t chinese", "#{ENV['ROPTS']}"] 
+end
+
 desc "run only japanese specs" 
 RSpec::Core::RakeTask.new(:ja) do |spec|
   spec.rspec_opts = ["-c", "-f progress", "-r ./spec/spec_helper.rb", "-t japanese", "#{ENV['ROPTS']}"] 
+end
+
+desc "run only korean specs" 
+RSpec::Core::RakeTask.new(:ko) do |spec|
+  spec.rspec_opts = ["-c", "-f progress", "-r ./spec/spec_helper.rb", "-t korean", "#{ENV['ROPTS']}"] 
 end
 
 desc "run CJK wordbreak specs" 
