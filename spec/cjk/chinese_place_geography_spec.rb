@@ -2,15 +2,16 @@
 require 'spec_helper'
 require 'rspec-solr'
 
-describe "Chinese: 郑州 (a place in China)  地理 (geography)", :chinese => true, :fixme => true, :wordbreak => true do
+describe "Chinese: 郑州 (a place in China)  地理 (geography)", :chinese => true, :fixme => true, :wordbreak => true, :vetted => 'vitus' do
 
   shared_context "st" do
     shared_examples "great search results in title for 郑州地理" do
-      # 119747:  trad  鄭州  in 245a;  
+      # 119747:   trad  鄭州  in 245a;  
       # 9612993:  both words in 245a, but separated;  record not in cjk batch
       describe do
         it "should only retrieve the documents with both words in 245a" do
-          resp.should include("9612993").as_first.result 
+          resp.should include("9612993").as_first.result  # both words in 245a, but separated;  record not in cjk batch
+          resp.should_not include("119747") #   trad  鄭州  in 245a;  
         end
       end
     end
@@ -29,12 +30,6 @@ describe "Chinese: 郑州 (a place in China)  地理 (geography)", :chinese => t
     end
     include_context "ts郑州"
     
-    # cjk9:
-    #  郑州地理 title 1
-    #  郑州 地理 title 0
-    #  郑州 title: 1
-    #  地理  title:  19
-
     context "trad  鄭州地理 (no space)" do
       before(:all) do
         @resp = solr_resp_doc_ids_only(title_search_args('鄭州地理'))
@@ -152,9 +147,6 @@ describe "Chinese: 郑州 (a place in China)  地理 (geography)", :chinese => t
        
     context "simplified  郑州地理 (no space)" do
       # soc:                       2
-      # cjk1 (bigrams only):    2630 
-      # cjk7 (unigrams only):  39598
-      # cjk6cn (chinese dict):  2235 
       before(:all) do
         @resp = solr_resp_doc_ids_only({'q'=>'郑州地理'})
       end
@@ -168,9 +160,6 @@ describe "Chinese: 郑州 (a place in China)  地理 (geography)", :chinese => t
     
     context "simplified  郑州 地理 (space)" do
       # soc:                      8
-      # cjk1 (bigrams only):      2
-      # cjk7 (unigrams only):  1323
-      # cjk6cn (chinese dict):    2
       before(:all) do
         @resp = solr_resp_doc_ids_only({'q'=>'郑州 地理'})
       end

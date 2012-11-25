@@ -2,14 +2,19 @@
 require 'spec_helper'
 require 'rspec-solr'
 
-describe "Chinese Old Fiction:  舊 (old) and  小說 (fiction)", :chinese => true, :fixme => true, :wordbreak => true do
+describe "Chinese Old Fiction:  舊 (old) and  小說 (fiction)", :chinese => true, :fixme => true, :wordbreak => true, :vetted => 'vitus' do
 
   shared_context "old fiction results" do
     shared_examples "great search results for 舊小說" do
       describe do
         it "gets the traditional char matches" do
+          # the first 4 lines are redundant, but split out for ease of diagnostics
           resp.should include(["9262744", "6797638", "6695967"]) # in 245a
-          resp.should include(["6695904", "6699444", "6696790"]) # in 245a and b
+          resp.should include("6696790") # in 245a but not adjacent
+          resp.should include("6695904") # three characters in 245a, but in a different order 
+          resp.should include("6699444") # in 245a and b
+          resp.should include(["9262744", "6797638", "6695967"]).before(["6696790", "6695904", "6699444"])
+          resp.should include("6695904").before("6699444")
         end
         it "gets the simplified char matches" do
           # 旧小说
@@ -32,17 +37,16 @@ describe "Chinese Old Fiction:  舊 (old) and  小說 (fiction)", :chinese => tr
           #   6695904 - fiction 245a; old 245a
           #   6699444 - old 245a; fiction 245b
           #   6696790 - old 245a; fiction 245a
-          #   7198256 - old 245b; fiction: 245a
-          resp.should include(["6695904", "6699444", "6696790", "7198256"]).in_first(12).results
+          #   7198256 - old 245b; fiction: 245a  (Korean also in record)
+          #   6793760 - old (simplified) 245a; fiction 245b
+          resp.should include(["6695904", "6699444", "6696790", "7198256", "6793760"]).in_first(12).results
         end
         it "includes other relevant results" do
-          #   7198256 - only 2nd and 3rd characters found in 245a
-          #   6793760 - only 2nd and 3rd characters found in 245a, 3rd character in simplified
           #   6288832 - old 505t; fiction 505t x2
           #   7699186 - 1st character in simplified in 245a, 2nd and 3rd in 490 and 830, 3rd character in simplified
           #   6204747 - old 245a; fiction 490a; 830a
           #   6698466 - old 245a; fiction 490a, 830a
-          resp.should include(["7198256", "6793760", "6288832", "7699186", "6204747", "6698466"])
+          resp.should include(["6288832", "7699186", "6204747", "6698466"])
         end
       end # describe
     end
