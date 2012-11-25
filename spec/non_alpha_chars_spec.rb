@@ -13,16 +13,23 @@ describe "Terms with Numbers or other oddities" do
   end
   
   context "square brackets" do
-    it "as part of q string should be ignored" do
+    # if they're not for a range query, they should be ignored
+    it "preceded by space as part of q string should be ignored" do
       resp = solr_resp_doc_ids_only({'q'=>'mark twain [pseud]'})
       resp.should have_at_least(125).documents
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"mark twain pseud"}))
     end
 
-    it "as part of phrase query should be ignored" do
+    it "preceded by space as part of phrase query should be ignored" do
       resp = solr_resp_doc_ids_only({'q'=>'"mark twain [pseud]"'})
       resp.should have_at_least(125).documents
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'"mark twain pseud"'}))
+    end
+    
+    it "not preceded by space as part of a query string should be ignored", :fixme => true do
+      resp = solr_resp_doc_ids_only({'q'=>'Alice Wonderland serie[s]'})
+      resp.should have_at_least(2).documents
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"Alice Wonderland series"}))
     end
   end
   
@@ -45,6 +52,21 @@ describe "Terms with Numbers or other oddities" do
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('why')))
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('why ...')))
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('why... ')))
+    end
+    it "trailing ellipsis preceded by a space should be ignored (title search)" do
+      resp = solr_resp_doc_ids_only(title_search_args('I want ...'))
+      resp.should include('8874363')
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('I want')))
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('I want...')))
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('I want ... ')))
+    end
+    it "trailing ellipsis preceded by a space should be ignored", :fixme => true do
+      #  This works for a title search, but not for an everything search ...
+      resp = solr_resp_doc_ids_only({'q' => 'I want ...'})
+      resp.should include('8874363')
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('I want')))
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('I want...')))
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('I want ... ')))
     end
   end
   
