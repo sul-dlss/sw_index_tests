@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "Number as Query String" do
   
   context "ISSN", :jira => 'VUF-169' do
-    it "should work with or without the hyphen", :jira => 'VUF-404'  do
+    it "should work with or without the hyphen", :jira => 'VUF-404' do
       resp = solr_resp_doc_ids_only({'q'=>'1003-4730'})
       resp.should include('6210309')
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'10034730'}))
