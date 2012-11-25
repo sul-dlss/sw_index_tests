@@ -68,4 +68,24 @@ describe "Author Search" do
     resp.should_not include("7929478")
   end
   
+  it "period after initial shouldn't matter" do
+    resp = solr_resp_doc_ids_only(author_search_args('jill k. conway'))
+    resp.should include('4735430')
+    resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(author_search_args('jill k conway')))
+  end
+  
+  it "author matches should appear before editor matches" do
+    resp = solr_resp_doc_ids_only(author_search_args('jill k. conway'))
+    # author before editor
+    resp.should include(['1490381', '1302403', '861080', '1714776', '2911421', '2937495', '3063723', '3832670', '4735430']).before('4343662')
+    # editor
+    resp.should include(['4343662', '1714390', '2781921'])
+    #  in metadata, but not as author
+    # book about her, with name in title spelled Ker
+    resp.should_not include('5826712')
+    # the next two are in spanish and have the name in the 505a
+    resp.should_not include('3159425')
+    resp.should_not include('4529441')
+  end
+  
 end
