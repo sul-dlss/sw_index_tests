@@ -1,6 +1,5 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
-require 'rspec-solr'
 
 describe "Apostrophes", :jira => ['SW-648', 'SW-754'], :fixme => true do
   it "m'arthur" do

@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'rspec-solr'
 
 describe "Default Request Handler" do
   

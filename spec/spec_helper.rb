@@ -2,6 +2,7 @@ require "yaml"
 require 'rsolr'
 
 $LOAD_PATH.unshift(File.dirname(__FILE__))
+require 'rspec-solr'
 
 RSpec.configure do |config|
   baseurl = ENV["URL"]

@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'rspec-solr'
 
 describe "Stopwords such as 'the' 'a' 'or' should now work" do
 

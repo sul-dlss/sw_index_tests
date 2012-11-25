@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'rspec-solr'
 
 describe "Stemming of English words" do
   context "exact matches before stemmed matches" do

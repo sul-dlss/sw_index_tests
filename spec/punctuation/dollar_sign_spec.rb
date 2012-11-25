@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'rspec-solr'
 
 describe "dollar signs in queries" do
   

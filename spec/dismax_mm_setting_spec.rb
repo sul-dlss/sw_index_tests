@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'rspec-solr'
 
 #I want to be able to use long multi-word queries
 #In order to get great results which may not contain all the words in my queries

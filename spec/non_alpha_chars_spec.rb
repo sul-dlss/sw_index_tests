@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'rspec-solr'
 
 describe "Terms with Numbers or other oddities" do
   

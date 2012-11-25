@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'rspec-solr'
 
 describe "colons in queries" do
   it "surrounded by spaces inside phrase should be ignored" do
