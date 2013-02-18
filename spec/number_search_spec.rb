@@ -11,9 +11,9 @@ describe "Number as Query String" do
     
     it "'The Nation' ISSN should get perfect results with and without a hyphen" do
       resp = solr_resp_doc_ids_only({'q'=>'0027-8378'})
-      resp.should include(['464445', '497417', '3448713']).in_first(5)
+      resp.should include(['464445', '497417', '3448713', '9928159']).in_first(6)
       #  additional ckeys:   1771808 (in 500a),  5724779  (in 776x)
-      resp.should include(['1771808', '5724779']).in_first(6)
+      resp.should include(['1771808', '5724779']).in_first(10)
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'00278378'}))
     end
     
