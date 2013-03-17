@@ -50,4 +50,96 @@ describe "colons in queries should be ignored ('a : b', 'a: b', and 'a b' are al
     end
   end
     
+  context "3 terms with colon  Love : short stories" do
+    shared_examples_for "great results for love short stories" do
+      it "should have best matches for 'love short stories' at top" do
+        resp.should include('4313015').in_first(8)
+      end
+    end
+    context "anywhere" do
+      let! (:resp) { solr_resp_ids_from_query 'Love : short stories' }
+      it_behaves_like "great results for love short stories"
+      it 'should not care about colon placement' do
+        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('Love short stories'))
+        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('Love: short stories'))
+      end
+    end
+    context "phrase search anywhere" do
+      let (:resp) { solr_resp_ids_from_query('"Love : short stories"') }
+      it_behaves_like "great results for love short stories"
+      it 'should not care about colon placement' do
+        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('"Love short stories"'))
+        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('"Love: short stories"'))
+      end
+    end
+    context "title search" do
+      let (:resp) { solr_resp_doc_ids_only(title_search_args('Love : short stories')) }
+      it_behaves_like "great results for love short stories"
+      it 'should not care about colon placement' do
+        resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('Love short stories')))
+        resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('Love: short stories')))
+      end
+    end
+    context "title phrase search" do
+      let (:resp) { solr_resp_doc_ids_only(title_search_args('"Love : short stories"')) }
+      it_behaves_like "great results for love short stories"
+      it 'should not care about colon placement' do
+        resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('"Love short stories"')))
+        resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('"Love: short stories"')))
+      end
+    end
+  end
+
+  context "3 terms with colon, one term formerly a stopword  jazz : an introduction" do
+    shared_examples_for "great results for jazz an introduction" do
+      it "should have best matches for 'jazz an introduction' at top" do
+        resp.should include('2130314').in_first(4)
+        resp.should include(['3315875', '6794170']).in_first(3)
+      end
+    end
+    context "anywhere" do
+      let! (:resp) { solr_resp_ids_from_query 'Jazz : an introduction' }
+      it_behaves_like "great results for jazz an introduction"
+      it 'should not care about colon placement' do
+        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('Jazz an introduction'))
+        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('Jazz: an introduction'))
+      end
+      it "should get fewer results than jazz introdution" do
+        resp.should have_fewer_results_than(solr_resp_ids_from_query('Jazz introduction'))
+      end
+    end
+    context "phrase search anywhere" do
+      let (:resp) { solr_resp_ids_from_query('"Jazz : an introduction"') }
+      it_behaves_like "great results for jazz an introduction"
+      it 'should not care about colon placement' do
+        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('"Jazz an introduction"'))
+        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('"Jazz: an introduction"'))
+      end
+      it "should get fewer results than jazz introdution" do
+        resp.should have_fewer_results_than(solr_resp_ids_from_query('"Jazz introduction"'))
+      end
+    end
+    context "title search" do
+      let (:resp) { solr_resp_doc_ids_only(title_search_args('Jazz : an introduction')) }
+      it_behaves_like "great results for jazz an introduction"
+      it 'should not care about colon placement' do
+        resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('Jazz an introduction')))
+        resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('Jazz: an introduction')))
+      end
+      it "should get fewer results than jazz introdution" do
+        resp.should have_fewer_results_than(solr_resp_doc_ids_only(title_search_args('Jazz introduction')))
+      end
+    end
+    context "title phrase search" do
+      let (:resp) { solr_resp_doc_ids_only(title_search_args('"Jazz : an introduction"')) }
+      it_behaves_like "great results for jazz an introduction"
+      it 'should not care about colon placement' do
+        resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('"Jazz an introduction"')))
+        resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('"Jazz: an introduction"')))
+      end
+      it "should get fewer results than jazz introdution" do
+        resp.should have_fewer_results_than(solr_resp_doc_ids_only(title_search_args('"Jazz introduction"')))
+      end
+    end
+  end
 end
