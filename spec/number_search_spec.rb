@@ -6,7 +6,8 @@ describe "Number as Query String" do
     it "should work with or without the hyphen", :jira => 'VUF-404' do
       resp = solr_resp_doc_ids_only({'q'=>'1003-4730'})
       resp.should include('6210309')
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'10034730'}))
+      resp = solr_resp_doc_ids_only({'q'=>'10034730'})  # we now go this high in ckeys
+      resp.should include('6210309').as_first
     end
     
     it "'The Nation' ISSN should get perfect results with and without a hyphen" do
