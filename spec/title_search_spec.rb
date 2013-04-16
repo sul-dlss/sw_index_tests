@@ -26,10 +26,12 @@ describe "Title Search" do
   end
 
   it "780t, 758t included in title search: journal of marine biotechnology" do
+    # 4278409  780t
+    # 1963062  785t
     resp = solr_resp_doc_ids_only(title_search_args('journal of marine biotechnology'))    
-    resp.should include(["4450293", "1963062", "4278409"]).in_first(3).results
+    resp.should include(["1963062", "4278409"]).in_first(3).results
     resp = solr_resp_doc_ids_only(title_search_args('journal of marine biotechnology').merge({:fq => 'format:"Journal/Periodical"'}))    
-    resp.should include(["4450293", "1963062", "4278409"]).in_first(3).results
+    resp.should include(["1963062", "4278409"]).in_first(3).results
   end
   
 end
