@@ -55,7 +55,7 @@ describe "Terms with Numbers or other oddities" do
     end
     it "trailing ellipsis preceded by a space should be ignored (title search)" do
       resp = solr_resp_doc_ids_only(title_search_args('I want ...'))
-      resp.should include('8874363')
+      resp.should include('10062710')
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('I want')))
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('I want...')))
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('I want ... ')))
@@ -63,7 +63,7 @@ describe "Terms with Numbers or other oddities" do
     it "trailing ellipsis preceded by a space should be ignored", :fixme => true do
       #  This works for a title search, but not for an everything search ...
       resp = solr_resp_doc_ids_only({'q' => 'I want ...'})
-      resp.should include('8874363')
+      resp.should include('10062710')
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('I want')))
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('I want...')))
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('I want ... ')))
