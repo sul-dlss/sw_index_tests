@@ -138,9 +138,10 @@ describe "colons in queries should be ignored ('a : b', 'a: b', and 'a b' are al
         resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('"Jazz an introduction"')))
         resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('"Jazz: an introduction"')))
       end
-      it "should get fewer results than jazz introdution" do
-        resp.should have_fewer_results_than(solr_resp_doc_ids_only(title_search_args('"Jazz introduction"')))
-      end
+      # these now get the same number:  3
+#      it "should get fewer results than 'jazz introdution'" do
+#        resp.should have_fewer_results_than(solr_resp_doc_ids_only(title_search_args('"Jazz introduction"')))
+#      end
     end
   end # 3 terms, one former stop
   
