@@ -46,6 +46,9 @@ end
 def title_search_args(query_str)
   {'q'=>"{!qf=$qf_title pf=$pf_title}#{query_str}", 'qt'=>'search'}
 end
+def author_title_search_args(query_str)
+  {'q'=>"{!qf=author_title_search pf='author_title_search^10'}\"#{query_str}\"", 'qt'=>'search'}
+end
 
 private
 
