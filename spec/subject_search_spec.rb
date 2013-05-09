@@ -22,8 +22,9 @@ describe "Subject Search" do
     resp.should_not include("6653471")   #  only has 'and'
     resp.should_not include("8545853")  # has neither
   end
-  
-  it "C programming", :jira => 'VUF-1993' do
+
+# NOTE:  this test is superceded by test in synonym_spec as of 2013-05-10
+  it "C programming", :jira => 'VUF-1993', :fixme => true do
     resp = solr_resp_doc_ids_only(subject_search_args('C programming'))
     resp.should have_at_least(1325).results
     resp.should have_at_most(1525).results
