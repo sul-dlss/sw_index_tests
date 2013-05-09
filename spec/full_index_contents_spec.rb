@@ -52,6 +52,28 @@ describe "Index Contents" do
         end
       end
     end
-  end
+
+    context "Walters Manuscripts" do
+      it "collection filter query should have at least 265 total results" do
+        resp = solr_resp_doc_ids_only({'fq'=>'collection:ww121ss5000', 'rows'=>'0'})
+        resp.should have_at_least(265).documents
+      end
+      it "item object should be retrieved via everything search" do
+        resp = solr_resp_doc_ids_only({'q'=>'birds-eye view san francisco'})
+        resp.should include(['pz572zt9333', 'nz525ps5073', 'bw260mc4853', 'mz639xs9677']).in_first(15)
+      end
+      context "merged collection object" do
+        before(:all) do
+          @resp = solr_response({'qt'=>'document', 'id'=>'ww121ss5000', 'fl'=>'id,url_fulltext,collection_type', 'facet'=>false})
+        end
+        it "collection object should have purl url in url_fulltext" do
+          @resp.should include("url_fulltext" => 'http://purl.stanford.edu/ww121ss5000')
+        end
+        it "collection object should have collection_type field" do
+          @resp.should include("collection_type" => 'Digital Collection')
+        end
+      end
+    end
+  end # DOR Digital Collections
   
 end
