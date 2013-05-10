@@ -132,45 +132,123 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
         resp.should include("4617632")
       end
     end
+    context "C# (also musical key)" do
+      it "professional C#" do
+        resp = solr_response({'q'=>'professional C#', 'fl'=>'id,title_245a_display', 'facet'=>false})
+        resp.should include("title_245a_display" => /C(#|♯)/).in_each_of_first(20).documents
+        resp.should have_at_most(250).documents
+        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query("professional C♯"))
+        resp.should_not have_the_same_number_of_results_as(solr_resp_ids_from_query("professional C"))
+      end
+    end
+    context "F# (also musical key)" do
+      it "title search" do
+        resp = solr_response(title_search_args("F#").merge!({'fl'=>'id,title_245a_display', 'facet'=>false}))
+        resp.should include("title_245a_display" => /f(#|♯|\-sharp| sharp)/i).in_each_of_first(20).documents
+        resp.should have_at_most(2000).documents
+        resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args("F♯")))
+        # it is distinct from results for F
+        f_resp = solr_response(title_search_args("F").merge!({'fl'=>'id,title_245a_display', 'facet'=>false}))
+        f_resp.should include("title_245a_display" => /^"?F\.?"?$/).in_each_of_first(5).documents
+        resp.should_not have_the_same_number_of_results_as(f_resp)
+      end
+    end
     context "j#, j♯ => jsssharp" do
       it "everything search" do
         resp = solr_resp_ids_from_query('J#')
         resp.should have_at_most(20).documents
         resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query("J♯"))
-        resp.should have_fewer_results_than(solr_resp_ids_from_query("J"))
+        resp.should_not have_the_same_number_of_results_as(solr_resp_ids_from_query("J"))
       end
     end
-    context "C#" do
-      it "professional C#" do
-        resp = solr_resp_ids_from_query('professional C#')
-        resp.should have_at_most(250).documents
-        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query("professional C♯"))
-        resp.should_not have_the_same_number_of_results_as(solr_resp_ids_from_query("professional C"))
-      end
-    end    
   end # programming languages
   
   context "musical keys", :jira => 'SW-107' do
     context "sharp keys" do
       # a#, a♯, a-sharp => a sharp
       # number sign, musical sharp sign, hyphen, space
-=begin
-a# minor
-a♯ minor
-a-sharp minor
-a sharp minor 
-a very sharp knife
-a sharp knife
-a sharp -->   will get MORE musical results than previously (better recall); could be perceived as reducing precision for non-musical searches.
-=end
-      it "should not reduce precision for non-musical instances of 'a sharp'" do
-        pending "to be implemented"
+      
+      it "a#" do
+        resp = solr_resp_ids_from_query('a#')
+        resp.should have_at_most(1250).documents  # should not include a   as well, only  a sharp
+      end
+
+      it "a# - title search" do
+        resp = solr_resp_doc_ids_only(title_search_args('a#'))
+        resp.should have_at_most(200).documents # should not include a   as well, only  a sharp
+      end
+      
+      it "c# minor" do
+        resp = solr_response({'q' => 'c# minor', 'fl'=>'id,title_display', 'facet'=>false})
+        resp.should include("title_display" => /c(#|♯|\-sharp| sharp) minor/i).in_each_of_first(20).documents
+        resp.should have_at_most(1500).documents
+        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('C♯ minor'))
+        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('C-sharp minor'))
+        # would also match  c ... minor ... sharp
+        resp.should have_fewer_results_than(solr_resp_ids_from_query('C sharp minor'))
+      end
+      
+      it "d#" do
+        resp = solr_resp_ids_from_query('d#')
+        resp.should include('7941865').as_first  # Etude in D sharp minor
+        resp.should have_at_most(175).documents  # should not include d  as well, only  d sharp
+      end
+      
+      it "e#" do
+        resp = solr_resp_ids_from_query('e#')
+        resp.should include('273560').as_first  # E# Gott hat Jesum erweckt
+        resp.should have_at_most(2250).documents  # should not include e  as well, only  e sharp
+      end
+      
+      it "f# minor" do
+        resp = solr_resp_ids_from_query('f# minor')
+        resp.should have_at_least(450).documents
+        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('f♯ minor'))
+        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('F-sharp minor'))
+        # would also match  f ... minor ... sharp
+        resp.should have_fewer_results_than(solr_resp_ids_from_query('f sharp minor'))
+      end
+      
+      it "f# major" do
+        resp = solr_resp_ids_from_query('F# major')
+        resp.should have_at_least(450).documents
+        resp.should include('6284').in_first(6).results # Valse oubliee, no. 1, in F-sharp major
+        resp.should include('295938').in_first(6).results  # Etude, F# major. [Op. 36, no. 13].
+        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('F♯ major'))
+        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('F-sharp major'))
+        # would also match  f ... major ... sharp
+        resp.should have_fewer_results_than(solr_resp_ids_from_query('f sharp minor'))
+      end
+
+      context "should not reduce precision for reasonable non-musical searches with x#" do
+        # see above for programming languages C#, F#
+      end
+
+      context "should not reduce perceived precision for reasonable non-musical searches with x sharp (space)" do
+        it "B sharp - title" do
+          resp = solr_resp_doc_ids_only(title_search_args('b sharp'))
+          resp.should include('8156248').as_first # Geo B. Sharp
+          resp.should have_at_most(600).documents
+        end
+#        a very sharp knife
+#        a sharp knife
+#a sharp -->   will get MORE musical results than previously (better recall); could be perceived as reducing precision for non-musical searches.
+
+
       end
     end # sharp keys
 
     context "flat keys" do
       # ab, a♭, a-flat => a flat
       # lowercase b, flat sign, hyphen, space
+      it "ab major" do
+        resp = solr_resp_ids_from_query('ab major')
+        resp.should have_at_least(450).documents
+        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('a♭ major'))
+        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('A-flat major'))
+        # would also match  a ... major ... flat
+        resp.should have_fewer_results_than(solr_resp_ids_from_query('a flat major'))
+      end
 
       it "advanced search for title with b♭ and with author" do
         author_query = '_query_:"{!dismax pf=$pf_author qf=$qf_author}+Carl +Philipp +Emanuel +Bach"'
@@ -214,7 +292,7 @@ a sharp -->   will get MORE musical results than previously (better recall); cou
         resp_♭.should have_at_least(8).documents
       end
       
-      context "should not reduce precision for reasonable non-musical searches with xb (lowercase b)" do
+      context "should not reduce perceived precision for reasonable non-musical searches with xb (lowercase b)" do
         # FIXME:  it's punctuation sensitive!
         it "ab oculis - title search" do
           resp = solr_response(title_search_args('ab oculis').merge!({'fl'=>'id,title_display', 'facet'=>false}))
@@ -254,7 +332,7 @@ a sharp -->   will get MORE musical results than previously (better recall); cou
           resp.should have_at_most(5).documents
         end
       end
-      context "should not reduce precision for reasonable non-musical searches with x flat (space)" do
+      context "should not reduce perceived precision for reasonable non-musical searches with x flat (space)" do
         it "a flat world - title search" do
           resp = solr_response(title_search_args('a flat world').merge!({'fl'=>'id,title_display', 'facet'=>false}))
           resp.should include("title_display" => /a flat world/).in_each_of_first(5).documents
