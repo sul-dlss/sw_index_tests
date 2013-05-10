@@ -1,8 +1,6 @@
 # encoding : utf-8 
 require 'spec_helper'
 
-# TODO: phrase searching, links?
-
 describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
 
   context "RDA changes for authority headings", :jira => 'SW-845' do
@@ -172,12 +170,10 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
         resp = solr_resp_ids_from_query('a#')
         resp.should have_at_most(1250).documents  # should not include a   as well, only  a sharp
       end
-
       it "a# - title search" do
         resp = solr_resp_doc_ids_only(title_search_args('a#'))
         resp.should have_at_most(200).documents # should not include a   as well, only  a sharp
       end
-      
       it "c# minor" do
         resp = solr_response({'q' => 'c# minor', 'fl'=>'id,title_display', 'facet'=>false})
         resp.should include("title_display" => /c(#|♯|\-sharp| sharp) minor/i).in_each_of_first(20).documents
@@ -187,19 +183,16 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
         # would also match  c ... minor ... sharp
         resp.should have_fewer_results_than(solr_resp_ids_from_query('C sharp minor'))
       end
-      
       it "d#" do
         resp = solr_resp_ids_from_query('d#')
         resp.should include('7941865').as_first  # Etude in D sharp minor
         resp.should have_at_most(175).documents  # should not include d  as well, only  d sharp
       end
-      
       it "e#" do
         resp = solr_resp_ids_from_query('e#')
         resp.should include('273560').as_first  # E# Gott hat Jesum erweckt
         resp.should have_at_most(2250).documents  # should not include e  as well, only  e sharp
       end
-      
       it "f# minor" do
         resp = solr_resp_ids_from_query('f# minor')
         resp.should have_at_least(450).documents
@@ -208,7 +201,6 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
         # would also match  f ... minor ... sharp
         resp.should have_fewer_results_than(solr_resp_ids_from_query('f sharp minor'))
       end
-      
       it "f# major" do
         resp = solr_resp_ids_from_query('F# major')
         resp.should have_at_least(450).documents
@@ -225,16 +217,22 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
       end
 
       context "should not reduce perceived precision for reasonable non-musical searches with x sharp (space)" do
+        it "a sharp lookout" do
+          resp = solr_resp_ids_from_query('a sharp lookout')
+          resp.should include('1274880').as_first # A sharp lookout
+          resp.should include('1353163').in_first(3)  # includes A sharp lookout in TOC
+          resp.should have_at_most(10).documents
+        end
+        it "a short sharp (qs = 1)" do
+          resp = solr_resp_ids_from_query('a short sharp')
+          resp.should include('3965729').as_first.document # A short, sharp shock / Kim Stanley Robinson.
+          resp.should have_at_most(850).documents
+        end
         it "B sharp - title" do
           resp = solr_resp_doc_ids_only(title_search_args('b sharp'))
           resp.should include('8156248').as_first # Geo B. Sharp
           resp.should have_at_most(600).documents
         end
-#        a very sharp knife
-#        a sharp knife
-#a sharp -->   will get MORE musical results than previously (better recall); could be perceived as reducing precision for non-musical searches.
-
-
       end
     end # sharp keys
 
