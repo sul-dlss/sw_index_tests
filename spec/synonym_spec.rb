@@ -287,7 +287,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
         resp_♭.should have_the_same_number_of_results_as(resp_space)
         resp_♭.should include('7697437')
         resp_♭.should_not include('310505') # has cello b♭, but by J.S. Bach, not C.P.E. Bach
-        resp_♭.should have_at_least(8).documents
+        resp_♭.should have_at_least(7).documents
       end
       
       context "should not reduce perceived precision for reasonable non-musical searches with xb (lowercase b)" do
@@ -321,8 +321,8 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
         end
         it "fb - title search", :fixme => true do
           resp = solr_response(title_search_args('fb').merge!({'fl'=>'id,title_display', 'facet'=>false}))
-          resp.should include("title_display" => /fb/i).in_each_of_first(5).documents
-          resp.should have_at_least(100).documents # not w synonyms
+          resp.should include("title_display" => /f\.?b/i).in_each_of_first(5).documents
+          resp.should have_at_least(100).documents # not w synonyms;  ok with f.b.
         end
         it "gb flash - title search" do
           resp = solr_response(title_search_args('gb flash'))
