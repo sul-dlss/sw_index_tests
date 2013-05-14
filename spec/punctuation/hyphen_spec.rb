@@ -49,9 +49,8 @@ describe "hyphen in queries" do
     it "title phrase search for entire query should ignore hyphen" do
       @tresp_whole_phrase.should have_the_same_number_of_documents_as(@tresp_whole_phrase_no_hyphen)
     end
-  end
+  end # shared examples for no surrounding spaces
   
-  # hyphens with a space after but not before should be ignored
   shared_examples_for "hyphens with space after but not before should be ignored" do | query, exp_ids, first_x |
     before(:all) do
       q_no_hyphen = query.sub('-', ' ').sub('  ', ' ')
@@ -88,12 +87,72 @@ describe "hyphen in queries" do
     it "title phrase search for entire query should ignore hyphen" do
       @tresp_whole_phrase.should have_the_same_number_of_documents_as(@tresp_whole_phrase_no_hyphen)
     end
-  end
+  end # shared examples for space after but not before
+  
+  shared_examples_for "hyphens with space before but not after are treated as NOT, but ignored in phrase" do | query, exp_ids, unexp_ids |
+    before(:all) do
+      q_not = query.sub('-', 'NOT ')
+      q_as_phrase = "\"#{query}\""
+      q_no_hyphen = query.sub('-', ' ').sub('  ', ' ')
+      q_as_phrase_no_hyphen = "\"#{q_no_hyphen}\""
+      q_split = query.split('-')
+      if q_split.size == 2 
+        term_after = q_split.last.split(' ').first
+        rest_of_query = q_split.last.split(term_after).last
+        rest_of_query.strip if rest_of_query
+        @q_no_term = "#{q_split.first} #{rest_of_query}" 
+      end
+      
+      # treat as NOT when plain
+      @resp = solr_resp_ids_from_query(query)
+      @resp_not = solr_resp_ids_from_query(q_not) 
+      @tresp = solr_resp_doc_ids_only(title_search_args(query))
+      @tresp_not = solr_resp_doc_ids_only(title_search_args(q_not))
+      # ignore hyphen in phrase
+      @resp_whole_phrase = solr_resp_ids_from_query(q_as_phrase)
+      @resp_whole_phrase_no_hyphen = solr_resp_ids_from_query(q_as_phrase_no_hyphen)
+      @tresp_whole_phrase = solr_resp_doc_ids_only(title_search_args(q_as_phrase))
+      @tresp_whole_phrase_no_hyphen = solr_resp_doc_ids_only(title_search_args(q_as_phrase_no_hyphen))
+    end
+    
+    it "should have great results for query (treat hyphen as NOT)" do
+      @resp.should include(exp_ids)
+      @resp.should_not include(unexp_ids)
+      @resp_not.should include(exp_ids)
+      @resp_not.should_not include(unexp_ids)
+      @tresp.should include(exp_ids)
+      @tresp.should_not include(unexp_ids)
+      @tresp_not.should include(exp_ids)
+      @tresp_not.should_not include(unexp_ids)
+    end
+    it "should have great results for query as phrase (ignore hyphen)" do
+      # ignore hyphen in phrase - expect all terms
+      @resp_whole_phrase.should include(unexp_ids)
+      @resp_whole_phrase_no_hyphen.should include(unexp_ids)
+      @tresp_whole_phrase.should include(unexp_ids)
+      @tresp_whole_phrase_no_hyphen.should include(unexp_ids)
+    end
+    it "should treat hyphen as NOT in everything searches" do
+      @resp.should have_the_same_number_of_documents_as(@resp_not)
+      @resp.should have_fewer_results_than(solr_resp_ids_from_query(@q_no_term))
+    end
+    it "should treat hyphen as NOT in title searches" do
+      @tresp.should have_the_same_number_of_documents_as(@tresp_not)
+      @tresp.should have_fewer_results_than(solr_resp_doc_ids_only(title_search_args(@q_no_term)))
+    end
+    it "phrase search for entire query should ignore hyphen" do
+      @resp_whole_phrase.should have_the_same_number_of_documents_as(@resp_whole_phrase_no_hyphen)
+    end
+    it "title phrase search for entire query should ignore hyphen" do
+      @tresp_whole_phrase.should have_the_same_number_of_documents_as(@tresp_whole_phrase_no_hyphen)
+    end
+  end # shared examples for space before but not after
   
   context "'neo-romantic'", :jira => 'VUF-798' do
     it_behaves_like "hyphens without spaces imply phrase", "neo-romantic", ["7789846", "2095712", "7916667", "5627730", "1665493", "2775888", "1688481"], 12
     it_behaves_like "hyphens with space after but not before should be ignored", "neo- romantic", ["7789846", "2095712", "7916667", "5627730", "1665493", "2775888", "1688481"], 12
     it_behaves_like "hyphens with space after but not before should be ignored", "neo- romantic", ["1665493", "2775888"], 10
+    it_behaves_like "hyphens with space before but not after are treated as NOT, but ignored in phrase", "neo -romantic", '445186', ["7789846", "2095712", "7916667", "5627730", "1665493", "2775888", "1688481"]
   end
 
   context "'cat-dog'" do
@@ -102,6 +161,7 @@ describe "hyphen in queries" do
 
   context "'1951-1960'" do
     it_behaves_like "hyphens without spaces imply phrase", "1951-1960", "2916430", 20
+#    it_behaves_like "hyphens with space before but not after are treated as NOT, but ignored in phrase", "1951 -1960", '4332587', '2916430'
   end
   
   it "'0256-1115' (ISSN)" do
@@ -115,6 +175,7 @@ describe "hyphen in queries" do
 
   context "'Deutsch-Sudwestafrikanische Zeitung'", :jira => 'VUF-803' do
     it_behaves_like "hyphens without spaces imply phrase", "Deutsch-Sudwestafrikanische Zeitung", ["410366", "8230044"], 2
+    it_behaves_like "hyphens with space before but not after are treated as NOT, but ignored in phrase", "Deutsch -Sudwestafrikanische Zeitung", '425291', ["410366", "8230044"]
   end
 
   context "'red-rose chain'", :jira => 'SW-388' do
