@@ -116,21 +116,25 @@ describe "hyphen in queries" do
     end
     
     it "should have great results for query (treat hyphen as NOT)" do
-      @resp.should include(exp_ids)
+      @resp.should include(exp_ids) if exp_ids
       @resp.should_not include(unexp_ids)
-      @resp_not.should include(exp_ids)
+      @resp_not.should include(exp_ids) if exp_ids
       @resp_not.should_not include(unexp_ids)
-      @tresp.should include(exp_ids)
+      @tresp.should include(exp_ids) if exp_ids
       @tresp.should_not include(unexp_ids)
-      @tresp_not.should include(exp_ids)
+      @tresp_not.should include(exp_ids) if exp_ids
       @tresp_not.should_not include(unexp_ids)
     end
     it "should have great results for query as phrase (ignore hyphen)" do
       # ignore hyphen in phrase - expect all terms
       @resp_whole_phrase.should include(unexp_ids)
+      @resp_whole_phrase.should_not include(exp_ids) if exp_ids
       @resp_whole_phrase_no_hyphen.should include(unexp_ids)
+      @resp_whole_phrase_no_hyphen.should_not include(exp_ids) if exp_ids
       @tresp_whole_phrase.should include(unexp_ids)
+      @tresp_whole_phrase.should_not include(exp_ids) if exp_ids
       @tresp_whole_phrase_no_hyphen.should include(unexp_ids)
+      @tresp_whole_phrase_no_hyphen.should_not include(exp_ids) if exp_ids
     end
     it "should treat hyphen as NOT in everything searches" do
       @resp.should have_the_same_number_of_documents_as(@resp_not)
@@ -188,11 +192,13 @@ describe "hyphen in queries" do
   context "'under the sea-wind'", :jira => 'VUF-966' do
     it_behaves_like "hyphens without spaces imply phrase", "under the sea-wind", ["5621261", "545419", "2167813"], 3
     it_behaves_like "hyphens with space after but not before should be ignored", "under the sea- wind", ["5621261", "545419", "2167813"], 3
+    it_behaves_like "hyphens with space before but not after are treated as NOT, but ignored in phrase", "under the sea -wind", '8652881', ["5621261", "545419", "2167813"]
   end
   
   context "'customer-driven academic library'", :jira => ['SW-388', 'VUF-846'] do
     it_behaves_like "hyphens without spaces imply phrase", "customer-driven academic library", "7778647", 1
     it_behaves_like "hyphens with space after but not before should be ignored", "customer- driven academic library", "7778647", 1
+    it_behaves_like "hyphens with space before but not after are treated as NOT, but ignored in phrase", "customer -driven academic library", nil, "7778647"
   end
   
   context "'catalogue of high-energy accelerators'", :jira => 'VUF-846' do
@@ -201,10 +207,15 @@ describe "hyphen in queries" do
 
   context "'Mid-term fiscal policy review'", :jira => 'SW-388' do
     it_behaves_like "hyphens without spaces imply phrase", "Mid-term fiscal policy review", ["7204125", "5815422"], 3
+    it_behaves_like "hyphens with space before but not after are treated as NOT, but ignored in phrase", "Mid -term fiscal policy review", "8489935", ["7204125", "5815422"]
   end
   
   context "'The third plan mid-term appraisal'" do
     it_behaves_like "hyphens without spaces imply phrase", "The third plan mid-term appraisal", "2234698", 1
+  end
+
+  context "'beyond race in a race -obsessed world'" do
+    it_behaves_like "hyphens with space before but not after are treated as NOT, but ignored in phrase", "beyond race in a race -obsessed world", "3148369", "3381968"
   end
 
   context "'Color-blindness; its dangers and its detection'", :jira => 'SW-94' do
