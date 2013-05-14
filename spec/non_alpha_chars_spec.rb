@@ -150,21 +150,21 @@ describe "Terms with Numbers or other oddities" do
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"final chord}"}))
     end
 
+    it "unmatched paren should be ignored" do
+      resp = solr_resp_ids_from_query '(french horn'
+      resp.should have_documents
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query 'french horn')
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query 'french( horn')
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query 'french (horn')
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query 'french horn(')
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query ')french horn')
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query 'french) horn')
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query 'french )horn')
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query 'french horn)')
+    end
+
   end # unmatched pairs
   
-  it "unmatched paren should be ignored" do
-    resp = solr_resp_ids_from_query '(french horn'
-    resp.should have_documents
-    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query 'french horn')
-    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query 'french( horn')
-    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query 'french (horn')
-    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query 'french horn(')
-    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query ')french horn')
-    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query 'french) horn')
-    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query 'french )horn')
-    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query 'french horn)')
-  end
-
   it "non-dismax special lone characters should politely return 0 results" do
     # lucene query parsing special chars that are not special to dismax:
     # && || ! ( ) { } [ ] ^ ~ * ? : \
