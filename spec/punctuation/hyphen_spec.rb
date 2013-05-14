@@ -165,7 +165,7 @@ describe "hyphen in queries" do
 
   context "'1951-1960'" do
     it_behaves_like "hyphens without spaces imply phrase", "1951-1960", "2916430", 20
-#    it_behaves_like "hyphens with space before but not after are treated as NOT, but ignored in phrase", "1951 -1960", '4332587', '2916430'
+    it_behaves_like "hyphens with space before but not after are treated as NOT, but ignored in phrase", "1951 -1960", nil, '2916430'
   end
   
   it "'0256-1115' (ISSN)" do
