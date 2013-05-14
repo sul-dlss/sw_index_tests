@@ -5,9 +5,9 @@ describe "colons in queries should be ignored ('a : b', 'a: b', and 'a b' are al
   #  note that a space before, but not after a colon is highly unlikely
   
   it "surrounded by spaces inside phrase should be ignored" do
-    resp = solr_resp_doc_ids_only({'q'=>'"Alice in Wonderland : a serie[s]"'})
+    resp = solr_resp_ids_from_query '"Alice in Wonderland : a serie[s]"'
     resp.should have_at_least(2).documents
-    resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'"Alice in Wonderland a serie[s]"'}))
+    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('"Alice in Wonderland a serie[s]"'))
   end
   
   context "jazz : photographs (2 terms)" do
@@ -415,4 +415,20 @@ describe "colons in queries should be ignored ('a : b', 'a: b', and 'a b' are al
       end
     end
   end # 10 terms
+  
+  context "Alice in Wonderland : a serie[s] of pantomime pictures for grand orchestra" do
+    it "Alice in Wonderland : a serie[s] of pantomime pictures for grand orchestra (not phrase)" do
+      resp = solr_resp_ids_from_query 'Alice in Wonderland : a serie[s] of pantomime pictures for grand orchestra'
+      resp.should include(["6813984", "6813999"])
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('Alice in Wonderland a serie[s] of pantomime pictures for grand orchestra'))
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('Alice in Wonderland: a serie[s] of pantomime pictures for grand orchestra'))
+    end
+    it "Alice in Wonderland : a serie[s] of pantomime pictures for grand orchestra (phrase)" do
+      resp = solr_resp_ids_from_query '"Alice in Wonderland : a serie[s] of pantomime pictures for grand orchestra"'
+      resp.should include(["6813984", "6813999"])
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('"Alice in Wonderland a serie[s] of pantomime pictures for grand orchestra"'))
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('"Alice in Wonderland: a serie[s] of pantomime pictures for grand orchestra"'))
+    end
+  end
+  
 end # colon

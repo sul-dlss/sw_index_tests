@@ -152,4 +152,46 @@ describe "Terms with Numbers or other oddities" do
 
   end # unmatched pairs
   
+  it "unmatched paren should be ignored" do
+    resp = solr_resp_ids_from_query '(french horn'
+    resp.should have_documents
+    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query 'french horn')
+    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query 'french( horn')
+    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query 'french (horn')
+    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query 'french horn(')
+    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query ')french horn')
+    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query 'french) horn')
+    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query 'french )horn')
+    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query 'french horn)')
+  end
+
+  it "non-dismax special lone characters should politely return 0 results" do
+    # lucene query parsing special chars that are not special to dismax:
+    # && || ! ( ) { } [ ] ^ ~ * ? : \
+    resp = solr_resp_ids_from_query '&'
+    resp.should_not have_documents
+    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('|'))
+    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('('))
+    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query(')'))
+    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('{'))
+    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('}'))
+    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('['))
+    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query(']'))
+    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('^'))
+    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('~'))
+    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('*'))
+    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query(':'))
+    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('\\'))
+    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query(';'))
+    # get results
+#    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('!'))  # gets a result
+#    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('?'))  # gets a result - single char wild card? 
+#    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('.'))  # gets a result
+    # solr errors
+#    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('+'))  # gives 400 error
+#    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('-'))  # gives 400 error
+#    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('&&'))  # gives 400 error
+#    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('||')) # gives 400 error
+  end
+  
 end
