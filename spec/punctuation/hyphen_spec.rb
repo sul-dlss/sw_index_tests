@@ -273,4 +273,17 @@ describe "hyphen in queries" do
     end
   end # context "'Color-blindness [print/digital]; its dangers and its detection'"
 
+  context "used to prohibit a clause" do
+    it 'should work with quotes' do
+      resp = solr_resp_ids_from_query('mark twain -"tom sawyer"')
+      resp.should have_at_least(1400).documents
+      resp.should have_the_same_number_of_documents_as(solr_resp_ids_from_query('mark twain NOT "tom sawyer"'))
+    end
+    it "should work with parens", :jira => 'VUF-379', :fixme => true do
+      resp = solr_resp_ids_from_query('mark twain -(tom sawyer)')
+      resp.should have_at_least(1400).documents
+      resp.should have_the_same_number_of_documents_as(solr_resp_ids_from_query('mark twain NOT (tom sawyer)'))
+    end
+  end
+
 end
