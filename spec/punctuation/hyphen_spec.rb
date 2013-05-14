@@ -51,9 +51,9 @@ describe "hyphen in queries" do
     end
   end # shared examples for no surrounding spaces
   
-  shared_examples_for "hyphens with space after but not before should be ignored" do | query, exp_ids, first_x |
+  shared_examples_for "hyphens ignored" do | query, exp_ids, first_x |
     before(:all) do
-      q_no_hyphen = query.sub('-', ' ').sub('  ', ' ')
+      q_no_hyphen = query.sub('-', ' ').sub(/\s+/, ' ')
       q_as_phrase = "\"#{query}\""
       q_as_phrase_no_hyphen = "\"#{q_no_hyphen}\""
       @resp = solr_resp_ids_from_query(query)
@@ -154,8 +154,10 @@ describe "hyphen in queries" do
   
   context "'neo-romantic'", :jira => 'VUF-798' do
     it_behaves_like "hyphens without spaces imply phrase", "neo-romantic", ["7789846", "2095712", "7916667", "5627730", "1665493", "2775888", "1688481"], 12
-    it_behaves_like "hyphens with space after but not before should be ignored", "neo- romantic", ["7789846", "2095712", "7916667", "5627730", "1665493", "2775888", "1688481"], 12
-    it_behaves_like "hyphens with space after but not before should be ignored", "neo- romantic", ["1665493", "2775888"], 10
+    it_behaves_like "hyphens ignored", "neo- romantic", ["7789846", "2095712", "7916667", "5627730", "1665493", "2775888", "1688481"], 12
+    it_behaves_like "hyphens ignored", "neo- romantic", ["1665493", "2775888"], 10
+#   hyphens with both spaces don't work right
+#    it_behaves_like "hyphens ignored", "neo - romantic", ["1665493", "2775888"], 10
     it_behaves_like "hyphens with space before but not after are treated as NOT, but ignored in phrase", "neo -romantic", '445186', ["7789846", "2095712", "7916667", "5627730", "1665493", "2775888", "1688481"]
   end
 
@@ -166,6 +168,8 @@ describe "hyphen in queries" do
   context "'1951-1960'" do
     it_behaves_like "hyphens without spaces imply phrase", "1951-1960", "2916430", 20
     it_behaves_like "hyphens with space before but not after are treated as NOT, but ignored in phrase", "1951 -1960", nil, '2916430'
+#   hyphens with both spaces don't work right
+#    it_behaves_like "hyphens ignored", "1951 - 1960", "2916430", 20
   end
   
   it "'0256-1115' (ISSN)" do
@@ -180,6 +184,8 @@ describe "hyphen in queries" do
   context "'Deutsch-Sudwestafrikanische Zeitung'", :jira => 'VUF-803' do
     it_behaves_like "hyphens without spaces imply phrase", "Deutsch-Sudwestafrikanische Zeitung", ["410366", "8230044"], 2
     it_behaves_like "hyphens with space before but not after are treated as NOT, but ignored in phrase", "Deutsch -Sudwestafrikanische Zeitung", '425291', ["410366", "8230044"]
+#   hyphens with both spaces don't work right
+#    it_behaves_like "hyphens ignored", "Deutsch - Sudwestafrikanische Zeitung", ["410366", "8230044"], 2
   end
 
   context "'red-rose chain'", :jira => 'SW-388' do
@@ -191,27 +197,37 @@ describe "hyphen in queries" do
   
   context "'under the sea-wind'", :jira => 'VUF-966' do
     it_behaves_like "hyphens without spaces imply phrase", "under the sea-wind", ["5621261", "545419", "2167813"], 3
-    it_behaves_like "hyphens with space after but not before should be ignored", "under the sea- wind", ["5621261", "545419", "2167813"], 3
+    it_behaves_like "hyphens ignored", "under the sea- wind", ["5621261", "545419", "2167813"], 3
     it_behaves_like "hyphens with space before but not after are treated as NOT, but ignored in phrase", "under the sea -wind", '8652881', ["5621261", "545419", "2167813"]
+#   hyphens with both spaces don't work right
+#    it_behaves_like "hyphens ignored", "under the sea - wind", ["5621261", "545419", "2167813"], 3
   end
   
   context "'customer-driven academic library'", :jira => ['SW-388', 'VUF-846'] do
     it_behaves_like "hyphens without spaces imply phrase", "customer-driven academic library", "7778647", 1
-    it_behaves_like "hyphens with space after but not before should be ignored", "customer- driven academic library", "7778647", 1
+    it_behaves_like "hyphens ignored", "customer- driven academic library", "7778647", 1
     it_behaves_like "hyphens with space before but not after are treated as NOT, but ignored in phrase", "customer -driven academic library", nil, "7778647"
+#   hyphens with both spaces don't work right
+#    it_behaves_like "hyphens ignored", "customer - driven academic library", "7778647", 1
   end
   
   context "'catalogue of high-energy accelerators'", :jira => 'VUF-846' do
     it_behaves_like "hyphens without spaces imply phrase", "catalogue of high-energy accelerators", "1156871", 1
+#   hyphens with both spaces don't work right
+#    it_behaves_like "hyphens ignored", "catalogue of high - energy accelerators", "1156871", 1
   end
 
   context "'Mid-term fiscal policy review'", :jira => 'SW-388' do
     it_behaves_like "hyphens without spaces imply phrase", "Mid-term fiscal policy review", ["7204125", "5815422"], 3
     it_behaves_like "hyphens with space before but not after are treated as NOT, but ignored in phrase", "Mid -term fiscal policy review", "8489935", ["7204125", "5815422"]
+#   hyphens with both spaces don't work right
+#    it_behaves_like "hyphens ignored", "Mid - term fiscal policy review", ["7204125", "5815422"], 3
   end
   
   context "'The third plan mid-term appraisal'" do
     it_behaves_like "hyphens without spaces imply phrase", "The third plan mid-term appraisal", "2234698", 1
+    # the following words due to mm threshhold?
+    it_behaves_like "hyphens ignored", "The third plan mid - term appraisal", "2234698", 1
   end
 
   context "'beyond race in a race -obsessed world'" do
@@ -222,6 +238,9 @@ describe "hyphen in queries" do
     it_behaves_like "hyphens without spaces imply phrase", "Color-blindness; its dangers and its detection", ["7329437", "2323785"], 2
   end
   context "'Color-blindness [print/digital]; its dangers and its detection'", :jira => 'SW-94' do
+    # because over mm threshold, no hyphen has diff number of hits than hyphen with spaces
+#    it_behaves_like "hyphens ignored", "Color - blindness; its dangers and its detection", ["7329437", "2323785"], 2
+
     #  it_behaves_like "hyphens without spaces imply phrase", "Color-blindness [print/digital]; its dangers and its detection", "7329437", 2
     #   we don't include 245h in title_245_search, and 245h contains "[print/digital]"    
     before(:all) do
