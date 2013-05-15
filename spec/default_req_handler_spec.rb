@@ -35,6 +35,15 @@ describe "Default Request Handler" do
     resp.should include("title_display" => /memoirs of a physician/i).in_each_of_first(2).documents
   end
 
+  it "like titles should appear together in result" do
+    resp = solr_resp_ids_from_query 'wanderlust'
+    resp.should include(['6974167', '5757985', '1630776', '4364566', '4406971']).in_first(10)
+    pending "need include().within().of() in rspec-solr"
+    resp.should include('6974167').within(2).of('5757985')
+    resp.should include('5757985').within(2).of('1630776')
+    resp.should include('4364566').within(1).of('4406971')
+  end
+
   it "single result expected: 'jill kerr conway' " do
     resp = solr_resp_ids_from_query 'jill kerr conway'
     resp.should have_at_most(3).results
@@ -62,6 +71,14 @@ describe "Default Request Handler" do
                         '6763852', '3066683', '3440375', '2228310', '7823673', 
                         '5684390', '573747', '573745', '573746', '675590', 
                         '711112', '1363337', '2184693', '1004499']).in_first(30).documents
+  end
+
+  it "searches should not be case sensitive" do
+    resp = solr_resp_ids_from_query('harry potter')
+    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('Harry Potter'))
+    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('Harry potter'))
+    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('harry Potter'))
+    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('hArRy pOTTEr'))
   end
 
 end
