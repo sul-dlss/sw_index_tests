@@ -6,16 +6,6 @@ describe "boolean operators" do
   # TODO: what about lowercase not?
   # TODO: what about OR/or ?
 
-  # TODO: move this to hyphen feature
-=begin
-    Scenario: Hyphen Between Two Letters Ignored
-      # see also:  dismax features (these queries without and)
-      When I am on the home page
-      And I fill in "q" with "South Africa, Shakespeare and post-colonial culture"
-      And I press "search"
-      Then I should get results
-=end  
-
   context "default operator:  AND" do
 
     context "everything search" do
@@ -133,12 +123,12 @@ describe "boolean operators" do
 
     context "query with NOT applied to phrase:  mark twain NOT 'tom sawyer'" do
       before(:all) do
-        @resp = solr_resp_doc_ids_only({'q'=>'mark twain NOT "tom sawyer"'})
+        @resp = solr_resp_ids_from_query('mark twain NOT "tom sawyer"')
       end
       
       it "should have no results with 'tom sawyer' as a phrase" do
         resp = solr_response({'q'=>'mark twain NOT "tom sawyer"', 'fl'=>'id,title_245a_display', 'facet'=>false}) 
-        resp.should have_at_least(2).documents
+        @resp.should have_at_least(1400).documents
         resp.should_not include("title_245a_display" => /tom sawyer/i).in_each_of_first(20).documents
       end
       it "should be equivalent to mark twain -'tom sawyer'" do
@@ -149,6 +139,42 @@ describe "boolean operators" do
       end
       it "should get more results than 'mark twain tom sawyer'" do
         @resp.should have_more_results_than(solr_resp_doc_ids_only({'q'=>'mark twain tom sawyer'}))
+      end
+
+      it "should work with parens", :jira => 'VUF-379', :fixme => true do
+        resp = solr_resp_ids_from_query('mark twain NOT (tom sawyer)')
+        resp.should have_at_least(1400).documents
+      end
+      it "with parens inside quote" do
+        resp = solr_resp_ids_from_query('mark twain NOT "(tom sawyer)"') # 0 documents
+        resp.should have_at_least(1400).documents
+        resp.should have_the_same_number_of_documents_as(@resp)
+      end
+      it "with parens outside quote", :fixme => true do
+        resp = solr_resp_ids_from_query('mark twain NOT ("tom sawyer")') # 0 documents
+        resp.should have_at_least(1400).documents
+        resp.should have_the_same_number_of_documents_as(@resp)
+      end
+      it "with unmatched paren inside quotes" do
+        @resp.should have_the_same_number_of_documents_as(solr_resp_ids_from_query('mark twain NOT "(tom sawyer"'))
+        @resp.should have_the_same_number_of_documents_as(solr_resp_ids_from_query('mark twain NOT "tom( sawyer"'))
+        @resp.should have_the_same_number_of_documents_as(solr_resp_ids_from_query('mark twain NOT "tom (sawyer"'))
+        @resp.should have_the_same_number_of_documents_as(solr_resp_ids_from_query('mark twain NOT "tom sawyer("'))
+        @resp.should have_the_same_number_of_documents_as(solr_resp_ids_from_query('mark twain NOT ")tom sawyer"'))
+        @resp.should have_the_same_number_of_documents_as(solr_resp_ids_from_query('mark twain NOT "tom) sawyer"'))
+        @resp.should have_the_same_number_of_documents_as(solr_resp_ids_from_query('mark twain NOT "tom )sawyer"'))
+        @resp.should have_the_same_number_of_documents_as(solr_resp_ids_from_query('mark twain NOT "tom sawyer)"'))
+      end
+      it "with unmatched parent outside quote", :fixme => true do
+        @resp.should have_the_same_number_of_documents_as(solr_resp_ids_from_query('mark twain NOT ("tom sawyer"'))
+        @resp.should have_the_same_number_of_documents_as(solr_resp_ids_from_query('mark twain NOT "tom sawyer"('))
+        @resp.should have_the_same_number_of_documents_as(solr_resp_ids_from_query('mark twain NOT )"tom sawyer"'))
+        @resp.should have_the_same_number_of_documents_as(solr_resp_ids_from_query('mark twain NOT "tom sawyer")'))
+      end
+      it "with unmatched quote", :jira => 'VUF-379', :fixme => true do
+        resp = solr_resp_ids_from_query('mark twain NOT "tom sawyer') # 0 documents
+        resp = solr_resp_ids_from_query('mark twain NOT tom sawyer') # 0 documents
+        resp.should have_at_least(1400).documents
       end
     end
   end # context NOT
