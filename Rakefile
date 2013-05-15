@@ -26,8 +26,8 @@ RSpec::Core::RakeTask.new(:fixme) do |spec|
 end
 
 desc "run ALL specs, including fixme"
-RSpec::Core::RakeTask.new(:all) do |spec|
-  spec.rspec_opts = ["-c", "-f progress", "-r ./spec/spec_helper.rb", "#{ENV['ROPTS']}"] 
+RSpec::Core::RakeTask.new(:all_but_cjk) do |spec|
+  spec.rspec_opts = ["-c", "-f progress", "-r ./spec/spec_helper.rb", "-t ~chinese", "-t ~japanese", "-t ~korean", "#{ENV['ROPTS']}"] 
 end
 
 desc "run specs NOT expected to pass with output in 'documentation' format" 
