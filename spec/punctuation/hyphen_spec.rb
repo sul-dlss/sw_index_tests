@@ -195,6 +195,14 @@ describe "hyphen in queries" do
     it_behaves_like "hyphens without spaces imply phrase", "prisoner in a red-rose chain", "8702148", 1
   end
   
+  context "'The John - Donkey'" do
+    it_behaves_like "hyphens without spaces imply phrase", "The John-Donkey", ["8166294", "365685"], 2
+    it_behaves_like "hyphens ignored", "The John- Donkey", ["8166294", "365685"], 2
+    it_behaves_like "hyphens with space before but not after are treated as NOT, but ignored in phrase", "The John -Donkey", '1699277', ["8166294", "365685"]
+#   hyphens with both spaces don't work right
+#    it_behaves_like "hyphens ignored", "The John - Donkey", ["8166294", "365685"], 2
+  end
+  
   context "'under the sea-wind'", :jira => 'VUF-966' do
     it_behaves_like "hyphens without spaces imply phrase", "under the sea-wind", ["5621261", "545419", "2167813"], 3
     it_behaves_like "hyphens ignored", "under the sea- wind", ["5621261", "545419", "2167813"], 3
@@ -232,6 +240,13 @@ describe "hyphen in queries" do
 
   context "'beyond race in a race -obsessed world'" do
     it_behaves_like "hyphens with space before but not after are treated as NOT, but ignored in phrase", "beyond race in a race -obsessed world", "3148369", "3381968"
+  end
+
+  context "'Silence : a thirteenth-century French romance'" do
+    it_behaves_like "hyphens without spaces imply phrase", "Silence : a thirteenth-century French romance", "2416395", 1
+    it_behaves_like "hyphens ignored", "Silence : a thirteenth- century French romance", "2416395", 1
+    it_behaves_like "hyphens ignored", "Silence : a thirteenth - century French romance", "2416395", 1
+    it_behaves_like "hyphens with space before but not after are treated as NOT, but ignored in phrase", "Silence : a thirteenth -century French romance", nil, "2416395"
   end
 
   context "'Color-blindness; its dangers and its detection'", :jira => 'SW-94' do
@@ -292,6 +307,21 @@ describe "hyphen in queries" do
     end
   end # context "'Color-blindness [print/digital]; its dangers and its detection'"
 
+  context "multiple hyphens 'probabilities for use in stop-or-go sampling'" do
+    it "should treat multiple hyphens like a phrase" do
+      resp = solr_resp_ids_from_query('probabilities for use in stop-or-go sampling')
+      resp.should include(["2146380", "3336158"]).in_first(2).documents
+      presp = solr_resp_ids_from_query('probabilities for use in "stop or go" sampling')
+      presp.should include(["2146380", "3336158"]).in_first(2).documents
+      resp.should have_the_same_number_of_documents_as(presp)
+      tresp = solr_resp_doc_ids_only(title_search_args 'probabilities for use in stop-or-go sampling')
+      tresp.should include(["2146380", "3336158"]).in_first(2).documents
+      tpresp = solr_resp_doc_ids_only(title_search_args 'probabilities for use in "stop or go" sampling')
+      tpresp.should include(["2146380", "3336158"]).in_first(2).documents
+      tresp.should have_the_same_number_of_documents_as(tpresp)
+    end
+  end
+
   context "used to prohibit a clause" do
     it 'should work with quotes' do
       resp = solr_resp_ids_from_query('mark twain -"tom sawyer"')
@@ -302,6 +332,21 @@ describe "hyphen in queries" do
       resp = solr_resp_ids_from_query('mark twain -(tom sawyer)')
       resp.should have_at_least(1400).documents
       resp.should have_the_same_number_of_documents_as(solr_resp_ids_from_query('mark twain NOT (tom sawyer)'))
+    end
+  end
+  
+  context "hyphenated phrase in quotes \"Color-blind\" racism" do
+    it "should ignore the hyphen" do
+      resp = solr_resp_ids_from_query('"Color-blind" racism')
+      resp.should include("3499287").as_first
+      resp_no_hyphen = solr_resp_ids_from_query('"Color blind" racism')
+      resp_no_hyphen.should include("3499287").as_first
+      resp.should have_the_same_number_of_documents_as(resp_no_hyphen)
+      tresp = solr_resp_doc_ids_only(title_search_args '"Color-blind" racism')
+      tresp.should include("3499287").as_first
+      tresp_no_hyphen = solr_resp_doc_ids_only(title_search_args '"Color blind" racism')
+      tresp_no_hyphen.should include("3499287").as_first
+      tresp.should have_the_same_number_of_documents_as(tresp_no_hyphen)
     end
   end
 
