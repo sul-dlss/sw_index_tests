@@ -232,6 +232,12 @@ describe "hyphen in queries" do
 #    it_behaves_like "hyphens ignored", "Mid - term fiscal policy review", ["7204125", "5815422"], 3
   end
   
+  context "'South Africa, Shakespeare and post-colonial culture", :jira => 'VUF-626' do
+    # no results for title search
+#    it_behaves_like "hyphens without spaces imply phrase", "South Africa, Shakespeare and post-colonial culture", "9740889", 1
+#    it_behaves_like "hyphens with space before but not after are treated as NOT, but ignored in phrase", "South Africa, Shakespeare and post -colonial culture", "2993586", "9740889"
+  end  
+  
   context "'The third plan mid-term appraisal'" do
     it_behaves_like "hyphens without spaces imply phrase", "The third plan mid-term appraisal", "2234698", 1
 #   hyphens with both spaces don't work right
