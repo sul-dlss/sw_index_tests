@@ -24,6 +24,17 @@ describe "sorting results" do
       resp.should_not include('7342') # Solidarité, 1902
     end    
   end # empty query
+  
+  context "pub dates should not be 0000 or 9999" do
+    it "should not have earliest pub date of 0000" do
+      resp = solr_response({'fq'=>'format:Book', 'fl'=>'id,pub_date', 'sort'=>'pub_date asc', 'facet'=>false})
+      resp.should_not include('pub_date' => /0000/)
+    end
+    it "should not have latest pub date of 9999" do
+      resp = solr_response({'fq'=>'format:Book', 'fl'=>'id,pub_date', 'sort'=>'pub_date desc', 'facet'=>false})
+      resp.should_not include('pub_date' => /9999/)
+    end
+  end
 
 =begin
   Scenario: Spaces should be significant
