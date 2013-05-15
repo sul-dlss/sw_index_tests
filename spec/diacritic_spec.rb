@@ -253,7 +253,7 @@ describe "Diacritics" do
     end
   end
   
-  it "@o", :jira => 'SW-648', :fixme => true do
+  it "@o", :jira => 'SW-648' do
     resp = solr_resp_doc_ids_only({'q'=>'@oEtudes @oeconomiques'})
     resp.should include("386893").as_first
 #    resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'Etudes economiques'}))
@@ -291,7 +291,8 @@ describe "Diacritics" do
   end
   
   context "music  ♯ and  ♭" do
-    it "♭ vs. b", :jira => ['SW-648'], :fixme => true do
+    # see also synonyms_spec
+    it "♭ vs. b", :jira => ['SW-648'] do
       resp = solr_resp_doc_ids_only({'q'=>"Concertos, horn, orchestra, K. 417, E♭ major"})
       resp.should have_at_least(70).documents
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"Concertos, horn, orchestra, K. 417, Eb major"}))
