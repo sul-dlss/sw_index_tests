@@ -236,7 +236,23 @@ describe "hyphen in queries" do
     # no results for title search
 #    it_behaves_like "hyphens without spaces imply phrase", "South Africa, Shakespeare and post-colonial culture", "9740889", 1
 #    it_behaves_like "hyphens with space before but not after are treated as NOT, but ignored in phrase", "South Africa, Shakespeare and post -colonial culture", "2993586", "9740889"
-  end  
+    it "hyphen: post-colonial" do
+      resp = solr_resp_ids_from_query 'South Africa, Shakespeare post-colonial culture'
+      resp.should have_documents
+    end
+    it "no hyphen: postcolonial" do
+      resp = solr_resp_ids_from_query 'South Africa, Shakespeare postcolonial culture'
+      resp.should have_documents
+    end
+    it "space instead of hyphen: post colonial" do
+      resp = solr_resp_ids_from_query 'South Africa, Shakespeare post colonial culture'
+      resp.should have_documents
+    end
+    it 'phrase instead of hyphen: "post colonial"' do
+      resp = solr_resp_ids_from_query 'South Africa, Shakespeare "post colonial" culture'
+      resp.should have_documents
+    end
+  end
   
   context "'The third plan mid-term appraisal'" do
     it_behaves_like "hyphens without spaces imply phrase", "The third plan mid-term appraisal", "2234698", 1

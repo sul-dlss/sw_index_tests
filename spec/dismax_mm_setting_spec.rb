@@ -4,6 +4,8 @@ require 'spec_helper'
 #In order to get great results which may not contain all the words in my queries
 describe "mm threshold setting for dismax (6 as of 2012/08)" do
   
+  # there are long queries in ampersand, colon and hyphen specs as well
+  
   context "queries with many terms" do
     it ">6 terms should work (mm threshold is 6)" do
       resp = solr_resp_doc_ids_only({'q'=>'Bess : the life of Lady Ralegh, wife to Sir Walter'})
@@ -28,29 +30,6 @@ describe "mm threshold setting for dismax (6 as of 2012/08)" do
     end
   end
   
-# TODO: move these to hyphen spec  
-  context "hyphen variants for long multi-word query" do
-    it "hyphen: post-colonial" do
-      resp = solr_resp_doc_ids_only({'q'=>'South Africa, Shakespeare post-colonial culture'})
-      resp.should have_documents
-    end
-
-    it "no hyphen: postcolonial" do
-      resp = solr_resp_doc_ids_only({'q'=>'South Africa, Shakespeare postcolonial culture'})
-      resp.should have_documents
-    end
-    
-    it "space instead of hyphen: post colonial" do
-      resp = solr_resp_doc_ids_only({'q'=>'South Africa, Shakespeare post colonial culture'})
-      resp.should have_documents
-    end
-
-    it 'phrase instead of hyphen: "post colonial"' do
-      resp = solr_resp_doc_ids_only({'q'=>'South Africa, Shakespeare "post colonial" culture'})
-      resp.should have_documents
-    end
-  end
-
 end
   
   
