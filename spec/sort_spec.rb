@@ -37,6 +37,7 @@ describe "sorting results" do
   end
 
 =begin
+  # these are TODO  
   Scenario: Spaces should be significant
   Scenario: Case / Capitalization should have no effect on sorting
   Scenario: Punctuation should not affect sorting
