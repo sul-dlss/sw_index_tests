@@ -87,7 +87,7 @@ describe "hyphen in queries" do
     it "title phrase search for entire query should ignore hyphen" do
       @tresp_whole_phrase.should have_the_same_number_of_documents_as(@tresp_whole_phrase_no_hyphen)
     end
-  end # shared examples for space after but not before
+  end # shared examples hyphen ignored
   
   shared_examples_for "hyphens with space before but not after are treated as NOT, but ignored in phrase" do | query, exp_ids, unexp_ids |
     before(:all) do
