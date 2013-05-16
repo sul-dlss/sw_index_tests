@@ -10,6 +10,8 @@ describe "colons in queries should be ignored ('a : b', 'a: b', and 'a b' are al
     resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('"Alice in Wonderland a serie[s]"'))
   end
   
+  # TODO:  used shared example groups as in ampersand and hyphen specs
+  
   context "jazz : photographs (2 terms)" do
     shared_examples_for "great results for jazz photographs" do
       it "should have best matches for 'jazz photographs' at top" do
