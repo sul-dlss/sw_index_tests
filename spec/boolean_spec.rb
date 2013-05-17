@@ -141,7 +141,7 @@ describe "boolean operators" do
         @resp.should have_more_results_than(solr_resp_doc_ids_only({'q'=>'mark twain tom sawyer'}))
       end
 
-      it "should work with parens", :jira => 'VUF-379', :fixme => true do
+      it "should work with parens", :jira => 'VUF-379', :fixme => true, :edismax => true do
         resp = solr_resp_ids_from_query('mark twain NOT (tom sawyer)')
         resp.should have_at_least(1400).documents
       end
@@ -150,7 +150,7 @@ describe "boolean operators" do
         resp.should have_at_least(1400).documents
         resp.should have_the_same_number_of_documents_as(@resp)
       end
-      it "with parens outside quote", :fixme => true do
+      it "with parens outside quote", :fixme => true, :edismax => true do
         resp = solr_resp_ids_from_query('mark twain NOT ("tom sawyer")') # 0 documents
         resp.should have_at_least(1400).documents
         resp.should have_the_same_number_of_documents_as(@resp)
@@ -171,7 +171,7 @@ describe "boolean operators" do
         @resp.should have_the_same_number_of_documents_as(solr_resp_ids_from_query('mark twain NOT )"tom sawyer"'))
         @resp.should have_the_same_number_of_documents_as(solr_resp_ids_from_query('mark twain NOT "tom sawyer")'))
       end
-      it "with unmatched quote", :jira => 'VUF-379', :fixme => true do
+      it "with unmatched quote", :jira => 'VUF-379', :fixme => true, :edismax => true do
         resp = solr_resp_ids_from_query('mark twain NOT "tom sawyer') # 0 documents
         resp = solr_resp_ids_from_query('mark twain NOT tom sawyer') # 0 documents
         resp.should have_at_least(1400).documents
