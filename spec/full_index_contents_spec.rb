@@ -60,7 +60,7 @@ describe "Index Contents" do
       end
       it "item object should be retrieved via everything search" do
         resp = solr_resp_ids_from_query 'walters brasses'
-        resp.should include('cn006dx2288').as_first
+        resp.should include('cn006dx2288').in_first(3)
       end
       context "merged collection object" do
         before(:all) do
