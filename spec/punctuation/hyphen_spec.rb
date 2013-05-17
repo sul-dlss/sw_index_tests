@@ -136,12 +136,14 @@ describe "hyphen in queries" do
       @tresp_whole_phrase_no_hyphen.should include(unexp_ids)
       @tresp_whole_phrase_no_hyphen.should_not include(exp_ids) if exp_ids
     end
-    it "should treat hyphen as NOT in everything searches" do
+    it "should treat hyphen as NOT in everything searches", :edismax => true do
       @resp.should have_the_same_number_of_documents_as(@resp_not)
+      # the below isn't true for edismax - how odd
       @resp.should have_fewer_results_than(solr_resp_ids_from_query(@q_no_term))
     end
-    it "should treat hyphen as NOT in title searches" do
+    it "should treat hyphen as NOT in title searches", :edismax => true do
       @tresp.should have_the_same_number_of_documents_as(@tresp_not)
+      # the below isn't true for edismax - how odd
       @tresp.should have_fewer_results_than(solr_resp_doc_ids_only(title_search_args(@q_no_term)))
     end
     it "phrase search for entire query should ignore hyphen" do
