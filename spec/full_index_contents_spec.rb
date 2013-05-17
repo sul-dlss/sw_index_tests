@@ -14,7 +14,7 @@ describe "Index Contents" do
         resp.should have_at_least(1150).documents
       end
       it "item object should be retrieved via everything search" do
-        resp = solr_resp_doc_ids_only({'q'=>'Addison Joseph'})
+        resp = solr_resp_ids_from_query 'Addison Joseph'
         resp.should include('vb267mw8946').in_first(10)
         # And I should see a portrait of a guy with big hair
       end
@@ -37,7 +37,7 @@ describe "Index Contents" do
         resp.should have_at_least(46).documents
       end
       it "item object should be retrieved via everything search" do
-        resp = solr_resp_doc_ids_only({'q'=>'birds-eye view san francisco'})
+        resp = solr_resp_ids_from_query 'birds-eye view san francisco'
         resp.should include(['pz572zt9333', 'nz525ps5073', 'bw260mc4853', 'mz639xs9677']).in_first(15)
       end
       context "merged collection object" do
@@ -59,8 +59,8 @@ describe "Index Contents" do
         resp.should have_at_least(265).documents
       end
       it "item object should be retrieved via everything search" do
-        resp = solr_resp_doc_ids_only({'q'=>'birds-eye view san francisco'})
-        resp.should include(['pz572zt9333', 'nz525ps5073', 'bw260mc4853', 'mz639xs9677']).in_first(15)
+        resp = solr_resp_ids_from_query 'walters brasses'
+        resp.should include('cn006dx2288').as_first
       end
       context "merged collection object" do
         before(:all) do
