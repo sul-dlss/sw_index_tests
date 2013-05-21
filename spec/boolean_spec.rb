@@ -103,6 +103,10 @@ describe "boolean operators" do
           resp.should have_at_most(7250).documents  # 2013-05-21  space exploration: 7896 results
         end
       end
+      # all caps queries:  didn't mean it as boolean
+      #   COVENANTS NOT TO COMPETE: A STATE-BY-STATE SURVEY
+      #   THE BEAUTYFUL ONES ARE NOT YET BORN
+      #   WHY SOME THINGS SHOULD NOT BE FOR SALE
     end
     
     context "wb4 NOT shakespeare" do
@@ -186,5 +190,54 @@ describe "boolean operators" do
       end
     end
   end # context NOT
+   
+  context "OR", :fixme => true do
+    #  per Google Analytics mid-April - mid- May 2013
+    context "actual user queries" do
+      context "indochine OR indochina" do
+        before(:all) do
+          @resp = solr_resp_ids_from_query 'indochine OR indochina'
+          @resp_first_term = solr_resp_ids_from_query 'indochine'   # 513 docs  2013-05-21
+          @resp_second_term = solr_resp_ids_from_query 'indochina'  # 1522 docs  2013-05-21
+        end
+        it "should have more results than either term alone" do
+          @resp.should have_more_results_than(@resp_first_term)
+          @resp.should have_more_results_than(@resp_second_term)
+        end
+        it "should have more results than query without OR (terms become 'should match' clauses)" do
+          @resp.should have_more_results_than(solr_resp_ids_from_query 'indochine indochina') # 288 docs 2013-05-21
+        end
+        it "should have more results than query with AND substituted for OR" do
+          @resp.should have_more_results_than(solr_resp_ids_from_query 'indochine AND indochina') # 288 docs 2013-05-21
+        end
+        it "should have results that match first term but not second term" do
+          # titles "Indochine"
+          @resp_first_term.should include(["383033", "430603", "4312384", "3083716", "3065221"])
+          @resp.should include(["383033", "430603", "4312384", "3083716", "3065221"])
+          @resp_second_term.should_not include(["383033", "430603", "4312384", "3083716", "3065221"])
+        end
+        it "should have results that match second term but not first term" do
+          #  titles "Indochina."
+          @resp_second_term.should include(["1116305", "2643130", "604830"]).in_first(5).documents
+          @resp.should include(["1116305", "2643130", "604830"]).in_first(5).documents
+          @resp_first_term.should_not include(["1116305", "2643130", "604830"]).in_first(5).documents
+        end
+      end
+      context "sanitation ethiopia OR addis" do
+        pending "to be implemented"
+      end
+      context '"mental illness" OR "mental disorders"' do
+      end
+      context "asian american narratives OR personal essay identity" do
+        # user probably meant OR to apply to more than two terms on either side
+        pending "to be implemented"
+      end
+      # all caps queries:  didn't mean it as boolean
+      #   JOEL-PETER WITKIN: ENFER OU CIEL/HEAVEN OR HELL.
+      #   WITKIN: ENFER OU CIEL/HEAVEN OR HELL.
+      #   WITKIN: HEAVEN OR HELL.
+      
+    end # actual user queries
+  end # context OR
   
 end
