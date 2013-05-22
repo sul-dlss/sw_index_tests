@@ -95,9 +95,9 @@ describe "boolean operators" do
     
     #  per Google Analytics mid-April - mid- May 2013
     context "actual user queries" do
-      context "space exploration NOT nasa" do
+      context "space exploration NOT nasa", :edismax => true do
         it_behaves_like "NOT negates following term", 'space exploration NOT nasa', "4146206", "2678639", 5
-        it "has an appropriate number of results" do
+        it "has an appropriate number of results", :edismax => true do
           resp = solr_resp_ids_from_query 'space exploration NOT nasa'
           resp.should have_at_least(6300).documents
           resp.should have_at_most(7250).documents  # 2013-05-21  space exploration: 7896 results
