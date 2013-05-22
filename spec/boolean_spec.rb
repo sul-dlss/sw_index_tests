@@ -115,9 +115,6 @@ describe "boolean operators" do
         resp = solr_resp_ids_from_query 'wb4 NOT shakespeare'
         resp.should have_at_least(7000).documents
       end
-      before(:all) do
-        @resp = solr_resp_ids_from_query 'wb4 NOT shakespeare'
-      end
     end
     
     context "twain NOT sawyer" do
