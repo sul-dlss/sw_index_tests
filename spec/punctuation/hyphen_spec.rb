@@ -138,12 +138,12 @@ describe "hyphen in queries" do
     end
     it "should treat hyphen as NOT in everything searches", :edismax => true do
       @resp.should have_the_same_number_of_documents_as(@resp_not)
-      # the below isn't true for edismax - how odd
+      # the below isn't true for edismax b/c mm is basically set to 0  https://issues.apache.org/jira/browse/SOLR-2649
       @resp.should have_fewer_results_than(solr_resp_ids_from_query(@q_no_term))
     end
     it "should treat hyphen as NOT in title searches", :edismax => true do
       @tresp.should have_the_same_number_of_documents_as(@tresp_not)
-      # the below isn't true for edismax - how odd
+      # the below isn't true for edismax b/c mm is basically set to 0  https://issues.apache.org/jira/browse/SOLR-2649
       @tresp.should have_fewer_results_than(solr_resp_doc_ids_only(title_search_args(@q_no_term)))
     end
     it "phrase search for entire query should ignore hyphen" do
