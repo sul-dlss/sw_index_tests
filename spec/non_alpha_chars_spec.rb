@@ -3,33 +3,33 @@ require 'spec_helper'
 describe "Terms with Numbers or other oddities" do
   
   it "q of 'Two3' should have excellent results", :jira => 'VUF-386' do
-    resp = solr_resp_doc_ids_only({'q'=>'Two3'})
+    resp = solr_resp_ids_from_query 'Two3'
     resp.should have_at_most(10).documents
     resp.should include("5732752").as_first_result
     resp.should include("5732855")
     resp.should_not include("5727394")
-    resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'two3'}))
-    resp.should have_fewer_results_than(solr_resp_doc_ids_only({'q'=>'two 3'}))
+    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query 'two3')
+    resp.should have_fewer_results_than(solr_resp_ids_from_query 'two 3')
   end
   
   context "square brackets" do
     # if they're not for a range query, they should be ignored
     it "preceded by space as part of q string should be ignored" do
-      resp = solr_resp_doc_ids_only({'q'=>'mark twain [pseud]'})
+      resp = solr_resp_ids_from_query 'mark twain [pseud]'
       resp.should have_at_least(125).documents
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"mark twain pseud"}))
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "mark twain pseud")
     end
 
     it "preceded by space as part of phrase query should be ignored" do
-      resp = solr_resp_doc_ids_only({'q'=>'"mark twain [pseud]"'})
+      resp = solr_resp_ids_from_query '"mark twain [pseud]"'
       resp.should have_at_least(125).documents
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'"mark twain pseud"'}))
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query '"mark twain pseud"')
     end
     
     it "not preceded by space as part of a query string should be ignored", :fixme => true do
-      resp = solr_resp_doc_ids_only({'q'=>'Alice Wonderland serie[s]'})
+      resp = solr_resp_ids_from_query 'Alice Wonderland serie[s]'
       resp.should have_at_least(2).documents
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"Alice Wonderland series"}))
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "Alice Wonderland series")
     end
   end
   
@@ -72,12 +72,12 @@ describe "Terms with Numbers or other oddities" do
   
   context "slash" do
     it "surround by spaces should be ignored" do
-      resp = solr_resp_doc_ids_only({'q'=>'Physical chemistry / Ira N Levine'})
+      resp = solr_resp_ids_from_query 'Physical chemistry / Ira N Levine'
       resp.should include(["1726910", "3016212", "4712578", "7633476"]).in_first(5).results
     end
     
     it "within numbers, no letters (56 1/2)", :jira => 'VUF-389' do
-      resp = solr_resp_doc_ids_only({'q'=>'56 1/2'})
+      resp = solr_resp_ids_from_query '56 1/2'
       resp.should include(["6031340", "5491883"]).in_first(3).results
     end
     
@@ -89,66 +89,66 @@ describe "Terms with Numbers or other oddities" do
   end # context slash
   
   it "should ignore punctuation inside a phrase" do
-    resp = solr_resp_doc_ids_only({'q'=>'"Alice in Wonderland : a serie[s]"'})
+    resp = solr_resp_ids_from_query '"Alice in Wonderland : a serie[s]"'
     resp.should have_at_least(2).documents
-    resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'"Alice in Wonderland a serie[s]"'}))
+    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query '"Alice in Wonderland a serie[s]"')
   end
   
   context "unmatched pairs" do    
     it "unmatched double quote should be ignored", :edismax => true do
-      resp = solr_resp_doc_ids_only({'q'=>'"space traveler'})
+      resp = solr_resp_ids_from_query '"space traveler'
       resp.should have_documents
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'space traveler'}))
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'space" traveler'}))
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'space "traveler'}))
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query 'space traveler')
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query 'space" traveler')
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query'space "traveler')
       # single char on its lonesome becomes a term?
-#      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'space " traveler'}))  # works for dismax, not edismax
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'space traveler"'}))
+#      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query 'space " traveler')  # works for dismax, not edismax
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query 'space traveler"')
     end
     
     it "unmatched single quote should be ignored" do
-      resp = solr_resp_doc_ids_only({'q'=>"'space traveler"})
+      resp = solr_resp_ids_from_query "'space traveler"
       resp.should have_documents
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"space traveler"}))
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"space' traveler"}))
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"space 'traveler"}))
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "space traveler")
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "space' traveler")
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "space 'traveler")
       # single char on its lonesome becomes a term?
-#      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"space ' traveler"}))
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"space traveler'"}))
+#      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "space ' traveler")
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "space traveler'")
     end
     
     it "unmatched square bracked should be ignored" do
-      resp = solr_resp_doc_ids_only({'q'=>"[wise up"})
+      resp = solr_resp_ids_from_query "[wise up"
       resp.should have_documents
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"wise up"}))
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"wise[ up"}))
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"wise [up"}))
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "wise up")
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "wise[ up")
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "wise [up")
       # single char on its lonesome becomes a term?
-#      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"wise [ up"}))
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"wise up["}))
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"]wise up"}))
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"wise] up"}))
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"wise ]up"}))
+#      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "wise [ up")
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "wise up[")
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "]wise up")
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "wise] up")
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "wise ]up")
       # single char on its lonesome becomes a term?
-#      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"wise ] up"}))
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"wise up]"}))
+#      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "wise ] up")
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "wise up]")
     end
     
     it "unmatched curly brace should be ignored" do
-      resp = solr_resp_doc_ids_only({'q'=>"{final chord"})
+      resp = solr_resp_ids_from_query "{final chord"
       resp.should have_documents
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"final chord"}))
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"final{ chord"}))
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"final {chord"}))
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "final chord")
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "final{ chord")
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "final {chord")
       # single char on its lonesome becomes a term?
-#      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"final { chord"}))
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"final chord{"}))
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"}final chord"}))
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"final} chord"}))
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"final }chord"}))
+#      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "final { chord")
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "final chord{")
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "}final chord")
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "final} chord")
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "final }chord")
       # single char on its lonesome becomes a term?
-#      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"final } chord"}))
-      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"final chord}"}))
+#      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "final } chord")
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "final chord}")
     end
 
     it "unmatched paren should be ignored" do
@@ -168,16 +168,16 @@ describe "Terms with Numbers or other oddities" do
   
   context "wildcard queries" do
     it "question mark as query '?'", :fixme => true, :edismax => true do
-      # dismax, icu tokenizer:  one result  (4085436)
+      # dismax or icu tokenizer:  one result  (4085436)
       # edismax:  all documents
-      resp = solr_resp_ids_from_query '%3F' # '?' 
+      resp = solr_resp_ids_from_query '?' # '?' 
       resp.should have_at_least(6900000).documents
     end
 
     it "asterix as query '*'", :fixme => true, :edismax => true do
       # dismax:  returns 0 results
-      # edismax:  returns all documents
-      resp = solr_resp_ids_from_query '*'
+      # edismax:  returns all documents  (or timeout error?)
+      resp = solr_resp_ids_from_query '*'  
       resp.should have_at_least(6900000).documents
     end
   end
