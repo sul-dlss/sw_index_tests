@@ -17,7 +17,7 @@ describe "Greek script" do
     it "Γ as author initial" do
       resp = solr_response(author_search_args('Γ').merge({'fl'=>'id,vern_author_person_display', 'facet'=>false}))
       resp.should have_at_least(3).documents
-      resp.should include("vern_author_person_display" => /\bΓ\b/i).as_first
+      resp.should include("vern_author_person_display" => /\bΓ\b/i).in_first(3)
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(author_search_args('γ')))
     end
   end
