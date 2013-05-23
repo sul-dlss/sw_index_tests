@@ -14,10 +14,11 @@ describe "Greek script" do
   end
 #  context "beta Β β" do
   context "gamma Γ γ" do
-    it "Γ as author initial" do
+    it "Γ as author initial", :icu => true do
       resp = solr_response(author_search_args('Γ').merge({'fl'=>'id,vern_author_person_display', 'facet'=>false}))
       resp.should have_at_least(3).documents
-      resp.should include("vern_author_person_display" => /\bΓ\b/i).in_first(3)
+      # the following is in the 2nd result with icu tokenization, or with that data  2013-05-20
+      resp.should include("vern_author_person_display" => /\bΓ\b/i).as_first
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(author_search_args('γ')))
     end
   end

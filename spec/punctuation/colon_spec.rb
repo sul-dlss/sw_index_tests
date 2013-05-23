@@ -185,12 +185,13 @@ describe "colons in queries should be ignored ('a : b', 'a: b', and 'a b' are al
         resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('Jazz: America classical music')))
       end
     end
-    context "title phrase search   Jazz : America's classical music" do
+    context "title phrase search   Jazz : America's classical music", :icu => true do
       let (:resp) { solr_resp_doc_ids_only(title_search_args('"Jazz : America\'s classical music"')) }
       it_behaves_like "great results for Jazz : America\'s classical music"
       it 'should not care about colon placement' do
         resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('"Jazz America\'s classical music"')))
         resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('"Jazz: America\'s classical music"')))
+        # the following search gets 0 results with icu tokenization (or with that data)  2013-05-20
         resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('"Jazz America classical music"')))
       end
     end
