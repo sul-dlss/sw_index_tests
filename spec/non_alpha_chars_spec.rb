@@ -1,14 +1,17 @@
+# encoding: utf-8
 require 'spec_helper'
 
 describe "Terms with Numbers or other oddities" do
   
-  it "q of 'Two3' should have excellent results", :jira => 'VUF-386' do
+  it "q of 'Two3' should have excellent results", :jira => 'VUF-386', :icu => true do
+    # record is Two³;  icu treats superscript as distinct from number?  but also gets 192793 docs  2013-05-20
     resp = solr_resp_ids_from_query 'Two3'
     resp.should have_at_most(10).documents
     resp.should include("5732752").as_first_result
     resp.should include("5732855")
     resp.should_not include("5727394")
     resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query 'two3')
+    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query 'Two³') # how it appears in the record
     resp.should have_fewer_results_than(solr_resp_ids_from_query 'two 3')
   end
   
