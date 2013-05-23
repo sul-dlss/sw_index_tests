@@ -3,13 +3,13 @@ require 'spec_helper'
 describe "Number as Query String" do
   
   context "ISSN", :jira => 'VUF-169' do
-    it "should work with or without the hyphen", :jira => 'VUF-404' do
+    it "should work with or without the hyphen", :jira => 'VUF-404', :icu => true do
       solr_resp_ids_from_query('1003-4730').should include('6210309').as_first
       resp = solr_resp_ids_from_query '10034730'  # we now go this high in ckeys
       resp.should include('6210309').as_first
     end
     
-    it "'The Nation' ISSN 0027-8378 should get perfect results with and without a hyphen" do
+    it "'The Nation' ISSN 0027-8378 should get perfect results with and without a hyphen", :icu => true do
       resp = solr_resp_ids_from_query '0027-8378'
       resp.should include(['464445', '497417', '3448713', '10039114']).in_first(6)
       #  additional ckeys:   1771808 (in 500a),  5724779  (in 776x)
@@ -17,16 +17,24 @@ describe "Number as Query String" do
       resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query '00278378')
     end
   
-    it "'The Times' ISSN 0140-0460 should get great results with or without hyphen" do
+    it "'The Times' ISSN 0140-0460 should get great results with or without hyphen", :icu => true do
       solr_resp_ids_from_query('0140-0460').should include(['425948', '425951']).in_first(5)
       solr_resp_ids_from_query('01400460').should include(['425948', '425951']).in_first(5)
     end
-    
-    it "X as last char should not be case sensitive" do
-      resp = solr_resp_ids_from_query '0046-225X'
-      resp.should include('359795')
-      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query '0046-225x')
-    end    
+
+    context "with X as last char" do
+      before(:all) do
+        @resp_w = solr_resp_ids_from_query '0046-225X' 
+      end
+      it "should work with or without the hyphen", :icu => true do
+        @resp_w.should include('359795')
+        @resp_w.should have_the_same_number_of_results_as(solr_resp_ids_from_query '0046225X')
+      end
+
+      it "should not be case sensitive" do
+        @resp_w.should have_the_same_number_of_results_as(solr_resp_ids_from_query '0046-225x')
+      end    
+    end
   end
   
   context "ISBN" do
