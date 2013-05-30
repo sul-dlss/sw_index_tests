@@ -202,8 +202,8 @@ describe "Diacritics" do
   context "Turkish ı (undotted i) (Unicode U+0131)", :jira => 'SW-497' do
     it "Batı" do
       resp = solr_resp_doc_ids_only({'q'=>'Batı'})
-      resp.should have_at_least(350).documents
-      resp.should include("6330638")
+      resp.should have_at_least(200).documents
+      resp.should include("6330638") # "title_245a_display":"Doğu Batı",
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'Bati'}))
     end
     it "Vakıflar dergisi" do
@@ -223,7 +223,7 @@ describe "Diacritics" do
   it "Turkish ğ", :jira => 'SW-497' do
     resp = solr_resp_doc_ids_only({'q'=>'Doğu'})
     resp.should have_at_least(350).documents
-    resp.should include("6330638").in_first(10).documents
+    resp.should include("6330638").in_first(10).documents # "title_245a_display":"Doğu Batı",
     resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'Dogu'}))
   end
   
