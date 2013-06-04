@@ -287,7 +287,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
         resp_♭.should have_the_same_number_of_results_as(resp_space)
         resp_♭.should include('7697437')
         resp_♭.should_not include('310505') # has cello b♭, but by J.S. Bach, not C.P.E. Bach
-        resp_♭.should have_at_least(7).documents
+        resp_♭.should have_at_least(5).documents
       end
       
       context "should not reduce perceived precision for reasonable non-musical searches with xb (lowercase b)" do
