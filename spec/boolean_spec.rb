@@ -209,15 +209,17 @@ describe "boolean operators" do
         end
         it "should have results that match first term but not second term" do
           # titles "Indochine"
-          @resp_first_term.should include(["383033", "430603", "4312384", "3083716", "3065221"])
-          @resp.should include(["383033", "430603", "4312384", "3083716", "3065221"])
-          @resp_second_term.should_not include(["383033", "430603", "4312384", "3083716", "3065221"])
+          indochine_results = ["383033", "430603", "4312384", "3083716", "3065221"]
+          @resp_first_term.should include(indochine_results)
+          @resp.should include(indochine_results)
+          @resp_second_term.should_not include(indochine_results)
         end
         it "should have results that match second term but not first term" do
           #  titles "Indochina."
-          @resp_second_term.should include(["1116305", "2643130", "604830"]).in_first(5).documents
-          @resp.should include(["1116305", "2643130", "604830"]).in_first(5).documents
-          @resp_first_term.should_not include(["1116305", "2643130", "604830"]).in_first(5).documents
+          indochina_results = ["1116305", "2643130", "604830"]
+          @resp_second_term.should include(indochina_results).in_first(5).documents
+          @resp.should include(indochina_results).in_first(5).documents
+          @resp_first_term.should_not include(indochina_results).in_first(5).documents
         end
       end
       context "sanitation ethiopia OR addis" do
