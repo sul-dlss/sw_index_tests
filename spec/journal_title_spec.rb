@@ -51,53 +51,88 @@ describe "journal/newspaper titles" do
     end
   end
   
-  shared_examples_for 'journal titles"' do | title, addl_args, exp_ids |
-    before(:all) do
-      
+  
+#  shared_examples_for 'exact title matches should be first' do | solr_params |
+#    it "a" do
+#      resp = solr_resp_ids_titles(solr_params)
+#      resp.should include({'title_245a_display' => /^#{title}$/i}).in_each_of_first(exp_ids.size)
+#      resp.should include(exp_ids).in_first(exp_ids.size + 2) # a little slop built in
+#    end
+#  end   
+
+  shared_examples_for 'everything query, no format specified' do | title |
+    it "exact title matches should be first" do
+      resp = solr_resp_ids_titles({'q'=> title})
+      resp.should include({'title_245a_display' => /^#{title}$/i}).in_each_of_first(exp_ids.size)
+      resp.should include(exp_ids).in_first(exp_ids.size + 2) # a little slop built in
     end
-  end # Short titles beginning with "The"
+  end   
+  shared_examples_for 'everything query, format journal' do | title |
+    it "exact title matches should be first" do
+      resp = solr_resp_ids_titles({'q'=> title, 'fq'=>'format:Journal/Periodical'})
+      resp.should include({'title_245a_display' => /^#{title}$/i}).in_each_of_first(exp_ids.size)
+      resp.should include(exp_ids).in_first(exp_ids.size + 2) # a little slop built in
+    end
+  end
+  shared_examples_for 'everything query, format newspaper' do | title |
+    it "exact title matches should be first" do
+      resp = solr_resp_ids_titles({'q'=> title, 'fq'=>'format:Newspaper'})
+      resp.should include({'title_245a_display' => /^#{title}$/i}).in_each_of_first(exp_ids.size)
+      resp.should include(exp_ids).in_first(exp_ids.size + 2) # a little slop built in
+    end
+  end
+
+#  shared_examples_for 'title query, no format specified' do | title |
+#    it "exact title matches should be first" do
+#      resp = solr_resp_ids_titles(title_search_args(title).merge{'fl'=>'id,title_245a_display', 'facet'=>false, 'qt'=>'search'})
+#      resp.should include({'title_245a_display' => /^#{title}$/i}).in_each_of_first(exp_ids.size)
+#      resp.should include(exp_ids).in_first(exp_ids.size + 2) # a little slop built in
+#    end
+#  end   
+  
   
   context "The Sentinel" do
-    before(:all) do
-      @online = "8169876"  # 2044-6071, marcit brief record, type 'Other' as of 2013-06-06
-      @green_microfiche = '482015'  # 0586-9811
-      @green_microfilm = '485114'   # 0586-9811
-      @movie = '6559601'
-      @nigerian = '2920952'  
-      @texan = '4655100'
-      @movie2 = '5711017'
-      @image_online = '8146603'  # format 'Book'
-      @philippines = '388668'  # format 'Other'
-      @medical_online = '8436136'
-      @all = [@online, @green_microfiche, @green_microfilm, @movie, @nigerian, @texan, @movie2, @image_online, @philippines, @medical_online]
-      @journal = [@green_microfiche, @green_microfilm, @nigerian, @medical_online] 
-      @newspaper = [@texan]
-    end
     context "with 'The'" do
-      context "everything search" do
-        before(:all) do
-          @solr_args_w_the = {'q'=>"The Sentinel", 'fl'=>'id,title_245a_display', 'facet'=>false, 'qt'=>'search'}
+      before (:all) do
+        @online = "8169876"  # 2044-6071, marcit brief record, type 'Other' as of 2013-06-06
+        @green_microfiche = '482015'  # 0586-9811
+        @green_microfilm = '485114'   # 0586-9811
+        @movie = '6559601'
+        @nigerian = '2920952'  
+        @texan = '4655100'
+        @movie2 = '5711017'
+        @image_online = '8146603'  # format 'Book'
+        @philippines = '388668'  # format 'Other'
+        @medical_online = '8436136'
+        @all = [@online, @green_microfiche, @green_microfilm, @movie, @nigerian, @texan, @movie2, @image_online, @philippines, @medical_online]
+        @journal = [@green_microfiche, @green_microfilm, @nigerian, @medical_online] 
+        @newspaper = [@texan]
+      end
+      describe "everything search" do
+#        it_behaves_like "exact title matches should be first" do
+#          let(:solr_params) { {'q'=>title} }
+#          let(:exp_ids) {@all}
+#        end
+        it_behaves_like "everything query, no format specified", "The Sentinel" do
+          let(:exp_ids) {@all}
         end
-        it "no format specified" do
-          resp = solr_response @solr_args_w_the
-          resp.should include({'title_245a_display' => /^The Sentinel$/i}).in_each_of_first(@all.size)
-          resp.should include(@all).in_first(@all.size + 2)
+        it_behaves_like "everything query, format journal", "The Sentinel" do
+          let(:exp_ids) {@journal}
         end
-        it "with format journal" do
-          resp = solr_response @solr_args_w_the.merge({'fq'=>'format:Journal/Periodical'})
-          resp.should include(@journal).in_first(@journal.size + 2)
-          resp.should include({'title_245a_display' => /^The Sentinel$/i}).in_each_of_first(@journal.size)
+        it_behaves_like "everything query, format newspaper", "The Sentinel" do
+          let(:exp_ids) {@newspaper}
         end
-        it "with format newspaper" do
-          resp = solr_response @solr_args_w_the.merge({'fq'=>'format:Newspaper'})
-          resp.should include(@newspaper).in_first(@newspaper.size + 2)
-          resp.should include({'title_245a_display' => /^The Sentinel$/i}).in_each_of_first(@newspaper.size)
-        end
-      end # everything search
-      context "title search" do
-        before(:all) do
-          @solr_args_w_the = title_search_args('The Sentinel').merge({'fl'=>'id,title_245a_display', 'facet'=>false, 'qt'=>'search'})
-        end
+      end 
+      describe "title search" do
+#        it_behaves_like "title query, no format specified", "The Sentinel" do
+#          let(:exp_ids) {@all}
+#        end
+#        it_behaves_like "title query, format journal", "The Sentinel" do
+#          let(:exp_ids) {@journal}
+#        end
+#        it_behaves_like "title query, format newspaper", "The Sentinel" do
+#          let(:exp_ids) {@newspaper}
+#        end
         it "no format specified" do
           resp = solr_response @solr_args_w_the
           resp.should include({'title_245a_display' => /^The Sentinel$/i}).in_each_of_first(@all.size)
