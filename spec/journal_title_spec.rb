@@ -80,46 +80,68 @@ describe "journal/newspaper titles" do
   shared_examples_for 'title query, format newspaper' do | title |
     it_behaves_like "great search results", title_search_args(title).merge({'fq'=>'format:Newspaper'})
   end
+  
+  shared_examples_for 'great results for journal/newspaper' do | title|
+    it_behaves_like "everything query, no format specified", title do
+      let(:exp_ids) {all_formats}
+    end
+    it_behaves_like "everything query, format journal", title do
+      let(:exp_ids) {journal_only}
+    end
+    it_behaves_like "everything query, format newspaper", title do
+      let(:exp_ids) {newspaper_only}
+    end
+    it_behaves_like "title query, no format specified", title do
+      let(:exp_ids) {all_formats}
+    end
+    it_behaves_like "title query, format journal", title do
+      let(:exp_ids) {journal_only}
+    end
+    it_behaves_like "title query, format newspaper", title do
+      let(:exp_ids) {newspaper_only}
+    end
+  end
 
   context "The Sentinel" do
-    before (:all) do
-      @online = "8169876"  # 2044-6071, marcit brief record, type 'Other' as of 2013-06-06
-      @green_microfiche = '482015'  # 0586-9811
-      @green_microfilm = '485114'   # 0586-9811
-      @movie = '6559601'
-      @nigerian = '2920952'  
-      @texan = '4655100'
-      @movie2 = '5711017'
-      @image_online = '8146603'  # format 'Book'
-      @philippines = '388668'  # format 'Other'
-      @medical_online = '8436136'
-      @all = [@online, @green_microfiche, @green_microfilm, @movie, @nigerian, @texan, @movie2, @image_online, @philippines, @medical_online]
-      @journal = [@green_microfiche, @green_microfilm, @nigerian, @medical_online] 
-      @newspaper = [@texan]
+    it_behaves_like "great results for journal/newspaper", "The Sentinel" do
+      online = "8169876"  # 2044-6071, marcit brief record, type 'Other' as of 2013-06-06
+      green_microfiche = '482015'  # 0586-9811
+      green_microfilm = '485114'   # 0586-9811
+      movie = '6559601'
+      nigerian = '2920952'  
+      texan = '4655100'
+      movie2 = '5711017'
+      image_online = '8146603'  # format 'Book'
+      philippines = '388668'  # format 'Other'
+      medical_online = '8436136'
+      let(:all_formats) { [online, green_microfiche, green_microfilm, movie, nigerian, texan, movie2, image_online, philippines, medical_online] }
+      let(:journal_only) { [green_microfiche, green_microfilm, nigerian, medical_online] }
+      let(:newspaper_only) { [texan] }
     end
-    describe "everything search" do
-      it_behaves_like "everything query, no format specified", "The Sentinel" do
-        let(:exp_ids) {@all}
-      end
-      it_behaves_like "everything query, format journal", "The Sentinel" do
-        let(:exp_ids) {@journal}
-      end
-      it_behaves_like "everything query, format newspaper", "The Sentinel" do
-        let(:exp_ids) {@newspaper}
-      end
-    end 
-    describe "title search" do
-      it_behaves_like "title query, no format specified", "The Sentinel" do
-        let(:exp_ids) {@all}
-      end
-      it_behaves_like "title query, format journal", "The Sentinel" do
-        let(:exp_ids) {@journal}
-      end
-      it_behaves_like "title query, format newspaper", "The Sentinel" do
-        let(:exp_ids) {@newspaper}
-      end
+  end
+  
+  context "The Chronicle" do
+    it_behaves_like "great results for journal/newspaper", "The Chronicle" do
+      sal3_biz = "10044333"  # 0732-2038
+      online = "8160954" # marcit brief record, type 'Other'
+      online2 = "8533301" # marcit brief record, type 'Other', imprint APN News
+      online3 = '8164657' # marcit brief record, type 'Other', imprint Goshen, NY
+      online4 = '8160953'  # marcit brief record, type 'Other', imprint Centralia, WA
+      ghana = '4694211'
+      green_microfiche = '2506963' # Fed energy reg commis
+      hebrew = '6501140'
+      sal3_church = '356896' # imprint Poughkeepsie
+      missionary = '385174' # london missionary society
+      mannyng = '3372313'  # format 'Book'
+      mannyng2 = '3376755'  # format 'Book'
+      cairo = '448530' # am university at cairo
+      hoover = '381532' # poughkeepsie
+      cairo2 = '411229'
+      let(:all_formats) { [sal3_biz, online, online2, online3, online4, ghana, green_microfiche, hebrew, sal3_church, missionary, mannyng, mannyng2, cairo2, hoover, cairo2] }
+      let(:journal_only) { [sal3_biz, green_microfiche, hebrew, sal3_church] }
+      let(:newspaper_only) { [ghana] }
     end
-  end # context  The Sentinel
+  end 
   
 
   it "'Times of London' - common words ... as a phrase  (it's actually a newspaper ...)" do
