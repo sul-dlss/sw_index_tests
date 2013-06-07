@@ -52,45 +52,35 @@ describe "journal/newspaper titles" do
   end
   
   
-#  shared_examples_for 'exact title matches should be first' do | solr_params |
-#    it "a" do
-#      resp = solr_resp_ids_titles(solr_params)
-#      resp.should include({'title_245a_display' => /^#{title}$/i}).in_each_of_first(exp_ids.size)
-#      resp.should include(exp_ids).in_first(exp_ids.size + 2) # a little slop built in
-#    end
-#  end   
-
-  shared_examples_for 'everything query, no format specified' do | title |
+  shared_examples_for 'great search results' do | solr_params |
     it "exact title matches should be first" do
-      resp = solr_resp_ids_titles({'q'=> title})
-      resp.should include({'title_245a_display' => /^#{title}$/i}).in_each_of_first(exp_ids.size)
+      orig_query_str = solr_params['q'].split('}').last
+      resp = solr_resp_ids_titles(solr_params)
+      resp.should include({'title_245a_display' => /^#{orig_query_str}$/i}).in_each_of_first(exp_ids.size)
       resp.should include(exp_ids).in_first(exp_ids.size + 2) # a little slop built in
     end
   end   
+
+  shared_examples_for 'everything query, no format specified' do | title |
+    it_behaves_like "great search results", {'q'=>title} 
+  end   
   shared_examples_for 'everything query, format journal' do | title |
-    it "exact title matches should be first" do
-      resp = solr_resp_ids_titles({'q'=> title, 'fq'=>'format:Journal/Periodical'})
-      resp.should include({'title_245a_display' => /^#{title}$/i}).in_each_of_first(exp_ids.size)
-      resp.should include(exp_ids).in_first(exp_ids.size + 2) # a little slop built in
-    end
+    it_behaves_like "great search results", {'q'=>title, 'fq'=>'format:Journal/Periodical'} 
   end
   shared_examples_for 'everything query, format newspaper' do | title |
-    it "exact title matches should be first" do
-      resp = solr_resp_ids_titles({'q'=> title, 'fq'=>'format:Newspaper'})
-      resp.should include({'title_245a_display' => /^#{title}$/i}).in_each_of_first(exp_ids.size)
-      resp.should include(exp_ids).in_first(exp_ids.size + 2) # a little slop built in
-    end
+    it_behaves_like "great search results", {'q'=>title, 'fq'=>'format:Newspaper'} 
   end
 
-#  shared_examples_for 'title query, no format specified' do | title |
-#    it "exact title matches should be first" do
-#      resp = solr_resp_ids_titles(title_search_args(title).merge{'fl'=>'id,title_245a_display', 'facet'=>false, 'qt'=>'search'})
-#      resp.should include({'title_245a_display' => /^#{title}$/i}).in_each_of_first(exp_ids.size)
-#      resp.should include(exp_ids).in_first(exp_ids.size + 2) # a little slop built in
-#    end
-#  end   
-  
-  
+  shared_examples_for 'title query, no format specified' do | title |
+    it_behaves_like "great search results", title_search_args(title) 
+  end   
+  shared_examples_for 'title query, format journal' do | title |
+    it_behaves_like "great search results", title_search_args(title).merge({'fq'=>'format:Journal/Periodical'}) 
+  end
+  shared_examples_for 'title query, format newspaper' do | title |
+    it_behaves_like "great search results", title_search_args(title).merge({'fq'=>'format:Newspaper'})
+  end
+
   context "The Sentinel" do
     context "with 'The'" do
       before (:all) do
@@ -109,10 +99,6 @@ describe "journal/newspaper titles" do
         @newspaper = [@texan]
       end
       describe "everything search" do
-#        it_behaves_like "exact title matches should be first" do
-#          let(:solr_params) { {'q'=>title} }
-#          let(:exp_ids) {@all}
-#        end
         it_behaves_like "everything query, no format specified", "The Sentinel" do
           let(:exp_ids) {@all}
         end
@@ -124,29 +110,14 @@ describe "journal/newspaper titles" do
         end
       end 
       describe "title search" do
-#        it_behaves_like "title query, no format specified", "The Sentinel" do
-#          let(:exp_ids) {@all}
-#        end
-#        it_behaves_like "title query, format journal", "The Sentinel" do
-#          let(:exp_ids) {@journal}
-#        end
-#        it_behaves_like "title query, format newspaper", "The Sentinel" do
-#          let(:exp_ids) {@newspaper}
-#        end
-        it "no format specified" do
-          resp = solr_response @solr_args_w_the
-          resp.should include({'title_245a_display' => /^The Sentinel$/i}).in_each_of_first(@all.size)
-          resp.should include(@all).in_first(@all.size + 2)
+        it_behaves_like "title query, no format specified", "The Sentinel" do
+          let(:exp_ids) {@all}
         end
-        it "with format journal" do
-          resp = solr_response @solr_args_w_the.merge({'fq'=>'format:Journal/Periodical'})
-          resp.should include(@journal).in_first(@journal.size + 2)
-          resp.should include({'title_245a_display' => /^The Sentinel$/i}).in_each_of_first(@journal.size)
+        it_behaves_like "title query, format journal", "The Sentinel" do
+          let(:exp_ids) {@journal}
         end
-        it "with format newspaper" do
-          resp = solr_response @solr_args_w_the.merge({'fq'=>'format:Newspaper'})
-          resp.should include(@newspaper).in_first(@newspaper.size + 2)
-          resp.should include({'title_245a_display' => /^The Sentinel$/i}).in_each_of_first(@newspaper.size)
+        it_behaves_like "title query, format newspaper", "The Sentinel" do
+          let(:exp_ids) {@newspaper}
         end
       end # title
     end # with 'The'
