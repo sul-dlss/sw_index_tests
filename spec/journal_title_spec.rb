@@ -82,87 +82,43 @@ describe "journal/newspaper titles" do
   end
 
   context "The Sentinel" do
-    context "with 'The'" do
-      before (:all) do
-        @online = "8169876"  # 2044-6071, marcit brief record, type 'Other' as of 2013-06-06
-        @green_microfiche = '482015'  # 0586-9811
-        @green_microfilm = '485114'   # 0586-9811
-        @movie = '6559601'
-        @nigerian = '2920952'  
-        @texan = '4655100'
-        @movie2 = '5711017'
-        @image_online = '8146603'  # format 'Book'
-        @philippines = '388668'  # format 'Other'
-        @medical_online = '8436136'
-        @all = [@online, @green_microfiche, @green_microfilm, @movie, @nigerian, @texan, @movie2, @image_online, @philippines, @medical_online]
-        @journal = [@green_microfiche, @green_microfilm, @nigerian, @medical_online] 
-        @newspaper = [@texan]
+    before (:all) do
+      @online = "8169876"  # 2044-6071, marcit brief record, type 'Other' as of 2013-06-06
+      @green_microfiche = '482015'  # 0586-9811
+      @green_microfilm = '485114'   # 0586-9811
+      @movie = '6559601'
+      @nigerian = '2920952'  
+      @texan = '4655100'
+      @movie2 = '5711017'
+      @image_online = '8146603'  # format 'Book'
+      @philippines = '388668'  # format 'Other'
+      @medical_online = '8436136'
+      @all = [@online, @green_microfiche, @green_microfilm, @movie, @nigerian, @texan, @movie2, @image_online, @philippines, @medical_online]
+      @journal = [@green_microfiche, @green_microfilm, @nigerian, @medical_online] 
+      @newspaper = [@texan]
+    end
+    describe "everything search" do
+      it_behaves_like "everything query, no format specified", "The Sentinel" do
+        let(:exp_ids) {@all}
       end
-      describe "everything search" do
-        it_behaves_like "everything query, no format specified", "The Sentinel" do
-          let(:exp_ids) {@all}
-        end
-        it_behaves_like "everything query, format journal", "The Sentinel" do
-          let(:exp_ids) {@journal}
-        end
-        it_behaves_like "everything query, format newspaper", "The Sentinel" do
-          let(:exp_ids) {@newspaper}
-        end
-      end 
-      describe "title search" do
-        it_behaves_like "title query, no format specified", "The Sentinel" do
-          let(:exp_ids) {@all}
-        end
-        it_behaves_like "title query, format journal", "The Sentinel" do
-          let(:exp_ids) {@journal}
-        end
-        it_behaves_like "title query, format newspaper", "The Sentinel" do
-          let(:exp_ids) {@newspaper}
-        end
-      end # title
-    end # with 'The'
-    context "without 'The'" do
-      context "everything search" do
-        before(:all) do
-          @solr_args_wo_the = {'q'=>"Sentinel", 'fl'=>'id,title_245a_display', 'facet'=>false, 'qt'=>'search'}          
-        end
-        it "no format specified" do
-          resp = solr_response @solr_args_wo_the
-          resp.should include({'title_245a_display' => /^The Sentinel$/i}).in_each_of_first(@all.size)
-          resp.should include(@all).in_first(@all.size + 2)
-        end
-        it "with format journal" do
-          resp = solr_response @solr_args_wo_the.merge({'fq'=>'format:Journal/Periodical'})
-          resp.should include(@journal).in_first(@journal.size + 2)
-          resp.should include({'title_245a_display' => /^The Sentinel$/i}).in_each_of_first(@journal.size)
-        end
-        it "with format newspaper" do
-          resp = solr_response @solr_args_wo_the.merge({'fq'=>'format:Newspaper'})
-          resp.should include(@newspaper).in_first(@newspaper.size + 2)
-          resp.should include({'title_245a_display' => /^The Sentinel$/i}).in_each_of_first(@newspaper.size)
-        end
+      it_behaves_like "everything query, format journal", "The Sentinel" do
+        let(:exp_ids) {@journal}
       end
-      context "title search" do
-        before(:all) do
-          @solr_args_wo_the = title_search_args('Sentinel').merge({'fl'=>'id,title_245a_display', 'facet'=>false, 'qt'=>'search'})
-        end
-        it "no format specified" do
-          resp = solr_response @solr_args_wo_the
-          resp.should include({'title_245a_display' => /^The Sentinel$/i}).in_each_of_first(@all.size)
-          resp.should include(@all).in_first(@all.size + 2)
-        end
-        it "with format journal" do
-          resp = solr_response @solr_args_wo_the.merge({'fq'=>'format:Journal/Periodical'})
-          resp.should include(@journal).in_first(@journal.size + 2)
-          resp.should include({'title_245a_display' => /^The Sentinel$/i}).in_each_of_first(@journal.size)
-        end
-        it "with format newspaper" do
-          resp = solr_response @solr_args_wo_the.merge({'fq'=>'format:Newspaper'})
-          resp.should include(@newspaper).in_first(@newspaper.size + 2)
-          resp.should include({'title_245a_display' => /^The Sentinel$/i}).in_each_of_first(@newspaper.size)
-        end
-      end # title
-    end # without 'The'
+      it_behaves_like "everything query, format newspaper", "The Sentinel" do
+        let(:exp_ids) {@newspaper}
+      end
+    end 
+    describe "title search" do
+      it_behaves_like "title query, no format specified", "The Sentinel" do
+        let(:exp_ids) {@all}
+      end
+      it_behaves_like "title query, format journal", "The Sentinel" do
+        let(:exp_ids) {@journal}
+      end
+      it_behaves_like "title query, format newspaper", "The Sentinel" do
+        let(:exp_ids) {@newspaper}
+      end
+    end
   end # context  The Sentinel
   
 
