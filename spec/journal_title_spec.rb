@@ -187,7 +187,6 @@ describe "journal/newspaper titles" do
     
   end # the Nation
 
-
   context "The Times" do
     # these are split out to allow us to fine-tune the fixmes
     it_behaves_like "great results for format newspaper", "The Times" do
@@ -199,10 +198,7 @@ describe "journal/newspaper titles" do
               ]
       let(:newspaper_only) { news }
     end
-    it_behaves_like "great results for format journal", "The Times" do
-      journal = []
-      let(:journal_only) { journal }
-    end
+    # there are no journal results
     it_behaves_like "great results for journal/newspaper", "The Times", {'rows' => 64 } do
       journal = []
       news = ['8376802', # richmond, online, 1941-2959 
@@ -315,6 +311,53 @@ describe "journal/newspaper titles" do
     end
   end # the Guardian
   
+  context "the state" do
+    # these are split out to allow us to fine-tune the fixmes
+    it_behaves_like "great results for format journal", "The state" do
+      journal = ['8211682', # charlotte 0038-9994
+                ]
+      let(:journal_only) { journal }
+    end
+    # there are no news results
+    context "fixme", :fixme => true do
+      it_behaves_like "great results for journal/newspaper", "the state" do
+        journal = ['8211682', # charlotte 0038-9994
+                  ]
+        news = []
+        book = ['1337047', # hall, green
+                '2981862', # hall, sal3
+                '1125570', # de jasay, green
+                '2183213', # wilson, spec
+                '6308681', # theories and issues, green
+                '1592583', # authority and autonomy, jordan, green
+                '1502386', # its historic role, kropotkin, green
+                '53622', # its historic role, kropotkin, sal1
+                '7528556', # historical & political dim, ebrary
+                '3458132', # philosophical and institutational found, ackron, sal1
+                '504806', # poggi, green
+                '1938247', # staat, hoover
+                '2098084', # staat, sal3
+                '1842827', # wilson, sal
+                '8277', # oppenheimer, sal
+                '1775309', # oppenheimer, law
+                '7176892', # wilson, galegroup
+                '5611740', # wilson, education
+                '2142967', # wilson, sal
+                '9310732', # roeser, galegroup
+                '2917057', # lenin, sal
+                '2916831', # lenin, hoover
+                '61414', # lenin, sal
+                '7170267', # wilson, galegroup
+                ]
+        other = ['389364', # hoover
+                ]
+        let(:all_formats) { journal + news + book + other }
+        let(:journal_only) { journal }
+        let(:newspaper_only) { news }
+      end
+    end
+  end # the state
+
   context "The Sentinel" do
     it_behaves_like "great results for journal/newspaper", "The Sentinel" do
       journal = ['482015', # green microfiche 0586-9811
