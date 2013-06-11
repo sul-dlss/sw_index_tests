@@ -437,6 +437,40 @@ describe "journal/newspaper titles" do
     end
   end
 
+  context "the news" do
+    it_behaves_like "great results for format journal", "the news" do
+      journal = ['2803490', # nigeria, green, 1116-7157
+              '371779', # cincinatti
+                ]
+      let(:journal_only) { journal }
+    end
+    it_behaves_like "great results for format newspaper", "the news" do
+      news = ['5713602', # liberia, green mfilm
+              '2479216', # liberia
+                ]
+      let(:newspaper_only) { news }
+    end
+    # doesn't work for edismax
+    it_behaves_like "great results for journal/newspaper", "The news" do
+      journal = ['2803490', # nigeria, green, 1116-7157
+              '371779', # cincinatti
+                ]
+      news = ['5713602', # liberia, green mfilm
+              '2479216', # liberia
+                ]
+      book = ['8584851', # steven, green
+              '3770397', # myers, green
+              '4698417', # wachtel, green
+              '8627911', # city of buffalo, creeley, spec
+              ]
+      other = ['385473', # lisbon, other
+                ]
+      let(:all_formats) { journal + news + book + other }
+      let(:journal_only) { journal }
+      let(:newspaper_only) { news }
+    end
+  end
+
   it "'Times of London' - common words ... as a phrase  (it's actually a newspaper ...)" do
     resp = solr_resp_doc_ids_only(title_search_args('"Times of London"').merge({'fq' => 'format:Newspaper'}))
     resp.should include(['425948', '425951']).in_first(3)
