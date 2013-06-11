@@ -188,6 +188,69 @@ describe "journal/newspaper titles" do
   end # the Nation
 
 
+  context "The Times" do
+    # these are split out to allow us to fine-tune the fixmes
+    it_behaves_like "great results for format newspaper", "The Times" do
+      news = ['8376802', # richmond, online, 1941-2959 
+              '425948', # london, green, 
+              '425951', # london, database, green, 0140-0460 
+              '395098', # malawi
+              '414857', # london, hoover
+              ]
+      let(:newspaper_only) { news }
+    end
+    it_behaves_like "great results for format journal", "The Times" do
+      journal = []
+      let(:journal_only) { journal }
+    end
+    it_behaves_like "great results for journal/newspaper", "The Times", {'rows' => 64 } do
+      journal = []
+      news = ['8376802', # richmond, online, 1941-2959 
+              '425948', # london, green, 
+              '425951', # london, database, green, 0140-0460 
+              '395098', # malawi
+              '414857', # london, hoover
+              ]
+      addl = [ '8161078', # marcit, other
+                '8161079', # marcit, other
+                '8161081', # marcit, other
+                '924097', # past, present, future, book
+                '8403328', # by church, via proquest, book
+                '8414490', # by griffith, via proquest, book
+                '8408126', # by sheppard via proquest, book
+                '2076864', # by griffith green mprint, Book
+                '1567112', # by a young bostonian, book
+                '9278607', # by a young bostonian, book
+                '8076504', # by churchill, book, galegroup
+                '436542', # burma, hoover, Other
+                '422929', # miniature, hoover, Other
+                '2075947', # griffith, book
+                '595274', # pinero, a comedy, book
+                '8295498', # markoe poem, book, online
+                '9293697', # markoe poem, book, galegroup
+                '881209', # griffith, spec, book
+                '8780228', # church, poem, book, galegroup
+                '8271492', # church, poem, book, newsbank
+                '8309459', # forrest, poem, book, newsbank
+                '8068199', # churchill poem, book, galegroup
+                '8345704', # odell, poem, book, nwesbank
+                '2087934', # besemeres, book, spec
+                '8295081', # markoe poem, book, newsbank
+                '8780229', # markoe poem, book, galegroup
+                '2399336', # thurs jun 22, 1815, book
+                '8008957', #chester assoc, book, galegroup
+                '8088504', # markoe poem, book, newsbank
+                '8133607', # million men, book, american broadsides
+                '8278424', # mankind, newsbank
+                '8328773', # standish, book, newsbank
+                '9294845', # standish, book, galegroup
+              ]
+      let(:all_formats) { journal + news + addl }
+      let(:journal_only) { journal }
+      let(:newspaper_only) { news }
+    end
+  end # the Times
+
   context "The Guardian" do
     # these are split out to allow us to fine-tune the fixmes
     it_behaves_like "great results for format newspaper", "The Guardian" do
@@ -303,7 +366,37 @@ describe "journal/newspaper titles" do
     resp = solr_resp_doc_ids_only(title_search_args('"Times of London"').merge({'fq' => 'format:Newspaper'}))
     resp.should include(['425948', '425951']).in_first(3)
   end
+  
+  context "ScienceDirect" do
+    shared_examples_for 'great ScienceDirect results' do | query |
+      before(:all) do
+        @resp = solr_resp_ids_from_query query
+      end
+      it "everything search should include the database record" do
+        @resp.should include("7716332").in_first(3)
+      end
+      it "everything search should include the Lane/Medical record" do
+        @resp.should include("9928933").in_first(5)
+      end
+    end   
     
+    it_behaves_like "great ScienceDirect results", 'Science Direct'
+
+    context "ScienceDirect (one word)" do
+      it_behaves_like "great ScienceDirect results", 'ScienceDirect'
+
+      before(:all) do
+        @tresp = solr_resp_doc_ids_only(title_search_args 'ScienceDirect')        
+      end
+      it "title search should include the database record" do
+        @tresp.should include("7716332").in_first(2)
+      end
+      it "title search should include the Lane/Medical record" do
+        @tresp.should include("9928933").in_first(2)
+      end 
+    end
+  end # ScienceDirect
+  
   context "Nature" do
     it "as everything search", :jira => 'VUF-1515' do
       resp = solr_response({'q' => 'nature', 'fl'=>'id,title_display', 'facet'=>false})
