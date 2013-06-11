@@ -358,6 +358,26 @@ describe "journal/newspaper titles" do
     end
   end # the state
 
+  context "the world" do
+    # these are split out to allow us to fine-tune the fixmes
+    it_behaves_like "great results for format journal", "The world" do
+      journal = ['2131497', # st marks 0043-8154, green
+                  '4514062', # fitz-adam, spec
+                  '4443623', # south africa, hoover
+                ]
+      let(:journal_only) { journal }
+    end
+    it_behaves_like "great results for format newspaper", "The world" do
+      news = ['8204854', # coos bay, 1062-8495, online
+              '2455657', # bennington, green micro
+              '3053234', # ny, green micro
+              '3053230', # ny, green mfilm
+              '3053225', # ny, green mfilm
+                ]
+      let(:newspaper_only) { news }
+    end
+  end # the world
+
   context "The Sentinel" do
     it_behaves_like "great results for journal/newspaper", "The Sentinel" do
       journal = ['482015', # green microfiche 0586-9811
@@ -457,6 +477,27 @@ describe "journal/newspaper titles" do
       resp.should include({'title_display' => /^Nature \[print\/digital\]\./}).in_first(5)
       resp.should include({'title_display' => /^Nature; international journal of science/}).in_first(5)
     end
+
+    it_behaves_like "great results for format journal", "Nature" do
+      journal = ['9565564', # london 0028-0836, lane/medical
+                  '3195844', # london 0028-0836, biology
+                  '8829478', # london, spec
+                  '466281', # directory of biologicals
+                  '370787', # physical science, sal
+                ]
+      let(:journal_only) { journal }
+    end
+  end
+  
+  context "Science" do
+    it_behaves_like "title query, format journal", "Science" do
+      journal = ['9763571', # online, lane/medical
+                  '394654', # 0036-8075, green
+                  '3195846', # 0036-8075, biology
+                  '433334', # bimonthly, 0193-4511
+                ]
+      let(:exp_ids) { journal }
+    end    
   end
   
 end
