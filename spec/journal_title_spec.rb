@@ -298,7 +298,6 @@ describe "journal/newspaper titles" do
       let(:newspaper_only) { news }
     end
   end 
-  
 
   it "'Times of London' - common words ... as a phrase  (it's actually a newspaper ...)" do
     resp = solr_resp_doc_ids_only(title_search_args('"Times of London"').merge({'fq' => 'format:Newspaper'}))
@@ -323,6 +322,5 @@ describe "journal/newspaper titles" do
       resp.should include({'title_display' => /^Nature; international journal of science/}).in_first(5)
     end
   end
-
   
 end
