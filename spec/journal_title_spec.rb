@@ -424,6 +424,18 @@ describe "journal/newspaper titles" do
       let(:newspaper_only) { news }
     end
   end 
+  
+  context "the week" do
+    it_behaves_like "great results for format journal", "the week" do
+      journal = ['391183', # nottingham, hoover
+                  '400249', # london hoover
+                  '6917648', # london, hoover mfilm
+                  '4000948', # brussels, green
+                  '2996238', # brussels, sal
+                ]
+      let(:journal_only) { journal }
+    end
+  end
 
   it "'Times of London' - common words ... as a phrase  (it's actually a newspaper ...)" do
     resp = solr_resp_doc_ids_only(title_search_args('"Times of London"').merge({'fq' => 'format:Newspaper'}))
@@ -497,7 +509,7 @@ describe "journal/newspaper titles" do
                   '433334', # bimonthly, 0193-4511
                 ]
       let(:exp_ids) { journal }
-    end    
+    end
   end
   
 end
