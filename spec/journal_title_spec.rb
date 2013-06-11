@@ -2,55 +2,7 @@ require 'spec_helper'
 
 describe "journal/newspaper titles" do
 
-  context "Nature" do
-    it "as everything search", :jira => 'VUF-1515' do
-      resp = solr_response({'q' => 'nature', 'fl'=>'id,title_display', 'facet'=>false})
-      resp.should include({'title_display' => /^Nature \[print\/digital\]\./}).in_first(3)
-    end
-
-    it "as title search" do
-      resp = solr_response(title_search_args('nature').merge({'fl'=>'id,title_display', 'facet'=>false}))
-      resp.should include({'title_display' => /^Nature \[print\/digital\]\./}).in_first(3)
-    end
-
-    it "as title search with format journal" do
-      resp = solr_response(title_search_args('nature').merge({'fq' => 'format:"Journal/Periodical"', 'fl'=>'id,title_display', 'facet'=>false}))
-      resp.should have_at_most(1100).documents
-      resp.should include({'title_display' => /^Nature \[print\/digital\]\./}).in_first(5)
-      resp.should include({'title_display' => /^Nature; international journal of science/}).in_first(5)
-    end
-  end
-  
-  context "The Nation" do
-    before(:all) do
-      @green_current = 497417
-      @green_micro = 464445
-      @biz = 10039114
-      @law = 3448713
-    end
-    
-    it "as everything search", :edismax => true do
-      resp = solr_resp_ids_from_query 'The Nation'
-      resp.should include(['464445', '497417', '3448713']).in_first(4)
-    end
-
-    it "as title search", :fixme => true do
-      resp = solr_response({'q'=>"{!qf=$qf_title pf=$pf_title}The Nation", 'fl'=>'id,title_245a_display', 'facet'=>false, 'qt'=>'search'})
-#      resp = solr_resp_doc_ids_only(title_search_args('The Nation'))
-      resp.should include({'title_245a_display' => /^The Nation$/i}).in_each_of_first(7)
-      resp.should include(['464445', '497417', '3448713']).in_first(4)
-    end
-
-    it "as title search with format journal", :edismax => true do
-#      resp = solr_resp_doc_ids_only(title_search_args('The Nation').merge({'fq' => 'format:Journal/Periodical'}))
-      resp = solr_response({'q'=>"{!qf=$qf_title pf=$pf_title pf2=$pf_title}The Nation", 'fl'=>'id,title_245a_display', 'fq' => 'format:Journal/Periodical', 'facet'=>false, 'qt'=>'search'})
-      resp.should include({'title_245a_display' => /^The Nation$/i}).in_each_of_first(7)
-      resp.should include('3448713').in_first(3)
-      resp.should include(['3448713', '497417']).in_first(5)
-      resp.should include(['464445', '497417', '3448713']).in_first(7)
-    end
-  end
-  
+# -------   shared example groups --------
   
   shared_examples_for 'great search results' do | solr_params |
     it "exact title matches should be first" do
@@ -136,47 +88,149 @@ describe "journal/newspaper titles" do
     end
   end
 
+# -------   actual tests --------
+
+  context "The Nation" do
+# -- OLD tests    
+    before(:all) do
+      @green_current = '497417'
+      @green_micro = '464445'
+      @biz = '10039114'
+      @law = '3448713'
+      @orig = [@green_micro, @green_current, @law]
+    end
+
+    it "as everything search", :edismax => true do
+      resp = solr_resp_ids_from_query 'The Nation'
+      resp.should include(@orig).in_first(4)
+    end
+
+    it "as title search", :fixme => true do
+      resp = solr_response({'q'=>"{!qf=$qf_title pf=$pf_title}The Nation", 'fl'=>'id,title_245a_display', 'facet'=>false, 'qt'=>'search'})
+#      resp = solr_resp_doc_ids_only(title_search_args('The Nation'))
+      resp.should include({'title_245a_display' => /^The Nation$/i}).in_each_of_first(7)
+      resp.should include(@orig).in_first(4)
+    end
+
+    it "as title search with format journal", :edismax => true do
+#      resp = solr_resp_doc_ids_only(title_search_args('The Nation').merge({'fq' => 'format:Journal/Periodical'}))
+      resp = solr_response({'q'=>"{!qf=$qf_title pf=$pf_title pf2=$pf_title}The Nation", 'fl'=>'id,title_245a_display', 'fq' => 'format:Journal/Periodical', 'facet'=>false, 'qt'=>'search'})
+      resp.should include({'title_245a_display' => /^The Nation$/i}).in_each_of_first(7)
+      resp.should include(@law).in_first(3)
+      resp.should include([@law, @green_current]).in_first(5)
+      resp.should include(@orig).in_first(7)
+    end
+# -- end OLD tests
+    
+    it_behaves_like "great results for format newspaper", "The Nation" do
+      news = [ '8217400', # malawi, green mfilm
+              '4772643', # malawi, sal
+              '2833546', # liberia, sal newark
+              ]
+      let(:newspaper_only) { news }
+    end
+    it_behaves_like "great results for format journal", "The Nation" do
+      journal = [ '497417', # green current
+                  '464445', # green micro 
+                  '10039114', # biz
+                  '3448713', # law
+                  '405604', # gambia
+                  '7859278', # swaziland
+                  '381709', # hoover, south africa
+                  '454276', # sierra leone
+                  # problematic
+                  #  9131572  245  a| Finances of the nation h| [electronic resource]
+                  #  7689978  245 a| The Nation's hospitals h| [print]. 
+                  #  6743421  245 a| State of the nation. 
+                ]
+      let(:journal_only) { journal }
+    end
+    context "fixme", :fixme => true do
+      # works in production
+      it_behaves_like "great results for journal/newspaper", "The Nation" do
+        news = [ '8217400', # malawi, green mfilm
+                '4772643', # malawi, sal
+                '2833546', # liberia, sal newark
+                ]
+        let(:newspaper_only) { news }
+        journal = [ '497417', # green current
+                    '464445', # green micro 
+                    '10039114', # biz
+                    '3448713', # law
+                    '405604', # gambia
+                    '7859278', # swaziland
+                    '381709', # hoover, south africa
+                    '454276', # sierra leone
+                    # problematic
+                    #  9131572  245  a| Finances of the nation h| [electronic resource]
+                    #  7689978  245 a| The Nation's hospitals h| [print]. 
+                    #  6743421  245 a| State of the nation. 
+                  ]
+        let(:journal_only) { journal }
+        format_other = [ '393626', # burma
+                        '385051', # ireland, hoover
+                        '385052', # hoover
+                        '8412029', # fisher, online - galenet
+                        # problematic
+                        #  9211530   245 a| The Beat (The Nation)
+                      ]
+        book = ['2613193', # fed doc on floods
+                '9296914', # mulford, online - galenet
+                '7170814', # mulford, online - galenet
+                '7815517', # lingeman  245 |a The Nation : b| guide to the Nation / c| by Richard Lingeman ; introduction by Victor Navasky and Katrina Vanden Heuvel ; original drawings by Ed Koren. 
+                '2098094', # mulford 
+                ]
+        let(:all_formats) { news + journal + format_other + book }
+      end
+    end
+    
+  end # the Nation
+
+
   context "The Guardian" do
     it_behaves_like "great results for format newspaper", "The Guardian" do
-      green_mfilm2 = '491941'
-      green_manchester = '438344'
-      nigeria = '2873190'
-      tanzania = '4720924'
-      hoover_manchester = '411072'
-      let(:newspaper_only) { [green_mfilm2, green_manchester, nigeria, tanzania, hoover_manchester] }
+      news = ['491941', #green mfilm
+              '438344', # manchester, green
+              '2873190', # nigeria
+              '4720924', # tanzania
+              '411072', # manchester, hoover
+              ]
+      let(:newspaper_only) { news }
     end
     context "fixme", :fixme => true do
       it_behaves_like "great results for format journal", "The Guardian" do
-        # problematic:
-        #   '6541023'  #  245  6| 880-01 a| Dao bao. b| The Guardian.
-        rare = '473061'
-        rare2 = '2046773'
-        rare3 = '2046781'
-        green_mfilm = '361891'
-        green_philly = '361893'
-        let(:journal_only) { [rare, rare2, rare3, green_mfilm, green_philly]  }
+        journal = ['473061', # rare
+                    '2046773', # rare
+                    '2046781', # rare
+                    '361891', #green mfilm
+                    '361893', # green, philadelphia
+                    # problematic:
+                    #   '6541023'  #  245  6| 880-01 a| Dao bao. b| The Guardian.
+                    ]
+        let(:journal_only) { journal }
       end
 
       it_behaves_like "great results for journal/newspaper", "The Guardian", {'rows' => 64 } do
-        rare = '473061'
-        rare2 = '2046773'
-        rare3 = '2046781'
-        green_mfilm = '361891'
-        green_philly = '361893'
-        journal = [rare, rare2, rare3, green_mfilm, green_philly]      
-
-        green_mfilm2 = '491941'
-        green_manchester = '438344'
-        nigeria = '2873190'
-        tanzania = '4720924'
-        hoover_manchester = '411072'
-        news = [green_mfilm2, green_manchester, nigeria, tanzania, hoover_manchester]
+        journal = ['473061', # rare
+                    '2046773', # rare
+                    '2046781', # rare
+                    '361891', #green mfilm
+                    '361893', # green, philadelphia
+                    # problematic:
+                    #   '6541023'  #  245  6| 880-01 a| Dao bao. b| The Guardian.
+                    ]
+        news = ['491941', #green mfilm
+                '438344', # manchester, green
+                '2873190', # nigeria
+                '4720924', # tanzania
+                '411072', # manchester, hoover
+                ]
 
         video = ['6739108']
 
-        burma = '382502' # format Other
-        hoover = '382501' # format Other
-        other = [burma, hoover]
+        other = ['382502', # burma, format Other
+                  '382501' # hoover, format Other
+                ]
 
         # many of the book are from find.galegroup.com
         book = ['8415217', '8414328', '8402896', '8738551', '8744676', '8744669', '8318844', '2075676', '2075676', '3042946', '2074558', '2073994',
@@ -245,4 +299,24 @@ describe "journal/newspaper titles" do
     resp.should include(['425948', '425951']).in_first(3)
   end
     
+  context "Nature" do
+    it "as everything search", :jira => 'VUF-1515' do
+      resp = solr_response({'q' => 'nature', 'fl'=>'id,title_display', 'facet'=>false})
+      resp.should include({'title_display' => /^Nature \[print\/digital\]\./}).in_first(3)
+    end
+
+    it "as title search" do
+      resp = solr_response(title_search_args('nature').merge({'fl'=>'id,title_display', 'facet'=>false}))
+      resp.should include({'title_display' => /^Nature \[print\/digital\]\./}).in_first(3)
+    end
+
+    it "as title search with format journal" do
+      resp = solr_response(title_search_args('nature').merge({'fq' => 'format:"Journal/Periodical"', 'fl'=>'id,title_display', 'facet'=>false}))
+      resp.should have_at_most(1100).documents
+      resp.should include({'title_display' => /^Nature \[print\/digital\]\./}).in_first(5)
+      resp.should include({'title_display' => /^Nature; international journal of science/}).in_first(5)
+    end
+  end
+
+  
 end
