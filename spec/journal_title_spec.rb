@@ -121,7 +121,8 @@ describe "journal/newspaper titles" do
       resp.should include(@orig).in_first(7)
     end
 # -- end OLD tests
-    
+
+    # split out to allow us to fine tune the fixmes
     it_behaves_like "great results for format newspaper", "The Nation" do
       news = [ '8217400', # malawi, green mfilm
               '4772643', # malawi, sal
@@ -188,6 +189,7 @@ describe "journal/newspaper titles" do
 
 
   context "The Guardian" do
+    # these are split out to allow us to fine-tune the fixmes
     it_behaves_like "great results for format newspaper", "The Guardian" do
       news = ['491941', #green mfilm
               '438344', # manchester, green
@@ -239,13 +241,11 @@ describe "journal/newspaper titles" do
         # all of the below are online from find.galegroup.com
         ellipses = ['8074878', '8057381', '8076326', '8002481', '8029616', '8022667', '8002480', '8026648', '8026647', '8080945', '8002479', 
                     '8002478', '8026645', '8054818', '8057382', '8026646', '8076327', '8026644', '8078462', '' ]
-
         # problematic:
         #   '6541023'  #  245  6| 880-01 a| Dao bao. b| The Guardian.
         #   '8161510'  #  245  a| The Guardian (Charlottetown)
 
-        all = journal + news + video + other + book + ellipses
-        let(:all_formats) { all }
+        let(:all_formats) { journal + news + video + other + book + ellipses }
         let(:journal_only) { journal }
         let(:newspaper_only) { news }
       end
@@ -254,42 +254,48 @@ describe "journal/newspaper titles" do
   
   context "The Sentinel" do
     it_behaves_like "great results for journal/newspaper", "The Sentinel" do
-      online = "8169876"  # 2044-6071, marcit brief record, type 'Other' as of 2013-06-06
-      green_microfiche = '482015'  # 0586-9811
-      green_microfilm = '485114'   # 0586-9811
-      movie = '6559601'
-      nigerian = '2920952'  
-      texan = '4655100'
-      movie2 = '5711017'
-      image_online = '8146603'  # format 'Book'
-      philippines = '388668'  # format 'Other'
-      medical_online = '8436136'
-      let(:all_formats) { [online, green_microfiche, green_microfilm, movie, nigerian, texan, movie2, image_online, philippines, medical_online] }
-      let(:journal_only) { [green_microfiche, green_microfilm, nigerian, medical_online] }
-      let(:newspaper_only) { [texan] }
+      journal = ['482015', # green microfiche 0586-9811
+                  '485114', # green microfilm 0586-9811
+                  '2920952', # nigerian
+                  '8436136', # medical online
+                ]
+      news = ['4655100', # texan
+              ]
+      addl = ['8169876', # 2044-6071, marcit brief record, type 'Other' as of 2013-06-06
+              '6559601', # movie
+              '5711017', # movie
+              '8146603', # online image but format 'Book'
+              '388668', # philippines, format 'Other'
+              ]
+      let(:all_formats) { journal + news + addl }
+      let(:journal_only) { journal }
+      let(:newspaper_only) { news }
     end
   end
   
   context "The Chronicle" do
     it_behaves_like "great results for journal/newspaper", "The Chronicle" do
-      sal3_biz = "10044333"  # 0732-2038
-      online = "8160954" # marcit brief record, type 'Other'
-      online2 = "8533301" # marcit brief record, type 'Other', imprint APN News
-      online3 = '8164657' # marcit brief record, type 'Other', imprint Goshen, NY
-      online4 = '8160953'  # marcit brief record, type 'Other', imprint Centralia, WA
-      ghana = '4694211'
-      green_microfiche = '2506963' # Fed energy reg commis
-      hebrew = '6501140'
-      sal3_church = '356896' # imprint Poughkeepsie
-      missionary = '385174' # london missionary society
-      mannyng = '3372313'  # format 'Book'
-      mannyng2 = '3376755'  # format 'Book'
-      cairo = '448530' # am university at cairo
-      hoover = '381532' # poughkeepsie
-      cairo2 = '411229'
-      let(:all_formats) { [sal3_biz, online, online2, online3, online4, ghana, green_microfiche, hebrew, sal3_church, missionary, mannyng, mannyng2, cairo2, hoover, cairo2] }
-      let(:journal_only) { [sal3_biz, green_microfiche, hebrew, sal3_church] }
-      let(:newspaper_only) { [ghana] }
+      journal = ['10044333', # biz sal3 0732-2038
+                '2506963', # Fed energy reg commis, green microfiche
+                '6501140', # hebrew
+                '356896', # imprint Poughkeepsie, church, sal3
+                ]
+      news = ['4694211', # ghana
+              ]
+      addl = ['8160954', # marcit brief record, type 'Other'
+              '8533301', # marcit brief record, type 'Other', imprint APN News
+              '8164657', # marcit brief record, type 'Other', imprint Goshen, NY
+              '8160953', # marcit brief record, type 'Other', imprint Centralia, WA
+              '385174', # london missionary society
+              '3372313', # mannyng book
+              '3376755', # mannyng book
+              '448530', # am university at cairo
+              '381532', # poughkeepsie
+              '411229', # cairo
+              ]
+      let(:all_formats) { journal + news + addl }
+      let(:journal_only) { journal }
+      let(:newspaper_only) { news }
     end
   end 
   
