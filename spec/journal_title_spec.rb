@@ -520,6 +520,20 @@ describe "journal/newspaper titles" do
     end
   end
 
+  context "the cosmopolitan" do
+    it_behaves_like "great results for journal/newspaper", "The cosmopolitan" do
+      journal = ['361713', # green mfilm
+              '361712', # branner, 0740-6444
+                ]
+      news = []
+      book = ['7711785', # stonecipher, green
+              ]
+      let(:all_formats) { journal + news + book }
+      let(:journal_only) { journal }
+      let(:newspaper_only) { news }
+    end
+  end
+
   it "'Times of London' - common words ... as a phrase  (it's actually a newspaper ...)" do
     resp = solr_resp_doc_ids_only(title_search_args('"Times of London"').merge({'fq' => 'format:Newspaper'}))
     resp.should include(['425948', '425951']).in_first(3)
