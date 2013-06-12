@@ -514,6 +514,51 @@ describe "journal/newspaper titles" do
       let(:newspaper_only) { news }
     end
   end
+
+  context "the herald" do
+    it_behaves_like "great results for format journal", "the herald" do
+      journal = ['8201184', # conroe, tex, online
+                  '8504925', # ghana
+                  '460847', # australia, hoover
+                  '362256', # vestnik, hoover
+                  '362254', # pronunciation and amended speling
+                ]
+      let(:journal_only) { journal }
+    end
+    it_behaves_like "great results for format newspaper", "the herald" do
+      news = ['9333628', # sharon, pa, online
+              '4367458', # london, hoover micro
+              '4789791', # zimbabwe
+              '2870984', # zimbabwe micro
+              '484762', # ny, green
+            ]
+      let(:newspaper_only) { news }
+    end
+    # doesn't work for edismax
+    it_behaves_like "great results for journal/newspaper", "The herald" do
+      journal = ['8201184', # conroe, tex, online
+                  '8504925', # ghana
+                  '460847', # australia, hoover
+                  '362256', # vestnik, hoover
+                  '362254', # pronunciation and amended speling
+                ]
+      news = ['9333628', # sharon, pa, online
+              '4367458', # london, hoover micro
+              '4789791', # zimbabwe
+              '2870984', # zimbabwe micro
+              '484762', # ny, green
+                ]
+      book = ['8403857', # hale, proquest
+              '1017231', # shaara, green
+              ]
+      other = ['381577', # karachi, hoover
+                '448407', # lake geneva, hoover
+                ]
+      let(:all_formats) { journal + news + book + other }
+      let(:journal_only) { journal }
+      let(:newspaper_only) { news }
+    end
+  end
   
   context "the atlantic" do
     it_behaves_like "great results for format journal", "the atlantic" do
