@@ -560,6 +560,56 @@ describe "journal/newspaper titles" do
     end
   end
   
+  context "the journal" do
+    it_behaves_like "great results for format journal", "the journal" do
+      journal = ['9857186', # bar assoc dc, online, 0196-1578
+                  '4144519', # bar assoc dc, law
+                  '441812', # mecca, green
+                  '478138', # kansas, branner
+                  '9696658', # cleveland, heinonline
+                  '9705114', # oklahoma, heinonline
+                  '495155', # canada, edu
+                  '498469', # kansas, green
+                  '667465', # metal polishers, green micro
+                  '667361', # metal polishers, green mfilm
+                  '667316', # metal polishers, green mfilm
+                  '354858', # burma, sal3
+                  '437735', # kansas, branner
+                  '2941201', # tech horiz, educ, 0192-592x
+                ]
+      let(:journal_only) { journal }
+    end
+    # no newspaper format
+    # doesn't work for edismax
+    it_behaves_like "great results for journal/newspaper", "The journal" do
+      journal = ['9857186', # bar assoc dc, online, 0196-1578
+                  '4144519', # bar assoc dc, law
+                  '441812', # mecca, green
+                  '478138', # kansas, branner
+                  '9696658', # cleveland, heinonline
+                  '9705114', # oklahoma, heinonline
+                  '495155', # canada, edu
+                  '498469', # kansas, green
+                  '667465', # metal polishers, green micro
+                  '667361', # metal polishers, green mfilm
+                  '667316', # metal polishers, green mfilm
+                  '354858', # burma, sal3
+                  '437735', # kansas, branner
+                  '2941201', # tech horiz, educ, 0192-592x
+                ]
+      news = []
+      book = ['1186556', # dana, green
+              '1293085', # 1721, green mfilm
+              '4374587', # columbus, green
+              ]
+      other = ['8161373', # marcit
+                ]
+      let(:all_formats) { journal + news + book + other }
+      let(:journal_only) { journal }
+      let(:newspaper_only) { news }
+    end
+  end
+  
   context "the atlantic" do
     it_behaves_like "great results for format journal", "the atlantic" do
       journal = ['454930', # boston, sal, 0276-9077
