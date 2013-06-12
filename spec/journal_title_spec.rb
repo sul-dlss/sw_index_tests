@@ -471,6 +471,50 @@ describe "journal/newspaper titles" do
     end
   end
   
+  context "the star" do
+    it_behaves_like "great results for format journal", "the star" do
+      journal = ['461027', # uganda, sal
+                ]
+      let(:journal_only) { journal }
+    end
+    it_behaves_like "great results for format newspaper", "the star" do
+      news = ['9861955', # tinley park, online
+              '4259079', # guernsey, hoover
+              '4533025', # johannesburg, hoover
+              '423194', # johannesburg, sal newark
+                ]
+      let(:newspaper_only) { news }
+    end
+    # doesn't work for edismax
+    it_behaves_like "great results for journal/newspaper", "The star" do
+      journal = ['461027', # uganda, sal
+                ]
+      news = ['9861955', # tinley park, online
+              '4259079', # guernsey, hoover
+              '4533025', # johannesburg, hoover
+              '423194', # johannesburg, sal newark
+                ]
+      book = ['4287908', # johannesburg, sal1
+              '2273164', # song collection, spec
+              ]
+      other = ['8928527', # marcit
+               '8161058', # marcit
+               '8227544', # marcit
+               '8227545', # marcit
+               '9208881', # marcit, al bawaba, other
+               '9213757', # marcit, smalltownpaper, other
+               '5960691', # video
+               '389374', # hoover, other
+               '287788', # music score
+               '8392304', # recording
+               '287667', # music score
+                ]
+      let(:all_formats) { journal + news + book + other }
+      let(:journal_only) { journal }
+      let(:newspaper_only) { news }
+    end
+  end
+  
   context "the atlantic" do
     it_behaves_like "great results for format journal", "the atlantic" do
       journal = ['454930', # boston, sal, 0276-9077
