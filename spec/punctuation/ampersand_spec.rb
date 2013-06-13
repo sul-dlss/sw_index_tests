@@ -37,7 +37,8 @@ describe "ampersands in queries" do
   end
 
   context "3 term query 'of time & place' (former stopword 'of')" do
-    it_behaves_like "ampersand ignored", "of time & place", ["2186298", "9348274"], 3
+    it_behaves_like "ampersand ignored", "of time & place", "2186298", 1
+    it_behaves_like "ampersand ignored", "of time & place", ["2186298", "9348274"], 6
   end 
   
   context "3 term query 'ESRI data & maps'", :jira=>'SW-85' do
@@ -61,7 +62,7 @@ describe "ampersands in queries" do
   end 
 
   context "4 term query 'crosby stills nash & young'" do
-    it_behaves_like "ampersand ignored", "crosby stills nash & young", "5627798", 1
+    it_behaves_like "ampersand ignored", "crosby stills nash & young", "5627798", 3
   end
 
   context "4 term query 'steam boat & canal routes'" do
