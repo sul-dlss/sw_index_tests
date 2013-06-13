@@ -607,5 +607,14 @@ describe "journal/newspaper titles" do
       let(:exp_ids) { journal }
     end
   end
+  context "Ethics" do
+    it_behaves_like "title query, format journal", "Ethics" do
+      journal = ['9567083', # 0014-1704, online, lane/medical
+                  '497326', # 0014-1704, green
+#                  '8205688', # 1677-2954, brazil, online  Ethic@ 
+                ]
+      let(:exp_ids) { journal }
+    end
+  end
   
 end
