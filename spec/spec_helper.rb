@@ -40,19 +40,19 @@ def solr_resp_ids_titles(solr_params)
 end
 
 def author_search_args(query_str)
-  {'q'=>"{!qf=$qf_author pf=$pf_author pf2=$pf_author pf3=$pf_author}#{query_str}", 'qt'=>'search'}
+  {'q'=>"{!qf=$qf_author pf=$pf_author pf2=$pf_author2 pf3=$pf_author3}#{query_str}", 'qt'=>'search'}
 end
 def callnum_search_args(query_str)
   {'q'=>"#{query_str}", 'defType'=>'lucene', 'df'=>'callnum_search', 'qt'=>'search'}
 end
 def subject_search_args(query_str)
-  {'q'=>"{!qf=$qf_subject pf=$pf_subject pf2=$pf_subject pf3=$pf_subject}#{query_str}", 'qt'=>'search'}
+  {'q'=>"{!qf=$qf_subject pf=$pf_subject pf2=$pf_subject2 pf3=$pf_subject3}#{query_str}", 'qt'=>'search'}
 end
 def series_search_args(query_str)
-  {'q'=>"{!qf=$qf_series pf=$pf_series pf2=$pf_series pf3=$pf_series}#{query_str}", 'qt'=>'search'}
+  {'q'=>"{!qf=$qf_series pf=$pf_series pf2=$pf_series2 pf3=$pf_series3}#{query_str}", 'qt'=>'search'}
 end
 def title_search_args(query_str)
-  {'q'=>"{!qf=$qf_title pf=$pf_title pf2=$pf_title pf3=$pf_title}#{query_str}", 'qt'=>'search'}
+  {'q'=>"{!qf=$qf_title pf=$pf_title pf2=$pf_title2 pf3=$pf_title3}#{query_str}", 'qt'=>'search'}
 end
 def author_title_search_args(query_str)
   {'q'=>"{!qf=author_title_search pf='author_title_search^10' pf2='author_title_search^20' pf3='author_title_search^30'}\"#{query_str}\"", 'qt'=>'search'}
