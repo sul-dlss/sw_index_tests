@@ -155,6 +155,22 @@ describe "journal/newspaper titles" do
               ]
       let(:all_formats) { news + journal + format_other + book }
     end  
+    it "has good results with or without a trailing period" do
+      journals = [ '497417', # green current
+                  '464445', # green micro 
+                  '10039114', # biz
+                  '3448713', # law
+                  '405604', # gambia
+                  '7859278', # swaziland
+                  '381709', # hoover, south africa
+                  '454276', # sierra leone
+                ]
+      resp = solr_resp_ids_titles(title_search_args('The Nation.').merge({'fq' => 'format:Journal/Periodical'}))
+      resp_wo = solr_resp_ids_titles(title_search_args('The Nation').merge({'fq' => 'format:Journal/Periodical'}))
+      resp.should have_the_same_number_of_results_as(resp_wo)
+      resp.should include({'title_245a_display' => /^the nation\W*$/i}).in_each_of_first(journals.size)
+      resp.should include(journals).in_first(journals.size + 2) # a little slop built in
+    end
   end # the Nation
 
   context "The Times" do
