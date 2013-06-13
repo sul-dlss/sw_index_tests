@@ -26,8 +26,14 @@ describe "Stopwords such as 'the' 'a' 'or' should now work" do
   
   it "'the one'", :jira => 'SW-613' do
     resp = solr_resp_doc_ids_only({'q'=>'the one'}) 
-    resp.should include("4805489").in_first(3).results
-    resp.should_not include("2860701")
+    expected = ['4805489', # video
+                '9171509', # book, sal
+                '9583074', # book, music
+                '6826825', # book, green
+                # '9694740', # recording via aspresolver.com
+                ]
+    resp.should include(expected).in_first(5).results
+    resp.should_not include("2860701").in_first(4) # "One"
   end
 
   it '"IT and Society"', :jira => 'SW-500' do
@@ -35,16 +41,16 @@ describe "Stopwords such as 'the' 'a' 'or' should now work" do
     resp.should include("8167359").in_first(7).results
   end
 
-  it '"IT *and* Society" qt=advanced, description qf', :jira => 'SW-500', :fixme => [true, 'used to work'] do
-    resp = solr_resp_doc_ids_only({'q'=>'{!qf=$qf_description pf=$qf_description}(IT and Society)', 'qt'=>'advanced'}) 
+  it '"IT *and* Society" qt=advanced, description qf', :jira => 'SW-500', :fixme => [true, 'used to work - data changed?'] do
+    resp = solr_resp_doc_ids_only({'q'=>'{!qf=$qf_description pf=$qf_description pf2=$qf_description2 pf2=$qf_description2}(IT and Society)', 'qt'=>'advanced'}) 
 #    resp = solr_resp_doc_ids_only({'q'=>'{!qf=all_search pf=all_search^10}(IT and Society)', 'qt'=>'advanced'}) 
     resp.should include("8167359").in_first(7).results
   end
 
-  it '"IT *&* Society" qt=advanced, description qf', :jira => 'SW-500', :fixme => [true, 'used to work'] do
-    resp = solr_resp_doc_ids_only({'q'=>'{!qf=$qf_description pf=$qf_description}(IT & Society)', 'qt'=>'advanced'}) 
+  it '"IT *&* Society" qt=advanced, description qf', :jira => 'SW-500', :fixme => [true, 'used to work - data changed?'] do
+    resp = solr_resp_doc_ids_only({'q'=>'{!qf=$qf_description pf=$qf_description pf2=$qf_description2 pf2=$qf_description2}(IT & Society)', 'qt'=>'advanced'}) 
     resp.should include("8167359").in_first(7).results
-    resp = solr_resp_doc_ids_only({'q'=>'{!qf=$qf_description pf=$qf_description}(IT&Society)', 'qt'=>'advanced'}) 
+    resp = solr_resp_doc_ids_only({'q'=>'{!qf=$qf_description pf=$qf_description pf2=$qf_description2 pf2=$qf_description2}(IT&Society)', 'qt'=>'advanced'}) 
     resp.should include("8167359").in_first(7).results
   end
   
