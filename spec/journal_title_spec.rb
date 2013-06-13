@@ -100,37 +100,32 @@ describe "journal/newspaper titles" do
       @orig = [@green_micro, @green_current, @law]
     end
 
-    it "as everything search", :edismax => true do
+    it "as everything search" do
       resp = solr_resp_ids_from_query 'The Nation'
       resp.should include(@orig).in_first(4)
     end
 
-    it "as title search", :fixme => true do
-      resp = solr_response({'q'=>"{!qf=$qf_title pf=$pf_title}The Nation", 'fl'=>'id,title_245a_display', 'facet'=>false, 'qt'=>'search'})
-#      resp = solr_resp_doc_ids_only(title_search_args('The Nation'))
+    it "as title search", :fixme => true, :edismax => true do
+      resp = solr_resp_ids_titles(title_search_args "The Nation")
       resp.should include({'title_245a_display' => /^The Nation$/i}).in_each_of_first(7)
       resp.should include(@orig).in_first(4)
     end
 
-    it "as title search with format journal", :edismax => true do
-#      resp = solr_resp_doc_ids_only(title_search_args('The Nation').merge({'fq' => 'format:Journal/Periodical'}))
-      resp = solr_response({'q'=>"{!qf=$qf_title pf=$pf_title pf2=$pf_title}The Nation", 'fl'=>'id,title_245a_display', 'fq' => 'format:Journal/Periodical', 'facet'=>false, 'qt'=>'search'})
+    it "as title search with format journal" do
+      resp = solr_resp_ids_titles(title_search_args('The Nation').merge({'fq' => 'format:Journal/Periodical'}))
       resp.should include({'title_245a_display' => /^The Nation$/i}).in_each_of_first(7)
-      resp.should include(@law).in_first(3)
+      resp.should include(@law).in_first(4)
       resp.should include([@law, @green_current]).in_first(5)
       resp.should include(@orig).in_first(7)
     end
 # -- end OLD tests
 
-    # split out to allow us to fine tune the fixmes
-    it_behaves_like "great results for format newspaper", "The Nation" do
+    it_behaves_like "great results for journal/newspaper", "The Nation" do
       news = [ '8217400', # malawi, green mfilm
               '4772643', # malawi, sal
               '2833546', # liberia, sal newark
               ]
       let(:newspaper_only) { news }
-    end
-    it_behaves_like "great results for format journal", "The Nation" do
       journal = [ '497417', # green current
                   '464445', # green micro 
                   '10039114', # biz
@@ -145,60 +140,24 @@ describe "journal/newspaper titles" do
                   #  6743421  245 a| State of the nation. 
                 ]
       let(:journal_only) { journal }
-    end
-    context "fixme", :fixme => true do
-      # works in production
-      it_behaves_like "great results for journal/newspaper", "The Nation" do
-        news = [ '8217400', # malawi, green mfilm
-                '4772643', # malawi, sal
-                '2833546', # liberia, sal newark
-                ]
-        let(:newspaper_only) { news }
-        journal = [ '497417', # green current
-                    '464445', # green micro 
-                    '10039114', # biz
-                    '3448713', # law
-                    '405604', # gambia
-                    '7859278', # swaziland
-                    '381709', # hoover, south africa
-                    '454276', # sierra leone
-                    # problematic
-                    #  9131572  245  a| Finances of the nation h| [electronic resource]
-                    #  7689978  245 a| The Nation's hospitals h| [print]. 
-                    #  6743421  245 a| State of the nation. 
-                  ]
-        let(:journal_only) { journal }
-        format_other = [ '393626', # burma
-                        '385051', # ireland, hoover
-                        '385052', # hoover
-                        '8412029', # fisher, online - galenet
-                        # problematic
-                        #  9211530   245 a| The Beat (The Nation)
-                      ]
-        book = ['2613193', # fed doc on floods
-                '9296914', # mulford, online - galenet
-                '7170814', # mulford, online - galenet
-                '7815517', # lingeman  245 |a The Nation : b| guide to the Nation / c| by Richard Lingeman ; introduction by Victor Navasky and Katrina Vanden Heuvel ; original drawings by Ed Koren. 
-                '2098094', # mulford 
-                ]
-        let(:all_formats) { news + journal + format_other + book }
-      end
-    end
-    
+      format_other = [ '393626', # burma
+                      '385051', # ireland, hoover
+                      '385052', # hoover
+                      '8412029', # fisher, online - galenet
+                      # problematic
+                      #  9211530   245 a| The Beat (The Nation)
+                    ]
+      book = ['2613193', # fed doc on floods
+              '9296914', # mulford, online - galenet
+              '7170814', # mulford, online - galenet
+              '7815517', # lingeman  245 |a The Nation : b| guide to the Nation / c| by Richard Lingeman ; introduction by Victor Navasky and Katrina Vanden Heuvel ; original drawings by Ed Koren. 
+              '2098094', # mulford 
+              ]
+      let(:all_formats) { news + journal + format_other + book }
+    end  
   end # the Nation
 
   context "The Times" do
-    # these are split out to allow us to fine-tune the fixmes
-    it_behaves_like "great results for format newspaper", "The Times" do
-      news = ['8376802', # richmond, online, 1941-2959 
-              '425948', # london, green, 
-              '425951', # london, database, green, 0140-0460 
-              '395098', # malawi
-              '414857', # london, hoover
-              ]
-      let(:newspaper_only) { news }
-    end
-    # there are no journal results
     it_behaves_like "great results for journal/newspaper", "The Times", {'rows' => 64 } do
       journal = []
       news = ['8376802', # richmond, online, 1941-2959 
@@ -248,7 +207,6 @@ describe "journal/newspaper titles" do
   end # the Times
 
   context "The Guardian" do
-    # these are split out to allow us to fine-tune the fixmes
     it_behaves_like "great results for format newspaper", "The Guardian" do
       news = ['491941', #green mfilm
               '438344', # manchester, green
@@ -258,7 +216,7 @@ describe "journal/newspaper titles" do
               ]
       let(:newspaper_only) { news }
     end
-    context "fixme", :fixme => true do
+    context "fixme", :fixme => true, :edismax => true do
       it_behaves_like "great results for format journal", "The Guardian" do
         journal = ['473061', # rare
                     '2046773', # rare
@@ -270,57 +228,19 @@ describe "journal/newspaper titles" do
                     ]
         let(:journal_only) { journal }
       end
-
-      it_behaves_like "great results for journal/newspaper", "The Guardian", {'rows' => 64 } do
-        journal = ['473061', # rare
-                    '2046773', # rare
-                    '2046781', # rare
-                    '361891', #green mfilm
-                    '361893', # green, philadelphia
-                    # problematic:
-                    #   '6541023'  #  245  6| 880-01 a| Dao bao. b| The Guardian.
-                    ]
-        news = ['491941', #green mfilm
-                '438344', # manchester, green
-                '2873190', # nigeria
-                '4720924', # tanzania
-                '411072', # manchester, hoover
-                ]
-
-        video = ['6739108']
-
-        other = ['382502', # burma, format Other
-                  '382501' # hoover, format Other
-                ]
-
-        # many of the book are from find.galegroup.com
-        book = ['8415217', '8414328', '8402896', '8738551', '8744676', '8744669', '8318844', '2075676', '2075676', '3042946', '2074558', '2073994',
-          '2817859', '8318845', '8054820', '8054819', '50179', '596533', '6982889', '8085274', '8737844', 
-          '8061605', '8061610', '8061608', '8061609', '8033895', '8061606', '8061607', '8733947', '8009153', '8054821']
-        # all of the below are online from find.galegroup.com
-        ellipses = ['8074878', '8057381', '8076326', '8002481', '8029616', '8022667', '8002480', '8026648', '8026647', '8080945', '8002479', 
-                    '8002478', '8026645', '8054818', '8057382', '8026646', '8076327', '8026644', '8078462', '' ]
-        # problematic:
-        #   '6541023'  #  245  6| 880-01 a| Dao bao. b| The Guardian.
-        #   '8161510'  #  245  a| The Guardian (Charlottetown)
-
-        let(:all_formats) { journal + news + video + other + book + ellipses }
-        let(:journal_only) { journal }
-        let(:newspaper_only) { news }
-      end
     end
   end # the Guardian
   
   context "the state" do
-    # these are split out to allow us to fine-tune the fixmes
+    # TODO:  to do - get rid of this in favor of big one only
     it_behaves_like "great results for format journal", "The state" do
       journal = ['8211682', # charlotte 0038-9994
                 ]
       let(:journal_only) { journal }
     end
     # there are no news results
-    context "fixme", :fixme => true do
-      it_behaves_like "great results for journal/newspaper", "the state" do
+    context "fixme", :fixme => true, :edismax => true do
+      it_behaves_like "great results for journal/newspaper", "the state", {"rows"=>"50"} do
         journal = ['8211682', # charlotte 0038-9994
                   ]
         news = []
@@ -359,7 +279,6 @@ describe "journal/newspaper titles" do
   end # the state
 
   context "the world" do
-    # these are split out to allow us to fine-tune the fixmes
     it_behaves_like "great results for format journal", "The world" do
       journal = ['2131497', # st marks 0043-8154, green
                   '4514062', # fitz-adam, spec
@@ -438,19 +357,6 @@ describe "journal/newspaper titles" do
   end
 
   context "the news" do
-    it_behaves_like "great results for format journal", "the news" do
-      journal = ['2803490', # nigeria, green, 1116-7157
-              '371779', # cincinatti
-                ]
-      let(:journal_only) { journal }
-    end
-    it_behaves_like "great results for format newspaper", "the news" do
-      news = ['5713602', # liberia, green mfilm
-              '2479216', # liberia
-                ]
-      let(:newspaper_only) { news }
-    end
-    # doesn't work for edismax
     it_behaves_like "great results for journal/newspaper", "The news" do
       journal = ['2803490', # nigeria, green, 1116-7157
               '371779', # cincinatti
@@ -472,20 +378,6 @@ describe "journal/newspaper titles" do
   end
   
   context "the star" do
-    it_behaves_like "great results for format journal", "the star" do
-      journal = ['461027', # uganda, sal
-                ]
-      let(:journal_only) { journal }
-    end
-    it_behaves_like "great results for format newspaper", "the star" do
-      news = ['9861955', # tinley park, online
-              '4259079', # guernsey, hoover
-              '4533025', # johannesburg, hoover
-              '423194', # johannesburg, sal newark
-                ]
-      let(:newspaper_only) { news }
-    end
-    # doesn't work for edismax
     it_behaves_like "great results for journal/newspaper", "The star" do
       journal = ['461027', # uganda, sal
                 ]
@@ -516,25 +408,6 @@ describe "journal/newspaper titles" do
   end
 
   context "the herald" do
-    it_behaves_like "great results for format journal", "the herald" do
-      journal = ['8201184', # conroe, tex, online
-                  '8504925', # ghana
-                  '460847', # australia, hoover
-                  '362256', # vestnik, hoover
-                  '362254', # pronunciation and amended speling
-                ]
-      let(:journal_only) { journal }
-    end
-    it_behaves_like "great results for format newspaper", "the herald" do
-      news = ['9333628', # sharon, pa, online
-              '4367458', # london, hoover micro
-              '4789791', # zimbabwe
-              '2870984', # zimbabwe micro
-              '484762', # ny, green
-            ]
-      let(:newspaper_only) { news }
-    end
-    # doesn't work for edismax
     it_behaves_like "great results for journal/newspaper", "The herald" do
       journal = ['8201184', # conroe, tex, online
                   '8504925', # ghana
@@ -561,26 +434,6 @@ describe "journal/newspaper titles" do
   end
   
   context "the journal" do
-    it_behaves_like "great results for format journal", "the journal" do
-      journal = ['9857186', # bar assoc dc, online, 0196-1578
-                  '4144519', # bar assoc dc, law
-                  '441812', # mecca, green
-                  '478138', # kansas, branner
-                  '9696658', # cleveland, heinonline
-                  '9705114', # oklahoma, heinonline
-                  '495155', # canada, edu
-                  '498469', # kansas, green
-                  '667465', # metal polishers, green micro
-                  '667361', # metal polishers, green mfilm
-                  '667316', # metal polishers, green mfilm
-                  '354858', # burma, sal3
-                  '437735', # kansas, branner
-                  '2941201', # tech horiz, educ, 0192-592x
-                ]
-      let(:journal_only) { journal }
-    end
-    # no newspaper format
-    # doesn't work for edismax
     it_behaves_like "great results for journal/newspaper", "The journal" do
       journal = ['9857186', # bar assoc dc, online, 0196-1578
                   '4144519', # bar assoc dc, law
@@ -611,15 +464,6 @@ describe "journal/newspaper titles" do
   end
   
   context "the atlantic" do
-    it_behaves_like "great results for format journal", "the atlantic" do
-      journal = ['454930', # boston, sal, 0276-9077
-              '10006758', # biz, 1072-7825
-              '454928', # sal3, spec, 1060-6506
-                ]
-      let(:journal_only) { journal }
-    end
-    # no news
-    # doesn't work for edismax
     it_behaves_like "great results for journal/newspaper", "The atlantic" do
       journal = ['454930', # boston, sal, 0276-9077
               '10006758', # biz, 1072-7825
