@@ -388,10 +388,10 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
     context "both anchors (single word query or field value)" do
       
     end
-    context "right anchor only" do
+    context "left anchor only (beginning of query or field value)" do
       
     end
-    context "left anchor only" do
+    context "right anchor only(end of query or field value)" do
       
     end
   end
