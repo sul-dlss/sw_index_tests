@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'spec_helper'
 
 describe "hyphen in queries" do
@@ -253,6 +254,25 @@ describe "hyphen in queries" do
     it 'phrase instead of hyphen: "post colonial"' do
       resp = solr_resp_ids_from_query 'South Africa, Shakespeare "post colonial" culture'
       resp.should have_documents
+    end
+  end
+  
+  context "hyphens with spaces from the usage logs", :fixme => true do
+    context "Europe - North Korea: between humanitarism and business" do
+      it_behaves_like "hyphens ignored", "Europe - North Korea: between humanitarism and business", "8935347", 1
+    end
+    context "Mixed Blessings: New Art in a Multicultural America - Lucy R. Lippard" do
+      it_behaves_like "hyphens ignored", "Mixed Blessings: New Art in a Multicultural America - Lucy R. Lippard", "525450", 1
+    end
+    context "VanDerZee, Photographer: 1886 – 1983" do
+      # note:  this is the double hyphen
+      it_behaves_like "hyphens ignored", "VanDerZee, Photographer: 1886 – 1983", "2782147", 1
+    end
+    context "MPI - the complete reference" do
+      it_behaves_like "hyphens ignored", "MPI - the complete reference", ["4115563", "3131940"], 2
+    end
+    context "Retinoids - Methods and Protocols" do
+      it_behaves_like "hyphens ignored", "Retinoids - Methods and Protocols", "8774837", 1
     end
   end
   
