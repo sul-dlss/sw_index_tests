@@ -533,6 +533,26 @@ describe "journal/newspaper titles" do
     end
   end
 
+  context "the wall street journal" do
+    it_behaves_like "great results for journal/newspaper", "the wall street journal" do
+      journal = ['3352414', # law, 0193-2241 
+                  '400114', # index, sal3, 0099-9660
+                ]
+      news = ['486902', # green, terman, 0193-2241 
+              '486903', # also database, microform, 0099-9660
+              '9257840', # online, 1092-0935 
+              '6654532', # proquest
+              '10041833', # biz, 0193-2241
+              ]
+      book = ['1407594', # purveyor of news to biz america,
+              '1037892', # the story of dow jones ...
+              ]
+      let(:all_formats) { journal + news + book }
+      let(:journal_only) { journal }
+      let(:newspaper_only) { news }
+    end
+  end
+
   it "'Times of London' - common words ... as a phrase  (it's actually a newspaper ...)" do
     resp = solr_resp_doc_ids_only(title_search_args('"Times of London"').merge({'fq' => 'format:Newspaper'}))
     resp.should include(['425948', '425951']).in_first(3)
