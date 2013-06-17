@@ -18,23 +18,23 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
     context '"Koran" will change to "Qurʼan"' do
       # qurʼan, qur'an, quran, qorʼan, qor'an, qoran => koran
       it "everything search" do
-        resp = solr_resp_ids_from_query('koran')
-        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query("qurʼan")) # alif
-        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query("Qur'an")) # apostrophe
-        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query("quran"))
-        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query("Qorʼan")) # alif
-        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query("qor'an")) # apostrophe
-        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query("Qoran"))
+        resp = solr_resp_ids_from_query 'koran'
+        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "qurʼan") # alif
+        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "Qur'an") # apostrophe
+        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "quran")
+        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "Qorʼan") # alif
+        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "qor'an") # apostrophe
+        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "Qoran")
         resp.should have_at_least(3000).documents
       end
       it "title search" do
-        resp = solr_resp_doc_ids_only(title_search_args('Koran'))
-        resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args("Qurʼan"))) # alif
-        resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args("qur'an"))) # apostrophe
-        resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args("Quran")))
-        resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args("qorʼan"))) # alif
-        resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args("Qor'an"))) # apostrophe
-        resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args("qoran")))
+        resp = solr_resp_doc_ids_only(title_search_args 'Koran')
+        resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args "Qurʼan")) # alif
+        resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args "qur'an")) # apostrophe
+        resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args "Quran"))
+        resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args "qorʼan")) # alif
+        resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args "Qor'an")) # apostrophe
+        resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args "qoran"))
       end
     end
     context '"O.T." and "N.T." will change to "Old Testament" and "New Testament"', :fixme => true do
@@ -56,8 +56,8 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
           resp = solr_resp_ids_from_query('bible n.t.')
           resp.should have_at_least(16000).documents
           resp.should include('9490551') # no n.t. in the record
-#          resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query("bible new testament"))  # 3486 (7108 in prod)
-          resp.should_not have_the_same_number_of_results_as(solr_resp_ids_from_query("bible n. t.")) # space
+#          resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "bible new testament")  # 3486 (7108 in prod)
+          resp.should_not have_the_same_number_of_results_as(solr_resp_ids_from_query "bible n. t.") # space
         end
         it "title search" do
           resp = solr_resp_doc_ids_only(title_search_args('bible n.t.'))
@@ -103,25 +103,25 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
         resp = solr_response({'q'=>"C++", 'fl'=>'id,title_245a_display', 'facet'=>false})
         resp.should include("title_245a_display" => /C\+\+/).in_each_of_first(20).documents
         resp.should have_at_most(1000).documents
-        resp.should_not have_the_same_number_of_results_as(solr_resp_ids_from_query("C"))
+        resp.should_not have_the_same_number_of_results_as(solr_resp_ids_from_query "C")
       end
       it "professional C++" do
         resp = solr_resp_ids_from_query('professional C++')
         resp.should include(['9612289', '9240287', '7534583', '7819695', '9801531']).in_first(10).results
         resp.should have_at_most(150).documents
-        resp.should_not have_the_same_number_of_results_as(solr_resp_ids_from_query("professional C"))
+        resp.should_not have_the_same_number_of_results_as(solr_resp_ids_from_query "professional C")
       end
       it "C++ active learning" do
         resp = solr_resp_ids_from_query('C++ active learning')
         resp.should include('8937747').as_first.result
         resp.should have_at_most(50).documents
-        resp.should_not have_the_same_number_of_results_as(solr_resp_ids_from_query("C active learning"))
+        resp.should_not have_the_same_number_of_results_as(solr_resp_ids_from_query "C active learning")
       end
       it "C++ computer program" do
         resp = solr_response({'q'=>"C++ computer program", 'fl'=>'id,title_245a_display', 'facet'=>false})
         resp.should include("title_245a_display" => /C\+\+/).in_each_of_first(20).documents
         resp.should have_at_most(800).documents
-        resp.should_not have_the_same_number_of_results_as(solr_resp_ids_from_query("C computer program"))
+        resp.should_not have_the_same_number_of_results_as(solr_resp_ids_from_query "C computer program")
       end
       it "C programming", :jira => 'VUF-1993' do
         resp = solr_resp_doc_ids_only(subject_search_args('C programming'))
@@ -135,8 +135,8 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
         resp = solr_response({'q'=>'professional C#', 'fl'=>'id,title_245a_display', 'facet'=>false})
         resp.should include("title_245a_display" => /C(#|♯)/).in_each_of_first(20).documents
         resp.should have_at_most(250).documents
-        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query("professional C♯"))
-        resp.should_not have_the_same_number_of_results_as(solr_resp_ids_from_query("professional C"))
+        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "professional C♯")
+        resp.should_not have_the_same_number_of_results_as(solr_resp_ids_from_query "professional C")
       end
     end
     context "F# (also musical key)" do
@@ -144,7 +144,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
         resp = solr_response(title_search_args("F#").merge!({'fl'=>'id,title_245a_display', 'facet'=>false}))
         resp.should include("title_245a_display" => /f(#|♯|\-sharp| sharp)/i).in_each_of_first(20).documents
         resp.should have_at_most(2000).documents
-        resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args("F♯")))
+        resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args "F♯"))
         # it is distinct from results for F
         f_resp = solr_response(title_search_args("F").merge!({'fl'=>'id,title_245a_display', 'facet'=>false}))
         f_resp.should include("title_245a_display" => /^"?F\.?"?$/).in_each_of_first(5).documents
@@ -155,8 +155,8 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
       it "everything search" do
         resp = solr_resp_ids_from_query('J#')
         resp.should have_at_most(20).documents
-        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query("J♯"))
-        resp.should_not have_the_same_number_of_results_as(solr_resp_ids_from_query("J"))
+        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "J♯")
+        resp.should_not have_the_same_number_of_results_as(solr_resp_ids_from_query "J")
       end
     end
   end # programming languages
@@ -212,6 +212,37 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
         resp.should have_fewer_results_than(solr_resp_ids_from_query('f sharp minor'))
       end
 
+      it "f# major results should not include f major", :fixme => true do
+        resp = solr_resp_ids_titles({'q' => 'F# major'})
+        resp.should_not include({'title_245a_display' => /F major/i})
+      end
+      
+      context "phrase searching" do
+        before(:all) do
+          no_phrase_resp = solr_resp_ids_titles({'q' => 'F# major'})
+        end
+        it "first token in phrase", :fixme => true do
+          resp = solr_resp_ids_titles({'q' => '"F# major"'})
+          resp.should include({'title_245a_display' => /(F#|F♯|F\-sharp|F sharp) major/i}).in_each_of_first(10).documents
+        end
+        it "first token in phrase with preceding space", :fixme => true do
+          resp = solr_resp_ids_titles({'q' => '" F# major"'})
+          resp.should include({'title_245a_display' => /(F#|F♯|F\-sharp|F sharp) major/i}).in_each_of_first(10).documents
+        end
+        it "last token in phrase" do
+          resp = solr_resp_ids_titles({'q' => '"symphony in F#"'})
+          resp.should include({'title_245a_display' => /symphony in (F#|F♯|F\-sharp|F sharp)/i}).in_each_of_first(5).documents
+        end
+        it "last token in phrase with following space" do
+          resp = solr_resp_ids_titles({'q' => '"symphony in F# "'})
+          resp.should include({'title_245a_display' => /symphony in (F#|F♯|F\-sharp|F sharp)/i}).in_each_of_first(5).documents
+        end
+        it "middle token in phrase", :fixme => true do
+          resp = solr_resp_ids_from_query '"nocturne in F# minor"'
+          resp.should include(280328).in_first(3) # 'Nocturne in F# minor'
+        end      
+      end
+      
       context "should not reduce precision for reasonable non-musical searches with x#" do
         # see above for programming languages C#, F#
       end
@@ -351,5 +382,18 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
       end
     end # flat keys
   end # musical keys
+
+
+  context "anchors" do
+    context "both anchors (single word query or field value)" do
+      
+    end
+    context "right anchor only" do
+      
+    end
+    context "left anchor only" do
+      
+    end
+  end
 
 end
