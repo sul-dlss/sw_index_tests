@@ -81,4 +81,18 @@ describe "Default Request Handler" do
     resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('hArRy pOTTEr'))
   end
 
+  context "world atlas of sea grasses", :jira => 'VUF-2451' do
+    it "world atlas of sea grasses", :fixme => true do
+      resp = solr_resp_ids_from_query('world atlas of sea grasses')
+      resp.should include('5454691').as_first
+      resp.should include('4815882')
+    end
+    it "world atlas of seagrasses" do
+      resp = solr_resp_ids_from_query('world atlas of seagrasses')
+      resp.should include('5454691').as_first
+      resp.should include('4815882')
+    end    
+  end
+  
+
 end
