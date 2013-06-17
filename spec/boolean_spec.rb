@@ -58,6 +58,34 @@ describe "boolean operators" do
       end
     end
     
+    context "history man by malcolm bradbury", :jira => 'SW-805' do
+      it "history man and bradbury", :fixme => true do
+        resp = solr_resp_ids_from_query 'history man and bradbury'
+        resp.should include('1433520').in_first(3)
+      end
+      it "history man AND bradbury" do
+        resp = solr_resp_ids_from_query 'history man AND bradbury'
+        resp.should include('1433520').in_first(3)
+      end
+      it "history man bradbury" do
+        resp = solr_resp_ids_from_query 'history man bradbury'
+        resp.should include('1433520').in_first(3)
+      end
+      it "history man bradbury malcolm" do
+        resp = solr_resp_ids_from_query 'history man bradbury malcolm'
+        resp.should include('1433520').in_first(3)
+      end
+      it "history man malcolm bradbury" do
+        resp = solr_resp_ids_from_query 'history man malcolm bradbury'
+        resp.should include('1433520').in_first(3)
+      end
+      it "history man" do
+        resp = solr_resp_ids_from_query 'history man'
+        resp.should include('1433520').in_first(3)
+      end
+    end
+    
+    
     it "lower case 'and' behaves like upper case AND", :jira => 'VUF-626' do
       resp = solr_resp_ids_from_query 'South Africa, Shakespeare AND post-colonial culture'
       resp.should include(["8505958", "4745861", "7837826", "7756621"])
