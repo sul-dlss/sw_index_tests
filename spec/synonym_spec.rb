@@ -264,6 +264,11 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
           resp.should include('8156248').as_first # Geo B. Sharp
           resp.should have_at_most(600).documents
         end
+        it "paul f sharp", :fixme => true do
+          # from solr logs - doesn't work because it's paul frederic sharp
+          resp = solr_resp_ids_from_query "paul f sharp whoop up country"
+          resp.should include('2127815').as_first
+        end
       end
     end # sharp keys
 
@@ -378,6 +383,16 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
           resp = solr_resp_doc_ids_only(title_search_args('3-d flat').merge!(book_facet_arg))
           resp.should include('3143706')  # "Design of 3-D nacelle near flat-plate wing ..."
           resp.should include('8613091')  # " ... 3-D forms from flat curved shapes ..."
+        end
+        context "from solr logs" do
+          it "turbulence in a nominally zero-pressure-gradient flat-plate boundary layer" do
+            resp = solr_resp_ids_from_query('turbulence in a nominally zero-pressure-gradient flat-plate boundary layer')
+            resp.should include('9691535').as_first
+          end
+          it "a supersonic flat-plate boundary layer" do
+            resp = solr_resp_ids_from_query('a supersonic flat-plate boundary layer')
+            resp.should include(['2692494', '4620595']).in_first(3)
+          end
         end
       end
     end # flat keys
