@@ -83,9 +83,8 @@ describe "boolean operators" do
         resp = solr_resp_ids_from_query 'history man'
         resp.should include('1433520').in_first(3)
       end
-    end
-    
-    
+    end 
+
     it "lower case 'and' behaves like upper case AND", :jira => 'VUF-626' do
       resp = solr_resp_ids_from_query 'South Africa, Shakespeare AND post-colonial culture'
       resp.should include(["8505958", "4745861", "7837826", "7756621"])
