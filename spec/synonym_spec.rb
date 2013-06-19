@@ -117,9 +117,9 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
         resp.should have_at_most(50).documents
         resp.should_not have_the_same_number_of_results_as(solr_resp_ids_from_query "C active learning")
       end
-      it "C++ computer program" do
-        resp = solr_response({'q'=>"C++ computer program", 'fl'=>'id,title_245a_display', 'facet'=>false})
-        resp.should include("title_245a_display" => /C\+\+/).in_each_of_first(20).documents
+      it "C++ programming" do
+        resp = solr_response({'q'=>"C++ programming", 'fl'=>'id,title_245a_display', 'facet'=>false})
+        resp.should include("title_245a_display" => /C\+\+ programming/i).in_each_of_first(20).documents
         resp.should have_at_most(800).documents
         resp.should_not have_the_same_number_of_results_as(solr_resp_ids_from_query "C computer program")
       end
@@ -187,11 +187,15 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
         resp = solr_resp_ids_from_query('d#')
         resp.should include('7941865').as_first  # Etude in D sharp minor
         resp.should have_at_most(175).documents  # should not include d  as well, only  d sharp
+        # the following all have a short title (245a) of D
+        resp.should_not include(['5988225', '9257569', '423004', '9095168', '9206662'])
       end
       it "e#" do
         resp = solr_resp_ids_from_query('e#')
         resp.should include('273560').as_first  # E# Gott hat Jesum erweckt
         resp.should have_at_most(2250).documents  # should not include e  as well, only  e sharp
+        # the following all have a short title (245a) of E
+        resp.should_not include(['6651530', '5322298', '5816108', '4431628', '2871541', '523577', '227615', '1229108', '6698423', '419610', '437576', '9413817'])
       end
       it "f# minor" do
         resp = solr_resp_ids_from_query('f# minor')
