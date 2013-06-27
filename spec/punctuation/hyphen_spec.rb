@@ -137,12 +137,16 @@ describe "hyphen in queries" do
       @tresp_whole_phrase_no_hyphen.should include(unexp_ids)
       @tresp_whole_phrase_no_hyphen.should_not include(exp_ids) if exp_ids
     end
-    it "should treat hyphen as NOT in everything searches", :edismax => true do
+    # the following is busted due to Solr edismax bug
+    # https://issues.apache.org/jira/browse/SOLR-2649
+    it "should treat hyphen as NOT in everything searches", :fixme => true do
       @resp.should have_the_same_number_of_documents_as(@resp_not)
       # the below isn't true for edismax b/c mm is basically set to 0  https://issues.apache.org/jira/browse/SOLR-2649
       @resp.should have_fewer_results_than(solr_resp_ids_from_query(@q_no_term))
     end
-    it "should treat hyphen as NOT in title searches", :edismax => true do
+    # the following is busted due to Solr edismax bug
+    # https://issues.apache.org/jira/browse/SOLR-2649
+    it "should treat hyphen as NOT in title searches", :fixme => true do
       @tresp.should have_the_same_number_of_documents_as(@tresp_not)
       # the below isn't true for edismax b/c mm is basically set to 0  https://issues.apache.org/jira/browse/SOLR-2649
       @tresp.should have_fewer_results_than(solr_resp_doc_ids_only(title_search_args(@q_no_term)))
@@ -282,7 +286,9 @@ describe "hyphen in queries" do
 #    it_behaves_like "hyphens ignored", "The third plan mid - term appraisal", "2234698", 1
   end
 
-  context "'beyond race in a race -obsessed world'" do
+  # the following is busted due to Solr edismax bug
+  # https://issues.apache.org/jira/browse/SOLR-2649  
+  context "'beyond race in a race -obsessed world'", :fixme => true do
     it_behaves_like "hyphens with space before but not after are treated as NOT, but ignored in phrase", "beyond race in a race -obsessed world", "3148369", "3381968"
   end
 
@@ -373,7 +379,7 @@ describe "hyphen in queries" do
       resp.should have_at_least(1400).documents
       resp.should have_the_same_number_of_documents_as(solr_resp_ids_from_query('mark twain NOT "tom sawyer"'))
     end
-    it "should work with parens", :jira => 'VUF-379', :fixme => true do
+    it "should work with parens", :jira => 'VUF-379' do
       resp = solr_resp_ids_from_query('mark twain -(tom sawyer)')
       resp.should have_at_least(1400).documents
       resp.should have_the_same_number_of_documents_as(solr_resp_ids_from_query('mark twain NOT (tom sawyer)'))
@@ -383,9 +389,9 @@ describe "hyphen in queries" do
   context "hyphenated phrase in quotes \"Color-blind\" racism" do
     it "should ignore the hyphen" do
       resp = solr_resp_ids_from_query('"Color-blind" racism')
-      resp.should include("3499287").as_first
+      resp.should include("3499287").in_first(3)
       resp_no_hyphen = solr_resp_ids_from_query('"Color blind" racism')
-      resp_no_hyphen.should include("3499287").as_first
+      resp_no_hyphen.should include("3499287").in_first(3)
       resp.should have_the_same_number_of_documents_as(resp_no_hyphen)
       tresp = solr_resp_doc_ids_only(title_search_args '"Color-blind" racism')
       tresp.should include("3499287").as_first
