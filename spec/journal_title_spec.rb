@@ -105,7 +105,7 @@ describe "journal/newspaper titles" do
       resp.should include(@orig).in_first(4)
     end
 
-    it "as title search", :fixme => true, :edismax => true do
+    it "as title search" do
       resp = solr_resp_ids_titles(title_search_args "The Nation")
       resp.should include({'title_245a_display' => /^The Nation$/i}).in_each_of_first(7)
       resp.should include(@orig).in_first(4)
@@ -232,65 +232,54 @@ describe "journal/newspaper titles" do
               ]
       let(:newspaper_only) { news }
     end
-    context "fixme", :fixme => true, :edismax => true do
-      it_behaves_like "great results for format journal", "The Guardian" do
-        journal = ['473061', # rare
-                    '2046773', # rare
-                    '2046781', # rare
-                    '361891', #green mfilm
-                    '361893', # green, philadelphia
-                    # problematic:
-                    #   '6541023'  #  245  6| 880-01 a| Dao bao. b| The Guardian.
-                    ]
-        let(:journal_only) { journal }
-      end
+    it_behaves_like "great results for format journal", "The Guardian" do
+      journal = ['473061', # rare
+                  '2046773', # rare
+                  '2046781', # rare
+                  '361891', #green mfilm
+                  '361893', # green, philadelphia
+                  # problematic:
+                  #   '6541023'  #  245  6| 880-01 a| Dao bao. b| The Guardian.
+                  ]
+      let(:journal_only) { journal }
     end
   end # the Guardian
   
   context "the state" do
-    # TODO:  to do - get rid of this in favor of big one only
-    it_behaves_like "great results for format journal", "The state" do
+    it_behaves_like "great results for journal/newspaper", "the state", {"rows"=>"50"} do
       journal = ['8211682', # charlotte 0038-9994
                 ]
+      news = []
+      book = ['1337047', # hall, green
+              '2981862', # hall, sal3
+              '1125570', # de jasay, green
+              '2183213', # wilson, spec
+              '6308681', # theories and issues, green
+              '1592583', # authority and autonomy, jordan, green
+              '1502386', # its historic role, kropotkin, green
+              '53622', # its historic role, kropotkin, sal1
+              '7528556', # historical & political dim, ebrary
+              '3458132', # philosophical and institutational found, ackron, sal1
+              '504806', # poggi, green
+              '1938247', # staat, hoover
+              '2098084', # staat, sal3
+              '1842827', # wilson, sal
+              '8277', # oppenheimer, sal
+              '1775309', # oppenheimer, law
+              '7176892', # wilson, galegroup
+              '5611740', # wilson, education
+              '2142967', # wilson, sal
+              '9310732', # roeser, galegroup
+              '2917057', # lenin, sal
+              '2916831', # lenin, hoover
+              '61414', # lenin, sal
+              '7170267', # wilson, galegroup
+              ]
+      other = ['389364', # hoover
+              ]
+      let(:all_formats) { journal + news + book + other }
       let(:journal_only) { journal }
-    end
-    # there are no news results
-    context "fixme", :fixme => true, :edismax => true do
-      it_behaves_like "great results for journal/newspaper", "the state", {"rows"=>"50"} do
-        journal = ['8211682', # charlotte 0038-9994
-                  ]
-        news = []
-        book = ['1337047', # hall, green
-                '2981862', # hall, sal3
-                '1125570', # de jasay, green
-                '2183213', # wilson, spec
-                '6308681', # theories and issues, green
-                '1592583', # authority and autonomy, jordan, green
-                '1502386', # its historic role, kropotkin, green
-                '53622', # its historic role, kropotkin, sal1
-                '7528556', # historical & political dim, ebrary
-                '3458132', # philosophical and institutational found, ackron, sal1
-                '504806', # poggi, green
-                '1938247', # staat, hoover
-                '2098084', # staat, sal3
-                '1842827', # wilson, sal
-                '8277', # oppenheimer, sal
-                '1775309', # oppenheimer, law
-                '7176892', # wilson, galegroup
-                '5611740', # wilson, education
-                '2142967', # wilson, sal
-                '9310732', # roeser, galegroup
-                '2917057', # lenin, sal
-                '2916831', # lenin, hoover
-                '61414', # lenin, sal
-                '7170267', # wilson, galegroup
-                ]
-        other = ['389364', # hoover
-                ]
-        let(:all_formats) { journal + news + book + other }
-        let(:journal_only) { journal }
-        let(:newspaper_only) { news }
-      end
+      let(:newspaper_only) { news }
     end
   end # the state
 
