@@ -3,9 +3,6 @@ require 'spec_helper'
 describe "boolean operators" do
   
   # TODO: more better tests for lowercase and?
-  # TODO: what about lowercase not?
-  # TODO: what about OR/or ?
-
   context "default operator:  AND" do
 
     context "everything search" do
@@ -59,6 +56,7 @@ describe "boolean operators" do
     end
     
     context "history man by malcolm bradbury", :jira => 'SW-805' do
+      # lowercase and is considered a query term
       it "history man and bradbury", :fixme => true do
         resp = solr_resp_ids_from_query 'history man and bradbury'
         resp.should include('1433520').in_first(3)
@@ -95,6 +93,8 @@ describe "boolean operators" do
     
   end # context AND
   
+  # TODO: what about lowercase not?
+
   context "NOT operator" do
 
     shared_examples_for "NOT negates following term" do | query, exp_ids, un_exp_ids, first_n |
@@ -112,7 +112,9 @@ describe "boolean operators" do
         resp_w_term = solr_resp_ids_from_query query.sub(' NOT ', ' ')
         resp_w_term.should include(un_exp_ids)
       end
-      it "should have fewer results than query without NOT clause" do
+      # the following is busted due to Solr bug
+      # https://issues.apache.org/jira/browse/SOLR-2649
+      it "should have fewer results than query without NOT clause", :fixme => true do
         @resp.should have_fewer_documents_than(solr_resp_ids_from_query query.sub(/ NOT \S+ ?/, ' '))
       end
       it "hyphen with space before but not after (' -a') should be equivalent to NOT" do
@@ -122,9 +124,11 @@ describe "boolean operators" do
     
     #  per Google Analytics mid-April - mid- May 2013
     context "actual user queries" do
-      context "space exploration NOT nasa", :edismax => true do
+      context "space exploration NOT nasa" do
         it_behaves_like "NOT negates following term", 'space exploration NOT nasa', "4146206", "2678639", 5
-        it "has an appropriate number of results", :edismax => true do
+        # the following is busted due to Solr bug
+        # https://issues.apache.org/jira/browse/SOLR-2649
+        it "has an appropriate number of results", :fixme => true do
           resp = solr_resp_ids_from_query 'space exploration NOT nasa'
           resp.should have_at_least(6300).documents
           resp.should have_at_most(7250).documents  # 2013-05-21  space exploration: 7896 results
@@ -177,7 +181,7 @@ describe "boolean operators" do
         @resp.should have_more_results_than(solr_resp_ids_from_query 'mark twain tom sawyer')
       end
 
-      it "should work with parens", :jira => 'VUF-379', :fixme => true, :edismax => true do
+      it "should work with parens", :jira => 'VUF-379' do
         resp = solr_resp_ids_from_query 'mark twain NOT (tom sawyer)'
         resp.should have_at_least(1400).documents
       end
@@ -186,7 +190,7 @@ describe "boolean operators" do
         resp.should have_at_least(1400).documents
         resp.should have_the_same_number_of_documents_as(@resp)
       end
-      it "with parens outside quote", :fixme => true, :edismax => true do
+      it "with parens outside quote" do
         resp = solr_resp_ids_from_query 'mark twain NOT ("tom sawyer")' # 0 documents
         resp.should have_at_least(1400).documents
         resp.should have_the_same_number_of_documents_as(@resp)
@@ -207,7 +211,7 @@ describe "boolean operators" do
         @resp.should have_the_same_number_of_documents_as(solr_resp_ids_from_query 'mark twain NOT )"tom sawyer"')
         @resp.should have_the_same_number_of_documents_as(solr_resp_ids_from_query 'mark twain NOT "tom sawyer")')
       end
-      it "with unmatched quote", :jira => 'VUF-379', :fixme => true, :edismax => true do
+      it "with unmatched quote", :jira => 'VUF-379' do
         resp = solr_resp_ids_from_query 'mark twain NOT "tom sawyer' # 0 documents
         resp = solr_resp_ids_from_query 'mark twain NOT tom sawyer' # 0 documents
         resp.should have_at_least(1400).documents
@@ -215,7 +219,9 @@ describe "boolean operators" do
     end
   end # context NOT
    
-  context "OR", :fixme => true do
+  # TODO: what about lowercase or ?
+  
+  context "OR" do
     #  per Google Analytics mid-April - mid- May 2013
     context "actual user queries" do
       context "indochine OR indochina" do
@@ -245,8 +251,8 @@ describe "boolean operators" do
           #  titles "Indochina."
           indochina_results = ["1116305", "2643130", "604830"]
           @resp_second_term.should include(indochina_results).in_first(5).documents
-          @resp.should include(indochina_results).in_first(5).documents
-          @resp_first_term.should_not include(indochina_results).in_first(5).documents
+          @resp.should include(indochina_results)
+          @resp_first_term.should_not include(indochina_results)
         end
       end
       context "sanitation ethiopia OR addis" do
