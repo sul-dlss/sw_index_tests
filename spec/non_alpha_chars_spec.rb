@@ -170,14 +170,14 @@ describe "Terms with Numbers or other oddities" do
   end # unmatched pairs
   
   context "wildcard queries" do
-    it "question mark as query '?'", :fixme => true, :edismax => true do
+    it "question mark as query '?'" do
       # dismax or icu tokenizer:  one result  (4085436)
       # edismax:  all documents
       resp = solr_resp_ids_from_query '?' # '?' 
       resp.should have_at_least(6900000).documents
     end
 
-    it "asterix as query '*'", :fixme => true, :edismax => true do
+    it "asterix as query '*'" do
       # dismax:  returns 0 results
       # edismax:  returns all documents  (or timeout error?)
       resp = solr_resp_ids_from_query '*'  
@@ -193,23 +193,22 @@ describe "Terms with Numbers or other oddities" do
     resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('|'))
     resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('('))
     resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query(')'))
-    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('{'))
-    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('}'))
     resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('['))
     resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query(']'))
-    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('^'))
-    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('~'))
     resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query(':'))
     resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('\\'))
     resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query(';'))
+    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('&&'))
+    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('||'))
     # get results
-#    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('!'))  # gets a result (4085487)
+#    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('{')) # gets 880 results
+#    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('}')) # gets 880 results
+#    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('^')) # gets 10107977
+#    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('~')) # gets 880 results
+#    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('-')) # gets 880 results
+#    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('!'))  # gets 881 results
 #    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('.'))  # gets a result (398240)
-    # solr errors
-#    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('%2B'))  # '+' gives 400 error
-#    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('-'))  # gives 400 error
-#    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('&&'))  # gives 400 error
-#    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('||')) # gives 400 error
+#    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('%2B'))  # gets 923 results
   end
   
 end
