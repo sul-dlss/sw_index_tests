@@ -112,7 +112,7 @@ describe "boolean operators" do
         resp_w_term = solr_resp_ids_from_query query.sub(' NOT ', ' ')
         resp_w_term.should include(un_exp_ids)
       end
-      # the following is busted due to Solr bug
+      # the following is busted due to Solr edismax bug
       # https://issues.apache.org/jira/browse/SOLR-2649
       it "should have fewer results than query without NOT clause", :fixme => true do
         @resp.should have_fewer_documents_than(solr_resp_ids_from_query query.sub(/ NOT \S+ ?/, ' '))
@@ -126,7 +126,7 @@ describe "boolean operators" do
     context "actual user queries" do
       context "space exploration NOT nasa" do
         it_behaves_like "NOT negates following term", 'space exploration NOT nasa', "4146206", "2678639", 5
-        # the following is busted due to Solr bug
+        # the following is busted due to Solr edismax bug
         # https://issues.apache.org/jira/browse/SOLR-2649
         it "has an appropriate number of results", :fixme => true do
           resp = solr_resp_ids_from_query 'space exploration NOT nasa'
