@@ -81,13 +81,16 @@ describe "Terms with Numbers or other oddities" do
     
     it "within numbers, no letters (56 1/2)", :jira => 'VUF-389' do
       resp = solr_resp_ids_from_query '56 1/2'
+      resp = solr_resp_ids_full_titles_from_query('56 1/2')
+      resp.should include({'title_full_display' => /56 1\/2/i}).in_each_of_first(3)
       resp.should include(["6031340", "5491883"]).in_first(3).results
     end
     
     it "within numbers, no letters (33 1/3)", :jira => 'VUF-178' do
-      resp = solr_resp_doc_ids_only(title_search_args('33 1/3'))
+      resp = solr_resp_ids_titles(title_search_args('33 1/3'))
       resp.should have_at_least(85).results  # Socrates gets 104 titles as of 2010-11-03
-      resp.should include("6721172").in_first(3).results
+      resp.should include({'title_245a_display' => /33 1\/3/i}).in_each_of_first(5)
+      resp.should include("6721172").in_first(5).results
     end
   end # context slash
   
