@@ -26,11 +26,11 @@ describe "Stemming of English words" do
       resp.should include("title_245a_display" => /arabic/i).in_each_of_first(20).documents
     end
     
-    it "'searching'", :jira => 'VUF-212' do
+    it "'searching'", :jira => ['VUF-212', 'SW-64'] do
       resp = solr_response({'q'=>'searching', 'fl'=>'id,title_245a_display', 'facet'=>false}) 
       resp.should include("title_245a_display" => /searching/i).in_each_of_first(20).documents
-      resp.should_not include("4216963")
-      resp.should_not include("4216961")
+      resp.should_not include("4216963") # has 'search' in 245a and 880
+      resp.should_not include("4216961") # has 'search' in 245a and 880
     end
     
     it "Austen also gives Austenland, Austen's" do
