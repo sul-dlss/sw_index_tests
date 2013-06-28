@@ -83,6 +83,7 @@ describe "Default Request Handler" do
 
   context "world atlas of sea grasses", :jira => 'VUF-2451' do
     it "world atlas of sea grasses", :fixme => true do
+      # because it's 'seagrasses' not 'sea grasses'
       resp = solr_resp_ids_from_query('world atlas of sea grasses')
       resp.should include('5454691').as_first
       resp.should include('4815882')
@@ -94,5 +95,15 @@ describe "Default Request Handler" do
     end    
   end
   
+  it "exact match in 245a should be first results: 'search'", :jira => ['VUF-212', 'SW-64'] do
+    #  There are two records:  4216963, 4216961  that have the word "search" in the 245, 
+    # and also have the word "search" in the 880 vernacular 245 field. 
+    # Because the term appears twice:  in the 245a and the corresponding 880a, 
+    #   these records have been appearing first.
+    resp = solr_resp_ids_from_query 'search'
+    match_245a = ['8833422', '394764', '6785774', '2641095', '3335969', '9666416', '457493', '7547799', '1656104', '9218024']
+    resp.should include(match_245a).before("4216963") # has 880 245a with search
+    resp.should include(match_245a).before("4216961") # has 880 245a with search
+  end
 
 end
