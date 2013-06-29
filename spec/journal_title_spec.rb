@@ -676,12 +676,12 @@ describe "journal/newspaper titles" do
     end
   end # new york times
 
-  context "financial Times", :jira => ['SW-585', 'VUF-1926'] do
+  context "Financial Times", :jira => ['SW-585', 'VUF-1926'] do
     it "should get ckey 4100964 above fold" do
       # would prefer higher than 4 ...
-      resp = solr_resp_ids_titles(title_search_args 'financial Times')
+      resp = solr_resp_ids_titles(title_search_args 'Financial Times')
       resp.should include('4100964').in_first(4)
-      resp = solr_resp_ids_titles(title_search_args 'financial Times')
+      resp = solr_resp_ids_titles(title_search_args 'Financial Times')
       resp.should include('4100964').in_first(4)
     end
 
