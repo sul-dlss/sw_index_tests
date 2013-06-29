@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "Title Search" do
   
-  it "780t, 758t included in title search: japanese journal of applied physics", :jira => 'VUF-89' do
+  it "780t, 758t included in title search: japanese journal of applied physics", :jira => ['VUF-89', 'SW-441'] do
     resp = solr_resp_doc_ids_only(title_search_args('japanese journal of applied physics')) 
     resp.should include(["365562", "491322", "491323", "7519522", "7519487", "787934"]).in_first(8).results
     resp = solr_resp_doc_ids_only(title_search_args('japanese journal of applied physics').merge({:fq => 'format:"Journal/Periodical"'}))
@@ -11,21 +11,21 @@ describe "Title Search" do
     resp.should include_at_least(4).of(["7519522", "365562", "491322", "491323", "7519487"]).in_first(5).results
   end
   
-  it "780t, 758t included in title search: japanese journal of applied physics PAPERS", :jira => 'VUF-89' do
+  it "780t, 758t included in title search: japanese journal of applied physics PAPERS", :jira => ['VUF-89', 'SW-441'] do
     resp = solr_resp_doc_ids_only(title_search_args('japanese journal of applied physics papers'))    
     resp.should include(["365562", "491322", "7519522", "8207522"]).in_first(8).results
     resp = solr_resp_doc_ids_only(title_search_args('japanese journal of applied physics papers').merge({:fq => 'format:"Journal/Periodical"'}))    
     resp.should include(["365562", "491322", "7519522", "8207522"]).in_first(5).results
   end
   
-  it "780t, 758t included in title search: japanese journal of applied physics LETTERS", :jira => 'VUF-89' do
+  it "780t, 758t included in title search: japanese journal of applied physics LETTERS", :jira => ['VUF-89', 'SW-441'] do
     resp = solr_resp_doc_ids_only(title_search_args('japanese journal of applied physics letters'))    
     resp.should include(["365562", "491323", "7519487", "8207522"]).in_first(8).results
     resp = solr_resp_doc_ids_only(title_search_args('japanese journal of applied physics letters').merge({:fq => 'format:"Journal/Periodical"'}))    
     resp.should include(["365562", "491323", "7519487", "8207522"]).in_first(5).results
   end
 
-  it "780t, 758t included in title search: journal of marine biotechnology" do
+  it "780t, 758t included in title search: journal of marine biotechnology", :jira => 'SW-441' do
     # 4278409  780t
     # 1963062  785t
     resp = solr_resp_doc_ids_only(title_search_args('journal of marine biotechnology'))    
