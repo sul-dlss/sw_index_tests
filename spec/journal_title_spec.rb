@@ -632,7 +632,7 @@ describe "journal/newspaper titles" do
     end
   end
   
-  context "The New York Times", :jira => ['SW-585', 'VUF-1926', 'VUF-1715'] do
+  context "The New York Times", :jira => ['SW-585', 'VUF-1926', 'VUF-1715', 'VUF-833'] do
     it "should get ckey 495710 above fold" do
       resp = solr_resp_ids_titles(title_search_args 'THE new york times')
       resp.should include('495710').in_first(3)
