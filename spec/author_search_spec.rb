@@ -3,11 +3,36 @@ require 'spec_helper'
 
 describe "Author Search" do
   
-  it "Corporate author should be included in author search", :jira => 'VUF-633' do
-    resp = solr_resp_doc_ids_only(author_search_args('Anambra State'))    
-    resp.should have_at_least(80).documents
-    # other examples:  "Plateau State", tanganyika, gold coast
-  end
+  context "Corporate author should be included in author search", :jira => 'VUF-633' do
+    it "Anambra State, not a phrase" do
+      resp = solr_resp_doc_ids_only(author_search_args 'Anambra State')
+      resp.should have_at_least(85).documents
+    end
+    it "Anambra State, phrase" do
+      resp = solr_resp_doc_ids_only(author_search_args '"Anambra State"')
+      resp.should have_at_least(85).documents
+    end
+    it "Plateau State, not a phrase" do
+      resp = solr_resp_doc_ids_only(author_search_args 'Plateau State')
+      resp.should have_at_least(90).documents
+    end
+    it "Plateau State, phrase" do
+      resp = solr_resp_doc_ids_only(author_search_args '"Plateau State"')
+      resp.should have_at_least(90).documents
+    end
+    it "Gold Coast, not a phrase" do
+      resp = solr_resp_doc_ids_only(author_search_args 'Gold Coast')
+      resp.should have_at_least(210).documents
+    end
+    it "Gold Coast, phrase" do
+      resp = solr_resp_doc_ids_only(author_search_args '"Gold Coast"')
+      resp.should have_at_least(210).documents
+    end
+    it "tanganyika" do
+      resp = solr_resp_doc_ids_only(author_search_args 'tanganyika')
+      resp.should have_at_least(185).documents
+    end
+  end  
   
   it "Thesis advisors (720 fields) should be included in author search", :jira => 'VUF-433' do
     resp = solr_response(author_search_args('Zare').merge({'fl'=>'id,format,author_person_display', 'fq'=>'format:Thesis', 'facet'=>false}))
@@ -16,7 +41,7 @@ describe "Author Search" do
   end
   
   it "added authors (700 fields) should be included in author search", :jira => 'VUF-255' do
-    resp = solr_resp_doc_ids_only(author_search_args('jane hannaway'))
+    resp = solr_resp_doc_ids_only(author_search_args 'jane hannaway')
     resp.should include("2503795")
     resp.should have_at_least(8).documents
   end
@@ -34,7 +59,7 @@ describe "Author Search" do
   end
   
   it "non-existent author 'jill kerr conway' should get 0 results" do
-    resp = solr_resp_doc_ids_only(author_search_args('jill kerr conway'))
+    resp = solr_resp_doc_ids_only(author_search_args 'jill kerr conway')
     resp.should have(0).documents
   end
   
@@ -44,38 +69,19 @@ describe "Author Search" do
     resp.should have_at_most(125).documents
     paul_h_docs = ["9242084", "781472", "8923874", "7323029", "750072", "7706164"]
     paul_h_docs.each { |doc_id| resp.should_not include(doc_id) }
-    resp = solr_resp_doc_ids_only(author_search_args('"Wender, Paul H., "'))
+    resp = solr_resp_doc_ids_only(author_search_args '"Wender, Paul H., "')
     resp.should have_at_most(10).documents
     resp.should include(paul_h_docs)
   end
-  
-  # note: this test is pretty bad
-  it "Ivanov Viacheslav has multiple formats", :jira => 'VUF-2280' do
-    resp = solr_resp_doc_ids_only(author_search_args('Ivanov, Vi͡acheslav Vsevolodovich'))
-    resp.should have_at_least(55).documents
-    resp.should have_at_most(75).documents
-    resp = solr_resp_doc_ids_only(author_search_args('Ivanov, V. I. (Vi͡acheslav Ivanovich), 1866-1949'))
-    resp.should have_at_least(50).documents
-    resp.should have_at_most(65).documents
-    resp = solr_resp_doc_ids_only(author_search_args('Ivanov Viacheslav'))
-    resp.should have_at_least(100).documents
-  end
-  
-  it "Marshall, Deborah", :jira => 'VUF-1185' do
-    resp = solr_resp_doc_ids_only(author_search_args('"Marshall, Deborah"'))
-    resp.should have_at_most(10).documents
-    resp.should include(["1073585", "7840544"])
-    resp.should_not include("7929478")
-  end
-  
+    
   it "period after initial shouldn't matter" do
-    resp = solr_resp_doc_ids_only(author_search_args('jill k. conway'))
+    resp = solr_resp_doc_ids_only(author_search_args 'jill k. conway')
     resp.should include('4735430')
-    resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(author_search_args('jill k conway')))
+    resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(author_search_args 'jill k conway'))
   end
   
   it "author matches should appear before editor matches" do
-    resp = solr_resp_doc_ids_only(author_search_args('jill k. conway'))
+    resp = solr_resp_doc_ids_only(author_search_args 'jill k. conway')
     # author before editor
     resp.should include(['1490381', '1302403', '861080', '1714776', '2911421', '2937495', '3063723', '3832670', '4735430']).before('4343662')
     # editor
@@ -86,6 +92,140 @@ describe "Author Search" do
     # the next two are in spanish and have the name in the 505a
     resp.should_not include('3159425')
     resp.should_not include('4529441')
+  end
+  
+  context "author name false drop across 2 700 fields" do
+    context "deborah marshall", :jira => 'VUF-1185' do
+      before(:all) do
+        @correct = ['1073585', '7840544']
+        @false_drop = '7929478'
+      end
+      it "author search, not phrase" do
+        resp = solr_resp_doc_ids_only(author_search_args 'marshall, deborah')
+        resp.should include(@correct).before(@false_drop)
+      end
+      it "author search, phrase" do
+        resp = solr_resp_doc_ids_only(author_search_args '"marshall, deborah"')
+        resp.should have_at_most(10).documents
+        resp.should include(@correct)
+        resp.should_not include(@false_drop)
+      end
+    end
+    context "david sandlin", :jira => 'VUF-1418' do
+      before(:all) do
+        @correct = ['8610705', '8808239', '8808223', '8610706', '8610704', '8610701']
+        @false_drop = '2927066'
+      end
+      it "author search, not phrase" do
+        resp = solr_resp_doc_ids_only(author_search_args 'david sandlin')
+        resp.should include(@correct).before(@false_drop)
+      end
+      it "author search, phrase - words in wrong order", :fixme => true do
+        resp = solr_resp_doc_ids_only(author_search_args '"david sandlin"')
+        resp.should have_at_most(10).documents
+        resp.should include(@correct)
+        resp.should_not include(@false_drop)
+      end
+      it "author search, phrase - words in right order" do
+        resp = solr_resp_doc_ids_only(author_search_args '"sandlin, david"')
+        resp.should have_at_most(10).documents
+        resp.should include(@correct)
+        resp.should_not include(@false_drop)
+      end     
+    end
+  end
+  
+  context "Vyacheslav Ivanov", :jira => ['VUF-2279', 'VUF-2280', 'VUF-2281'] do
+    # there are at least three authors with last name Ivanov, first name Vyacheslav
+    #  our official spelling of the desired one is Viacheslav
+    it "author search Ivanov Viacheslav", :jira => 'VUF-2279' do
+      # at least three authors with last name Ivanov, first name Vyacheslav
+      resp = solr_resp_doc_ids_only(author_search_args 'Ivanov Viacheslav')
+      resp.should have_at_least(100).documents
+      resp.should have_at_most(150).documents
+    end
+    it "author search Vyacheslav Ivanov", :fixme => true do
+      # this is "misspelled" per our data
+      resp = solr_resp_doc_ids_only(author_search_args 'Vyacheslav Ivanov')
+      resp.should have_results
+    end
+    # NOTE: there are two different authority headings for same one?
+    it "author search Ivanov, Vi͡acheslav Vsevolodovich", :jira => 'VUF-2280' do
+      resp = solr_resp_doc_ids_only(author_search_args 'Ivanov, Vi͡acheslav Vsevolodovich')
+      resp.should have_at_least(55).documents
+      resp.should have_at_most(75).documents
+    end
+    it "author search Ivanov, V. I. (Vi͡acheslav Ivanovich), 1866-1949", :jira => 'VUF-2280' do
+      resp = solr_resp_doc_ids_only(author_search_args 'Ivanov, V. I. (Vi͡acheslav Ivanovich), 1866-1949')
+      resp.should have_at_least(50).documents
+      resp.should have_at_most(65).documents
+    end
+  end
+  
+  context "william dudley haywood <-> big bill haywood", :jira => 'VUF-2323' do
+    it "author search big bill hayward" do
+      resp = solr_resp_doc_ids_only(author_search_args 'big bill haywood')
+      resp.should have_at_least(10).documents
+      resp.should include('141584')
+      resp.should have_at_most(50).documents
+    end
+    it "author phrase search  hayward, big bill " do
+      resp = solr_resp_doc_ids_only(author_search_args '"haywood, big bill"')
+      resp.should have_at_least(10).documents
+      resp.should include('141584')
+      resp.should have_at_most(50).documents
+    end
+    it "author search bill hayward" do
+      resp = solr_resp_doc_ids_only(author_search_args 'bill haywood')
+      resp.should have_at_least(10).documents
+      resp.should include('141584')
+      resp.should have_at_most(50).documents
+    end
+    # waiting for name authorities linkage
+    it "author search william haywood", :fixme => true do
+      resp = solr_resp_doc_ids_only(author_search_args 'william haywood')
+      resp.should have_at_least(20).documents
+      resp.should include('141584')
+      resp.should have_at_most(50).documents
+    end
+    it "author phrase search  haywood william", :fixme => true do
+      resp = solr_resp_doc_ids_only(author_search_args '"haywood, william"')
+      resp.should have_at_least(20).documents
+      resp.should include('141584')
+      resp.should have_at_most(50).documents
+    end
+  end
+  
+  context "ransch-trill, barbara", :jira => 'VUF-165' do
+    it "with and without umlaut" do
+      resp = solr_resp_doc_ids_only(author_search_args 'ränsch-trill, barbara')
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(author_search_args 'ransch-trill, barbara'))
+      resp.should include(['5455737', '2911735'])
+    end
+    it "last name only, with and without umlaut" do
+      resp = solr_resp_doc_ids_only(author_search_args 'ränsch-trill')
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(author_search_args 'ransch-trill'))
+      resp.should include(['5455737', '2911735'])
+    end
+  end
+  
+  context "johann david heinichen", :jira => 'VUF-1449' do
+    it "author search" do
+      resp = solr_resp_doc_ids_only(author_search_args('johann David Heinichen').merge({'fq' => 'format:Book'}))
+      resp.should have_at_least(10).documents
+      resp.should include(['9858935', '3301463'])
+      resp.should have_at_most(25).documents
+    end
+    # the following is busted due to Solr edismax bug
+    # https://issues.apache.org/jira/browse/SOLR-2649
+    it "everything search with author and years", :fixme => true do
+      resp = solr_resp_ids_from_query 'johann David Heinichen 1711 OR 1728'
+      resp.should include(['9858935', '3301463'])
+    end
+    it "everything phrase search with author and years", :fixme => true do
+      resp = solr_resp_ids_from_query '"Heinichen, johann David" 1711 OR 1728'
+      resp.should include(['9858935', '3301463'])
+    end
   end
   
 end
