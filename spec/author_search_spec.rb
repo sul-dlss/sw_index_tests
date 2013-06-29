@@ -228,4 +228,11 @@ describe "Author Search" do
     end
   end
   
+  it "mark applebaum", :jira => 'VUF-89' do
+    resp = solr_resp_doc_ids_only(author_search_args 'mark applebaum')
+    resp.should have_at_least(85).documents
+    resp.should have_at_most(150).documents
+    resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(author_search_args 'applebaum, mark'))
+  end
+  
 end
