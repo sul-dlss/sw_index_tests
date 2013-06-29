@@ -77,7 +77,7 @@ def title_search_args(query_str)
   {'q'=>"{!qf=$qf_title pf=$pf_title pf3=$pf_title3 pf2=$pf_title2}#{query_str}", 'qt'=>'search'}
 end
 def author_title_search_args(query_str)
-  {'q'=>"{!qf=author_title_search pf='author_title_search^10' pf3='author_title_search^5' pf2='author_title_search^2'}\"#{query_str}\"", 'qt'=>'search'}
+  {'q'=>"{!qf=author_title_search pf='author_title_search^10' pf3='author_title_search^5' pf2='author_title_search^2'}#{query_str}", 'qt'=>'search'}
 end
 
 private
