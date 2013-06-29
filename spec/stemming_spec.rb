@@ -62,6 +62,13 @@ describe "Stemming of English words" do
     # TODO:  see VUF-1657   Plutarch's Morals should also lead to records on Plutarch's "Moralia."
     # TODO:  see VUF-1765   eugenics vs eugene
 
+
+    it "stemming of periodization", :jira => 'VUF-1765', :fixme => true do
+      resp = solr_resp_doc_ids_only(subject_search_args '"Arts periodization"')
+      resp.should_not include('1699858')
+      resp.should_not have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args '"Arts periodicals"'))
+      resp.should have_at_most(150).results
+    end
   end # context exact before stemmed
 
 end
