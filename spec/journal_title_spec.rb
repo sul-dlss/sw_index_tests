@@ -62,8 +62,7 @@ describe "journal/newspaper titles" do
       let(:exp_ids) {newspaper_only}
     end
   end
-  
-  
+
   shared_examples_for 'great results for journal/newspaper' do | title, solr_params |
     it_behaves_like "everything query, no format specified", title, solr_params do
       let(:exp_ids) {all_formats}
@@ -522,7 +521,14 @@ describe "journal/newspaper titles" do
     end
   end
 
-  context "the wall street journal" do
+  context "the wall street journal", :jira => ['SW-585','VUF-1715'] do
+    it "should get ckey 486902 above fold" do
+      resp = solr_resp_ids_titles(title_search_args 'wall street journal')
+      resp.should include('486902').in_first(3)
+      resp = solr_resp_ids_titles(title_search_args 'the wall street journal')
+      resp.should include('486902').in_first(3)
+    end
+
     it_behaves_like "great results for journal/newspaper", "the wall street journal" do
       journal = ['3352414', # law, 0193-2241 
                   '400114', # index, sal3, 0099-9660
@@ -625,5 +631,76 @@ describe "journal/newspaper titles" do
       let(:exp_ids) { journal }
     end
   end
+  
+  context "The New York Times", :jira => ['SW-585', 'VUF-1926', 'VUF-1715'] do
+    it "should get ckey 495710 above fold" do
+      resp = solr_resp_ids_titles(title_search_args 'THE new york times')
+      resp.should include('495710').in_first(3)
+    end
+    it "should get ckey 495710 above fold without 'the'", :fixme => true do
+      # note:  this only works when 'the' is included, due to title_245a_exact matching in edismax (and our data)
+      resp = solr_resp_ids_titles(title_search_args 'new york times')
+      resp.should include('495710').in_first(3)
+    end
+
+    # note:  it would be megaspiffy if we didn't need "the" in front ... but to match exact search, we do.
+    it_behaves_like "great results for journal/newspaper", "THE new york times" do
+      journal = ['3351135', # law
+      # rest are new york times magazine, etc.
+                ]
+      news = ['10042346', # biz, online, 0362-4331
+              '495710', # green, terman, 0362-4331
+              '486905', # green micro, 0362-4331
+              '461597', # hoover, micro, 0362-4331
+              ]
+      book = ['8436523',
+              '1509739',
+              ]
+      let(:all_formats) { journal + news + book }
+      let(:journal_only) { journal }
+      let(:newspaper_only) { news }
+    end
+
+    # note:  it would be megaspiffy if we didn't need "the" in front ... but to match exact search, we do.
+    it_behaves_like "great results for journal/newspaper", "new york times" do
+      journal = []
+      news = []
+      book = ['9323497', # database
+              '422377', # hoover book review (bad cataloging)
+              '422487', # hoover Rotogravure Sunday section.
+              '422593', # hoover Weekly magazine section. - New York.
+              ]
+      let(:all_formats) { journal + news + book }
+      let(:journal_only) { journal }
+      let(:newspaper_only) { news }
+    end
+  end # new york times
+
+  context "financial Times", :jira => ['SW-585', 'VUF-1926'] do
+    it "should get ckey 4100964 above fold" do
+      # would prefer higher than 4 ...
+      resp = solr_resp_ids_titles(title_search_args 'financial Times')
+      resp.should include('4100964').in_first(4)
+      resp = solr_resp_ids_titles(title_search_args 'financial Times')
+      resp.should include('4100964').in_first(4)
+    end
+
+    it_behaves_like "great results for journal/newspaper", "financial times" do
+      journal = []
+      news = ['8201635', # online, frankfurt, 0174-7363
+              '3350107', # law, 0884-6782
+              '10040357', # biz, 0884-6782
+              '4100964', # green, 0884-6782
+              '2874107', # sal newark, uganda
+#              '10040358', # biz, 'THE financial times'
+              ]
+      other = ['3292883', # hoover
+              ]
+      let(:all_formats) { journal + news + other }
+      let(:journal_only) { journal }
+      let(:newspaper_only) { news }
+    end
+  end # financial times
+
   
 end
