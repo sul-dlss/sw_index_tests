@@ -235,4 +235,33 @@ describe "Author Search" do
     resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(author_search_args 'applebaum, mark'))
   end
   
+  context "name as author, not subject", :jira => 'VUF-1007' do
+    it "jackson pollock" do
+      resp = solr_resp_doc_ids_only(author_search_args('jackson pollock').merge({'rows'=>60}))
+      resp.should have_at_least(40).results
+      resp.should have_at_most(60).results
+      resp.should include(['611300', '817515']) # name as author, but not subject
+      resp.should include(['7837994', '7206001']) # name as both author and subject
+      resp.should_not include(['4786630', '4298910']) # name as subject (but not as author)
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(author_search_args('pollock jackson').merge({'rows'=>100})))
+    end
+    it "pollock, jackson, phrase" do
+      resp = solr_resp_doc_ids_only(author_search_args('"pollock, jackson"').merge({'rows'=>60}))
+      resp.should have_at_least(40).results
+      resp.should have_at_most(60).results
+      resp.should include(['611300', '817515']) # name as author, but not subject
+      resp.should include(['7837994', '7206001']) # name as both author and subject
+      resp.should_not include(['4786630', '4298910']) # name as subject (but not as author)
+    end
+    it "Pollock, Jackson, 1912-1956., phrase" do
+      resp = solr_resp_doc_ids_only(author_search_args('"Pollock, Jackson, 1912-1956."').merge({'rows'=>60}))
+      resp.should have_at_least(40).results
+      resp.should have_at_most(60).results
+      resp.should include(['611300', '817515']) # name as author, but not subject
+      resp.should include(['7837994', '7206001']) # name as both author and subject
+      resp.should_not include(['4786630', '4298910']) # name as subject (but not as author)
+    end
+  end
+  
+  
 end
