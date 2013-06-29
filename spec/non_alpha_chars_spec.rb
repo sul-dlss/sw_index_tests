@@ -74,11 +74,17 @@ describe "Terms with Numbers or other oddities" do
   end
   
   context "slash" do
-    it "surround by spaces should be ignored" do
+    it "surrounded by spaces should be ignored" do
       resp = solr_resp_ids_from_query 'Physical chemistry / Ira N Levine'
       resp.should include(["1726910", "3016212", "4712578", "7633476"]).in_first(5).results
     end
     
+    it "surrounded by spaces", :jira => 'VUF-522' do
+      resp = solr_resp_ids_from_query 'The Beatles as musicians : Revolver through the Anthology / Walter Everett'
+      resp.should include('4103922').as_first
+      resp.should have_at_most(5).results
+    end
+
     it "within numbers, no letters (56 1/2)", :jira => 'VUF-389' do
       resp = solr_resp_ids_from_query '56 1/2'
       resp = solr_resp_ids_full_titles_from_query('56 1/2')
@@ -91,7 +97,7 @@ describe "Terms with Numbers or other oddities" do
       resp.should have_at_least(85).results  # Socrates gets 104 titles as of 2010-11-03
       resp.should include({'title_245a_display' => /33 1\/3/i}).in_each_of_first(5)
       resp.should include("6721172").in_first(5).results
-    end
+    end    
   end # context slash
   
   it "should ignore punctuation inside a phrase" do
