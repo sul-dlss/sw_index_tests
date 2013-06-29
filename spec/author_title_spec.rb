@@ -112,13 +112,5 @@ describe "Author-Title Search" do
       resp.should include("title_245a_display" => /All's well,? that ends well/i).in_each_of_first(5).documents
     end
   end
-
-# borked  
-  it "Bibliothèque nationale de France. Manuscript. Musique 226.", :jira => 'VUF-1684' do
-    resp = solr_resp_doc_ids_only(author_title_search_args '"Bibliothèque nationale de France. Manuscript. Musique 226."')
-    resp.should include(['278333', '6288243'])
-    resp.should have_at_most(5).documents
-  end
-  
   
 end
