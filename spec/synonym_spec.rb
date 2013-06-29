@@ -321,10 +321,10 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
       
       it "author-title search (which is a phrase search) b♭" do
         prefix = "Bach, Carl Philipp Emanuel, 1714-1788. Concertos, cello, string orchestra, H. 436, "
-        resp_♭ = solr_resp_doc_ids_only(author_title_search_args(prefix + "B♭ major."))
-        resp_b = solr_resp_doc_ids_only(author_title_search_args(prefix + "Bb major."))
-        resp_hyphen = solr_resp_doc_ids_only(author_title_search_args(prefix + "B-flat major."))
-        resp_space = solr_resp_doc_ids_only(author_title_search_args(prefix + "B flat major."))
+        resp_♭ = solr_resp_doc_ids_only(author_title_search_args("\"#{prefix} B♭ major.\""))
+        resp_b = solr_resp_doc_ids_only(author_title_search_args("\"#{prefix} Bb major.\""))
+        resp_hyphen = solr_resp_doc_ids_only(author_title_search_args("\"#{prefix} B-flat major.\""))
+        resp_space = solr_resp_doc_ids_only(author_title_search_args("\"#{prefix} B flat major.\""))
         resp_♭.should have_the_same_number_of_results_as(resp_b)
         resp_♭.should have_the_same_number_of_results_as(resp_hyphen)
         resp_♭.should have_the_same_number_of_results_as(resp_space)
