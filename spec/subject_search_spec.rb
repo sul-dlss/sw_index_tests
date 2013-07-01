@@ -51,6 +51,7 @@ describe "Subject Search" do
     it "Hmong (asiaN people) - correct heading as phrase" do
       resp = solr_resp_doc_ids_only(subject_search_args '"Hmong (asiaN people)"')
       resp.should have_at_least(150).results
+      resp.should_not include(['5341021', '5739779', '2833710']) # also has word Asia in another subject
     end
   end
   
@@ -98,6 +99,8 @@ describe "Subject Search" do
   end
   
   context "world war 1945 dictionaries", :jira => 'VUF-1067' do
+    # actual heading is World War, 1939-1945 > Dictionaries.
+    # 367056  dictionaries in separate heading
     it "not as phrase" do
       resp = solr_resp_doc_ids_only(subject_search_args 'world war 1945 dictionaries')
       resp.should have_at_least(150).results
@@ -114,16 +117,18 @@ describe "Subject Search" do
   
   context "C programming", :jira => 'VUF-1993' do
     it "not as phrase" do
-      resp = solr_resp_doc_ids_only(subject_search_args 'C programming')
-      resp.should have_at_least(1000).results
+      resp = solr_response(subject_search_args('C programming').merge({'fl'=>'id,topic_display', 'facet' => false}))
+      resp.should have_at_least(1100).results
       resp.should have_at_most(2000).results
+      resp.should include("topic_display" => /C \(?programming/i).in_each_of_first(18).documents
       resp.should include('4617632')
     end
     it "as phrase" do
-      resp = solr_resp_doc_ids_only(subject_search_args '"C programming"')
+      resp = solr_response(subject_search_args('"C programming"').merge({'fl'=>'id,topic_display', 'facet' => false}))
       resp.should have_at_least(500).results
       resp.should have_at_most(1200).results
-      resp.should include('4617632')
+      resp.should include("topic_display" => /C \(?programming/i).in_each_of_first(18).documents
+      resp.should include('4617632') # 16th in production as of 2013-07-01
       resp.should have_fewer_results_than(solr_resp_doc_ids_only(subject_search_args 'C programming'))
     end
   end
