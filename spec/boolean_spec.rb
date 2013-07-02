@@ -270,6 +270,25 @@ describe "boolean operators" do
       #   WITKIN: HEAVEN OR HELL.
       
     end # actual user queries
+    
+    it "lesbian OR gay videos", :jira => ['VUF-300', 'VUF-301', 'VUF-311'] do
+      resp = solr_resp_doc_ids_only({'q' => 'lesbian OR gay', 'fq'=>'format:Video'})
+      resp.should have_at_least(800).results
+      resp.should have_at_most(1300).results
+    end
+    
+    context "street art and graffiti", :jira => 'VUF-1013' do
+      it '((street art) OR graffiti) AND aspects' do
+        resp = solr_resp_doc_ids_only(subject_search_args '((street art) OR graffiti) AND aspects')
+        resp.should have_at_least(100).results
+        resp.should have_at_most(3500).results
+      end
+      it '("street art" OR graffiti) AND aspects' do
+        resp = solr_resp_doc_ids_only(subject_search_args '("street art" OR graffiti) AND aspects')
+        resp.should have_at_least(20).results
+        resp.should have_at_most(40).results
+      end
+    end
   end # context OR
   
 end
