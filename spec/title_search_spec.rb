@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'spec_helper'
 
 describe "Title Search" do
@@ -84,6 +85,21 @@ describe "Title Search" do
     resp = solr_resp_ids_titles(title_search_args 'Shape optimization and optimal design : proceedings of the IFIP conference')
     resp.should include("title_245a_display" => /Shape optimization and optimal design/i).as_first
     resp.should have_at_most(25).documents
+  end
+  
+  it "Grundlagen der Medienkommunikation", :jira => 'VUF-511' do
+    # actually a series title and also a separate series search test
+    resp = solr_resp_ids_titles(title_search_args 'Grundlagen der Medienkommunikation') 
+    resp.should have_at_least(9).documents
+  end
+  
+  it "Zeitschrift", :jira => 'VUF-511' do
+    resp = solr_resp_ids_titles(title_search_args 'Zeitschrift')
+    resp.should include('title_245a_display' => /^zeitschrift$/i).in_each_of_first(15)
+    resp.should include(['4443145', '486819']) # has 245a of Zeitschrift
+    resp = solr_resp_ids_titles(title_search_args 'Zeitschrift des historischen Vereines für Steiermark') # 246 of 4443145
+    resp.should include('486819') # also has 245a of Zeitschrift
+    resp.should have_at_least(10).results
   end
   
   context "Studies in History and Philosophy of Science", :jira => 'VUF-2003' do
