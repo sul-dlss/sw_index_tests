@@ -219,6 +219,10 @@ describe "journal/newspaper titles" do
       let(:journal_only) { journal }
       let(:newspaper_only) { news }
     end
+    it "'Times of London' - common words ... as a phrase  (it's actually a newspaper ...)" do
+      resp = solr_resp_doc_ids_only(title_search_args('"Times of London"').merge({'fq' => 'format:Newspaper'}))
+      resp.should include(['425948', '425951']).in_first(3)
+    end
   end # the Times
 
   context "The Guardian" do
@@ -548,11 +552,6 @@ describe "journal/newspaper titles" do
     end
   end
 
-  it "'Times of London' - common words ... as a phrase  (it's actually a newspaper ...)" do
-    resp = solr_resp_doc_ids_only(title_search_args('"Times of London"').merge({'fq' => 'format:Newspaper'}))
-    resp.should include(['425948', '425951']).in_first(3)
-  end
-  
   context "ScienceDirect" do
     shared_examples_for 'great ScienceDirect results' do | query |
       before(:all) do
