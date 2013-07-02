@@ -22,6 +22,11 @@ describe "Series Search" do
     resp.should have_at_most(30).results
   end
   
+  it "Grundlagen der Medienkommunikation", :jira => 'VUF-511' do
+    resp = solr_resp_doc_ids_only(series_search_args 'Grundlagen der Medienkommunikation')
+    resp.should have_at_least(9).documents
+  end
+  
   context "Cahiers series", :jira => 'VUF-1031' do
     it "series search, phrase" do
       resp = solr_resp_doc_ids_only(series_search_args '"Cahiers series"')
