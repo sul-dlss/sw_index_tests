@@ -22,7 +22,7 @@ describe "Default Request Handler" do
   end
   
   it "matches in title should sort first - waffle" do
-    resp = solr_resp_doc_ids_only({'q'=>'waffle', 'rows'=>'20'})
+    resp = solr_resp_ids_from_query 'waffle'
     resp.should include("6720427").as_first_result
     resp.should include("6720427").before("7763651")
     resp.should include("4535360").before("7763651")
@@ -31,11 +31,11 @@ describe "Default Request Handler" do
   end
   
   it "matches in title should sort first - memoirs of a physician", :jira => 'VUF-325' do
-    resp = solr_response({'q'=>'memoirs of a physician', 'fl'=>'id,title_display', 'facet'=>false})
-    resp.should include("title_display" => /memoirs of a physician/i).in_each_of_first(2).documents
+    resp = solr_resp_ids_titles_from_query 'memoirs of a physician'
+    resp.should include("title_245a_display" => /memoirs of a physician/i).in_each_of_first(2).documents
   end
 
-  it "like titles should appear together in result" do
+  it "like titles should appear together in result", :jira => 'VUF-93' do
     resp = solr_resp_ids_from_query 'wanderlust'
     resp.should include(['6974167', '5757985', '1630776', '4364566', '4406971']).in_first(10)
     pending "need include().within().of() in rspec-solr"
@@ -65,7 +65,8 @@ describe "Default Request Handler" do
   end
 
   it "'call of the wild'", :jira => 'VUF-171' do
-    resp = solr_resp_doc_ids_only({'q'=>'call of the wild', 'rows'=>'30'})
+    resp = solr_resp_ids_titles({'q'=>'call of the wild', 'rows'=>'30'})
+    resp.should include('title_245a_display' => /call of the wild/i).in_each_of_first(15).documents
     # below have it in 245a
     resp.should include(['6635999', '2472361', '3240949', '3431568', '4410827',
                         '6763852', '3066683', '3440375', '2228310', '7823673', 
@@ -74,7 +75,7 @@ describe "Default Request Handler" do
   end
 
   it "searches should not be case sensitive" do
-    resp = solr_resp_ids_from_query('harry potter')
+    resp = solr_resp_ids_from_query 'harry potter'
     resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('Harry Potter'))
     resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('Harry potter'))
     resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('harry Potter'))
@@ -84,12 +85,12 @@ describe "Default Request Handler" do
   context "world atlas of sea grasses", :jira => 'VUF-2451' do
     it "world atlas of sea grasses", :fixme => true do
       # because it's 'seagrasses' not 'sea grasses'
-      resp = solr_resp_ids_from_query('world atlas of sea grasses')
+      resp = solr_resp_ids_from_query 'world atlas of sea grasses'
       resp.should include('5454691').as_first
       resp.should include('4815882')
     end
     it "world atlas of seagrasses" do
-      resp = solr_resp_ids_from_query('world atlas of seagrasses')
+      resp = solr_resp_ids_from_query 'world atlas of seagrasses'
       resp.should include('5454691').as_first
       resp.should include('4815882')
     end    
@@ -113,4 +114,48 @@ describe "Default Request Handler" do
     resp.should have_at_most(150).results
   end
 
+  it "death and taxes", :jira => 'SW-721' do
+    resp = solr_resp_ids_titles_from_query 'death and taxes'
+    resp.should include('title_245a_display' => /^death and taxes$/i).in_each_of_first(5)
+  end
+  
+  it "way we never were", :jira => 'VUF-311' do
+    resp = solr_resp_ids_titles_from_query 'way we never were'
+    resp.should include('title_245a_display' => /way we never were/i).as_first
+  end
+  
+  it "united states code", :jira => 'VUF-2060' do
+    resp = solr_resp_ids_from_query 'united states code'
+    resp.should include('5599841').as_first
+    resp.should include('2852709').in_first(3)
+  end
+  
+  it "zeitschrift", :jira => 'VUF-511' do
+    resp = solr_resp_ids_titles_from_query 'Zeitschrift'
+    resp.should include(['4443145', '486819']).in_first(10) # has 245a of Zeitschrift
+    resp.should include('title_245a_display' => /^zeitschrift$/i).in_each_of_first(15)
+    resp.should have_at_least(4000).results
+  end
+  
+  context "first chalk talk, July 21, 2011", :jira => 'VUF-1787' do
+    # really from https://consul.stanford.edu/display/NGDE/SearchWorks+201+Backnoise+chatter
+    it "vitamin A" do
+      # 64
+      resp = solr_resp_ids_titles_from_query 'Vitamin A'
+      resp.should have_at_least(800).results
+      resp.should include('title_245a_display' => /^vitamin a\.?$/i).in_each_of_first(3)
+      resp.should include('title_245a_display' => /vitamin a/i).in_each_of_first(20)
+    end
+    it "humanities 21st century america english" do
+      # 70
+      resp = solr_resp_ids_from_query('humanities 21st century america english')
+      resp.should have_at_most(25).results
+    end
+  end
+  
+  it "happiness, a history", :jira => 'VUF-1065' do
+    resp = solr_resp_ids_from_query 'happiness a history'
+    resp.should include(['6549586', '8446470']).in_first(3)
+  end
+  
 end
