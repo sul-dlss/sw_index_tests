@@ -26,6 +26,20 @@ describe "facet values and queries" do
       resp.should include(["728793", "2043360"]).in_first(3)
       resp.should include(["20084", "1067894"])
     end
+
+    it "lesbian gay vidoes", :jira => 'VUF-311' do
+      # implemented in boolean_spec
+    end
+
+    it "ethiopia maps", :jira => 'VUF-2535' do
+      resp = solr_resp_doc_ids_only({'q'=>'ethiopia', 'fq'=>'format:Map/Globe'})
+      resp.should have_at_least(80).results
+      resp.should_not include('9689856') # a San Francisco atlas
+      resp = solr_resp_doc_ids_only({'q'=>'ethiopia', 'fq'=>'format:Map/Globe', 'sort' => 'pub_date_sort desc, title_sort asc'})
+      resp.should have_at_least(80).results
+      resp.should include('9689856')
+    end
+
   end
 
   context "facet values" do
@@ -52,6 +66,21 @@ describe "facet values and queries" do
       resp = solr_response({'q'=>'"decentralization and school improvement"', 'fl' => 'id', 'facet.field' => 'author_person_facet'})
       resp.should have_facet_field('author_person_facet').with_value("Carnoy, Martin")
       resp.should have_facet_field('author_person_facet').with_value("Hannaway, Jane")
+    end
+  end
+  
+  context "expected values in the author person facet", :jira => 'VUF-138' do
+    it "war and peace should have tolstoy" do
+      resp = solr_response({'q' => 'war and peace', 'fl'=>'id', 'facet.field'=>'author_person_facet'})
+      resp.should have_facet_field('author_person_facet').with_value('Tolstoy, Leo, graf, 1828-1910')
+    end
+    it "evolution should have darwin" do
+      resp = solr_response({'q' => 'evolution', 'fl'=>'id', 'facet.field'=>'author_person_facet'})
+      resp.should have_facet_field('author_person_facet').with_value('Darwin, Charles, 1809-1882')
+    end
+    it "civil disobedience should have thoreau" do
+      resp = solr_response({'q' => 'civil disobedience', 'fl'=>'id', 'facet.field'=>'author_person_facet'})
+      resp.should have_facet_field('author_person_facet').with_value('Thoreau, Henry David, 1817-1862')
     end
   end
 
