@@ -20,12 +20,10 @@ describe "advanced search" do
   end
   
   def subject_query terms
-#    '_query_:"{!dismax qf=$qf_subject pf=$pf_subject pf3=$pf_subject3 pf2=$pf_subject2}' + terms + '"'
-    '_query_:"{!dismax qf=$qf_subject}(' + terms + ')"'
+    '_query_:"{!dismax qf=$qf_subject pf=$pf_subject pf3=$pf_subject3 pf2=$pf_subject2}' + terms + '"'
   end
   def description_query terms
-#    '_query_:\"{!dismax qf=$qf_description pf=$pf_description pf3=$pf_description3 pf2=$pf_description2}' + terms + '"'
-    '_query_:"{!dismax qf=$qf_description}(' + terms + ')"'
+    '_query_:"{!dismax qf=$qf_description pf=$pf_description pf3=$pf_description3 pf2=$pf_description2}' + terms + '"'
   end
   def solr_args
     {"qt"=>"advanced"}.merge(doc_ids_only)
