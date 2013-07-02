@@ -17,6 +17,12 @@ describe "advanced search" do
       resp.should include(['3034294','525462','3120734','1356131','7746467'])
       resp.should have_at_most(10).results
     end
+    # can't do quotes in a local params query
+    it 'subject ("street art" OR graffiti OR mural) and keyword chicano', :fixme => true do
+      resp = solr_response({'q'=>"#{subject_query('(+"street art") OR graffiti OR mural')} AND #{description_query('+chicano')}"}.merge(solr_args))
+      resp.should include(['3034294','525462','3120734','1356131','7746467'])
+      resp.should have_at_most(10).results
+    end
   end
   
   def subject_query terms
