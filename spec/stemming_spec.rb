@@ -58,10 +58,25 @@ describe "Stemming of English words" do
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'figure'}))
     end
 
-    # TODO:  see VUF-2009   Volney ruines
     # TODO:  see VUF-1657   Plutarch's Morals should also lead to records on Plutarch's "Moralia."
     # TODO:  see VUF-1765   eugenics vs eugene
+    # TODO:  see VUF-1451   musicals vs music
+    # 
+    # # FIXME: stemming cyrillic?  VUF-489
+          #  Пушкинa is not stemmed.  Пушкинa does not give the same results as a search for Пушкин.
+    
 
+    context "volney ruines", :jira => 'VUF-2009' do
+      # user wanted french results without having to select french in lang facet
+      it "les ruines volney" do
+        resp = solr_resp_ids_titles_from_query('volney ruines')
+        resp.should include('title_245a_display' => /les ruines/i)
+      end
+      it "volney ruines" do
+        resp = solr_resp_ids_titles_from_query('les ruines volney')
+        resp.should include('title_245a_display' => /les ruines/i).in_each_of_first(3)
+      end
+    end
 
     it "stemming of periodization", :jira => 'VUF-1765', :fixme => true do
       resp = solr_resp_doc_ids_only(subject_search_args '"Arts periodization"')
