@@ -263,5 +263,22 @@ describe "Author Search" do
     end
   end
   
+  context "contributor 710 with |k manuscript", :jira => ['SW-579', 'VUF-1684'] do
+    it "phrase search", :fixme => true do
+      resp = solr_resp_doc_ids_only(author_search_args('"Bibliothèque nationale de France. Manuscript. Musique 226. "'))
+      resp.should include(['278333', '6288243'])
+      resp.should have_at_most(5).results
+    end
+    it "non-phrase search" do
+      resp = solr_resp_doc_ids_only(author_search_args('Bibliothèque nationale de France. Manuscript. Musique 226. '))
+      resp.should include(['278333', '6288243'])
+      resp.should have_at_most(5).results
+    end
+    it "everything phrase search" do
+      resp = solr_resp_ids_from_query '"Bibliothèque nationale de France. Manuscript. Musique 226. "'
+      resp.should include(['278333', '6288243'])
+      resp.should have_at_most(5).results
+    end
+  end
   
 end
