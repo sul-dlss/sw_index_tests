@@ -225,6 +225,10 @@ describe "Subject Search" do
       resp.should include('3755800')
       resp.should have_at_most(5).results
     end
+    it "PAIS International subjects", :jira => 'SW-644' do
+      resp = solr_resp_doc_ids_only({'q'=> 'political science', :fq => 'format:Database'})
+      resp.should include('600922')
+    end
   end
   
   context "includes 655 (genre)" do
