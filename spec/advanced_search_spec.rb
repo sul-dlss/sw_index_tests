@@ -25,7 +25,6 @@ describe "advanced search" do
     end
   end
   
-  
   context "subject -congresses, keyword IEEE xplore", :jira => 'SW-623' do
     it "subject -congresses" do
       # advanced qp currently doesn't support hyphen as NOT
@@ -78,10 +77,28 @@ describe "advanced search" do
     end
   end
   
-  # desired phrase search
-  # subject "home schooling" + keyword Socialization  VUF-1352
-  #  author "Institute for Mathematical Studies in the Social Sciences"   VUF-1698
-  
+  context 'author phrase "Institute for Mathematical Studies in the Social Sciences"', :jira => 'VUF-1698' do
+    before(:all) do
+      @qterms = 'Institute for Mathematical Studies in the Social Sciences'
+      @no_phrase = solr_response({'q'=>"#{author_query(@qterms)}"}.merge(solr_args))
+      @phrase = solr_response({'q'=>"#{author_query('"' + @qterms + '"')}"}.merge(solr_args))
+    end
+    it "phrase compared to non-phrase" do
+      @phrase.should have_at_least(750).results
+      @phrase.should have_at_most(950).results
+      @no_phrase.should have_at_least(900).results
+      @phrase.should have_fewer_results_than @no_phrase
+    end
+    it "have the same number of results as a plain author query", :fixme => true do
+      # not working because we use edismax???
+      @no_phrase.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(author_search_args(@qterms)))
+      @phrase.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(author_search_args('"' + @qterms + '"')))
+    end
+  end
+    
+  def author_query terms
+    '_query_:"{!dismax qf=$qf_author pf=$pf_author pf3=$pf_author3 pf2=$pf_author2}' + terms + '"'
+  end
   def subject_query terms
     '_query_:"{!dismax qf=$qf_subject pf=$pf_subject pf3=$pf_subject3 pf2=$pf_subject2}' + terms + '"'
   end
