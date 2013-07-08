@@ -27,7 +27,7 @@ describe "advanced search" do
   
   
   context "subject -congresses, keyword IEEE xplore", :jira => 'SW-623' do
-    it "subject (-congresses)", :fixme => true do
+    it "subject -congresses" do
       # advanced qp currently doesn't support hyphen as NOT
       resp = solr_response({'q'=>"#{subject_query('(-congresses)')}"}.merge(solr_args))
       resp.should have_at_least(200000).results
@@ -46,11 +46,41 @@ describe "advanced search" do
     end
     it "subject NOT congresses and keyword IEEE xplore" do
       resp = solr_response({'q'=>"NOT #{subject_query('congresses')} AND #{description_query('+IEEE +xplore')}"}.merge(solr_args))
-      resp.should have_at_least(800).results  # in situ, production
-      # not true in Solr 3.6  or Solr 4.3 dismax
+      resp.should have_at_least(800).results
       resp.should have_at_most(900).results
     end
   end
+  
+  context "subject home schooling, keyword Socialization", :jira => 'VUF-1352' do
+    before(:all) do
+      @sub_no_phrase = solr_response({'q'=>"#{subject_query('home schooling')}"}.merge(solr_args))
+      @sub_phrase = solr_response({'q'=>"#{subject_query('"home schooling"')}"}.merge(solr_args))
+    end
+    it "subject home schooling" do
+      @sub_phrase.should have_at_least(4500).results
+      @sub_phrase.should have_at_most(6000).results
+      @sub_no_phrase.should have_at_least(6000).results
+      @sub_phrase.should have_fewer_results_than @sub_no_phrase
+    end
+    it "keyword Socialization" do
+      resp = solr_response({'q'=>"#{description_query('+Socialization')}"}.merge(solr_args))
+#      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query("Socialization"))
+      #  optional single term (no +) same as required single term
+      resp.should have_the_same_number_of_results_as(solr_response({'q'=>"#{description_query('Socialization')}"}.merge(solr_args)))
+      resp.should have_at_least(400000).results
+      resp.should have_at_most(500000).results
+    end
+    it "subject home schooling and keyword Socialization" do
+      resp = solr_response({'q'=>"#{subject_query('"home schooling"')} AND #{description_query('+Socialization')}"}.merge(solr_args))
+      resp.should have_fewer_results_than(@sub_no_phrase)
+      resp.should have_at_least(1200).results
+      resp.should have_at_most(1500).results
+    end
+  end
+  
+  # desired phrase search
+  # subject "home schooling" + keyword Socialization  VUF-1352
+  #  author "Institute for Mathematical Studies in the Social Sciences"   VUF-1698
   
   def subject_query terms
     '_query_:"{!dismax qf=$qf_subject pf=$pf_subject pf3=$pf_subject3 pf2=$pf_subject2}' + terms + '"'
