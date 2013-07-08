@@ -281,4 +281,12 @@ describe "Author Search" do
     end
   end
   
+  context "corporate author phrase search", :jira => 'VUF-1698' do
+    it 'author "Institute for Mathematical Studies in the Social Sciences"' do
+      resp = solr_resp_doc_ids_only(author_search_args('"Institute for Mathematical Studies in the Social Sciences"'))
+      resp.should have_at_least(650).results
+      resp.should have_at_most(900).results
+    end
+  end
+  
 end
