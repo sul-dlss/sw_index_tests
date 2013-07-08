@@ -226,33 +226,33 @@ describe "boolean operators" do
     context "actual user queries" do
       context "indochine OR indochina" do
         before(:all) do
-          @resp = solr_resp_ids_from_query 'indochine OR indochina'
-          @resp_first_term = solr_resp_ids_from_query 'indochine'   # 513 docs  2013-05-21
-          @resp_second_term = solr_resp_ids_from_query 'indochina'  # 1522 docs  2013-05-21
+          @indochine_or_indochina = solr_resp_ids_from_query 'indochine OR indochina'
+          @indochine = solr_resp_ids_from_query 'indochine'   # 513 docs  2013-05-21
+          @indochina = solr_resp_ids_from_query 'indochina'  # 1522 docs  2013-05-21
         end
         it "should have more results than either term alone" do
-          @resp.should have_more_results_than(@resp_first_term)
-          @resp.should have_more_results_than(@resp_second_term)
+          @indochine_or_indochina.should have_more_results_than(@indochine)
+          @indochine_or_indochina.should have_more_results_than(@indochina)
         end
         it "should have more results than query without OR (terms become 'should match' clauses)" do
-          @resp.should have_more_results_than(solr_resp_ids_from_query 'indochine indochina') # 288 docs 2013-05-21
+          @indochine_or_indochina.should have_more_results_than(solr_resp_ids_from_query 'indochine indochina') # 288 docs 2013-05-21
         end
         it "should have more results than query with AND substituted for OR" do
-          @resp.should have_more_results_than(solr_resp_ids_from_query 'indochine AND indochina') # 288 docs 2013-05-21
+          @indochine_or_indochina.should have_more_results_than(solr_resp_ids_from_query 'indochine AND indochina') # 288 docs 2013-05-21
         end
         it "should have results that match first term but not second term" do
           # titles "Indochine"
-          indochine_results = ["383033", "430603", "4312384", "3083716", "3065221"]
-          @resp_first_term.should include(indochine_results)
-          @resp.should include(indochine_results)
-          @resp_second_term.should_not include(indochine_results)
+          indochine_results = ["383033", "430603", "4312384", "3083716", "3065221", "2134301"]
+          @indochine.should include(indochine_results)
+          @indochine_or_indochina.should include(indochine_results)
+          @indochina.should_not include(indochine_results)
         end
         it "should have results that match second term but not first term" do
           #  titles "Indochina."
           indochina_results = ["1116305", "2643130", "604830"]
-          @resp_second_term.should include(indochina_results).in_first(5).documents
-          @resp.should include(indochina_results)
-          @resp_first_term.should_not include(indochina_results)
+          @indochina.should include(indochina_results).in_first(5).documents
+          @indochine_or_indochina.should include(indochina_results)
+          @indochine.should_not include(indochina_results)
         end
       end
       context "sanitation ethiopia OR addis" do
