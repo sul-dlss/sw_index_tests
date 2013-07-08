@@ -115,7 +115,7 @@ describe "Title Search" do
       resp = solr_resp_ids_titles(title_search_args '"Studies in the History and Philosophy of Science"')
       resp.should include("title_245a_display" => /Studies in the History and Philosophy of Science/i).in_each_of_first(4).documents
     end
-    it "title search with the, not phrase", :fixme => true do
+    it "title search with the, not phrase" do
       resp = solr_resp_ids_titles(title_search_args 'Studies in the History and Philosophy of Science')
       resp.should include("title_245a_display" => /Studies in the History and Philosophy of Science/i).in_each_of_first(4).documents
     end
