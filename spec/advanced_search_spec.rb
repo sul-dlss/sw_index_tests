@@ -76,7 +76,7 @@ describe "advanced search" do
       resp.should have_at_least(400000).results
       resp.should have_at_most(500000).results
     end
-    it "subject not phrase and keyword" do
+    it "subject (not a phrase) and keyword" do
       #  optional single term (no +) same as required single term
       resp = solr_response({'q'=>"#{subject_query('+home +schooling')} AND #{description_query('Socialization')}"}.merge(solr_args))
       resp.should have_fewer_results_than(@sub_no_phrase)
@@ -109,13 +109,13 @@ describe "advanced search" do
   end
   
   context "history man by malcolm bradbury", :jira => 'SW-805' do
-    it "author malcolm bradbury" do
+    it "author" do
       resp = solr_response({'q'=>"#{author_query('+malcolm +bradbury')}"}.merge(solr_args))
       resp.should have_at_least(40).results
       resp.should have_at_most(60).results
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(author_search_args('malcolm bradbury')))
     end
-    it "title the history man" do
+    it "title" do
       resp = solr_response({'q'=>"#{title_query('+the +history +man')}"}.merge(solr_args))
       resp.should have_at_least(1200).results
       resp.should have_at_most(1300).results
@@ -124,6 +124,30 @@ describe "advanced search" do
       resp = solr_response({'q'=>"#{author_query('+malcolm +bradbury')} AND #{title_query('+the +history +man')}"}.merge(solr_args))
       resp.should include('1433520').as_first
       resp.should have_at_most(3).results
+    end
+  end
+  
+  context "author campana, keywords storia e letteratura", :jira => 'VUF-2468' do
+    before(:all) do
+      @author_resp = solr_response({'q'=>"#{author_query('campana')}"}.merge(solr_args))
+    end
+    it "author" do
+      #  optional single term (without +) same as required single term
+      @author_resp.should have_the_same_number_of_results_as(solr_response({'q'=>"#{author_query('+campana')}"}.merge(solr_args)))
+      @author_resp.should have_at_least(175).results
+      @author_resp.should have_at_most(225).results
+      @author_resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(author_search_args('campana')))
+    end
+    it "keyword" do
+      resp = solr_response({'q'=>"#{description_query('+storia +e +letteratura')}"}.merge(solr_args))
+      resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query("storia e letteratura"))
+      resp.should have_at_least(1500).results
+      resp.should have_at_most(2000).results
+    end
+    it "author and keyword" do
+      resp = solr_response({'q'=>"#{author_query('campana')} AND #{description_query('+storia +e +letteratura')}"}.merge(solr_args))
+      resp.should have_fewer_results_than(@author_resp)
+      resp.should have_at_most(10).results
     end
   end
     
