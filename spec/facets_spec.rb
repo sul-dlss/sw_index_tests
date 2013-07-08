@@ -21,10 +21,11 @@ describe "facet values and queries" do
     end
 
     it "format Books" do
-      resp = solr_resp_doc_ids_only({'q'=>'French miniatures', 'fq'=>'format:Book'})
+      resp = solr_resp_doc_ids_only({'q'=>'French miniatures', 'fq'=>'format:Book', 'rows'=>30})
       resp.should have_at_least(200).documents
       resp.should include(["728793", "2043360"]).in_first(3)
-      resp.should include(["20084", "1067894"])
+      resp.should include("1067894") # French Revolution in Miniature
+      resp.should include("20084") # Cassells French Miniature Dictionary
     end
 
     it "lesbian gay vidoes", :jira => 'VUF-311' do
