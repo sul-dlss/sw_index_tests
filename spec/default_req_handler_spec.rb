@@ -125,9 +125,10 @@ describe "Default Request Handler" do
   end
   
   it "united states code", :jira => 'VUF-2060' do
-    resp = solr_resp_ids_from_query 'united states code'
+    resp = solr_resp_ids_titles_from_query 'united states code'
     resp.should include('5599841').as_first
-    resp.should include('2852709').in_first(3)
+    resp.should include("title_245a_display" => /^united states code$/i).in_each_of_first(4)
+    resp.should include('2852709').in_first(4)
   end
   
   it "zeitschrift", :jira => 'VUF-511' do
