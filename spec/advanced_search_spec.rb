@@ -184,7 +184,7 @@ describe "advanced search" do
     end
   end
   
-  context "subject and pub info", :jira => 'VUF-1781' do
+  context "subject 'soviet union and historiography' and pub info '1910-1911", :jira => 'VUF-1781' do
     it "subject" do
       resp = solr_response({'q'=>"#{subject_query('+soviet +union +and +historiography')}"}.merge(solr_args))
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args 'soviet union and historiography'))
@@ -244,6 +244,43 @@ describe "advanced search" do
         resp.should have_at_least(35).results
         resp.should have_at_most(60).results
       end
+    end
+  end
+  
+  context "author Stalin title 'rechi OR sochineniia'", :jira => 'VUF-1381' do
+    before(:all) do
+      @author_resp = solr_response({'q'=>"#{author_query('stalin')}"}.merge(solr_args))
+    end
+    it "author" do
+      # required operator (+) is not needed for single arg
+      @author_resp.should have_the_same_number_of_results_as(solr_response({'q'=>"#{author_query('+stalin')}"}.merge(solr_args)))
+      @author_resp.should have_at_least(600).results
+      @author_resp.should have_at_most(700).results
+      @author_resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(author_search_args('stalin')))
+    end
+    it "title rechi OR sochineniia" do
+      resp = solr_response({'q'=>"#{title_query('rechi sochineniia')}"}.merge(solr_args))
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('rechi OR sochineniia')))
+      resp.should have_at_least(2200).results
+      resp.should have_at_most(2400).results
+    end
+    it "author + title rechi" do
+      resp = solr_response({'q'=>"#{author_query('stalin')} AND #{title_query('rechi')}"}.merge(solr_args))
+      resp.should have_fewer_results_than @author_resp
+      resp.should have_at_least(12).results
+      resp.should have_at_most(20).results
+    end
+    it "author + title sochineniia" do
+      resp = solr_response({'q'=>"#{author_query('stalin')} AND #{title_query('sochineniia')}"}.merge(solr_args))
+      resp.should have_fewer_results_than @author_resp
+      resp.should have_at_least(5).results
+      resp.should have_at_most(12).results
+    end
+    it "author and title both terms optional" do
+      resp = solr_response({'q'=>"#{author_query('stalin')} AND #{title_query('rechi sochineniia')}"}.merge(solr_args))
+      resp.should have_fewer_results_than @author_resp
+      resp.should have_at_least(20).results
+      resp.should have_at_most(30).results
     end
   end
     
