@@ -299,6 +299,14 @@ describe "advanced search" do
     end
   end
   
+  context "pub_info search" do
+    it "publisher and place and year", :jira => 'SW-202' do
+      resp = solr_response({'q'=>"#{pub_info_query('+Instress, +Saratoga, +1999')}"}.merge(solr_args))
+      resp.should include(['4123450', '4282796', '4314776', '4297734', '4233634'])
+      resp.should have_at_most(10).results
+    end
+  end
+  
   context "number search" do
     it "should allow barcode searches", :jira => 'SW-682' do
       resp = solr_response({'q'=>"#{number_query('36105041286266')}"}.merge(solr_args))
