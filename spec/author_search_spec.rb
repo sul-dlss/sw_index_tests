@@ -289,4 +289,17 @@ describe "Author Search" do
     end
   end
   
+  context "Deutsch, Alfred", :jira => 'VUF-1481' do
+    # FIXME: finds authors across fields - alfred in one field, deutsch in another
+    it "author search" do
+      resp = solr_resp_doc_ids_only(author_search_args('Deutsch, Alfred'))
+      resp.should include('509722').as_first
+    end
+    it "author search, phrase" do
+      resp = solr_resp_doc_ids_only(author_search_args('"Deutsch, Alfred"'))
+      resp.should include('509722').as_first
+      resp.should have_at_most(5).results
+    end
+  end
+  
 end
