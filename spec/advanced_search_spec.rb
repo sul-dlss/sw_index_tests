@@ -150,6 +150,102 @@ describe "advanced search" do
       resp.should have_at_most(10).results
     end
   end
+  
+  context "nested NOT in subject", :jira => 'VUF-1387' do
+    it "digestive organs" do
+      resp = solr_response({'q'=>"#{subject_query('+digestive +organs')}"}.merge(solr_args))
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args 'digestive organs'))
+      resp.should have_at_least(325).results
+      resp.should have_at_most(400).results
+    end
+    it "digestive organs NOT disease" do
+      resp = solr_response({'q'=>"#{subject_query('+digestive +organs')} AND NOT #{subject_query('disease')}"}.merge(solr_args))
+      # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a NOT
+      # https://issues.apache.org/jira/browse/SOLR-2649
+#      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args 'digestive organs NOT disease'))
+      resp.should have_at_least(100).results
+      resp.should have_at_most(200).results
+    end
+    it "digestive organs NOT disease NOT cancer" do
+      resp = solr_response({'q'=>"#{subject_query('+digestive +organs')} AND NOT #{subject_query('disease')} AND NOT #{subject_query('cancer')}"}.merge(solr_args))
+      # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a NOT
+      # https://issues.apache.org/jira/browse/SOLR-2649
+#      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args 'digestive organs NOT disease NOT cancer'))
+      resp.should have_at_least(80).results
+      resp.should have_at_most(100).results
+    end
+    it "with parens" do
+      resp = solr_response({'q'=>"#{subject_query('+digestive +organs')} AND NOT #{subject_query('(disease OR cancer)')}"}.merge(solr_args))
+      # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a NOT
+      # https://issues.apache.org/jira/browse/SOLR-2649
+#      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args 'digestive organs NOT (disease OR cancer)'))
+      resp.should have_at_least(80).results
+      resp.should have_at_most(100).results
+    end
+  end
+  
+  context "subject and pub info", :jira => 'VUF-1781' do
+    it "subject" do
+      resp = solr_response({'q'=>"#{subject_query('+soviet +union +and +historiography')}"}.merge(solr_args))
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args 'soviet union and historiography'))
+      resp.should have_at_least(200).results
+      resp.should have_at_most(250).results
+    end
+    it "subject without 'and'" do
+      resp = solr_response({'q'=>"#{subject_query('+soviet +union +historiography')}"}.merge(solr_args))
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args 'soviet union historiography'))
+      resp.should have_at_least(875).results
+      resp.should have_at_most(950).results
+    end
+    it "pub info 2010" do
+      resp = solr_response({'q'=>"#{pub_info_query('+2010')}"}.merge(solr_args))
+      resp.should have_at_least(127000).results
+      resp.should have_at_most(130000).results
+    end
+    it "pub info 2011" do
+      resp = solr_response({'q'=>"#{pub_info_query('+2011')}"}.merge(solr_args))
+      resp.should have_at_least(114000).results
+      resp.should have_at_most(116000).results
+    end
+    it "subject and pub info 2010" do
+      resp = solr_response({'q'=>"#{subject_query('+soviet +union +and +historiography')} AND #{pub_info_query('+2010')}"}.merge(solr_args))
+      resp.should have_at_least(8).results
+      resp.should have_at_most(15).results
+    end
+    it "subject and pub info 2011" do
+      resp = solr_response({'q'=>"#{subject_query('+soviet +union +and +historiography')} AND #{pub_info_query('+2011')}"}.merge(solr_args))
+      resp.should have_at_least(15).results
+      resp.should have_at_most(25).results
+    end
+    it "subject without 'and' and pub info 2010" do
+      resp = solr_response({'q'=>"#{subject_query('+soviet +union +historiography')} AND #{pub_info_query('+2010')}"}.merge(solr_args))
+      resp.should have_at_least(15).results
+      resp.should have_at_most(25).results
+    end
+    it "subject without 'and' and pub info 2011" do
+      resp = solr_response({'q'=>"#{subject_query('+soviet +union +historiography')} AND #{pub_info_query('+2011')}"}.merge(solr_args))
+      resp.should have_at_least(25).results
+      resp.should have_at_most(40).results
+    end
+    context "search range of years in pub_info", :fixme => true do
+      it "pub info 2010-2011" do
+        resp = solr_response({'q'=>"#{pub_info_query('+2010-2011')}"}.merge(solr_args))
+        resp.should have_the_same_number_of_results_as(solr_response({'q'=>"#{pub_info_query('+2010 +2011')}"}.merge(solr_args)))
+        resp.should have_at_least(2).results
+        resp.should have_at_most(10).results
+      end
+      it "subject and pub info" do
+        resp = solr_response({'q'=>"#{subject_query('+soviet +union +and +historiography')} AND #{pub_info_query('+2010-2011')}"}.merge(solr_args))
+        resp.should have_at_least(25).results
+        resp.should have_at_most(35).results
+      end
+      it "subject without 'and' and pub info" do
+        resp = solr_response({'q'=>"#{subject_query('+soviet +union +historiography')} AND #{pub_info_query('+2010-2011')}"}.merge(solr_args))
+        resp.should have_at_least(35).results
+        resp.should have_at_most(60).results
+      end
+    end
+  end
     
   def title_query terms
     '_query_:"{!dismax qf=$qf_title pf=$pf_title pf3=$pf_title3 pf2=$pf_title2}' + terms + '"'
@@ -162,6 +258,9 @@ describe "advanced search" do
   end
   def description_query terms
     '_query_:"{!dismax qf=$qf_description pf=$pf_description pf3=$pf_description3 pf2=$pf_description2}' + terms + '"'
+  end
+  def pub_info_query terms
+    '_query_:"{!dismax qf=$qf_pub_info pf=$pf_pub_info pf3=$pf_pub_info3 pf2=$pf_pub_info2}' + terms + '"'
   end
   def solr_args
     {"qt"=>"advanced"}.merge(doc_ids_only)
