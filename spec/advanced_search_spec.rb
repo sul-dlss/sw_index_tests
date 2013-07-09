@@ -299,6 +299,14 @@ describe "advanced search" do
     end
   end
   
+  context "number search" do
+    it "should allow barcode searches", :jira => 'SW-682' do
+      resp = solr_response({'q'=>"#{number_query('36105041286266')}"}.merge(solr_args))
+      resp.should include('2029735').as_first
+      resp.should have_at_most(3).results
+    end
+  end
+  
   context "facets" do
     context "format video, location green, language english", :jira => 'VUF-2460' do
       before(:all) do
@@ -335,6 +343,9 @@ describe "advanced search" do
   end
   def pub_info_query terms
     '_query_:"{!dismax qf=$qf_pub_info pf=$pf_pub_info pf3=$pf_pub_info3 pf2=$pf_pub_info2}' + terms + '"'
+  end
+  def number_query terms
+    '_query_:"{!dismax qf=$qf_number pf=$pf_number pf3=$pf_number3 pf2=$pf_number2}' + terms + '"'
   end
   def solr_args
     {"qt"=>"advanced"}.merge(doc_ids_only)
