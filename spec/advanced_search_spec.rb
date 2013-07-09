@@ -283,7 +283,29 @@ describe "advanced search" do
       resp.should have_at_most(30).results
     end
   end
-    
+  
+  context "facets" do
+    context "format video, location green, language english", :jira => 'VUF-2460' do
+      before(:all) do
+      end
+      it "before topics selected" do
+        resp = solr_response({'fq' => 'format:("Video"), language:("English"), building_facet:("Green")', 'q'=>'collection:*'}.merge(solr_args))
+        resp.should have_at_least(22000).results
+        resp.should have_at_most(35000).results
+      end
+      it "add topic feature films" do
+        resp = solr_response({'fq' => 'format:("Video"), language:("English"), building_facet:("Green"), topic_facet:("Feature films")', 'q'=>'collection:*'}.merge(solr_args))
+        resp.should have_at_least(14500).results
+        resp.should have_at_most(18000).results
+      end
+      it "add topic science fiction" do
+        resp = solr_response({'fq' => 'format:("Video"), language:("English"), building_facet:("Green"), topic_facet:("Feature films"), topic_facet:("Science fiction films")', 'q'=>'collection:*'}.merge(solr_args))
+        resp.should have_at_least(525).results
+        resp.should have_at_most(650).results
+      end
+    end
+  end
+  
   def title_query terms
     '_query_:"{!dismax qf=$qf_title pf=$pf_title pf3=$pf_title3 pf2=$pf_title2}' + terms + '"'
   end
