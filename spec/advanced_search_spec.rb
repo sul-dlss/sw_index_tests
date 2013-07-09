@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe "advanced search" do
-  context "street art OR graffiti", :jira => 'VUF-1013' do
+  context "subject street art OR graffiti", :jira => 'VUF-1013' do
     it "subject ((street art) OR graffiti OR mural)" do
       resp = solr_response({'q'=>"#{subject_query('(+street +art) OR graffiti OR mural')}"}.merge(solr_args))
       resp.should have_at_least(1000).results
@@ -108,7 +108,7 @@ describe "advanced search" do
     end
   end
   
-  context "history man by malcolm bradbury", :jira => 'SW-805' do
+  context "author title: history man by malcolm bradbury", :jira => 'SW-805' do
     it "author" do
       resp = solr_response({'q'=>"#{author_query('+malcolm +bradbury')}"}.merge(solr_args))
       resp.should have_at_least(40).results
@@ -281,6 +281,21 @@ describe "advanced search" do
       resp.should have_fewer_results_than @author_resp
       resp.should have_at_least(20).results
       resp.should have_at_most(30).results
+    end
+  end
+  
+  context "author mcrae, title jazz", :jira => 'SW-168' do
+    it "author barry mcrae title jazz" do
+      resp = solr_response({'q'=>"#{author_query('+mcrae +barry')} AND #{title_query('jazz')}"}.merge(solr_args))
+      resp.should have_fewer_results_than(solr_resp_ids_from_query "barry mcrae jazz")
+      resp.should include(['2130330', '336046']).in_first(2)
+      resp.should have_at_most(10).results
+    end
+    it "author mcrae title jazz" do
+      resp = solr_response({'q'=>"#{author_query('mcrae')} AND #{title_query('jazz')}"}.merge(solr_args))
+      resp.should have_fewer_results_than(solr_resp_ids_from_query "mcrae jazz")
+      resp.should include(['2130330', '336046', '7637875', '6634054'])
+      resp.should have_at_most(50).results
     end
   end
   
