@@ -159,4 +159,11 @@ describe "Default Request Handler" do
     resp.should include(['6549586', '8446470']).in_first(3)
   end
   
+  it "should allow barcode searches", :jira => 'SW-682' do
+    resp = solr_resp_ids_from_query '36105041286266'
+    resp.should include('2029735').as_first
+    resp.should have_at_most(3).results
+  end
+  
+  
 end
