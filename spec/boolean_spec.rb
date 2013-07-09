@@ -216,7 +216,7 @@ describe "boolean operators" do
         resp = solr_resp_ids_from_query 'mark twain NOT tom sawyer' # 0 documents
         resp.should have_at_least(1400).documents
       end
-    end
+    end    
   end # context NOT
    
   # TODO: what about lowercase or ?
@@ -289,6 +289,35 @@ describe "boolean operators" do
         resp.should have_at_most(40).results
       end
     end
+    
+    context "nested OR within NOT as subject", :jira => 'VUF-1387' do
+      it "digestive organs" do
+        resp = solr_resp_doc_ids_only(subject_search_args 'digestive organs')
+        resp.should have_at_least(325).results
+        resp.should have_at_most(400).results
+      end
+      it "digestive organs NOT disease", :fixme => true do
+        # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a NOT
+        # https://issues.apache.org/jira/browse/SOLR-2649
+        resp = solr_resp_doc_ids_only(subject_search_args 'digestive organs NOT disease')
+        resp.should have_at_least(100).results
+        resp.should have_at_most(200).results
+      end
+      it "digestive organs NOT disease NOT cancer", :fixme => true do
+        # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a NOT
+        # https://issues.apache.org/jira/browse/SOLR-2649
+        resp = solr_resp_doc_ids_only(subject_search_args 'digestive organs NOT disease NOT cancer')
+        resp.should have_at_least(80).results
+        resp.should have_at_most(100).results
+      end
+      it "with parens", :fixme => true do
+        # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a NOT
+        # https://issues.apache.org/jira/browse/SOLR-2649
+        resp = solr_resp_doc_ids_only(subject_search_args 'digestive organs NOT (disease OR cancer)')
+        resp.should have_at_least(80).results
+        resp.should have_at_most(100).results
+      end
+    end # nested OR within NOT
   end # context OR
   
 end
