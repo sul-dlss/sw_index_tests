@@ -94,5 +94,108 @@ describe "Stemming of English words" do
     end
     
   end # context exact before stemmed
+  
+  context "ly suffix" do
+    it "lonely should stem to lone" do
+      resp = solr_resp_ids_titles(title_search_args('lonely trail'))
+      resp.should include('title_245a_display' => /lone /i)
+    end
+    it "silently should stem to silent" do
+      resp = solr_resp_ids_titles(title_search_args 'silently')
+      resp.should include('title_245a_display' => /silent /i)
+    end
+    it "knightly should stem to knight" do
+      resp = solr_resp_ids_titles(title_search_args('knightly').merge({:rows => '30'}))
+      resp.should include('title_245a_display' => /knights? /i)
+    end
+  end
+  
+  context "terminating y" do
+    it "wary", :jira => 'VUF-633' do
+      pending "to be implemented"
+    end
+    it "stay, stayed" do
+      pending "to be implemented"
+    end
+  end
+  
+  context "us suffix" do
+    it "alumnus" do
+      pending "to be implemented"
+    end
+  end
+  
+  context "collisions", :fixme => true do
+    context "animal <--> animate, animation, animism", :fixme => true do
+      it "animal should not match animation" do
+        resp = solr_resp_ids_titles(title_search_args 'animal')
+        resp.should_not include('title_245a_display' => /animation/i)
+      end
+      it "animation should not match animal" do
+        resp = solr_resp_ids_titles(title_search_args 'animation')
+        resp.should_not include('title_245a_display' => /animal/i)
+      end
+      it "animal should not match animism" do
+        resp = solr_resp_ids_titles(title_search_args 'animal')
+        resp.should_not include('title_245a_display' => /animism/i)
+      end
+      it "animism should not match animal" do
+        resp = solr_resp_ids_titles(title_search_args 'animism')
+        resp.should_not include('title_245a_display' => /animal/i)
+      end
+    end
+    context "ironic <--> iron", :fixme => true do
+      it "ironic should not match iron" do
+        resp = solr_resp_ids_titles(title_search_args('ironic').merge({:rows => '100'}))
+        resp.should_not include('title_245a_display' => /iron /i)
+      end
+      it "iron should not match ironic", :fixme => true do
+        # too many titles with iron for this to be a good test
+        resp = solr_resp_ids_titles(title_search_args('iron').merge({:rows => '500'}))
+        resp.should_not include('title_245a_display' => /ironic/i)
+      end
+    end
+    context "conversion <-> converse <-> conversation" do
+      it "conversion should not match converse", :fixme => true do
+        # too many titles with conversion for this to be a good test
+        resp = solr_resp_ids_titles(title_search_args('conversion').merge({:rows => '500'}))
+        resp.should_not include('title_245a_display' => /converse/i)
+      end
+      it "conversion should not match conversation" do
+        resp = solr_resp_ids_titles(title_search_args 'conversion')
+        resp.should_not include('title_245a_display' => /conversation/i)
+      end
+      it "converse should not match conversion" do
+        resp = solr_resp_ids_titles(title_search_args('converse').merge({:rows => '30'}))
+        resp.should_not include('title_245a_display' => /conversion/i)
+      end
+      it "converse should not match conversation" do
+        resp = solr_resp_ids_titles(title_search_args('converse').merge({:rows => '30'}))
+        resp.should_not include('title_245a_display' => /conversation/i)
+      end
+      it "conversation should not match conversion" do
+        resp = solr_resp_ids_titles(title_search_args('conversation').merge({:rows => '100'}))
+        resp.should_not include('title_245a_display' => /conversion/i)
+      end
+      it "conversation should not match converse", :fixme => true do
+        # not enough title with converse for this to be a good test
+        resp = solr_resp_ids_titles(title_search_args('conversation').merge({:rows => '500'}))
+        resp.should_not include('title_245a_display' => /converse/i)
+      end
+    end
+  end # collisions
+  
+  context "irregular plurals", :fixme => true do
+    context "woman <--> women", :fixme => true do
+      it "woman should match women" do
+        resp = solr_resp_ids_titles(title_search_args('woman').merge({:rows => '100'}))
+        resp.should include('title_245a_display' => /women/i)
+      end
+      it "women should match woman" do
+        resp = solr_resp_ids_titles(title_search_args('women').merge({:rows => '100'}))
+        resp.should include('title_245a_display' => /woman/i)
+      end
+    end
+  end
 
 end
