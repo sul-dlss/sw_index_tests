@@ -2,24 +2,10 @@ require 'spec_helper'
 
 describe "wildcards in queries" do
   
-  it "socrates truncation symbol: 'byzantine figur$' should >= Socrates result quality", :jira => 'VUF-598' do
-    resp = solr_resp_doc_ids_only(title_search_args('byzantine figur$')) 
-    #  note:  Solr probably ignores the $  so it is the same as  
-#    resp = solr_resp_doc_ids_only(title_search_args('byzantine figure')) 
-#    resp = solr_resp_doc_ids_only(title_search_args('byzantine figur')) 
-
-    # these four have (stemmed) byzantine figure in the title
-    resp.should include(["2440554", "3013697", "1498432", "5165378"]).in_first(5).results    
-    # 7769264: title has only byzantine; 505t has "figural"
-    resp.should include(["3013697", "1498432", "5165378"]).before("7769264")
-    # 7096823 has "Byzantine" "figurine" in separate 505t subfields.  
-    #   apparently "figurine" does not stem to the same word as "figure" - this is in stemming spec
-#    resp.should include(["2440554", "3013697", "1498432", "5165378"]).before("7096823")
-  end  
-    
   context "multi-char wildcard: *" do
+    # (see also dollar sign in non_alpha_chars spec)
     it "byzantine figur* should >= Socrates result quality", :jira => 'VUF-598' do
-      resp = solr_resp_doc_ids_only(title_search_args('byzantine figur*'))
+      resp = solr_resp_doc_ids_only(title_search_args 'byzantine figur*')
       resp.should include("3013697").as_first  # title_245a_display => "Byzantine figural processional crosses"      
       #  figur* occures before byzantine
       resp.should include("2440554").in_first(5).results # title_245a_display => "Figures byzantines ..."
@@ -31,25 +17,38 @@ describe "wildcards in queries" do
       resp.should include("7096823") # 7096823 has "Byzantine" "figurine" in separate 505t subfield 
       
       # $ is socrates truncation symbol
-      resp2 = solr_resp_ids_titles(title_search_args('byzantine figur$'))
-      resp3 = solr_resp_ids_titles(title_search_args('byzantine figure'))
+      resp2 = solr_resp_ids_titles(title_search_args 'byzantine figur$')
+      resp3 = solr_resp_ids_titles(title_search_args 'byzantine figure')
       resp.should have_at_least(resp2.size).results
       resp.should have_at_least(resp3.size).results
     end 
 
     context "minimalis*", :jira => 'VUF-663' do
       it "everything" do
-        resp = solr_resp_ids_from_query('minimalis*')
+        resp = solr_resp_ids_from_query 'minimalis*'
         resp.should have_at_least(250).results
       end
       it "title search" do
-        resp = solr_resp_doc_ids_only(title_search_args('minimalis*'))
+        resp = solr_resp_doc_ids_only(title_search_args 'minimalis*')
         resp.should have_at_least(150).results
       end
     end 
+    
+    it "asterix as query '*'" do
+      # dismax:  returns 0 results
+      # edismax:  returns all documents  (or timeout error?)
+      resp = solr_resp_ids_from_query '*'  
+      resp.should have_at_least(6900000).documents
+    end    
   end
   
-#  context "single char wildcard: ?" do   
-#  end
+  context "single char wildcard: ?" do   
+    it "question mark as query '?'" do
+      # dismax or icu tokenizer:  one result  (4085436)
+      # edismax:  all documents
+      resp = solr_resp_ids_from_query '?' # '?' 
+      resp.should have_at_least(6900000).documents
+    end
+  end
   
 end

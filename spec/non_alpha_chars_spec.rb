@@ -178,21 +178,36 @@ describe "Terms with Numbers or other oddities" do
 
   end # unmatched pairs
   
-  context "wildcard queries" do
-    it "question mark as query '?'" do
-      # dismax or icu tokenizer:  one result  (4085436)
-      # edismax:  all documents
-      resp = solr_resp_ids_from_query '?' # '?' 
-      resp.should have_at_least(6900000).documents
-    end
+  context "dollar sign - ignored" do
+    it "socrates truncation symbol: 'byzantine figur$' should >= Socrates result quality", :jira => 'VUF-598' do
+      resp = solr_resp_doc_ids_only(title_search_args 'byzantine figur$') 
+      #  note:  Solr ignores the $ so it is the same as  
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args 'byzantine figur'))
 
-    it "asterix as query '*'" do
-      # dismax:  returns 0 results
-      # edismax:  returns all documents  (or timeout error?)
-      resp = solr_resp_ids_from_query '*'  
-      resp.should have_at_least(6900000).documents
-    end
-  end
+      # these four have (stemmed) byzantine figure in the title
+      resp.should include(["2440554", "3013697", "1498432", "5165378"]).in_first(5).results    
+      # 7769264: title has only byzantine; 505t has "figural"
+      resp.should include(["3013697", "1498432", "5165378"]).before("7769264")
+      # 7096823 has "Byzantine" "figurine" in separate 505t subfields.  
+      #   apparently "figurine" does not stem to the same word as "figure" - this is in stemming spec
+  #    resp.should include(["2440554", "3013697", "1498432", "5165378"]).before("7096823")
+    end  
+
+    context "$en$e" do
+      it "dollars and $en$e" do
+        resp = solr_resp_ids_from_query "dollars and $en$e"
+        resp.should include('1127423').as_first # Dollars & $en$e
+      end
+      it "dollars AND $en$e" do
+        resp = solr_resp_ids_from_query "dollars AND $en$e"
+        resp.should include('1127423').as_first # Dollars & $en$e
+      end
+      it "$en$e" do
+        resp = solr_resp_ids_from_query "$en$e"
+        resp.should have_at_least(300).results  # this actually matches  " en e"
+      end
+    end    
+  end # dollar sign
   
   it "non-dismax special lone characters should politely return 0 results" do
     # lucene query parsing special chars that are not special to dismax:
