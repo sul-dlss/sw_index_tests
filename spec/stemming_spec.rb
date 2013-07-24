@@ -96,26 +96,69 @@ describe "Stemming of English words" do
   end # context exact before stemmed
   
   context "ly suffix" do
-    it "lonely should stem to lone" do
+    it "lonely should stem to same as lone" do
       resp = solr_resp_ids_titles(title_search_args('lonely trail'))
       resp.should include('title_245a_display' => /lone /i)
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args 'lone trail'))
     end
-    it "silently should stem to silent" do
+    it "silently should stem to same as silent" do
       resp = solr_resp_ids_titles(title_search_args 'silently')
       resp.should include('title_245a_display' => /silent /i)
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args 'silent'))
     end
-    it "knightly should stem to knight" do
+    it "knightly should stem to same as knight" do
       resp = solr_resp_ids_titles(title_search_args('knightly').merge({:rows => '30'}))
       resp.should include('title_245a_display' => /knights? /i)
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args 'knight'))
+    end
+    it "deeply should stem to same as deep" do
+      resp = solr_resp_ids_full_titles(title_search_args('deeply').merge({:rows => '100'}))
+      resp.should include('title_full_display' => /deep /i)
+      # not sure why this isn't true
+      # resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args 'deep'))
     end
   end
   
   context "terminating y" do
-    it "wary", :jira => 'VUF-633' do
+    it "stayed should stem to same as stay" do
+      resp = solr_resp_ids_titles(title_search_args 'stayed up')
+      resp.should include('title_245a_display' => /stays? up/i)
+      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args 'stay up'))
+    end
+    it "stay should not stem to stai" do
+      resp = solr_resp_ids_titles(title_search_args('stay').merge({:rows => '200'}))
+      resp.should include('title_245a_display' => /stay/i).in_each_of_first(200).results
+      resp.should_not include('title_245a_display' => /stai/i)
+      stai = solr_resp_ids_titles(title_search_args 'stai')
+      stai.should have_at_most(50).results
+      stai.should_not include('title_245a_display' => /stay/i)
+      resp.should have_more_results_than stai
+    end
+    it "play should not stem to plai" do
+      resp = solr_resp_ids_full_titles(title_search_args('play').merge({:rows => '200'}))
+      resp.should include('title_full_display' => /play/i).in_each_of_first(200).results
+      resp.should_not include('title_full_display' => /plai/i)
+      plai = solr_resp_ids_titles(title_search_args 'plai')
+      plai.should have_at_most(100).results
+      plai.should_not include('title_245a_display' => /play/i)
+      resp.should have_more_results_than plai
+    end
+    it "boy should not stem to boi" do
       pending "to be implemented"
     end
-    it "stay, stayed" do
-      pending "to be implemented"
+    it "destroy should not stem to destroi" do
+      resp = solr_resp_ids_titles(title_search_args('destroy').merge({:rows => '200'}))
+      resp.should include('title_245a_display' => /destroy/i).in_each_of_first(200).results
+      resp.should_not include('title_245a_display' => /destroi/i)
+      destroi = solr_resp_ids_titles(title_search_args 'destroi')
+      destroi.should have_at_most(15).results
+      destroi.should_not include('title_245a_display' => /destroy/i)
+      resp.should have_more_results_than destroi
+    end
+    it "wary should not stem to wari", :jira => 'VUF-633', :fixme => true do
+      resp = solr_resp_doc_ids_only(title_search_args 'wary')
+      resp.should_not include(['9855173', '3751655', '4532829']) # 245a  Wari
+      resp.should_not have_the_same_number_of_results_as solr_resp_doc_ids_only(title_search_args 'wari')
     end
   end
   
@@ -126,6 +169,7 @@ describe "Stemming of English words" do
   end
   
   context "collisions", :fixme => true do
+    
     context "animal <--> animate, animation, animism", :fixme => true do
       it "animal should not match animation" do
         resp = solr_resp_ids_titles(title_search_args 'animal')
@@ -144,6 +188,7 @@ describe "Stemming of English words" do
         resp.should_not include('title_245a_display' => /animal/i)
       end
     end
+    
     context "ironic <--> iron", :fixme => true do
       it "ironic should not match iron" do
         resp = solr_resp_ids_titles(title_search_args('ironic').merge({:rows => '100'}))
@@ -155,6 +200,7 @@ describe "Stemming of English words" do
         resp.should_not include('title_245a_display' => /ironic/i)
       end
     end
+    
     context "conversion <-> converse <-> conversation" do
       it "conversion should not match converse", :fixme => true do
         # too many titles with conversion for this to be a good test
