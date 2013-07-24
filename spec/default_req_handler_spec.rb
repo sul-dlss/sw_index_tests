@@ -165,5 +165,25 @@ describe "Default Request Handler" do
     resp.should have_at_most(3).results
   end
   
-  
+  it "the atomic" do
+    resp = solr_resp_ids_titles_from_query 'the atomic'
+    resp.should have_at_least(12000).results
+    resp.should include('title_245a_display' => /the atomic/i).in_each_of_first(20).documents
+#    resp.should include('title_245a_display' => /^the atomic/i).in_each_of_first(20).documents  # works with Solr 3.6 dismax
+  end
+
+  it "atomic bomb" do
+    resp = solr_resp_ids_titles_from_query 'atomic bomb'
+    resp.should have_at_least(2000).results
+    resp.should include('title_245a_display' => /atomic bomb/i).in_each_of_first(20).documents
+    resp.should include('title_245a_display' => /^atomic bomb$/i).in_each_of_first(2).documents
+  end
+
+  it "the atomic bomb" do
+    resp = solr_resp_ids_titles_from_query 'the atomic bomb'
+    resp.should have_at_least(1325).results
+    resp.should include('title_245a_display' => /the atomic bomb/i).in_each_of_first(20).documents
+    resp.should include('title_245a_display' => /^the atomic bomb$/i).in_each_of_first(3).documents
+    resp.should include('title_245a_display' => /^the atomic bomb/i).in_each_of_first(10).documents
+  end
 end
