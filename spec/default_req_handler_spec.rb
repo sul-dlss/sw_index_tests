@@ -186,4 +186,30 @@ describe "Default Request Handler" do
     resp.should include('title_245a_display' => /^the atomic bomb$/i).in_each_of_first(3).documents
     resp.should include('title_245a_display' => /^the atomic bomb/i).in_each_of_first(10).documents
   end
+  
+  it "price of sex" do
+    resp = solr_resp_ids_from_query 'price of sex'
+    resp.should include('9381468').as_first
+    resp.should have_at_least(450).results
+  end
+  
+  it "on the road" do
+    resp = solr_resp_ids_titles_from_query 'on the road'
+    resp.should have_at_least(16500).results
+    resp.should include('title_245a_display' => /^on the road\W*$/i).in_each_of_first(20).documents
+  end
+  
+  it "war and peace" do
+    resp = solr_resp_ids_titles_from_query 'war and peace'
+    resp.should have_at_least(14250).results
+    resp.should include('title_245a_display' => /^war and peace$/i).in_each_of_first(20).documents
+  end
+  
+  it "history of cartography" do
+    resp = solr_resp_ids_titles_from_query 'history of cartography'
+    resp.should have_at_least(1600).results
+    resp.should include('title_245a_display' => /^history of cartography$/i).in_each_of_first(4).documents
+    resp.should include('title_245a_display' => /^(the )?history of cartography$/i).in_each_of_first(5).documents
+  end
+
 end
