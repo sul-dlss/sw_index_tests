@@ -53,19 +53,27 @@ describe "Stemming of English words" do
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'musica disciplina'}))
     end
 
-    it "stemming of 'figurine' should match 'figure'", :fixme => 'true' do
+    it "stemming of 'figurine' should match 'figure'", :fixme => 'true', :jira => 'VUF-598' do
+      solr_resp_doc_ids_only(title_search_args 'byzantine figurine').should include('7096823')
+      solr_resp_doc_ids_only(title_search_args 'byzantine figure').should include('7096823')
+
       resp = solr_resp_doc_ids_only({'q'=>'figurine'})
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'figure'}))
     end
-
+    
+    it "stemming of 'figural' matches 'figure'", :jira => 'VUF-598' do
+      resp = solr_resp_doc_ids_only(title_search_args 'byzantine figure')
+      resp.should include("3013697")  # title_245a_display => "Byzantine figural processional crosses"      
+      resp.should include("7769264") # 7769264: title has only byzantine; 505t has "figural"
+    end
+        
     # TODO:  see VUF-1657   Plutarch's Morals should also lead to records on Plutarch's "Moralia."
     # TODO:  see VUF-1765   eugenics vs eugene
     # TODO:  see VUF-1451   musicals vs music
     # 
-    # # FIXME: stemming cyrillic?  VUF-489
-          #  Пушкинa is not stemmed.  Пушкинa does not give the same results as a search for Пушкин.
+    # FIXME: stemming cyrillic?  VUF-489
+    #  Пушкинa is not stemmed.  Пушкинa does not give the same results as a search for Пушкин.
     
-
     context "volney ruines", :jira => 'VUF-2009' do
       # user wanted french results without having to select french in lang facet
       it "les ruines volney" do
@@ -84,6 +92,7 @@ describe "Stemming of English words" do
       resp.should_not have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args '"Arts periodicals"'))
       resp.should have_at_most(150).results
     end
+    
   end # context exact before stemmed
 
 end
