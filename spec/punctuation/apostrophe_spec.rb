@@ -10,4 +10,10 @@ describe "Apostrophes", :jira => ['SW-648', 'SW-754'], :fixme => true do
 #    resp.should_not have_same_first_result_as(solr_resp_ids_from_query "m arthur" )
   end
   
+  it "ministere l'education" do
+    resp = solr_resp_ids_from_query "ministere l'education"
+    resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "ministere de l'education")
+    resp.should have_at_least(875).results
+  end
+  
 end
