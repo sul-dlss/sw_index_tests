@@ -25,7 +25,7 @@ describe "wildcards in queries" do
       resp.should have_at_least(resp3.size).results
     end 
 
-    context "minimalis*", :jira => 'VUF-663' do
+    context "minimalis*", :jira => 'SW-937' do
       it "everything" do
         resp = solr_resp_ids_from_query 'minimalis*'
         resp.should have_at_least(250).results
