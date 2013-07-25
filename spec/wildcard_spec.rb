@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require 'spec_helper'
 
 describe "wildcards in queries" do
@@ -32,8 +34,13 @@ describe "wildcards in queries" do
         resp = solr_resp_doc_ids_only(title_search_args 'minimalis*')
         resp.should have_at_least(150).results
       end
-    end 
+    end
     
+    it "толст* should have results", :jira => 'SW-203' do
+      resp = solr_resp_ids_from_query 'толст*'
+      resp.should have_at_least(100).results
+    end
+
     it "asterix as query '*'" do
       # dismax:  returns 0 results
       # edismax:  returns all documents  (or timeout error?)
@@ -43,6 +50,11 @@ describe "wildcards in queries" do
   end
   
   context "single char wildcard: ?" do   
+    it "толсто? should have results", :jira => 'SW-203' do
+      resp = solr_resp_ids_from_query 'толсто?'
+      resp.should have_at_least(50).results
+    end
+    
     it "question mark as query '?'" do
       # dismax or icu tokenizer:  one result  (4085436)
       # edismax:  all documents
