@@ -95,7 +95,12 @@ describe "Stemming of English words" do
     
   end # context exact before stemmed
   
+  # note Porter2 changes from Porter, as of 2013-07   http://snowball.tartarus.org/algorithms/english/stemmer.html
+  
   context "ly suffix" do
+    # eedly
+    # edly
+    # ingly
     it "lonely should stem to same as lone" do
       resp = solr_resp_ids_titles(title_search_args('lonely trail'))
       resp.should include('title_245a_display' => /lone /i)
@@ -143,9 +148,6 @@ describe "Stemming of English words" do
       plai.should_not include('title_245a_display' => /play/i)
       resp.should have_more_results_than plai
     end
-    it "boy should not stem to boi" do
-      pending "to be implemented"
-    end
     it "destroy should not stem to destroi" do
       resp = solr_resp_ids_titles(title_search_args('destroy').merge({:rows => '200'}))
       resp.should include('title_245a_display' => /destroy/i).in_each_of_first(200).results
@@ -160,15 +162,52 @@ describe "Stemming of English words" do
       resp.should_not include(['9855173', '3751655', '4532829']) # 245a  Wari
       resp.should_not have_the_same_number_of_results_as solr_resp_doc_ids_only(title_search_args 'wari')
     end
+    it "cries and cry should stem to cri, not crie" do
+      cries = solr_resp_doc_ids_only(title_search_args 'cries')
+      cry = solr_resp_doc_ids_only(title_search_args 'cry')
+      cri = solr_resp_doc_ids_only(title_search_args 'cri')
+      crie = solr_resp_doc_ids_only(title_search_args 'crie')
+      cries.should have_the_same_number_of_results_as cry
+      cries.should have_the_same_number_of_results_as cri
+      cries.should_not have_the_same_number_of_results_as crie
+    end
+    it "ties and tie should stem to tie, not ti" do
+      ties = solr_resp_doc_ids_only(title_search_args 'ties')
+      tie = solr_resp_doc_ids_only(title_search_args 'tie')
+      ti = solr_resp_doc_ids_only(title_search_args 'ti')
+      ties.should have_the_same_number_of_results_as tie
+      ties.should_not have_the_same_number_of_results_as ti
+    end
   end
   
-  context "us suffix" do
+  context "us suffix keeps its s", :fixme => true do
+    # populus
+    # focus
+    # modus
+    # modulus
+    # locus
     it "alumnus" do
       pending "to be implemented"
     end
   end
   
+  context "ative suffix", :fixme => true do
+    # nominative?
+    # generative?
+    # "is removed only when in region R2"
+  end
+  
   context "collisions", :fixme => true do
+    
+    # Also:
+    # populate <--> population but not populus
+    # compute = computes = computer = computing  computation = computational
+    # territory = territorial = territories
+    # addition = additional = additive
+    # terra = terrae (but not territory)
+    # fantastic = fantastical but not fantasy
+    # authority author
+    # wander wand
     
     context "animal <--> animate, animation, animism", :fixme => true do
       it "animal should not match animation" do
