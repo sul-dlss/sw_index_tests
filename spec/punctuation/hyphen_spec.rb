@@ -389,9 +389,9 @@ describe "hyphen in queries" do
   context "hyphenated phrase in quotes \"Color-blind\" racism" do
     it "should ignore the hyphen" do
       resp = solr_resp_ids_from_query('"Color-blind" racism')
-      resp.should include("3499287").in_first(3)
+      resp.should include("3499287").in_first(4)
       resp_no_hyphen = solr_resp_ids_from_query('"Color blind" racism')
-      resp_no_hyphen.should include("3499287").in_first(3)
+      resp_no_hyphen.should include("3499287").in_first(4)
       resp.should have_the_same_number_of_documents_as(resp_no_hyphen)
       tresp = solr_resp_doc_ids_only(title_search_args '"Color-blind" racism')
       tresp.should include("3499287").as_first
