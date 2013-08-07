@@ -230,7 +230,7 @@ describe "hyphen in queries" do
 
   context "'Mid-term fiscal policy review'", :jira => 'SW-388' do
     it_behaves_like "hyphens without spaces imply phrase", "Mid-term fiscal policy review", ["7204125", "5815422"], 3
-    it_behaves_like "hyphens with space before but not after are treated as NOT, but ignored in phrase", "Mid -term fiscal policy review", "8489935", ["7204125", "5815422"]
+    it_behaves_like "hyphens with space before but not after are treated as NOT, but ignored in phrase", "Mid -term fiscal policy review", nil, ["7204125", "5815422"]
 #   hyphens with both spaces don't work right
 #    it_behaves_like "hyphens ignored", "Mid - term fiscal policy review", ["7204125", "5815422"], 3
   end
