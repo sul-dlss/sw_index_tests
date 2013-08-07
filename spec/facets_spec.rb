@@ -68,6 +68,11 @@ describe "facet values and queries" do
       resp.should have_facet_field('author_person_facet').with_value("Carnoy, Martin")
       resp.should have_facet_field('author_person_facet').with_value("Hannaway, Jane")
     end
+    
+    it "language facet should not include value 'Unknown'" do
+      resp = solr_response({'fl' => 'id', 'facet.field' => 'language', 'facet.limit' => '-1', 'rows' => '0'})
+      resp.should_not have_facet_field('language').with_value('Unknown')
+    end
   end
   
   context "expected values in the author person facet", :jira => 'VUF-138' do
