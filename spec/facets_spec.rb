@@ -89,5 +89,20 @@ describe "facet values and queries" do
       resp.should have_facet_field('author_person_facet').with_value('Thoreau, Henry David, 1817-1862')
     end
   end
+  
+  context "expected values in the author person facet", :jira => 'VUF-138' do
+    it "war and peace should have tolstoy" do
+      resp = solr_response({'q' => 'war and peace', 'fl'=>'id', 'facet.field'=>'author_person_facet'})
+      resp.should have_facet_field('author_person_facet').with_value('Tolstoy, Leo, graf, 1828-1910')
+    end
+    it "evolution should have darwin" do
+      resp = solr_response({'q' => 'evolution', 'fl'=>'id', 'facet.field'=>'author_person_facet'})
+      resp.should have_facet_field('author_person_facet').with_value('Darwin, Charles, 1809-1882')
+    end
+    it "civil disobedience should have thoreau" do
+      resp = solr_response({'q' => 'civil disobedience', 'fl'=>'id', 'facet.field'=>'author_person_facet'})
+      resp.should have_facet_field('author_person_facet').with_value('Thoreau, Henry David, 1817-1862')
+    end
+  end
 
 end
