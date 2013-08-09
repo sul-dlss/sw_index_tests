@@ -148,17 +148,33 @@ describe "Chinese Old (舊) Fiction (小說)", :chinese => true, :fixme => true,
       it_behaves_like "great search results for 舊小說" do
         let (:resp) { @resp }
       end
-
-      context "traditional  舊 小說  with space" do
-        before(:all) do
-          @resp = solr_resp_doc_ids_only({'q'=>'舊 小說', 'rows'=>'25'})
-        end
-        it_behaves_like "great search results for 舊小說" do
-          let (:resp) { @resp }
-        end
-        it_behaves_like "great everything search results for 舊小說" do
-          let (:resp) { @resp }
-        end
+      it_behaves_like "great search results for 舊小說" do
+        let (:resp) { @resp }
+      end
+      it_behaves_like "great title search results for 舊小說" do
+        let (:resp) { @resp }
+      end
+    end
+    context "simplified  旧 小说  with space" do
+      before(:all) do
+        @resp = solr_resp_doc_ids_only(title_search_args('旧 小说').merge({'rows'=>'25'}))
+      end
+      it_behaves_like "great search results for 舊小說" do
+        let (:resp) { @resp }
+      end
+      it_behaves_like "great title search results for 舊小說" do
+        let (:resp) { @resp }
+      end
+    end
+    context "traditional  舊 小說  with space" do
+      before(:all) do
+        @resp = solr_resp_doc_ids_only({'q'=>'舊 小說', 'rows'=>'25'})
+      end
+      it_behaves_like "great search results for 舊小說" do
+        let (:resp) { @resp }
+      end
+      it_behaves_like "great everything search results for 舊小說" do
+        let (:resp) { @resp }
       end
     end
     context "simplified  旧小说 no spaces" do
