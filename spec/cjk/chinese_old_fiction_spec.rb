@@ -59,9 +59,11 @@ describe "Chinese Old (舊) Fiction (小說)", :chinese => true, :fixme => true,
       before(:all) do
         @resp = solr_resp_doc_ids_only(title_search_args('舊小說').merge({'rows'=>'25'}))
       end
+#      it_behaves_like "great search results for 舊小說", @resp
       it_behaves_like "great search results for 舊小說" do
         let (:resp) { @resp }
       end
+#      it_behaves_like "great title search results for 舊小說", @resp
       it_behaves_like "great title search results for 舊小說" do
         let (:resp) { @resp }
       end
@@ -70,6 +72,8 @@ describe "Chinese Old (舊) Fiction (小說)", :chinese => true, :fixme => true,
       before(:all) do
         @resp = solr_resp_doc_ids_only(title_search_args('舊 小說').merge({'rows'=>'25'}))
       end
+#      it_behaves_like "great search results for 舊小說", @resp
+#      it_behaves_like "great title search results for 舊小說", @resp
       it_behaves_like "great search results for 舊小說" do
         let (:resp) { @resp }
       end
@@ -81,6 +85,8 @@ describe "Chinese Old (舊) Fiction (小說)", :chinese => true, :fixme => true,
       before(:all) do
         @resp = solr_resp_doc_ids_only(title_search_args('旧小说').merge({'rows'=>'25'}))
       end
+#      it_behaves_like "great search results for 舊小說", @resp
+#      it_behaves_like "great title search results for 舊小說", @resp
       it_behaves_like "great search results for 舊小說" do
         let (:resp) { @resp }
       end
@@ -92,6 +98,8 @@ describe "Chinese Old (舊) Fiction (小說)", :chinese => true, :fixme => true,
       before(:all) do
         @resp = solr_resp_doc_ids_only(title_search_args('旧 小说').merge({'rows'=>'25'}))
       end
+#      it_behaves_like "great search results for 舊小說", solr_resp_doc_ids_only(title_search_args('旧 小说').merge({'rows'=>'25'}))
+#      it_behaves_like "great title search results for 舊小說", solr_resp_doc_ids_only(title_search_args('旧 小说').merge({'rows'=>'25'}))
       it_behaves_like "great search results for 舊小說" do
         let (:resp) { @resp }
       end
@@ -113,6 +121,8 @@ describe "Chinese Old (舊) Fiction (小說)", :chinese => true, :fixme => true,
       before(:all) do
         @resp = solr_resp_doc_ids_only({'q'=>'舊小說', 'rows'=>'25'})
       end
+#      it_behaves_like "great search results for 舊小說", solr_resp_doc_ids_only({'q'=>'舊小說', 'rows'=>'25'})
+#      it_behaves_like "great everything search results for 舊小說", solr_resp_doc_ids_only({'q'=>'舊小說', 'rows'=>'25'})
       it_behaves_like "great search results for 舊小說" do
         let (:resp) { @resp }
       end
@@ -124,6 +134,8 @@ describe "Chinese Old (舊) Fiction (小說)", :chinese => true, :fixme => true,
       before(:all) do
         @resp = solr_resp_doc_ids_only({'q'=>'舊 小說', 'rows'=>'25'})
       end
+#      it_behaves_like "great search results for 舊小說", solr_resp_doc_ids_only({'q'=>'舊 小說', 'rows'=>'25'})
+#      it_behaves_like "great everything search results for 舊小說", solr_resp_doc_ids_only({'q'=>'舊 小說', 'rows'=>'25'})
       it_behaves_like "great search results for 舊小說" do
         let (:resp) { @resp }
       end
@@ -135,6 +147,8 @@ describe "Chinese Old (舊) Fiction (小說)", :chinese => true, :fixme => true,
       before(:all) do
         @resp = solr_resp_doc_ids_only({'q'=>'旧小说', 'rows'=>'25'})
       end
+#      it_behaves_like "great search results for 舊小說", solr_resp_doc_ids_only({'q'=>'旧小说', 'rows'=>'25'})
+#      it_behaves_like "great everything search results for 舊小說", solr_resp_doc_ids_only({'q'=>'旧小说', 'rows'=>'25'})
       it_behaves_like "great search results for 舊小說" do
         let (:resp) { @resp }
       end
@@ -146,6 +160,8 @@ describe "Chinese Old (舊) Fiction (小說)", :chinese => true, :fixme => true,
       before(:all) do
         @resp = solr_resp_doc_ids_only({'q'=>'旧 小说', 'rows'=>'25'})
       end
+#      it_behaves_like "great search results for 舊小說", solr_resp_doc_ids_only({'q'=>'旧 小说', 'rows'=>'25'})
+#      it_behaves_like "great everything search results for 舊小說", solr_resp_doc_ids_only({'q'=>'旧 小说', 'rows'=>'25'})
       it_behaves_like "great search results for 舊小說" do
         let (:resp) { @resp }
       end
@@ -154,5 +170,7 @@ describe "Chinese Old (舊) Fiction (小說)", :chinese => true, :fixme => true,
       end
     end
   end # context everything search
+
+  end # context old fiction
 
 end
