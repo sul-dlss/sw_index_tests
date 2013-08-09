@@ -55,16 +55,25 @@ describe "Chinese: Word Breaks - Unigrams", :chinese => true, :fixme => true, :w
     end # title search
   end
   
-  context "飄" do
-    
-    it "does something" do
-      # best result:  6701323
-      # 飄  single char search
-      #   cjk6cn - chinese dict -->   69 results, but the best one is not at top
-      #   cjk6ja  69, but it is at the top   also  7737681
-      #   cjk8 - chinese dict but no position filter --  69 results, best at 2 top
-      pending "to be implemented"
+  context "飘  float/drifting (Gone with the wind)" do
+    shared_examples_for "great results for float (Gone with the Wind)" do |query|
+      before(:all) do
+        @resp = solr_resp_doc_ids_only(title_search_args query)
+      end
+      it "should have the right number of results" do
+        @resp.should have_at_least(120).documents  # soc:  120 as of 2013-08-08
+      end
+      it "should have the best results first" do
+        @resp.should include('6701323').as_first # Gone with the Wind (book)
+        @resp.should include('7737681').in_first(3) # Drifting (video)
+      end
     end
-    
+    context "traditional:  飄" do
+      it_behaves_like "great results for float (Gone with the Wind)", '飄'
+    end
+    context "simplified:  飘" do
+      it_behaves_like "great results for float (Gone with the Wind)", '飘'
+    end
   end
+  
 end
