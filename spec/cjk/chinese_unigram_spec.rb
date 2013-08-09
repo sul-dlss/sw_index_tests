@@ -40,6 +40,11 @@ describe "Chinese: Word Breaks - Unigrams", :chinese => true, :fixme => true do
                                 '10156316', # Samgukchi by  Yi Mun-yŏl p'yŏngyŏk  (245a, part of 246a, 500a, 700t)
                               ])
         end
+        it "Sangokushi (Japanese)   (exact 245a, but simplified 三国志)" do
+          resp.should include(['6627151', # Sangokushi / [Ra Kanchū sen]  (245a, first 3 chars of 240a, 500a)
+                                '9146942', # Sangokushi. by Yokoyama, Mitsuteru
+                              ])
+        end
 #        it "should match other highly boosted fields" do
 #          #  8448620 - 三国志 240a,  start of 245a, 600t
 #        end
