@@ -109,11 +109,11 @@ describe "Basic Target Result Numbers for CJK", :chinese => true, :japanese => t
     context "South Manchurian Railroad Company, author search" do
       it_behaves_like "both scripts get expected number of results", 'modern', ' 南満州鉄道株式会社', 'traditional', '南滿洲鐵道株式會社', 'author', 522
     end
-    context "personal name author search (契沖)" do
-      it_behaves_like "both scripts get expected number of results", 'kanji', '契沖', 'hiragana', 'けいちゅう', 'author', 5
-    end
     context "sports, title search, スポーツ (katakana)" do
       it_behaves_like "title search gets expected number of results", 'スポーツ', 34
+    end
+    context "personal name author search (契沖)" do
+      it_behaves_like "both scripts get expected number of results", 'kanji', '契沖', 'hiragana', 'けいちゅう', 'author', 5
     end
     context "mixed script title search, (modern pseudonym usage: 近世仮名遣い)" do
       it_behaves_like "title search gets expected number of results", '近世仮名遣い', 1
