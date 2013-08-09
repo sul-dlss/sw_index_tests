@@ -121,7 +121,18 @@ describe "Basic Target Result Numbers for CJK", :chinese => true, :japanese => t
     context "kanji author search  釘貫 (surname of 釘貫亨)" do
       it_behaves_like "author search gets expected number of results", '釘貫', 1
     end
-
   end # japanese
+  
+  context "korean" do
+    context "author search '한 영우 with and without spaces" do
+      it_behaves_like "both scripts get expected number of results", 'spaces', '한 영우', 'no spaces', '한영우', 'author', 32
+    end
+    context "everything search 한국 주택 은행 (Korean Home Bank) with and without spaces" do
+      it_behaves_like "both scripts get expected number of results", 'spaces', '한국 주택 은행', 'no spaces', '한국주택은행', nil, 2
+    end
+    context "everything search hanja  韓國 住宅 銀行 with and without spaces" do
+      it_behaves_like "both scripts get expected number of results", 'spaces', '韓國 住宅 銀行', 'no spaces', '韓國住宅銀行', nil, 1
+    end
+  end # korean
   
 end
