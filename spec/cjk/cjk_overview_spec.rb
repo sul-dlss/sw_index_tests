@@ -45,24 +45,24 @@ describe "Basic Target Result Numbers for CJK", :chinese => true, :japanese => t
     end
   end
   
-  shared_examples_for "simplified and traditional search get expected number of results" do | simplified_query, traditional_query, query_type, num_exp |
-    it_behaves_like "both queries should get same number of results", simplified_query, traditional_query, query_type
-    context "simplified: #{simplified_query}" do
-      it_behaves_like "gets expected number of results", simplified_query, query_type, num_exp
+  shared_examples_for "both scripts get expected number of results" do | script_name1, query1, script_name2, query2, query_type, num_exp |
+    it_behaves_like "both queries get same number of results", query1, query2, query_type
+    context "#{script_name1}: #{query1}" do
+      it_behaves_like "gets expected number of results", query1, query_type, num_exp
     end
-    context "traditional: #{traditional_query}" do
-      it_behaves_like "gets expected number of results", traditional_query, query_type, num_exp
+    context "#{script_name2}: #{query2}" do
+      it_behaves_like "gets expected number of results", query2, query_type, num_exp
     end
   end
   
   shared_examples_for "simplified and traditional title search get expected number of results" do | simplified_query, traditional_query, num_exp |
-    it_behaves_like "simplified and traditional search get expected number of results", simplified_query, traditional_query, 'title', num_exp
+    it_behaves_like "both scripts get expected number of results", 'simplified', simplified_query, 'traditional', traditional_query, 'title', num_exp
   end
   shared_examples_for "simplified and traditional author search get expected number of results" do | simplified_query, traditional_query, num_exp |
-    it_behaves_like "simplified and traditional search get expected number of results", simplified_query, traditional_query, 'author', num_exp
+    it_behaves_like "both scripts get expected number of results", 'simplified', simplified_query, 'traditional', traditional_query, 'author', num_exp
   end
   shared_examples_for "simplified and traditional everything search get expected number of results" do | simplified_query, traditional_query, num_exp |
-    it_behaves_like "simplified and traditional search get expected number of results", simplified_query, traditional_query, nil, num_exp
+    it_behaves_like "both scripts get expected number of results", 'simplified', simplified_query, 'traditional', traditional_query, nil, num_exp
   end
   
   context "chinese" do
@@ -98,36 +98,28 @@ describe "Basic Target Result Numbers for CJK", :chinese => true, :japanese => t
     end
   end # chinese
 
-  
   context "japanese" do
-    shared_examples_for "modern and traditional search get expected number of results" do | modern_query, traditional_query, query_type, num_exp |
-      it_behaves_like "both queries should get same number of results", modern_query, traditional_query, query_type
-      context "modern: #{modern_query}" do
-        it_behaves_like "gets expected number of results", modern_query, query_type, num_exp
-      end
-      context "traditional: #{traditional_query}" do
-        it_behaves_like "gets expected number of results", traditional_query, query_type, num_exp
-      end
-    end
-    shared_examples_for "modern and traditional title search get expected number of results" do | modern_query, traditional_query, num_exp |
-      it_behaves_like "modern and traditional search get expected number of results", modern_query, traditional_query, 'title', num_exp
-    end
-    shared_examples_for "modern and traditional author search get expected number of results" do | modern_query, traditional_query, num_exp |
-      it_behaves_like "modern and traditional search get expected number of results", modern_query, traditional_query, 'author', num_exp
-    end
-    shared_examples_for "modern and traditional everything search get expected number of results" do | modern_query, traditional_query, num_exp |
-      it_behaves_like "modern and traditional search get expected number of results", modern_query, traditional_query, nil, num_exp
-    end
-
     context "Buddhism, title search" do
-      it_behaves_like "modern and traditional title search get expected number of results", "仏教学", "佛教學", 19
+      it_behaves_like "both scripts get expected number of results", 'modern', ' 仏教学', 'traditional', '佛教學', 'title', 19
     end
     context "comics/manga, title search" do
-      context "hiragana: まんが" do
-        
-      end
-      
-      it_behaves_like "modern and traditional title search get expected number of results", "漫画", "漫畫", 237
+      it_behaves_like "both scripts get expected number of results", 'hiragana', 'まんが', 'katakana', 'マンガ', 'title', 140      
+      it_behaves_like "both scripts get expected number of results", 'modern', ' 漫画', 'traditional', '漫畫', 'title', 237
+    end
+    context "South Manchurian Railroad Company, author search" do
+      it_behaves_like "both scripts get expected number of results", 'modern', ' 南満州鉄道株式会社', 'traditional', '南滿洲鐵道株式會社', 'author', 522
+    end
+    context "personal name author search (契沖)" do
+      it_behaves_like "both scripts get expected number of results", 'kanji', '契沖', 'hiragana', 'けいちゅう', 'author', 5
+    end
+    context "sports, title search, スポーツ (katakana)" do
+      it_behaves_like "title search gets expected number of results", 'スポーツ', 34
+    end
+    context "mixed script title search, (modern pseudonym usage: 近世仮名遣い)" do
+      it_behaves_like "title search gets expected number of results", '近世仮名遣い', 1
+    end
+    context "kanji author search  釘貫 (surname of 釘貫亨)" do
+      it_behaves_like "author search gets expected number of results", '釘貫', 1
     end
 
   end # japanese
