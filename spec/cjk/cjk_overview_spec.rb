@@ -87,13 +87,13 @@ describe "Basic Target Result Numbers for CJK", :chinese => true, :japanese => t
     context "china economic policy, title search" do
       it_behaves_like "simplified and traditional title search get expected number of results", "中国经济政策", "中國經濟政策", 55
     end
-    context "董桥 author search" do
+    context "董桥 (Dong Quai, 1942-) author search" do
       it_behaves_like "simplified and traditional author search get expected number of results", "董桥", "董橋", 47
     end
-    context "张爱玲 author search" do
+    context "张爱玲 (Zhang, Ailing) author search" do
       it_behaves_like "simplified and traditional author search get expected number of results", "张爱玲", "張愛玲", 76
     end
-    context "梁实秋 author search" do
+    context "梁实秋 (Liang, Shiqiu, 1903-1987) author search" do
       it_behaves_like "simplified and traditional author search get expected number of results", "梁实秋", "梁實秋", 79
     end
   end # chinese
