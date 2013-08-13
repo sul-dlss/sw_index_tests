@@ -2,7 +2,7 @@
 require 'spec_helper'
 require 'rspec-solr'
 
-describe "Chinese: Word Breaks - Marriage NOT Marriage Law", :chinese => true, :fixme => true, :wordbreak => true do
+describe "Chinese: Word Breaks - Marriage NOT Marriage Law", :chinese => true do
 
   #  " 婚姻法 (marriage law) in sirsi dict, but 婚姻 (marriage) is what we wanted" 
   #   because sirsi dictionary approach does length-first matching  
@@ -45,13 +45,13 @@ describe "Chinese: Word Breaks - Marriage NOT Marriage Law", :chinese => true, :
   context "妇女 婚姻 法 simplified woman/marriage/law WITH spaces" do
     it_behaves_like "great results for woman marriage law", solr_resp_ids_from_query("妇女 婚姻 法")
   end
-  context "妇女婚姻法 simplified woman/marriage/law withOUT spaces" do
+  context "妇女婚姻法 simplified woman/marriage/law withOUT spaces", :fixme => true do
     it_behaves_like "great results for woman marriage law", solr_resp_ids_from_query("妇女婚姻法")
   end
   context "婦女 婚姻 法 traditional woman/marriage/law WITH spaces" do
     it_behaves_like "great results for woman marriage law", solr_resp_ids_from_query("婦女 婚姻 法")
   end
-  context "婦女 婚姻 法 traditional woman/marriage/law withOUT spaces" do
+  context "婦女 婚姻 法 traditional woman/marriage/law withOUT spaces", :fixme => true do
     it_behaves_like "great results for woman marriage law", solr_resp_ids_from_query("婦女婚姻法")
   end
         
