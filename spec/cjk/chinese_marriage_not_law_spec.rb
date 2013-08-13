@@ -54,5 +54,9 @@ describe "Chinese: Word Breaks - Marriage NOT Marriage Law", :chinese => true do
   context "婦女 婚姻 法 traditional woman/marriage/law withOUT spaces", :fixme => true do
     it_behaves_like "great results for woman marriage law", solr_resp_ids_from_query("婦女婚姻法")
   end
-        
+  
+  # TODO:  phrase (with and without spaces)
+  #   AND query
+  #   OR query
+
 end
