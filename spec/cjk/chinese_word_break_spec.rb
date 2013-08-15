@@ -48,7 +48,7 @@ describe "Chinese: Word Breaks", :chinese => true, :fixme => true do
   # TODO  phrase searches for bigram pieces in query.   Tests for single last character, too.
 
 #======
-  it "FIXME   三國誌 should get the same results as simplified chars 三国志" do
+  it "FIXME   三國誌 (three kingdoms) should get the same results as simplified chars 三国志" do
     #  soc would do  三國  誌
     # 
     resp = solr_resp_doc_ids_only({'q'=>'三國誌'})  # 242 in soc as of 2012-11
