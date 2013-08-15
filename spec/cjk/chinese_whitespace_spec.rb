@@ -4,7 +4,7 @@ require 'rspec-solr'
 
 describe "Chinese: Extraneous Spaces (from old RLIN records?)", :chinese => true do
 
-  it "whitespace variants of 金瓶梅 should get similar results" do
+  it "whitespace variants of 金瓶梅 (golden lotus?) should get similar results" do
     resp = solr_resp_ids_from_query '金瓶梅' # 169 in soc as of 2012-11
     resp.should have_at_least(165).documents
     resp.should have_at_most(200).documents
@@ -12,7 +12,7 @@ describe "Chinese: Extraneous Spaces (from old RLIN records?)", :chinese => true
     resp.size.should be_within(5).of(solr_resp_ids_from_query('金  瓶  梅').size) # 169 in soc as of 2012-11
   end
   
-  context "whitespace variants of 三国演义 should get similar results" do
+  context "whitespace variants of 三国演义 (three kingdoms?) should get similar results" do
     before(:all) do
       @三国演义_resp = solr_resp_ids_from_query '三国演义' # 113 in soc as of 2013-08-15
     end
