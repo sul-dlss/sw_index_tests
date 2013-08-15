@@ -120,16 +120,16 @@ describe "Basic Target Result Numbers for CJK", :fixme => true, :vetted => 'vitu
     end
 
     context "three kingdoms (?) 4 char (NO spaces), title search" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "三国演义", "三國演義", 113
+      it_behaves_like "simplified and traditional title search get expected number of results", "三国演义", "三國演義", 84
     end
     context "three kingdoms (?) 4 char (middle SPACE), title search" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "三国 演义", "三國 演義", 113
+      it_behaves_like "simplified and traditional title search get expected number of results", "三国 演义", "三國 演義", 84
     end
     context "three kingdoms (?) 4 char (first SPACE), title search" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "三 国演义", "三 國演義", 113
+      it_behaves_like "simplified and traditional title search get expected number of results", "三 国演义", "三 國演義", 85
     end
     context "three kingdoms (?) 4 char (ALL SPACE), title search" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "三 国 演 义", "三 國 演 義", 113
+      it_behaves_like "simplified and traditional title search get expected number of results", "三 国 演 义", "三 國 演 義", 88
     end
 
     context "women *and* literature (NO spaces), title search" do
