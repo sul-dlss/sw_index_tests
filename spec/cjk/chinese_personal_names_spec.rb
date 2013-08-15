@@ -2,7 +2,7 @@
 require 'spec_helper'
 require 'rspec-solr'
 
-describe "Chinese Personal Name Author Searches", :chinese => true, :fixme => true, :vetted => 'vitus' do
+describe "Chinese Personal Name Author Searches", :chinese => true, :vetted => 'vitus' do
 
   context "(Fang, Baochuan)" do
     shared_examples_for "great results for (Fang, Baochuan)" do |resp|
