@@ -2,7 +2,7 @@
 require 'spec_helper'
 require 'rspec-solr'
 
-describe "Chinese Old Fiction:  舊 (old) and  小說 (fiction)", :chinese => true, :fixme => true, :vetted => 'vitus' do
+describe "Chinese Old (舊) Fiction (小說)", :chinese => true, :fixme => true, :vetted => 'vitus' do
   # old (simp)  旧
   # old (trad)  舊
   # fiction (simp)  小说
