@@ -4,14 +4,14 @@ require 'rspec-solr'
 
 describe "Chinese: Single Character Searches", :chinese => true do
   
-  it "title  飄 should get results", :vetted => 'vitus' do
+  it "title  飄 (float - gone with the wind) should get results", :vetted => 'vitus' do
     resp = solr_response(title_search_args('飄').merge({'fl'=>'id,vern_title_245a_display', 'facet'=>false})) 
     resp.should include('vern_title_245a_display'=>'飄').in_first(2).documents 
     resp.should include(["6701323", "7737681"]).in_first(2).documents
     resp.should have_at_least(110).documents # 117 title in soc, 154 everything in soc as of 2012-11
   end
   
-  it "title  家 should get results" do
+  it "title  家 (home) should get results" do
     resp = solr_response(title_search_args('家').merge({'fl'=>'id,vern_title_245a_display', 'facet'=>false}))
     resp.should include('vern_title_245a_display'=>'家').in_first(15).documents
     resp.should include("4172748") 
