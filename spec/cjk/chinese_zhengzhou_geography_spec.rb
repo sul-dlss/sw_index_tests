@@ -125,7 +125,7 @@ describe "Chinese: 郑州 (zhengzhou - a place in China)  地理 (geography)", :
       end
     end
     context "simplified  郑州地理 (no space)" do
-      # soc:                       2
+      # soc:  2 as of 2012-11
       before(:all) do
         @resp = solr_resp_doc_ids_only({'q'=>'郑州地理'})
       end
@@ -137,7 +137,7 @@ describe "Chinese: 郑州 (zhengzhou - a place in China)  地理 (geography)", :
       end
     end
     context "simplified  郑州 地理 (space)" do
-      # soc:                      8
+      # soc:  8 as of 2012-11
       before(:all) do
         @resp = solr_resp_doc_ids_only({'q'=>'郑州 地理'})
       end
