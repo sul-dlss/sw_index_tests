@@ -39,7 +39,7 @@ describe "Chinese: Traditional and Simplified Scripts", :chinese => true, :fixme
   end
   
   context "Author search" do
-    it "Simplified chars 张爱玲 should get the same results as traditional chars 張愛玲" do
+    it "Simplified chars 张爱玲 (Zhang, Ailing) should get the same results as traditional chars 張愛玲" do
       resp = solr_resp_doc_ids_only(author_search_args('紅樓夢')) # 0 in prod, 17 in soc
       resp.should have_at_least(70).documents
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(author_search_args('红楼梦'))) # 5 in prod, 17 in soc
@@ -55,7 +55,7 @@ describe "Chinese: Traditional and Simplified Scripts", :chinese => true, :fixme
   end
   
   context "Single character searches" do
-    it "title  飄 (trad) should get the same results as  飘 (simplified)" do
+    it "title Float / Gone with the wind  飄 (trad) should get the same results as  飘 (simplified)" do
       resp = solr_resp_doc_ids_only(title_search_args('飄')) 
       resp.should have_at_least(110).documents # 2 in prod, 117 title in soc, 115 lang chinese in soc, 154 everything in soc
       resp.should include("6701323") # trad
