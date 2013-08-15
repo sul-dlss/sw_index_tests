@@ -4,19 +4,19 @@ require 'rspec-solr'
 
 describe "Chinese: Traditional and Simplified Scripts", :chinese => true, :fixme => true do
 
-  it "Traditional chars 三國誌 should get the same results as simplified chars 三国志" do
+  it "Traditional chars 三國誌 (three kingdoms) should get the same results as simplified chars 三国志" do
     resp = solr_resp_doc_ids_only({'q'=>'三國誌'})  # 0 in prod, 242 in soc
     resp.should have_at_least(240).documents
     resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'三国志'})) # 23 in prod, 242 in soc
   end
   
-  it "Traditional chars 紅樓夢 should get the same results as simplified chars 红楼梦" do
+  it "Traditional chars 紅樓夢 (dream of red chamber) should get the same results as simplified chars 红楼梦" do
     resp = solr_resp_doc_ids_only({'q'=>'紅樓夢'})  # 247 in prod, 649 in soc
     resp.should have_at_least(640).documents
     resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'红楼梦'})) # 306 in prod, 649 in soc
   end
   
-  it "Traditional chars  廣州 should get the same results as simplified chars  光州" do
+  it "Traditional chars  廣州 (Zhengzhou) should get the same results as simplified chars  光州" do
     resp = solr_resp_doc_ids_only({'q'=>'廣州'}) 
     resp.should have_at_least(4725).documents # 1928 in prod, 4739 in soc
     resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'光州'})) # 22 in prod, 701 in soc
