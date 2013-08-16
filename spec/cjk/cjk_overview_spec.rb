@@ -2,7 +2,7 @@
 require 'spec_helper'
 require 'rspec-solr'
 
-describe "Basic Target Result Numbers for CJK", :fixme => true, :vetted => 'vitus' do
+describe "Target Result Numbers for CJK", :fixme => true, :vetted => 'vitus' do
   
   shared_examples_for "gets expected number of results" do | query, query_type, num_exp |
     it "should have correct number of results" do
@@ -65,15 +65,17 @@ describe "Basic Target Result Numbers for CJK", :fixme => true, :vetted => 'vitu
     it_behaves_like "both scripts get expected number of results", 'simplified', simplified_query, 'traditional', traditional_query, nil, num_exp
   end
   
-  context "chinese", :chinese => true do
-    context "china economic policy (NO spaces), title search" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "中国经济政策", "中國經濟政策", 55
-    end
-    context "china economic policy (SPACES), title search" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "中国 经济 政策", "中國 經濟 政策", 55
+  context "Chinese", :chinese => true do
+    context "china economic policy, title search" do
+      context "no spaces" do
+        it_behaves_like "simplified and traditional title search get expected number of results", "中国经济政策", "中國經濟政策", 55
+      end
+      context "spaces" do
+        it_behaves_like "simplified and traditional title search get expected number of results", "中国 经济 政策", "中國 經濟 政策", 55
+      end
     end
     
-    context "dream of red mansions (NO spaces), title search" do
+    context "dream of red chambers (NO spaces), title search" do
       it_behaves_like "simplified and traditional title search get expected number of results", "红楼梦", "紅樓夢", 503
     end
     
@@ -81,96 +83,117 @@ describe "Basic Target Result Numbers for CJK", :fixme => true, :vetted => 'vitu
       it_behaves_like "simplified and traditional title search get expected number of results", "飘", "飄", 120
     end
 
-    context "golden lotus 金瓶梅 (NO spaces), title search" do
-      it_behaves_like "title search gets expected number of results", "金瓶梅", 154
-    end
-    context "golden lotus 金瓶 梅(SPACES), title search" do
-      it_behaves_like "title search gets expected number of results", "金瓶 梅", 154 
-    end
-    context "golden lotus 金 瓶 梅(ALL SPACES), title search" do
-      it_behaves_like "title search gets expected number of results", "金 瓶 梅", 154
+    context "golden lotus 金瓶梅 as title search" do
+      context "no spaces" do
+        it_behaves_like "title search gets expected number of results", "金瓶梅", 154
+      end
+      context "one space" do
+        it_behaves_like "title search gets expected number of results", "金瓶 梅", 154 
+      end
+      context "all chars separate" do
+        it_behaves_like "title search gets expected number of results", "金 瓶 梅", 154
+      end
     end
     
-    context "history research (NO spaces), title search" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "历史研究", "歷史研究", 562
+    context "history research, title search" do
+      context "no spaces" do
+        it_behaves_like "simplified and traditional title search get expected number of results", "历史研究", "歷史研究", 562
+      end
+      context "space" do
+        it_behaves_like "simplified and traditional title search get expected number of results", "历史 研究", "歷史 研究", 562
+      end
     end
-    context "history research (middle SPACE), title search" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "历史 研究", "歷史 研究", 562
-    end
-
-    context "old fiction (NO spaces), title search" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "旧小说", "舊小說", 11
-    end
-    context "old fiction (SPACES), title search" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "旧 小说", "舊 小說", 11
-    end
-
-    context "People's Republic of China (?) (NO spaces), title search" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "中国地方志集成", "中國地方志集成", 852
-    end
-    context "People's Republic of China (?) (SPACES), title search" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "中国 地方志 集成", "中國 地方志 集成", 852
+    
+    context "old fiction, title search" do
+      context "no spaces" do
+        it_behaves_like "simplified and traditional title search get expected number of results", "旧小说", "舊小說", 11
+      end
+      context "space" do
+        it_behaves_like "simplified and traditional title search get expected number of results", "旧 小说", "舊 小說", 11
+      end
     end
 
-    context "three kingdoms (?) 3 char (NO spaces), title search" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "三国志", "三國誌", 170
+    context "People's Republic of China, title search" do
+      context "no spaces" do
+        it_behaves_like "simplified and traditional title search get expected number of results", "中国地方志集成", "中國地方志集成", 852
+      end
+      context "spaces" do
+        it_behaves_like "simplified and traditional title search get expected number of results", "中国 地方志 集成", "中國 地方志 集成", 852
+      end
     end
-    context "three kingdoms (?) 3 char (SPACES), title search" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "三国 志", "三國 誌", 170
-    end
-
-    context "three kingdoms (?) 4 char (NO spaces), title search" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "三国演义", "三國演義", 84
-    end
-    context "three kingdoms (?) 4 char (middle SPACE), title search" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "三国 演义", "三國 演義", 84
-    end
-    context "three kingdoms (?) 4 char (first SPACE), title search" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "三 国演义", "三 國演義", 85
-    end
-    context "three kingdoms (?) 4 char (ALL SPACE), title search" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "三 国 演 义", "三 國 演 義", 88
+    
+    context "three kingdoms 3 char, title search" do
+      context "no spaces" do
+        it_behaves_like "simplified and traditional title search get expected number of results", "三国志", "三國誌", 170
+      end
+      context "space" do
+        it_behaves_like "simplified and traditional title search get expected number of results", "三国 志", "三國 誌", 170
+      end
     end
 
-    context "women *and* literature (NO spaces), title search" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "妇女婚姻法", "婦女與婚姻", 17
-    end
-    context "women *and* literature (SPACES), title search" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "妇女 婚 姻法", "婦女 與 婚姻", 17
-    end
-
-    context "women marriage (NO spaces), title search" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "妇女婚姻", "婦女婚姻", 8
-    end
-    context "women marriage (SPACES), title search" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "妇女 婚姻", "婦女 婚姻", 8
-    end
-
-    context "women 'marriage law' (NO spaces), title search" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "妇女婚姻法", "婦女婚姻法", 4
-    end
-    context "women 'marriage law' (SPACES), title search" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "妇女 婚姻法", "婦女 婚姻法", 4
+    context "three kingdoms 4 char, title search" do
+      context "no spaces" do
+        it_behaves_like "simplified and traditional title search get expected number of results", "三国演义", "三國演義", 84
+      end
+      context "middle space" do
+        it_behaves_like "simplified and traditional title search get expected number of results", "三国 演义", "三國 演義", 84
+      end
+      context "first space" do
+        it_behaves_like "simplified and traditional title search get expected number of results", "三 国演义", "三 國演義", 85
+      end
+      context "all spaces" do
+        it_behaves_like "simplified and traditional title search get expected number of results", "三 国 演 义", "三 國 演 義", 88
+      end
     end
 
-    context "women *and* marriage (NO spaces), title search" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "妇女与婚姻", "婦女與婚姻", 7
+    context "women *and* literature, title search" do
+      context "no spaces" do
+        it_behaves_like "simplified and traditional title search get expected number of results", "妇女婚姻法", "婦女與婚姻", 17
+      end
+      context "spaces" do
+        it_behaves_like "simplified and traditional title search get expected number of results", "妇女 婚 姻法", "婦女 與 婚姻", 17
+      end
     end
-    context "women *and* marriage (SPACES), title search" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "妇女 与 婚姻", "婦女 與 婚姻", 7
+
+    context "women marriage, title search" do
+      context "no spaces" do
+        it_behaves_like "simplified and traditional title search get expected number of results", "妇女婚姻", "婦女婚姻", 8
+      end
+      context "space" do
+        it_behaves_like "simplified and traditional title search get expected number of results", "妇女 婚姻", "婦女 婚姻", 8
+      end
+    end
+
+    context "women 'marriage law', title search" do
+      context "no spaces" do
+        it_behaves_like "simplified and traditional title search get expected number of results", "妇女婚姻法", "婦女婚姻法", 4
+      end
+      context "space" do
+        it_behaves_like "simplified and traditional title search get expected number of results", "妇女 婚姻法", "婦女 婚姻法", 4
+      end
+    end
+
+    context "women *and* marriage, title search" do
+      context "no spaces" do
+        it_behaves_like "simplified and traditional title search get expected number of results", "妇女与婚姻", "婦女與婚姻", 7
+      end
+      context "spaces" do
+        it_behaves_like "simplified and traditional title search get expected number of results", "妇女 与 婚姻", "婦女 與 婚姻", 7
+      end
     end
 
     context "zen, title search" do
       it_behaves_like "simplified and traditional title search get expected number of results", "禅", "禪", 962
     end
 
-    context "Zhengzhou geography (NO spaces), title search" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "郑州地理", "鄭州地理", 2
+    context "Zhengzhou geography, title search" do
+      context "no spaces" do
+        it_behaves_like "simplified and traditional title search get expected number of results", "郑州地理", "鄭州地理", 2
+      end
+      context "space" do
+        it_behaves_like "simplified and traditional title search get expected number of results", "郑州 地理", "鄭州 地理", 2
+      end
     end
-    context "Zhengzhou geography (spaces), title search" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "郑州 地理", "鄭州 地理", 2
-    end
-
 
 
     context "方宝川 (Fang, Baochuan) author search" do
