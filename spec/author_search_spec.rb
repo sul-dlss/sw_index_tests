@@ -30,7 +30,7 @@ describe "Author Search" do
     end
     it "tanganyika" do
       resp = solr_resp_doc_ids_only(author_search_args 'tanganyika')
-      resp.should have_at_least(185).documents
+      resp.should have_at_least(180).documents
     end
   end  
   
