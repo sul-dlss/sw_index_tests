@@ -113,7 +113,7 @@ describe "Author Search" do
     end
     context "david sandlin", :jira => 'VUF-1418' do
       before(:all) do
-        @correct = ['8610705', '8808239', '8808223', '8610706', '8610704', '8610701']
+        @correct = ['8610705', '8808239', '8808223', '8610706', '8610701']
         @false_drop = '2927066'
       end
       it "author search, not phrase" do
