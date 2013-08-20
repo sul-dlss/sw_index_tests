@@ -122,6 +122,21 @@ describe "Target Result Numbers for CJK", :fixme => true, :vetted => 'vitus' do
       end
     end
     
+    context "Quan Song bi ji, title search" do
+      context "no spaces" do
+        it_behaves_like "simplified and traditional title search get expected number of results", "全宋筆記", "全宋笔记", 8
+      end
+      context "spaces" do
+        it_behaves_like "simplified and traditional title search get expected number of results", "全宋 筆記", "全宋 笔记", 8
+      end
+      context "real spaces" do
+        it_behaves_like "simplified and traditional title search get expected number of results", "全 宋 筆記", "全 宋 笔记", 8
+      end
+      context "all spaces" do
+        it_behaves_like "simplified and traditional title search get expected number of results", "全 宋 筆 記", "全 宋 笔 记", 8
+      end
+    end
+    
     context "three kingdoms 3 char, title search" do
       context "no spaces" do
         it_behaves_like "simplified and traditional title search get expected number of results", "三国志", "三國誌", 170
@@ -148,10 +163,10 @@ describe "Target Result Numbers for CJK", :fixme => true, :vetted => 'vitus' do
 
     context "women *and* literature, title search" do
       context "no spaces" do
-        it_behaves_like "simplified and traditional title search get expected number of results", "妇女婚姻法", "婦女與婚姻", 17
+        it_behaves_like "simplified and traditional title search get expected number of results", "妇女与文学", "婦女與文學", 17
       end
       context "spaces" do
-        it_behaves_like "simplified and traditional title search get expected number of results", "妇女 婚 姻法", "婦女 與 婚姻", 17
+        it_behaves_like "simplified and traditional title search get expected number of results", "妇女 与 文学", "婦女 與 文學", 17
       end
     end
 
