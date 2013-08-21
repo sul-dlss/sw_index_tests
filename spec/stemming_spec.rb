@@ -149,9 +149,9 @@ describe "Stemming of English words" do
       resp.should have_more_results_than plai
     end
     it "destroy should not stem to destroi" do
-      resp = solr_resp_ids_titles(title_search_args('destroy').merge({:rows => '200'}))
-      resp.should include('title_245a_display' => /destroy/i).in_each_of_first(200).results
-      resp.should_not include('title_245a_display' => /destroi/i)
+      resp = solr_resp_ids_full_titles(title_search_args('destroy').merge({:rows => '200'}))
+      resp.should include('title_full_display' => /destroy/i).in_each_of_first(200).results
+      resp.should_not include('title_full_display' => /destroi/i)
       destroi = solr_resp_ids_titles(title_search_args 'destroi')
       destroi.should have_at_most(15).results
       destroi.should_not include('title_245a_display' => /destroy/i)
