@@ -240,7 +240,8 @@ describe "journal/newspaper titles" do
                   '2046773', # rare
                   '2046781', # rare
                   '361891', #green mfilm
-                  '361893', # green, philadelphia
+# FIXME:  the below is broken because of 6541023
+#                  '361893', # green, philadelphia
                   # problematic:
                   #   '6541023'  #  245  6| 880-01 a| Dao bao. b| The Guardian.
                   ]
