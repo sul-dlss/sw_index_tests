@@ -10,14 +10,14 @@ describe "wildcards in queries" do
       resp = solr_resp_doc_ids_only(title_search_args 'byzantine figur*')
       resp.should include("3013697").as_first  # title_245a_display => "Byzantine figural processional crosses"      
       #  figur* occures before byzantine
-      resp.should include("2440554").in_first(5).results # title_245a_display => "Figures byzantines ..."
-      resp.should include("1498432").in_first(5).results # title_245a_display => "Proportion and structure of the human figure in Byzantine wall-painting and mosaic
+      resp.should include("2440554").in_first(6).results # title_245a_display => "Figures byzantines ..."
+      resp.should include("1498432").in_first(6).results # title_245a_display => "Proportion and structure of the human figure in Byzantine wall-painting and mosaic
       resp.should include("8000235") # title_245a_display => "(...) Figures (...) Byzantine (...)"
       resp.should include("5165378") # title_full_display => "Figure and likeness : on the limits of representation in Byzantine iconoclasm (...)"
       # all words not in 245
+      resp.should include("1423711") # Byzantine in 245a, 650a, figura in 490a and 830a
       resp.should include("7769264") # 7769264: title has only byzantine; 505t has "figural"
       resp.should include("7096823") # 7096823 has "Byzantine" "figurine" in separate 505t subfield 
-      
       # $ is socrates truncation symbol
       resp2 = solr_resp_ids_titles(title_search_args 'byzantine figur$')
       resp3 = solr_resp_ids_titles(title_search_args 'byzantine figure')
