@@ -2,7 +2,7 @@
 require 'spec_helper'
 require 'rspec-solr'
 
-describe "Target Result Numbers for CJK", :fixme => true, :vetted => 'vitus' do
+describe "CJK Overview", :fixme => true, :vetted => 'vitus' do
   
   shared_examples_for "gets expected number of results" do | query, query_type, num_exp |
     it "should have correct number of results" do
@@ -225,7 +225,7 @@ describe "Target Result Numbers for CJK", :fixme => true, :vetted => 'vitus' do
     end
   end # chinese
 
-  context "japanese", :japanese => true do
+  context "Japanese", :japanese => true do
     context "Buddhism, title search" do
       it_behaves_like "both scripts get expected number of results", 'modern', ' 仏教学', 'traditional', '佛教學', 'title', 19
     end
@@ -250,15 +250,15 @@ describe "Target Result Numbers for CJK", :fixme => true, :vetted => 'vitus' do
     end
   end # japanese
   
-  context "korean", :korean => true do
+  context "Korean", :korean => true do
     context "author search '한 영우 with and without spaces" do
-      it_behaves_like "both scripts get expected number of results", 'spaces', '한 영우', 'no spaces', '한영우', 'author', 32
+      it_behaves_like "both scripts get expected number of results", 'no spaces', '한영우', 'spaces', '한 영우', 'author', 32
     end
     context "everything search 한국 주택 은행 (Korean Home Bank) with and without spaces" do
-      it_behaves_like "both scripts get expected number of results", 'spaces', '한국 주택 은행', 'no spaces', '한국주택은행', nil, 2
+      it_behaves_like "both scripts get expected number of results", 'no spaces', '한국주택은행', 'spaces', '한국 주택 은행', nil, 2
     end
     context "everything search hanja  韓國 住宅 銀行 with and without spaces" do
-      it_behaves_like "both scripts get expected number of results", 'spaces', '韓國 住宅 銀行', 'no spaces', '韓國住宅銀行', nil, 1
+      it_behaves_like "both scripts get expected number of results", 'no spaces', '韓國住宅銀行', 'spaces', '韓國 住宅 銀行', nil, 1
     end
   end # korean
   
