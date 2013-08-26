@@ -85,18 +85,15 @@ end
 # NAOMI_MUST_COMMENT_THIS_METHOD
 def cjk_bigram_tokens(str)
   unigrams = str.scan(/\p{Han}|\p{Katakana}|\p{Hiragana}|\p{Hangul}/).size
-#  !!unigrams
   if unigrams.nonzero?
-    2 * unigrams - 1 # each unigram + each bigram (unigrams - 1)
+    bigrams = 0
+    (0..str.length-2).each { |i|
+      bigrams += 1 if str[i,2].match(/(\p{Han}|\p{Katakana}|\p{Hiragana}|\p{Hangul}){2}/)
+    }
+    unigrams + bigrams
   else
     nil
   end
-
-#  if str =~ /\p{Han}|\p{Katakana}|\p{Hiragana}|\p{Hangul}/
-#    count = str.match(/\p{Han}|\p{Katakana}|\p{Hiragana}|\p{Hangul}/g).length
-#  end
-  
-#  !!(str =~ /\p{Han}|\p{Katakana}|\p{Hiragana}|\p{Hangul}/)
 end
 
 
