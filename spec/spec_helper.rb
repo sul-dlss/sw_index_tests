@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require "yaml"
 require 'rsolr'
 
@@ -79,6 +81,24 @@ end
 def author_title_search_args(query_str)
   {'q'=>"{!qf=author_title_search pf='author_title_search^10' pf3='author_title_search^5' pf2='author_title_search^2'}#{query_str}", 'qt'=>'search'}
 end
+
+# NAOMI_MUST_COMMENT_THIS_METHOD
+def cjk_bigram_tokens(str)
+  unigrams = str.scan(/\p{Han}|\p{Katakana}|\p{Hiragana}|\p{Hangul}/).size
+#  !!unigrams
+  if unigrams.nonzero?
+    2 * unigrams - 1 # each unigram + each bigram (unigrams - 1)
+  else
+    nil
+  end
+
+#  if str =~ /\p{Han}|\p{Katakana}|\p{Hiragana}|\p{Hangul}/
+#    count = str.match(/\p{Han}|\p{Katakana}|\p{Hiragana}|\p{Hangul}/g).length
+#  end
+  
+#  !!(str =~ /\p{Han}|\p{Katakana}|\p{Hiragana}|\p{Hangul}/)
+end
+
 
 private
 
