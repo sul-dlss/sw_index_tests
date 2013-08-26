@@ -82,19 +82,41 @@ def author_title_search_args(query_str)
   {'q'=>"{!qf=author_title_search pf='author_title_search^10' pf3='author_title_search^5' pf2='author_title_search^2'}#{query_str}", 'qt'=>'search'}
 end
 
+
 # if there are any CJK chars in str, return the number of CJK bigrams + CJK unigrams + non-CJK words in the str
 # if there are no CJK chars in str, return nil
 def cjk_bigram_tokens(str)
-  unigrams = str.scan(/\p{Han}|\p{Katakana}|\p{Hiragana}|\p{Hangul}/).size
-  if unigrams.nonzero?
-    bigrams = 0
+  num_uni = str.scan(/\p{Han}|\p{Katakana}|\p{Hiragana}|\p{Hangul}/).size
+  if num_uni.nonzero?
+    num_bi = 0
     (0..str.length-2).each { |i|
-      bigrams += 1 if str[i,2].match(/(\p{Han}|\p{Katakana}|\p{Hiragana}|\p{Hangul}){2}/)
+      num_bi += 1 if str[i,2].match(/(\p{Han}|\p{Katakana}|\p{Hiragana}|\p{Hangul}){2}/)
     }
-    non_cjk = str.scan(/[[:alnum]]+/).size
-    unigrams + bigrams + non_cjk
+    num_non_cjk = str.scan(/[[:alnum]]+/).size # this is tokens, not characters
+    num_uni + num_bi + num_non_cjk
   else
     nil
+  end
+end
+
+@@cjk_mm_val = '3<90%'
+# NAOMI_MUST_COMMENT_THIS_METHOD
+def cjk_mm_val
+  @@cjk_mm_val
+end
+@@cjk_ps_val = 100
+# NAOMI_MUST_COMMENT_THIS_METHOD
+def cjk_ps_val
+  @@cjk_ps_val
+end
+
+# NAOMI_MUST_COMMENT_THIS_METHOD
+def cjk_mm_ps_params(str)
+  num_uni = str.scan(/\p{Han}|\p{Katakana}|\p{Hiragana}|\p{Hangul}/).size
+  if num_uni > 2
+    {'mm' => @@cjk_mm_val, 'ps' => @@cjk_ps_val}
+  else
+    {}
   end
 end
 

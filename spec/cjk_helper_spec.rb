@@ -47,10 +47,13 @@ describe "CJK Helper", :chinese => true, :fixme => true do
       it "should detect last character CJK" do
         cjk_bigram_tokens("abc漫畫").should > 0
         cjk_bigram_tokens("abc まんが").should > 0
-        cjk_bigram_tokens("abc マンガ").should > 0
+        cjk_bigram_tokens("abc マンガ ").should > 0
       end
       it "should detect (latin)(CJK)(latin)" do
-        cjk_bigram_tokens("abc한국경제abc").should > 0
+        cjk_bigram_tokens("abc廣州abc").should > 0
+        cjk_bigram_tokens("abc 한국경제abc").should > 0
+        cjk_bigram_tokens("abc近世仮名遣い abc").should > 0
+        cjk_bigram_tokens("abc 近世仮名遣い abc").should > 0
       end
     end # mixed
   end # detecting CJK chars
@@ -117,7 +120,7 @@ describe "CJK Helper", :chinese => true, :fixme => true do
       it "last character CJK" do
         cjk_bigram_tokens("abc光").should == 2
         cjk_bigram_tokens("abc 光").should == 2
-        cjk_bigram_tokens("abc 光").should == 2
+        cjk_bigram_tokens("abc 光 ").should == 2
       end
       it "(latin)(CJK)(latin)" do
         cjk_bigram_tokens("abc光abc").should == 3
@@ -131,7 +134,7 @@ describe "CJK Helper", :chinese => true, :fixme => true do
         it "last CJK" do
           cjk_bigram_tokens("abc董桥").should == 4
           cjk_bigram_tokens("abc 董桥").should == 4
-          cjk_bigram_tokens("abc 董桥").should == 4
+          cjk_bigram_tokens("abc 董桥 ").should == 4
         end
         it "(latin)(CJK)(latin)" do
           cjk_bigram_tokens("abc董桥abc").should == 5
@@ -145,52 +148,74 @@ describe "CJK Helper", :chinese => true, :fixme => true do
     
   
   context "Solr mm and ps parameters" do
-    it "should not send in a Solr mm param if only 1 or 2 CJK chars" do
-      pending "to be implemented"
+    context "should not send in a Solr mm param if only 1 or 2 CJK chars" do
+      it "1 CJK char" do
+        cjk_mm_ps_params("飘").should == {}
+      end
+      it "2 CJK (adj) char" do
+        cjk_mm_ps_params("三國").should == {}
+      end
+      context "mixed with non-CJK scripts" do
+#FIXME:  what about ps???
+        context "bigram" do
+          it "first CJK" do
+            cjk_mm_ps_params("董桥abc").should == {}
+            cjk_mm_ps_params("董桥 abc").should == {}
+            cjk_mm_ps_params(" 董桥 abc").should == {}
+          end
+          it "last CJK" do
+            cjk_mm_ps_params("abc董桥").should == {}
+            cjk_mm_ps_params("abc 董桥").should == {}
+            cjk_mm_ps_params("abc 董桥 ").should == {}
+          end
+          it "(latin)(CJK)(latin)" do
+            cjk_mm_ps_params("abc董桥abc").should == {}
+            cjk_mm_ps_params("abc 董桥abc").should == {}
+            cjk_mm_ps_params("abc董桥 abc").should == {}
+            cjk_mm_ps_params("abc 董桥 abc").should == {}
+          end
+        end
+      end # mixed      
     end
+
     context "only CJK chars in query" do
-      it "1 CJK char:  mm=1, ps=0" do
-        pending "to be implemented"
+      it "3 CJK (adj) char: mm=cjk_mm_val, ps=cjk_ps_val" do
+        cjk_mm_ps_params("マンガ").should == {'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val}
       end
-      it "2 CJK (adj) char:  mm=3, ps=0" do
-        pending "to be implemented"
+      it "4 CJK (adj) char: mm=cjk_mm_val, ps=cjk_ps_val" do
+        cjk_mm_ps_params("历史研究").should == {'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val}
       end
-      it "3 CJK (adj) char:  mm=4, ps=fixme" do
-        pending "to be implemented"
+      it "5 CJK (adj) char: mm=cjk_mm_val, ps=cjk_ps_val" do
+        cjk_mm_ps_params("妇女与婚姻").should == {'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val}
       end
-      it "4 CJK (adj) char:  mm=6, ps=fixme" do
-        pending "to be implemented"
+      it "6 CJK (adj) char: mm=cjk_mm_val, ps=cjk_ps_val" do
+        cjk_mm_ps_params("한국주택은행").should == {'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val}
       end
-      it "5 CJK (adj) char: mm=7, ps=fixme" do
-        pending "to be implemented"
-      end
-      it "6 CJK (adj) char: mm=9, ps=fixme" do
-        pending "to be implemented"
-      end
-      it "7 CJK (adj) char: mm=10?, ps=fixme" do
-        pending "to be implemented"
+      it "7 CJK (adj) char: mm=cjk_mm_val, ps=cjk_ps_val" do
+        cjk_mm_ps_params("中国地方志集成").should == {'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val}
       end
     end
+    
     context "mixed with non-CJK scripts" do
       context "bigram" do
         it "first CJK" do
           pending
-          cjk_bigram_tokens("董桥abc").should == 4
-          cjk_bigram_tokens("董桥 abc").should == 4
-          cjk_bigram_tokens(" 董桥 abc").should == 4
+          cjk_mm_ps_params("マンガabc").should == {'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val}
+          cjk_mm_ps_params("マンガ abc").should == {'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val}
+          cjk_mm_ps_params(" マンガ abc").should == {'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val}
         end
         it "last CJK" do
           pending
-          cjk_bigram_tokens("abc董桥").should == 4
-          cjk_bigram_tokens("abc 董桥").should == 4
-          cjk_bigram_tokens("abc 董桥").should == 4
+          cjk_mm_ps_params("abcマンガ").should == {'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val}
+          cjk_mm_ps_params("abc マンガ").should == {'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val}
+          cjk_mm_ps_params("abc マンガ ").should == {'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val}
         end
         it "(latin)(CJK)(latin)" do
           pending
-          cjk_bigram_tokens("abc董桥abc").should == 5
-          cjk_bigram_tokens("abc 董桥abc").should == 5
-          cjk_bigram_tokens("abc董桥 abc").should == 5
-          cjk_bigram_tokens("abc 董桥 abc").should == 5
+          cjk_mm_ps_params("abcマンガabc").should == {'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val}
+          cjk_mm_ps_params("abc マンガabc").should == {'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val}
+          cjk_mm_ps_params("abcマンガ abc").should == {'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val}
+          cjk_mm_ps_params("abc マンガ abc").should == {'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val}
         end
       end
     end # mixed      
