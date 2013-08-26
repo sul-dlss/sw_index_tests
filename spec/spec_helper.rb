@@ -82,7 +82,8 @@ def author_title_search_args(query_str)
   {'q'=>"{!qf=author_title_search pf='author_title_search^10' pf3='author_title_search^5' pf2='author_title_search^2'}#{query_str}", 'qt'=>'search'}
 end
 
-# NAOMI_MUST_COMMENT_THIS_METHOD
+# if there are any CJK chars in str, return the number of CJK bigrams + CJK unigrams + non-CJK words in the str
+# if there are no CJK chars in str, return nil
 def cjk_bigram_tokens(str)
   unigrams = str.scan(/\p{Han}|\p{Katakana}|\p{Hiragana}|\p{Hangul}/).size
   if unigrams.nonzero?
@@ -96,7 +97,6 @@ def cjk_bigram_tokens(str)
     nil
   end
 end
-
 
 private
 
