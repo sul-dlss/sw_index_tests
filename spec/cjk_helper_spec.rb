@@ -197,26 +197,33 @@ describe "CJK Helper", :chinese => true, :fixme => true do
     end
     
     context "mixed with non-CJK scripts" do
-      context "bigram" do
-        it "first CJK" do
-          pending
-          cjk_mm_ps_params("マンガabc").should == {'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val}
-          cjk_mm_ps_params("マンガ abc").should == {'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val}
-          cjk_mm_ps_params(" マンガ abc").should == {'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val}
-        end
-        it "last CJK" do
-          pending
-          cjk_mm_ps_params("abcマンガ").should == {'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val}
-          cjk_mm_ps_params("abc マンガ").should == {'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val}
-          cjk_mm_ps_params("abc マンガ ").should == {'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val}
-        end
-        it "(latin)(CJK)(latin)" do
-          pending
-          cjk_mm_ps_params("abcマンガabc").should == {'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val}
-          cjk_mm_ps_params("abc マンガabc").should == {'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val}
-          cjk_mm_ps_params("abcマンガ abc").should == {'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val}
-          cjk_mm_ps_params("abc マンガ abc").should == {'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val}
-        end
+      # for each non-cjk token, add 1 to the lower limit of mm
+      it "first CJK" do
+        cjk_mm_ps_params("マンガabc").should == {'mm'=>mm_plus_1, 'ps'=>cjk_ps_val}
+        cjk_mm_ps_params("マンガ abc").should == {'mm'=>mm_plus_1, 'ps'=>cjk_ps_val}
+        cjk_mm_ps_params(" マンガ abc").should == {'mm'=>mm_plus_1, 'ps'=>cjk_ps_val}
+      end
+      it "last CJK" do
+        cjk_mm_ps_params("abcマンガ").should == {'mm'=>mm_plus_1, 'ps'=>cjk_ps_val}
+        cjk_mm_ps_params("abc マンガ").should == {'mm'=>mm_plus_1, 'ps'=>cjk_ps_val}
+        cjk_mm_ps_params("abc マンガ ").should == {'mm'=>mm_plus_1, 'ps'=>cjk_ps_val}
+      end
+      it "(latin)(CJK)(latin)" do
+        cjk_mm_ps_params("abcマンガabc").should == {'mm'=>mm_plus_2, 'ps'=>cjk_ps_val}
+        cjk_mm_ps_params("abc マンガabc").should == {'mm'=>mm_plus_2, 'ps'=>cjk_ps_val}
+        cjk_mm_ps_params("abcマンガ abc").should == {'mm'=>mm_plus_2, 'ps'=>cjk_ps_val}
+        cjk_mm_ps_params("abc マンガ abc").should == {'mm'=>mm_plus_2, 'ps'=>cjk_ps_val}
+      end
+
+      # add 1 to the lower limit of mm
+      def mm_plus_1
+        lower_limit = cjk_mm_val[0].to_i
+        (lower_limit + 1).to_s + cjk_mm_val[1, cjk_mm_val.size]
+      end
+      # add 2 to the lower limit of mm
+      def mm_plus_2
+        lower_limit = cjk_mm_val[0].to_i
+        (lower_limit + 2).to_s + cjk_mm_val[1, cjk_mm_val.size]
       end
     end # mixed      
   end # mm and ps params

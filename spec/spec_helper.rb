@@ -92,29 +92,36 @@ def cjk_bigram_tokens(str)
     (0..str.length-2).each { |i|
       num_bi += 1 if str[i,2].match(/(\p{Han}|\p{Katakana}|\p{Hiragana}|\p{Hangul}){2}/)
     }
-    num_non_cjk = str.scan(/[[:alnum]]+/).size # this is tokens, not characters
-    num_uni + num_bi + num_non_cjk
+    num_non_cjk_tokens = str.scan(/[[:alnum]]+/).size
+    num_uni + num_bi + num_non_cjk_tokens
   else
     nil
   end
 end
 
+# the Solr mm value if it is to be adjusted due to CJK chars in the query string
 @@cjk_mm_val = '3<90%'
-# NAOMI_MUST_COMMENT_THIS_METHOD
 def cjk_mm_val
   @@cjk_mm_val
 end
+# the Solr ps value if it is to be adjusted due to CJK chars in the query string
 @@cjk_ps_val = 100
-# NAOMI_MUST_COMMENT_THIS_METHOD
 def cjk_ps_val
   @@cjk_ps_val
 end
 
-# NAOMI_MUST_COMMENT_THIS_METHOD
+# return a hash containing mm and ps Solr parameters based on the cjk characters in the str
 def cjk_mm_ps_params(str)
   num_uni = str.scan(/\p{Han}|\p{Katakana}|\p{Hiragana}|\p{Hangul}/).size
   if num_uni > 2
-    {'mm' => @@cjk_mm_val, 'ps' => @@cjk_ps_val}
+    num_non_cjk_tokens = str.scan(/[[:alnum]]+/).size 
+    if num_non_cjk_tokens > 0
+      lower_limit = cjk_mm_val[0].to_i
+      mm = (lower_limit + num_non_cjk_tokens).to_s + cjk_mm_val[1, cjk_mm_val.size]
+      {'mm' => mm, 'ps' => @@cjk_ps_val}
+    else
+      {'mm' => @@cjk_mm_val, 'ps' => @@cjk_ps_val}
+    end
   else
     {}
   end
