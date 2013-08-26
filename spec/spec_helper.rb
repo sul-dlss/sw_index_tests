@@ -90,7 +90,8 @@ def cjk_bigram_tokens(str)
     (0..str.length-2).each { |i|
       bigrams += 1 if str[i,2].match(/(\p{Han}|\p{Katakana}|\p{Hiragana}|\p{Hangul}){2}/)
     }
-    unigrams + bigrams
+    non_cjk = str.scan(/[[:alnum]]+/).size
+    unigrams + bigrams + non_cjk
   else
     nil
   end
