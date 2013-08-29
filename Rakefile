@@ -60,21 +60,6 @@ RSpec::Core::RakeTask.new(:ko) do |spec|
   spec.rspec_opts = ["-c", "-f progress", "-r ./spec/spec_helper.rb", "-t korean", "#{ENV['ROPTS']}"] 
 end
 
-desc "run CJK wordbreak specs" 
-RSpec::Core::RakeTask.new(:wb) do |spec|
-  spec.rspec_opts = ["-c", "-f progress", "-r ./spec/spec_helper.rb", "-t fixme", "#{ENV['ROPTS']}"] 
-end
-
-desc "run CJK wordbreak specs with output in 'documentation' format" 
-RSpec::Core::RakeTask.new(:wb_doc) do |spec|
-  spec.rspec_opts = ["-c", "-f documentation", "-r ./spec/spec_helper.rb", "-t fixme", "#{ENV['ROPTS']}"] 
-end
-
-desc "run CJK wordbreak specs with output in 'html' format" 
-RSpec::Core::RakeTask.new(:wb_html) do |spec|
-  spec.rspec_opts = ["-c", "-f documentation", "-r ./spec/spec_helper.rb", "-t fixme", "#{ENV['ROPTS']}"] 
-end
-
 
 task :spec => :passing
 task :rspec => :passing
