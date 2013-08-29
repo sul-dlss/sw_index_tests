@@ -1,4 +1,4 @@
-source :rubygems
+source 'https://rubygems.org'
 
 gem 'RedCloth' 		# for textile formatting used in Readme
 gem 'rake'
