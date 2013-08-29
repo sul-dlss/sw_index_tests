@@ -2,7 +2,7 @@
 require 'spec_helper'
 require 'rspec-solr'
 
-describe "Chinese: Word Breaks - Marriage NOT Marriage Law", :chinese => true do
+describe "Chinese: Marriage NOT Marriage Law", :chinese => true do
 
   #  " 婚姻法 (marriage law) in sirsi dict, but 婚姻 (marriage) is what we wanted" 
   #   because sirsi dictionary approach does length-first matching  
