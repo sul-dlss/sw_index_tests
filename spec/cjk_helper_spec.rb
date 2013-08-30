@@ -150,29 +150,29 @@ describe "CJK Helper", :chinese => true, :fixme => true do
   context "Solr mm and ps parameters" do
     context "should not send in a Solr mm param if only 1 or 2 CJK chars" do
       it "1 CJK char" do
-        cjk_mm_ps_params("飘").should == {}
+        cjk_mm_ps_params("飘")['mm'].should == nil
       end
       it "2 CJK (adj) char" do
-        cjk_mm_ps_params("三國").should == {}
+        cjk_mm_ps_params("三國")['mm'].should == nil
       end
       context "mixed with non-CJK scripts" do
 #FIXME:  what about ps???
         context "bigram" do
           it "first CJK" do
-            cjk_mm_ps_params("董桥abc").should == {}
-            cjk_mm_ps_params("董桥 abc").should == {}
-            cjk_mm_ps_params(" 董桥 abc").should == {}
+            cjk_mm_ps_params("董桥abc")['mm'].should == nil
+            cjk_mm_ps_params("董桥 abc")['mm'].should == nil
+            cjk_mm_ps_params(" 董桥 abc")['mm'].should == nil
           end
           it "last CJK" do
-            cjk_mm_ps_params("abc董桥").should == {}
-            cjk_mm_ps_params("abc 董桥").should == {}
-            cjk_mm_ps_params("abc 董桥 ").should == {}
+            cjk_mm_ps_params("abc董桥")['mm'].should == nil
+            cjk_mm_ps_params("abc 董桥")['mm'].should == nil
+            cjk_mm_ps_params("abc 董桥 ")['mm'].should == nil
           end
           it "(latin)(CJK)(latin)" do
-            cjk_mm_ps_params("abc董桥abc").should == {}
-            cjk_mm_ps_params("abc 董桥abc").should == {}
-            cjk_mm_ps_params("abc董桥 abc").should == {}
-            cjk_mm_ps_params("abc 董桥 abc").should == {}
+            cjk_mm_ps_params("abc董桥abc")['mm'].should == nil
+            cjk_mm_ps_params("abc 董桥abc")['mm'].should == nil
+            cjk_mm_ps_params("abc董桥 abc")['mm'].should == nil
+            cjk_mm_ps_params("abc 董桥 abc")['mm'].should == nil
           end
         end
       end # mixed      
