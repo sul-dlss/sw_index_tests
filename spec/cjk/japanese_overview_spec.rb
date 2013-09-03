@@ -5,7 +5,7 @@ require 'rspec-solr'
 describe "Japanese Overview", :japanese => true, :fixme => true do
   
   shared_examples_for "expected result size" do | query, query_type, num_exp |
-    it "should have expected result size" do
+    it "should have #{num_exp} results" do
       case query_type
         when 'title'
           resp = solr_resp_doc_ids_only({'q' => cjk_title_q_arg(query)})
@@ -16,20 +16,10 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
       end
       resp.should have_exactly(num_exp).results
     end
-  end # shared_examples for  gets expected result size
+  end
 
-  shared_examples_for "title search gets expected results" do |query, num_exp|
-    it_behaves_like "expected result size", query, 'title', num_exp
-  end
-  shared_examples_for "author search gets expected results" do |query, num_exp|
-    it_behaves_like "expected result size", query, 'author', num_exp
-  end
-  shared_examples_for "everything search gets expected results" do |query, num_exp|
-    it_behaves_like "expected result size", query, nil, num_exp
-  end
-  
   shared_examples_for "queries get same result size" do | query1, query2, query_type |
-    it "both queries should get same result size" do
+    it "both #{query_type} queries should get same result size" do
       case query_type
         when 'title'
           resp1 = solr_resp_doc_ids_only({'q' => cjk_title_q_arg(query1)})
@@ -55,7 +45,9 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
     end
   end
 
-  context "title search" do
+  #--- end shared examples
+
+  context "title searches" do
     context "Buddhism" do
       it_behaves_like "both scripts get expected result size", 'modern', ' 仏教学', 'traditional', '佛教學', 'title', 19
     end
@@ -71,7 +63,7 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
     end
   end
 
-  context "author search" do
+  context "author searches" do
     context "South Manchurian Railroad Company" do
       it_behaves_like "both scripts get expected result size", 'modern', ' 南満州鉄道株式会社', 'traditional', '南滿洲鐵道株式會社', 'author', 522
     end
