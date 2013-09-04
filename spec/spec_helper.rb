@@ -182,13 +182,13 @@ def solr_response(solr_params, req_handler='select')
             solr_params['q'] = cjk_subject_q_arg q_val
           when /qf_series/
             solr_params['q'] = cjk_series_q_arg q_val
-          else
-            solr_params['q'] = cjk_everything_q_arg q_val
         end
       end
-      RSpecSolr::SolrResponseHash.new(@@solr.send_and_receive(req_handler, {:method => :get, 
-        :params => solr_params.merge("testing"=>"sw_index_test").merge(cjk_mm_ps_params(q_val))}))
+    else
+      solr_params['q'] = cjk_everything_q_arg q_val
     end
+    RSpecSolr::SolrResponseHash.new(@@solr.send_and_receive(req_handler, {:method => :get, 
+      :params => solr_params.merge("testing"=>"sw_index_test").merge(cjk_mm_ps_params(q_val))}))
   end # have CJK in query
 end    
 
