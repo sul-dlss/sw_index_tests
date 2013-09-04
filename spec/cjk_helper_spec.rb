@@ -146,6 +146,11 @@ describe "CJK Helper", :chinese => true, :fixme => true do
     end  # mixed    
   end # counting CJK chars
     
+  context "num_cjk_uni" do
+    it "should detect hangul" do
+      num_cjk_uni('한국주택은행').should == 6
+    end
+  end
   
   context "Solr mm and ps parameters" do
     context "should not send in a Solr mm param if only 1 or 2 CJK chars" do
