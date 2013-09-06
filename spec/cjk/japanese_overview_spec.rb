@@ -1,19 +1,11 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
-require 'rspec-solr'
 
 describe "Japanese Overview", :japanese => true, :fixme => true do
   
   shared_examples_for "expected result size" do | query_type, query, min, max |
     it "#{query_type} search should have #{(min == max ? min : "between #{min} and #{max}")} results" do
-      case query_type
-        when 'title'
-          resp = solr_resp_doc_ids_only({'q' => cjk_title_q_arg(query)})
-        when 'author'
-          resp = solr_resp_doc_ids_only({'q' => cjk_author_q_arg(query)})
-        else
-          resp = solr_resp_doc_ids_only({'q' => cjk_everything_q_arg(query)})
-      end
+      resp = cjk_query_resp(query_type, query)
       if min == max
         resp.should have_exactly(min).results
       else
@@ -25,17 +17,8 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
 
   shared_examples_for "queries get same result size" do | query_type, query1, query2 |
     it "both #{query_type} searches should get same result size" do
-      case query_type
-        when 'title'
-          resp1 = solr_resp_doc_ids_only({'q' => cjk_title_q_arg(query1)})
-          resp2 = solr_resp_doc_ids_only({'q' => cjk_title_q_arg(query2)})
-        when 'author'
-          resp1 = solr_resp_doc_ids_only({'q' => cjk_author_q_arg(query1)})
-          resp2 = solr_resp_doc_ids_only({'q' => cjk_author_q_arg(query2)})
-        else
-          resp1 = solr_resp_doc_ids_only({'q' => cjk_everything_q_arg(query1)})
-          resp2 = solr_resp_doc_ids_only({'q' => cjk_everything_q_arg(query2)})
-      end
+      resp1 = cjk_query_resp(query_type, query1)
+      resp2 = cjk_query_resp(query_type, query2)
       resp1.should have_the_same_number_of_results_as resp2
     end
   end
@@ -49,12 +32,19 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
       it_behaves_like "expected result size", query_type, query2, max, max
     end
   end
+  
+  shared_examples_for "best matches first" do | query_type, query, id_list, num  |
+    resp = cjk_query_resp(query_type, query)
+    resp.should include(id_list).in_first(num).results
+  end
+  
 
   #--- end shared examples ---------------------------------------------------
 
   context "title searches" do
     context "blocking ブロック化 (katakana-kanji mix)", :jira => 'VUF-2695' do
       it_behaves_like "expected result size", 'title', 'ブロック化', 1, 15
+      it_behaves_like "best matches first", 'title', 'ブロック化', '9855019', 1
     end
     context "buddhism", :jira => ['VUF-2724', 'VUF-2725'] do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '佛教', 'modern', '仏教', 1150, 2000
