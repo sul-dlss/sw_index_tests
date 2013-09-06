@@ -1,6 +1,5 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
-require 'rspec-solr'
 
 describe "Japanese: Word Breaks", :japanese => true, :fixme => true, :wordbreak => true do
 

@@ -1,6 +1,5 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
-require 'rspec-solr'
 
 describe "Japanese: Traditional and Modern Kanji (Han) Characters", :japanese => true, :fixme => true do
 

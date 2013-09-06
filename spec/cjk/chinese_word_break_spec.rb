@@ -1,6 +1,5 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
-require 'rspec-solr'
 
 describe "Chinese: Word Breaks", :chinese => true, :fixme => true do
   # TODO:  query time parsing  vs.   index time parsing

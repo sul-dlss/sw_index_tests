@@ -1,6 +1,5 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
-require 'rspec-solr'
 
 describe "Chinese:  婦女 (women)  與 (and)   文學 (literature)", :chinese => true, :fixme => true do
   # 婦女與文學  traditional  婦女  與  文學

@@ -1,6 +1,5 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
-require 'rspec-solr'
 
 describe "Japanese only variants of han characters", :japanese => true, :fixme => true, :vetted => 'vitus' do
 

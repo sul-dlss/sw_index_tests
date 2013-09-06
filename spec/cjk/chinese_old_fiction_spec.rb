@@ -1,6 +1,5 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
-require 'rspec-solr'
 
 describe "Chinese Old (舊) Fiction (小說)", :chinese => true, :fixme => true, :vetted => 'vitus' do
   # old (simp)  旧

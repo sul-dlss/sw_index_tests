@@ -1,6 +1,5 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
-require 'rspec-solr'
 
 describe "Chinese Personal Name Author Searches", :chinese => true, :vetted => 'vitus' do
 

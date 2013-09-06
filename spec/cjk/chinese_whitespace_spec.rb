@@ -1,6 +1,5 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
-require 'rspec-solr'
 
 describe "Chinese: Extraneous Spaces (from old RLIN records?)", :chinese => true do
 

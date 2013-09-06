@@ -1,6 +1,5 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
-require 'rspec-solr'
 
 describe "Korean: Hangul and Hancha scripts", :korean => true, :fixme => true do
   

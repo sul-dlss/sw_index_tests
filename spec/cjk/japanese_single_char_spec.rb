@@ -1,6 +1,5 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
-require 'rspec-solr'
 
 # need these to work -- CJKBigram approach could interfere with that
 describe "Japanese: Single Character Searches", :japanese => true, :fixme => true do

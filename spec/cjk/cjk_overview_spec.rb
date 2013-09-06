@@ -1,6 +1,5 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
-require 'rspec-solr'
 
 describe "CJK Overview", :fixme => true, :vetted => 'vitus' do
   

@@ -1,6 +1,5 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
-require 'rspec-solr'
 
 describe "Japanese: hiragana, katakana, kanji, and romaji scripts", :japanese => true, :fixme => true do
 

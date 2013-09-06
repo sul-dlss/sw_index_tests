@@ -1,6 +1,5 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
-require 'rspec-solr'
 
 describe "Chinese: 郑州 (zhengzhou - a place in China)  地理 (geography)", :chinese => true, :vetted => 'vitus' do
 

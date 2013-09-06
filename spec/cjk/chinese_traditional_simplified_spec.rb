@@ -1,6 +1,5 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
-require 'rspec-solr'
 
 describe "Chinese: Traditional and Simplified Scripts", :chinese => true, :fixme => true do
 
