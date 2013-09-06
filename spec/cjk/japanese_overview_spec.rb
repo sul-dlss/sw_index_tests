@@ -33,9 +33,11 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
     end
   end
   
-  shared_examples_for "best matches first" do | query_type, query, id_list, num  |
-    resp = cjk_query_resp(query_type, query)
-    resp.should include(id_list).in_first(num).results
+  shared_examples_for "best matches first" do | query_type, query, id_list, num |
+    it "finds #{id_list.inspect} in first #{num} results" do
+      resp = cjk_query_resp(query_type, query)
+      resp.should include(id_list).in_first(num).results
+    end
   end
   
 
