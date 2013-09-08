@@ -3,9 +3,9 @@ require 'spec_helper'
 
 describe "Japanese Overview", :japanese => true, :fixme => true do
   
-  shared_examples_for "expected result size" do | query_type, query, min, max |
-    it "#{query_type} search should have #{(min == max ? min : "between #{min} and #{max}")} results" do
-      resp = cjk_query_resp(query_type, query)
+  shared_examples_for "expected result size" do | query_type, query, min, max, solr_params |
+    it "#{query_type} search has #{(min == max ? min : "between #{min} and #{max}")} results" do
+      resp = cjk_query_resp(query_type, query, solr_params ||= {})
       if min == max
         resp.should have_exactly(min).results
       else
@@ -15,27 +15,27 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
     end
   end
 
-  shared_examples_for "queries get same result size" do | query_type, query1, query2 |
-    it "both #{query_type} searches should get same result size" do
-      resp1 = cjk_query_resp(query_type, query1)
-      resp2 = cjk_query_resp(query_type, query2)
+  shared_examples_for "search results are same size" do | query_type, query1, query2, solr_params |
+    it "both #{query_type} searches have same result size" do
+      resp1 = cjk_query_resp(query_type, query1, solr_params ||= {})
+      resp2 = cjk_query_resp(query_type, query2, solr_params ||= {})
       resp1.should have_the_same_number_of_results_as resp2
     end
   end
   
-  shared_examples_for "both scripts get expected result size" do | query_type, script_name1, query1, script_name2, query2, min, max |
-    it_behaves_like "queries get same result size", query_type, query1, query2
+  shared_examples_for "both scripts get expected result size" do | query_type, script_name1, query1, script_name2, query2, min, max, solr_params |
+    it_behaves_like "search results are same size", query_type, query1, query2, solr_params
     context "#{script_name1}: #{query1}" do
-      it_behaves_like "expected result size", query_type, query1, min, max
+      it_behaves_like "expected result size", query_type, query1, min, max, solr_params
     end
     context "#{script_name2}: #{query2}" do
-      it_behaves_like "expected result size", query_type, query2, max, max
+      it_behaves_like "expected result size", query_type, query2, max, max, solr_params
     end
   end
   
-  shared_examples_for "best matches first" do | query_type, query, id_list, num |
+  shared_examples_for "best matches first" do | query_type, query, id_list, num, solr_params |
     it "finds #{id_list.inspect} in first #{num} results" do
-      resp = cjk_query_resp(query_type, query)
+      resp = cjk_query_resp(query_type, query, solr_params ||= {})
       resp.should include(id_list).in_first(num).results
     end
   end
@@ -52,7 +52,7 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '佛教', 'modern', '仏教', 1150, 2000
     end
     context "editorial" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '論說', 'modern', '論説', 50, 100
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '論說', 'modern', '論説', 50, 100, {'fq'=>'language:Japanese'}
       # TODO:  want Japanese langauge facet selected
     end
     context "grandpa  おじいさん (hiragana)", :jira => 'VUF-2715' do
@@ -135,7 +135,7 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
       it_behaves_like "expected result size", 'author', '釘貫亨', 1, 1
     end
     context "South Manchurian Railroad Company", :jira => ['VUF-2736', 'VUF-2739'] do
-      it_behaves_like "both scripts get expected result size", 'author', 'modern', ' 南満州鉄道株式会社', 'traditional', '南滿洲鐵道株式會社', 400, 700
+      it_behaves_like "both scripts get expected result size", 'author', 'modern', '南満州鉄道株式会社', 'traditional', '南滿洲鐵道株式會社', 400, 700
     end
   end # author searches
   

@@ -158,15 +158,16 @@ end
 
 # @param query_type [String] the type of query:  title, author, ...
 # @param query [String] the query string to be used against cjk-expecting qf, pf, pf3, pf2 args
+# @param solr_params [Hash<String>,<String>] any additional parameters to send to Solr
 # @return [RSpecSolr::SolrResponseHash] object based on the query type and the query
-def cjk_query_resp (query_type, query)
+def cjk_query_resp (query_type, query, solr_params = {})
   case query_type
     when 'title'
-      resp = solr_resp_doc_ids_only({'q' => cjk_title_q_arg(query)})
+      resp = solr_resp_doc_ids_only({'q' => cjk_title_q_arg(query)}.merge(solr_params))
     when 'author'
-      resp = solr_resp_doc_ids_only({'q' => cjk_author_q_arg(query)})
+      resp = solr_resp_doc_ids_only({'q' => cjk_author_q_arg(query)}.merge(solr_params))
     else
-      resp = solr_resp_doc_ids_only({'q' => cjk_everything_q_arg(query)})
+      resp = solr_resp_doc_ids_only({'q' => cjk_everything_q_arg(query)}.merge(solr_params))
   end    
 end
 
