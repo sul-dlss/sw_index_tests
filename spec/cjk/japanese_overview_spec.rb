@@ -5,7 +5,7 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
   
   shared_examples_for "expected result size" do | query_type, query, min, max, solr_params |
     it "#{query_type} search has #{(min == max ? min : "between #{min} and #{max}")} results" do
-      resp = cjk_query_resp(query_type, query, solr_params ||= {})
+      resp = cjk_query_resp_ids(query_type, query, solr_params ||= {})
       if min == max
         resp.should have_exactly(min).results
       else
@@ -17,8 +17,8 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
 
   shared_examples_for "search results are same size" do | query_type, query1, query2, solr_params |
     it "both #{query_type} searches have same result size" do
-      resp1 = cjk_query_resp(query_type, query1, solr_params ||= {})
-      resp2 = cjk_query_resp(query_type, query2, solr_params ||= {})
+      resp1 = cjk_query_resp_ids(query_type, query1, solr_params ||= {})
+      resp2 = cjk_query_resp_ids(query_type, query2, solr_params ||= {})
       resp1.should have_the_same_number_of_results_as resp2
     end
   end
@@ -29,14 +29,26 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
       it_behaves_like "expected result size", query_type, query1, min, max, solr_params
     end
     context "#{script_name2}: #{query2}" do
-      it_behaves_like "expected result size", query_type, query2, max, max, solr_params
+      it_behaves_like "expected result size", query_type, query2, min, max, solr_params
     end
   end
   
   shared_examples_for "best matches first" do | query_type, query, id_list, num, solr_params |
     it "finds #{id_list.inspect} in first #{num} results" do
-      resp = cjk_query_resp(query_type, query, solr_params ||= {})
+      resp = cjk_query_resp_ids(query_type, query, solr_params ||= {})
       resp.should include(id_list).in_first(num).results
+    end
+  end
+  shared_examples_for "matches in short titles first" do | query_type, query, regex, num, solr_params |
+    it "finds #{regex} in first #{num} titles" do
+      resp = solr_response({'q' => cjk_q_arg(query_type, query), 'fl'=>'id,vern_title_245a_display', 'facet'=>false}.merge(solr_params))
+      resp.should include({'vern_title_245a_display' => regex}).in_each_of_first(num)
+    end
+  end
+  shared_examples_for "matches in titles first" do | query_type, query, regex, num, solr_params |
+    it "finds #{regex} in first #{num} titles" do
+      resp = solr_response({'q' => cjk_q_arg(query_type, query), 'fl'=>'id,vern_title_full_display', 'facet'=>false}.merge(solr_params))
+      resp.should include({'vern_title_full_display' => regex}).in_each_of_first(num)
     end
   end
   
@@ -52,8 +64,14 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '佛教', 'modern', '仏教', 1150, 2000
     end
     context "editorial" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '論說', 'modern', '論説', 50, 100, {'fq'=>'language:Japanese'}
-      # TODO:  want Japanese langauge facet selected
+      solr_params = {'fq'=>'language:Japanese'}
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '論說', 'modern', '論説', 50, 100, solr_params
+      it_behaves_like "matches in short titles first", 'title', '論説', /論說|論説/i, 16, solr_params
+      it_behaves_like "matches in titles first", 'title', '論説', /論說|論説/i, 20, solr_params
+      resp = cjk_query_resp_ids('title', '論説', solr_params)
+      it "should not sort series titles matches before main titles" do
+        resp.should_not include('6808627')
+      end
     end
     context "grandpa  おじいさん (hiragana)", :jira => 'VUF-2715' do
       it_behaves_like "expected result size", 'title', 'おじいさん', 10, 11
