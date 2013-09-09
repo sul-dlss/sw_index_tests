@@ -143,6 +143,7 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
     end
     context "sports  スポーツ (katakana)", :jira => 'VUF-2738' do
       it_behaves_like "expected result size", 'title', 'スポーツ', 34, 50
+      it_behaves_like "matches in short titles first", 'title', 'スポーツ', /スポーツ/, 20
     end
     context "Study of Buddhism", :jira => 'VUF-2732' do
       it_behaves_like "both scripts get expected result size", 'title', 'modern', ' 仏教学', 'traditional', '佛教學', 50, 200
