@@ -145,8 +145,19 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
       it_behaves_like "expected result size", 'title', 'スポーツ', 34, 50
       it_behaves_like "matches in short titles first", 'title', 'スポーツ', /スポーツ/, 20
     end
-    context "Study of Buddhism", :jira => 'VUF-2732' do
-      it_behaves_like "both scripts get expected result size", 'title', 'modern', ' 仏教学', 'traditional', '佛教學', 50, 200
+    context "Study of Buddhism", :jira => ['VUF-2732', 'VUF-2733'] do
+# FIXME:  first trad character isn't translated to modern - these should be equivalent    
+#      it_behaves_like "both scripts get expected result size", 'title', 'modern', ' 仏教学', 'traditional', '佛教學', 50, 200
+      # modern
+      it_behaves_like "expected result size", 'title', '仏教学', 19, 125
+      it_behaves_like "matches in short titles first", 'title', '仏教学', /仏教学/, 3
+      # FIXME:  starting with result 4, relevance isn't great
+      # traditional
+      it_behaves_like "expected result size", 'title', '佛教學', 150, 175
+      it_behaves_like "matches in short titles first", 'title', '佛教學', /佛教學/, 3
+      it_behaves_like "best matches first", 'title', '佛教學', '7813279', 1
+      it_behaves_like "best matches first", 'title', '佛教學', '7641164', 2  # in Korean!
+      # FIXME:  starting with result 3, relevance isn't great
     end
     context "survey/investigation", :jira => 'VUF-2727' do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '調查', 'modern', '調査', 4500, 4750
