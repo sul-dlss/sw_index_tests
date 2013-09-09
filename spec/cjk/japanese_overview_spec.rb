@@ -41,6 +41,7 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
   end
   shared_examples_for "matches in short titles first" do | query_type, query, regex, num, solr_params |
     it "finds #{regex} in first #{num} titles" do
+      solr_params.merge!('rows'=>num) if num > 20
       resp = solr_response({'q' => cjk_q_arg(query_type, query), 'fl'=>'id,vern_title_245a_display', 'facet'=>false}.merge(solr_params ||= {}))
       resp.should include({'vern_title_245a_display' => regex}).in_each_of_first(num)
     end
@@ -96,6 +97,9 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
     end
     context "historical records" do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '古記錄', 'modern', '古記録', 120, 200
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '古記錄', 'modern', '古記録', 110, 126, lang_limit
+      it_behaves_like "matches in short titles first", 'title', '古記録', /古記錄|古記録/, 40
+      it_behaves_like "matches in titles first", 'title', '古記録', /古記錄|古記録/, 45
       # TODO:  want Japanese langauge facet selected
     end
     context "japanese art works ref encyclopedia", :jira => 'VUF-2698' do
