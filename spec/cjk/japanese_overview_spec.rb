@@ -110,6 +110,8 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
     end
     context "lantern", :jira => 'VUF-2703' do
       it_behaves_like "expected result size", 'title', 'ちょうちん', 1, 3
+      it_behaves_like "best matches first", 'title', 'ちょうちん', '10181601', 1   # in 245a
+      it_behaves_like "matches in titles", 'title', 'ちょうちん', /ちょう/, 2 # sub-term
     end
     context "lantern shop", :jira => 'VUF-2702' do
       it_behaves_like "expected result size", 'title', 'ちょうちん屋', 1, 1
