@@ -160,10 +160,18 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
       # FIXME:  starting with result 3, relevance isn't great
     end
     context "survey/investigation", :jira => 'VUF-2727' do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '調查', 'modern', '調査', 4500, 4750
-      # TODO:  want Japanese langauge facet selected
+# FIXME:  second trad char isn't translated to modern - these should be equivalent
+#      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '調查', 'modern', '調査', 4500, 4750
+#      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '調查', 'modern', '調査', 4500, 4750, lang_limit
+      # modern
+      it_behaves_like "expected result size", 'title', '調査', 59, 65, lang_limit
+      it_behaves_like "matches in short titles first", 'title', '調査', /調査/, 25, lang_limit
+      it_behaves_like "matches in titles first", 'title', '調査', /調査/, 30, lang_limit
+      # traditional
+      it_behaves_like "expected result size", 'title', '調查', 4450, 4700, lang_limit
+      it_behaves_like "matches in short titles first", 'title', '調查', /調查/, 100, lang_limit
     end
-    context "people traveling overseas encyclopedia", :jira => ['VUF-2705', 'VUF-2743', 'VUF-2742', 'VUF-2740'] do
+    context "tale", :jira => ['VUF-2705', 'VUF-2743', 'VUF-2742', 'VUF-2740'] do
       context "hiragana", :jira => ['VUF-2705', 'VUF-2743'] do
         it_behaves_like "expected result size", 'title', 'ものがたり', 60, 83
       end
