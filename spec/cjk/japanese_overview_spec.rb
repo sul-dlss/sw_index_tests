@@ -135,6 +135,7 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
     end
     context "people traveling overseas encyclopedia", :jira => 'VUF-2084' do
       it_behaves_like "expected result size", 'title', '海外渡航者人物事典', 1, 1
+      it_behaves_like "best matches first", 'title', '海外渡航者人物事典', '5746725', 1
     end
     context "pseudonym usage (modern, mixed)" do
       it_behaves_like "expected result size", 'title', '近世仮名遣い', 1, 1
