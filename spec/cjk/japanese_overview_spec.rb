@@ -115,10 +115,17 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
     end
     context "lantern shop", :jira => 'VUF-2702' do
       it_behaves_like "expected result size", 'title', 'ちょうちん屋', 1, 1
+      it_behaves_like "best matches first", 'title', 'ちょうちん', '10181601', 1   # in 245a
     end
     context "manga/comics", :jira => ['VUF-2734', 'VUF-2735'] do
       it_behaves_like "both scripts get expected result size", 'title', 'hiragana', 'まんが', 'katakana', 'マンガ', 210, 275      
+      it_behaves_like "matches in short titles first", 'title', 'まんが', /まんが|マンガ/, 100
+      it_behaves_like "matches in titles", 'title', 'まんが', /まんが/, 20 # hiragana script is in results
+      it_behaves_like "matches in titles", 'title', 'マンガ', /マンガ/, 20 # katagana script is in results
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '漫畫', 'modern', ' 漫画', 237, 400
+      it_behaves_like "matches in short titles first", 'title', '漫画', /漫画|漫畫/, 150
+      it_behaves_like "matches in titles", 'title', '漫画', /漫画/, 20 # modern script is in results
+      it_behaves_like "matches in titles", 'title', '漫畫', /漫畫/, 20 # traditional script is in results
     end
     context "painting dictionary", :jira => 'VUF-2697' do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '繪畫辞典', 'modern', '絵画辞典', 1, 1
