@@ -41,21 +41,21 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
   end
   shared_examples_for "matches in short titles first" do | query_type, query, regex, num, solr_params |
     it "finds #{regex} in first #{num} titles" do
-      resp = solr_response({'q' => cjk_q_arg(query_type, query), 'fl'=>'id,vern_title_245a_display', 'facet'=>false}.merge(solr_params))
+      resp = solr_response({'q' => cjk_q_arg(query_type, query), 'fl'=>'id,vern_title_245a_display', 'facet'=>false}.merge(solr_params ||= {}))
       resp.should include({'vern_title_245a_display' => regex}).in_each_of_first(num)
     end
   end
   shared_examples_for "matches in titles first" do | query_type, query, regex, num, solr_params |
     it "finds #{regex} in first #{num} titles" do
       solr_params.merge!('rows'=>num) if num > 20
-      resp = solr_response({'q' => cjk_q_arg(query_type, query), 'fl'=>'id,vern_title_full_display', 'facet'=>false}.merge(solr_params))
+      resp = solr_response({'q' => cjk_q_arg(query_type, query), 'fl'=>'id,vern_title_full_display', 'facet'=>false}.merge(solr_params ||= {}))
       resp.should include({'vern_title_full_display' => regex}).in_each_of_first(num)
     end
   end
   shared_examples_for "matches in titles" do | query_type, query, regex, num, solr_params |
     it "finds #{regex} in titles" do
       solr_params.merge!('rows'=>num) if num > 20
-      resp = solr_response({'q' => cjk_q_arg(query_type, query), 'fl'=>'id,vern_title_full_display', 'facet'=>false}.merge(solr_params))
+      resp = solr_response({'q' => cjk_q_arg(query_type, query), 'fl'=>'id,vern_title_full_display', 'facet'=>false}.merge(solr_params ||= {}))
       resp.should include({'vern_title_full_display' => regex})
     end
   end
@@ -74,9 +74,9 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
     end
     context "editorial" do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '論說', 'modern', '論説', 50, 100, lang_limit
-      it_behaves_like "matches in short titles first", 'title', '論説', /論說|論説/i, 16, lang_limit 
-      it_behaves_like "matches in titles first", 'title', '論説', /論說|論説/i, 20, lang_limit
-      it_behaves_like "matches in titles", 'title', '論說', /論說/i, 20, lang_limit # traditional script is in results
+      it_behaves_like "matches in short titles first", 'title', '論説', /論說|論説/, 16, lang_limit
+      it_behaves_like "matches in titles first", 'title', '論説', /論說|論説/, 20, lang_limit
+      it_behaves_like "matches in titles", 'title', '論說', /論說/, 20, lang_limit # traditional script is in results
       # no 説 (modern) in results
       resp = cjk_query_resp_ids('title', '論説', lang_limit)
       it "should not sort series titles matches before main titles" do
@@ -84,11 +84,15 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
       end
     end
     context "grandpa  おじいさん (hiragana)", :jira => 'VUF-2715' do
-      it_behaves_like "expected result size", 'title', 'おじいさん', 10, 11
       it_behaves_like "both scripts get expected result size", 'title', 'hiragana', 'おじいさん', 'katagana', 'オジいサン', 10, 11
+      it_behaves_like "matches in short titles first", 'title', 'おじいさん', /おじいさん|オジいサン/, 2
+      it_behaves_like "matches in titles first", 'title', 'おじいさん', /おじいさん|オジいサン/, 2
+      it_behaves_like "matches in titles", 'title', 'おじいさん', /おじいさん/, 11 # hiragana script is in results
+      it_behaves_like "matches in titles", 'title', 'おじいさん', /オジいサン/, 11 # katagana script is in results
     end
     context "'hiragana'  ひらがな", :jira => 'VUF-2693' do
-      it_behaves_like "expected result size", 'title', 'ひらがな', 10, 26
+      it_behaves_like "expected result size", 'title', 'ひらがな', 4, 26
+      it_behaves_like "best matches first", 'title', 'ひらがな', ['4217219', '9252490'], 3   # both in 245b
     end
     context "historical records" do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '古記錄', 'modern', '古記録', 120, 200
