@@ -139,6 +139,7 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
     end
     context "pseudonym usage (modern, mixed)" do
       it_behaves_like "expected result size", 'title', '近世仮名遣い', 1, 1
+      it_behaves_like "best matches first", 'title', '近世仮名遣い', '7926218', 1
     end
     context "sports  スポーツ (katakana)", :jira => 'VUF-2738' do
       it_behaves_like "expected result size", 'title', 'スポーツ', 34, 50
