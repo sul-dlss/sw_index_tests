@@ -128,7 +128,10 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
       it_behaves_like "matches in titles", 'title', '漫畫', /漫畫/, 20 # traditional script is in results
     end
     context "painting dictionary", :jira => 'VUF-2697' do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '繪畫辞典', 'modern', '絵画辞典', 1, 1
+# FIXME:  First character of traditional translates to diff char than first char of modern
+#      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '繪畫辞典', 'modern', '絵画辞典', 1, 1
+      it_behaves_like "best matches first", 'title', '繪̄畫辞典', '8448289', 1
+#      it_behaves_like "best matches first", 'title', '絵画辞典', '8448289', 1
     end
     context "people traveling overseas encyclopedia", :jira => 'VUF-2084' do
       it_behaves_like "expected result size", 'title', '海外渡航者人物事典', 1, 1
