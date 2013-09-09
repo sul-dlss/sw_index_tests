@@ -106,6 +106,7 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
     end
     context "japanese art works ref encyclopedia", :jira => 'VUF-2698' do
       it_behaves_like "expected result size", 'title', '日本美術作品レファレンス事典', 8, 9
+      it_behaves_like "matches in short titles first", 'title', '日本美術作品レファレンス事典', /日本美術作品レファレンス事典/, 9
     end
     context "lantern", :jira => 'VUF-2703' do
       it_behaves_like "expected result size", 'title', 'ちょうちん', 1, 3
