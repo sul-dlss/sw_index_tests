@@ -95,6 +95,11 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
         resp.should_not include('6808627')
       end
     end
+    context "February 26 Incident", :jira => 'VUF-2755' do
+      it_behaves_like "expected result size", 'title', 'ニ・ニ六事件', 1, 5
+      it_behaves_like "best matches first", 'title', 'ニ・ニ六事件', '6325833', 1 # all in 245a, but as ニ・  ニ六事件・
+      it_behaves_like "best matches first", 'title', 'ニ・ニ六事件', '6279541', 4 # in 246
+    end
     context "grandpa  おじいさん (hiragana)", :jira => 'VUF-2715' do
       it_behaves_like "both scripts get expected result size", 'title', 'hiragana', 'おじいさん', 'katagana', 'オジいサン', 10, 11
       it_behaves_like "matches in short titles first", 'title', 'おじいさん', /おじいさん|オジいサン/, 2
