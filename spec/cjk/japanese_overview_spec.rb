@@ -74,7 +74,7 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
       it_behaves_like "best matches first", 'title', 'ブロック化', '9855019', 1
     end
     context "buddhism", :jira => ['VUF-2724', 'VUF-2725'] do
-# FIXME:  First character of traditional translates doesn't translate to first char of modern
+# FIXME:  First character of traditional doesn't translate to first char of modern
 #      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '佛教', 'modern', '仏教', 1150, 2000
       # modern
       it_behaves_like "expected result size", 'title', '仏教', 773, 2000
@@ -114,7 +114,8 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
     end
     context "japanese art works ref encyclopedia", :jira => 'VUF-2698' do
       it_behaves_like "expected result size", 'title', '日本美術作品レファレンス事典', 8, 9
-      it_behaves_like "matches in short titles first", 'title', '日本美術作品レファレンス事典', /日本美術作品レファレンス事典/, 9
+      it_behaves_like "matches in short titles first", 'title', '日本美術作品レファレンス事典', /^日本美術作品レファレンス事典[[:punct:]]*$/, 8
+      # 9th result is without the first 2 chars
     end
     context "lantern", :jira => 'VUF-2703' do
       it_behaves_like "expected result size", 'title', 'ちょうちん', 1, 3
