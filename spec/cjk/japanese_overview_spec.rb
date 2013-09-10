@@ -191,11 +191,21 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
       it_behaves_like "best matches first", 'title', '白鳥のふたごものがたり', '10185778', 1   # in 245a
     end
     context "weekly" do
-      it_behaves_like "both scripts get expected result size", 'title', 'modern', '週刊', 'traditional', '週刋', 83, 440
-      # TODO:  want Japanese langauge facet selected
+# FIXME:  2nd trad char isn't translated to modern - these should be equivalent
+#      it_behaves_like "both scripts get expected result size", 'title', 'modern', '週刊', 'traditional', '週刋', 83, 440, lang_limit
+      # modern (or simplified chinese first char)
+      it_behaves_like "expected result size", 'title', '週刊', 73, 440, lang_limit
+      it_behaves_like "matches in short titles first", 'title', '週刊', /週刊|周刊/, 18, lang_limit
+      # traditional (or simplified chinese first char)
+      it_behaves_like "expected result size", 'title', '週刋', 9, 15, lang_limit
+      it_behaves_like "matches in short titles first", 'title', '週刋', /週刋/, 2, lang_limit # 3rd hit, 6324070, matches in 730a
     end
     context "TPP", :jira => 'VUF-2696' do
       it_behaves_like "expected result size", 'title', 'TPP', 11, 12
+      it_behaves_like "expected result size", 'title', 'TPP', 6, 10, lang_limit
+      it_behaves_like "matches in short titles first", 'title', 'TPP', /TPP/, 6, lang_limit
+      it_behaves_like "matches in titles first", 'title', 'TPP', /TPP/, 7, lang_limit
+      # 8th result is a series title
     end
   end # title searches
 
