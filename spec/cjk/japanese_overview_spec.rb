@@ -184,9 +184,11 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
     end
     context "Tsu child remains lantern shop", :jira => 'VUF-2701' do
       it_behaves_like "expected result size", 'title', 'ちょうちん屋のままッ子', 1, 1
+      it_behaves_like "best matches first", 'title', 'ちょうちん屋のままッ子', '10181601', 1   # in 245a
     end
     context "twin story of the swan (mixed katakana/hiragana)", :jira => 'VUF-2704' do
       it_behaves_like "expected result size", 'title', '白鳥のふたごものがたり', 1, 1
+      it_behaves_like "best matches first", 'title', '白鳥のふたごものがたり', '10185778', 1   # in 245a
     end
     context "weekly" do
       it_behaves_like "both scripts get expected result size", 'title', 'modern', '週刊', 'traditional', '週刋', 83, 440
