@@ -112,6 +112,11 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
       it_behaves_like "matches in short titles first", 'title', '古記録', /古記錄|古記録/, 24, lang_limit  
       it_behaves_like "matches in titles first", 'title', '古記録', /古記錄|古記録/, 26, lang_limit  # 4647977 at 27, which doesn't match 3 together
     end
+    context "'humorous'  ユニークな", :jira => 'VUF-2753' do
+      it_behaves_like "expected result size", 'title', 'ユニークな', 2, 5
+      it_behaves_like "best matches first", 'title', 'ユニークな', '6668838', 1 # beginning of 245a
+      it_behaves_like "best matches first", 'title', 'ユニークな', '4198351', 2  # middle of 245a
+    end
     context "japanese art works ref encyclopedia", :jira => 'VUF-2698' do
       it_behaves_like "expected result size", 'title', '日本美術作品レファレンス事典', 8, 9
       it_behaves_like "matches in short titles first", 'title', '日本美術作品レファレンス事典', /^日本美術作品レファレンス事典[[:punct:]]*$/, 8
