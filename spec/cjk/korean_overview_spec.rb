@@ -74,6 +74,16 @@ describe "Korean Overview", :korean => true, :fixme => true do
       # 21세기의   한•미동맹관계  as written in the book
       # 21세기   의   한,   미   동맹   관계    what's in our record
 # FIXME:  move these to phrase searching?
+      context '21세기의  한미동맹관계', :fixme => true do
+        # most likely spacing by Koreans
+        it_behaves_like "expected result size", 'title', '21세기의  한미동맹관계', 1, 6
+        it_behaves_like "best matches first", 'title', '21세기의  한미동맹관계', '8375648', 1
+      end
+      context '21세기의   한미   동맹관계', :fixme => true do
+        # second most likely spacing by Koreans
+        it_behaves_like "expected result size", 'title', '21세기의   한미   동맹관계', 1, 6
+        it_behaves_like "best matches first", 'title', '21세기의   한미   동맹관계', '8375648', 1
+      end
       context "phrase searching" do
         context '"21세기의한미동맹관계"' do
           it_behaves_like "expected result size", 'title', '"21세기의한미동맹관계"', 1, 1
