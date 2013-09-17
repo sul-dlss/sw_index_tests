@@ -559,10 +559,10 @@ describe "journal/newspaper titles" do
         @resp = solr_resp_ids_from_query query
       end
       it "everything search should include the database record" do
-        @resp.should include("7716332").in_first(3)
+        @resp.should include("7716332").in_first(3) # database
       end
       it "everything search should include the Lane/Medical record" do
-        @resp.should include("10189807").in_first(5)
+        @resp.should include("10242234").in_first(5) # medical/lane
       end
     end   
     
@@ -578,7 +578,7 @@ describe "journal/newspaper titles" do
         @tresp.should include("7716332").in_first(2)
       end
       it "title search should include the Lane/Medical record" do
-        @tresp.should include("10189807").in_first(2)
+        @tresp.should include("10242234").in_first(2)
       end 
     end
   end # ScienceDirect
@@ -602,7 +602,7 @@ describe "journal/newspaper titles" do
     end
 
     it_behaves_like "great results for format journal", "Nature" do
-      journal = ['10237615', # london 0028-0836, lane/medical
+      journal = ['10242155', # london 0028-0836, lane/medical
                   '3195844', # london 0028-0836, biology
                   '8829478', # london, spec
                   '466281', # directory of biologicals
