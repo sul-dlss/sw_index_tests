@@ -1,73 +1,10 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
 
-describe "Japanese Overview", :japanese => true, :fixme => true do
-  
-  shared_examples_for "expected result size" do | query_type, query, min, max, solr_params |
-    it "#{query_type} search has #{(min == max ? min : "between #{min} and #{max}")} results" do
-      resp = cjk_query_resp_ids(query_type, query, solr_params ||= {})
-      if min == max
-        resp.should have_exactly(min).results
-      else
-        resp.should have_at_least(min).results
-        resp.should have_at_most(max).results
-      end
-    end
-  end
-
-  shared_examples_for "search results are same size" do | query_type, query1, query2, solr_params |
-    it "both #{query_type} searches have same result size" do
-      resp1 = cjk_query_resp_ids(query_type, query1, solr_params ||= {})
-      resp2 = cjk_query_resp_ids(query_type, query2, solr_params ||= {})
-      resp1.should have_the_same_number_of_results_as resp2
-    end
-  end
-  
-  shared_examples_for "both scripts get expected result size" do | query_type, script_name1, query1, script_name2, query2, min, max, solr_params |
-    it_behaves_like "search results are same size", query_type, query1, query2, solr_params
-    context "#{script_name1}: #{query1}" do
-      it_behaves_like "expected result size", query_type, query1, min, max, solr_params
-    end
-    context "#{script_name2}: #{query2}" do
-      it_behaves_like "expected result size", query_type, query2, min, max, solr_params
-    end
-  end
-  
-  shared_examples_for "best matches first" do | query_type, query, id_list, num, solr_params |
-    it "finds #{id_list.inspect} in first #{num} results" do
-      resp = cjk_query_resp_ids(query_type, query, solr_params ||= {})
-      resp.should include(id_list).in_first(num).results
-    end
-  end
-  shared_examples_for "matches in short titles first" do | query_type, query, regex, num, solr_params |
-    it "finds #{regex} in first #{num} titles" do
-      solr_params ||= {}
-      solr_params.merge!('rows'=>num) if num > 20
-      resp = solr_response({'q' => cjk_q_arg(query_type, query), 'fl'=>'id,vern_title_245a_display', 'facet'=>false}.merge(solr_params))
-      resp.should include({'vern_title_245a_display' => regex}).in_each_of_first(num)
-    end
-  end
-  shared_examples_for "matches in titles first" do | query_type, query, regex, num, solr_params |
-    it "finds #{regex} in first #{num} titles" do
-      solr_params ||= {}
-      solr_params.merge!('rows'=>num) if num > 20
-      resp = solr_response({'q' => cjk_q_arg(query_type, query), 'fl'=>'id,vern_title_full_display', 'facet'=>false}.merge(solr_params))
-      resp.should include({'vern_title_full_display' => regex}).in_each_of_first(num)
-    end
-  end
-  shared_examples_for "matches in titles" do | query_type, query, regex, num, solr_params |
-    it "finds #{regex} in titles" do
-      solr_params ||= {}
-      solr_params.merge!('rows'=>num) if num > 20
-      resp = solr_response({'q' => cjk_q_arg(query_type, query), 'fl'=>'id,vern_title_full_display', 'facet'=>false}.merge(solr_params))
-      resp.should include({'vern_title_full_display' => regex})
-    end
-  end
-  
-
-  #--- end shared examples ---------------------------------------------------
+describe "Japanese Overview", :japanese => true do
 
   lang_limit = {'fq'=>'language:Japanese'}
+
   context "title searches" do
     context "blocking ブロック化 (katakana-kanji mix)", :jira => 'VUF-2695' do
       it_behaves_like "expected result size", 'title', 'ブロック化', 1, 15
@@ -99,6 +36,9 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
       it_behaves_like "expected result size", 'title', 'ニ・ニ六事件', 1, 5
       it_behaves_like "best matches first", 'title', 'ニ・ニ六事件', '6325833', 1 # all in 245a, but as ニ・  ニ六事件・
       it_behaves_like "best matches first", 'title', 'ニ・ニ六事件', '6279541', 4 # in 246
+      # other two results are not relevant:
+      #  6617115 seems to confuse "ニ (= Japanese kana, romanized as 'ni')" which appears after "小作 (kosaku)" with "ニ (= number 2 in Kanji)
+      #  6360442 seems to confuse "に (= Japanese kana, romanized as 'ni') which appears after "十六名 (jurokumei)" with "ニ (= number 2 in Kanji)"
     end
     context "grandpa  おじいさん (hiragana)", :jira => 'VUF-2715' do
       it_behaves_like "both scripts get expected result size", 'title', 'hiragana', 'おじいさん', 'katagana', 'オジいサン', 10, 11
@@ -183,7 +123,7 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
 #      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '調查', 'modern', '調査', 4500, 4750
 #      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '調查', 'modern', '調査', 4500, 4750, lang_limit
       # modern
-      it_behaves_like "expected result size", 'title', '調査', 59, 65, lang_limit
+      it_behaves_like "expected result size", 'title', '調査', 55, 65, lang_limit
       it_behaves_like "matches in short titles first", 'title', '調査', /調査/, 25, lang_limit
       it_behaves_like "matches in titles first", 'title', '調査', /調査/, 30, lang_limit
       # traditional
@@ -209,6 +149,18 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
       it_behaves_like "expected result size", 'title', '白鳥のふたごものがたり', 1, 1
       it_behaves_like "best matches first", 'title', '白鳥のふたごものがたり', '10185778', 1   # in 245a
     end
+    context "weather", :jira => 'VUF-2756' do
+# FIXME:  2nd modern char isn't translated to simp - these should be equivalent
+#      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '天氣', 'modern', '天気', 10, 17
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '天氣', 'chinese', '天气', 10, 17
+      # modern
+      it_behaves_like "expected result size", 'title', '天気', 2, 17
+      it_behaves_like "matches in short titles first", 'title', '天気', /天気/, 2
+      # traditional
+      it_behaves_like "expected result size", 'title', '天氣', 10, 17
+      it_behaves_like "matches in short titles first", 'title', '天氣', /(天氣|天气)/, 7
+      it_behaves_like "matches in titles first", 'title', '天氣', /(天氣|天气)/, 9
+    end
     context "weekly" do
 # FIXME:  2nd trad char isn't translated to modern - these should be equivalent
 #      it_behaves_like "both scripts get expected result size", 'title', 'modern', '週刊', 'traditional', '週刋', 83, 440, lang_limit
@@ -220,7 +172,7 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
       it_behaves_like "matches in short titles first", 'title', '週刋', /週刋/, 2, lang_limit # 3rd hit, 6324070, matches in 730a
     end
     context "TPP", :jira => 'VUF-2696' do
-      it_behaves_like "expected result size", 'title', 'TPP', 11, 12
+      it_behaves_like "expected result size", 'title', 'TPP', 11, 15
       it_behaves_like "expected result size", 'title', 'TPP', 6, 10, lang_limit
       it_behaves_like "matches in short titles first", 'title', 'TPP', /TPP/, 6, lang_limit
       it_behaves_like "matches in titles first", 'title', 'TPP', /TPP/, 7, lang_limit
@@ -229,7 +181,7 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
   end # title searches
 
 
-  context "author searches" do
+  context "author searches", :fixme => true do
     context "buddhism", :jira => 'VUF-2723' do
       it_behaves_like "both scripts get expected result size", 'author', 'traditional', '佛教', 'modern', '仏教', 96, 300
     end
@@ -248,7 +200,7 @@ describe "Japanese Overview", :japanese => true, :fixme => true do
     end
   end # author searches
   
-  context "everything searches" do
+  context "everything searches", :fixme => true do
     context "buddhism", :jira => ['VUF-2724', 'VUF-2725'] do
       it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '佛教', 'modern', '仏教', 814, 2000
     end
