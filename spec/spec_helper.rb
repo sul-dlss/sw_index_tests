@@ -5,6 +5,7 @@ require 'rsolr'
 
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'rspec-solr'
+require 'support/shared_examples_cjk'
 
 RSpec.configure do |config|
   baseurl = ENV["URL"]
@@ -64,16 +65,16 @@ def solr_resp_ids_full_titles(solr_params)
 end
 
 def author_search_args(query_str)
-  {'q'=>"{!qf=$qf_author pf=$pf_author pf3=$pf_author3 pf2=$pf_author2}#{query_str}", 'qt'=>'search'}
+  {'q'=>"{!qf=$qf_author pf=$pf_author pf3=$pf3_author pf2=$pf2_author}#{query_str}", 'qt'=>'search'}
 end
 def title_search_args(query_str)
-  {'q'=>"{!qf=$qf_title pf=$pf_title pf3=$pf_title3 pf2=$pf_title2}#{query_str}", 'qt'=>'search'}
+  {'q'=>"{!qf=$qf_title pf=$pf_title pf3=$pf3_title pf2=$pf2_title}#{query_str}", 'qt'=>'search'}
 end
 def subject_search_args(query_str)
-  {'q'=>"{!qf=$qf_subject pf=$pf_subject pf3=$pf_subject3 pf2=$pf_subject2}#{query_str}", 'qt'=>'search'}
+  {'q'=>"{!qf=$qf_subject pf=$pf_subject pf3=$pf3_subject pf2=$pf2_subject}#{query_str}", 'qt'=>'search'}
 end
 def series_search_args(query_str)
-  {'q'=>"{!qf=$qf_series pf=$pf_series pf3=$pf_series3 pf2=$pf_series2}#{query_str}", 'qt'=>'search'}
+  {'q'=>"{!qf=$qf_series pf=$pf_series pf3=$pf3_series pf2=$pf2_series}#{query_str}", 'qt'=>'search'}
 end
 def callnum_search_args(query_str)
   {'q'=>"#{query_str}", 'defType'=>'lucene', 'df'=>'callnum_search', 'qt'=>'search'}
@@ -86,16 +87,16 @@ def cjk_everything_q_arg(query_str)
   "{!qf=$qf_cjk pf=$pf_cjk pf3=$pf3_cjk pf2=$pf2_cjk}#{query_str}"
 end
 def cjk_author_q_arg(query_str)
-  "{!qf=$qf_author_cjk pf=$pf_author_cjk pf3=$pf_author3_cjk pf2=$pf_author2_cjk}#{query_str}"
+  "{!qf=$qf_author_cjk pf=$pf_author_cjk pf3=$pf3_author_cjk pf2=$pf2_author_cjk}#{query_str}"
 end
 def cjk_title_q_arg(query_str)
-  "{!qf=$qf_title_cjk pf=$pf_title_cjk pf3=$pf_title3_cjk pf2=$pf_title2_cjk}#{query_str}"
+  "{!qf=$qf_title_cjk pf=$pf_title_cjk pf3=$pf3_title_cjk pf2=$pf2_title_cjk}#{query_str}"
 end
 def cjk_subject_q_arg(query_str)
-  "{!qf=$qf_subject_cjk pf=$pf_subject_cjk pf3=$pf_subject3_cjk pf2=$pf_subject2_cjk}#{query_str}"
+  "{!qf=$qf_subject_cjk pf=$pf_subject_cjk pf3=$pf3_subject_cjk pf2=$pf2_subject_cjk}#{query_str}"
 end
 def cjk_series_q_arg(query_str)
-  "{!qf=$qf_series_cjk pf=$pf_series_cjk pf3=$pf_series3_cjk pf2=$pf_series2_cjk}#{query_str}"
+  "{!qf=$qf_series_cjk pf=$pf_series_cjk pf3=$pf3_series_cjk pf2=$pf2_series_cjk}#{query_str}"
 end
 
 
@@ -179,7 +180,7 @@ def cjk_q_arg(query_type, query)
       cjk_title_q_arg(query)
     else
       cjk_everything_q_arg(query)
-  end      
+  end
 end
 
 
