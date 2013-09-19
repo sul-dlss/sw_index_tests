@@ -3,6 +3,8 @@ require 'spec_helper'
 
 describe "Korean spacing", :korean => true do
   
+  # TODO:  mixed scripts (Hangul + Hancha)
+
   context "Korea-U.S. alliance relations in the 21st century", :jira => 'VUF-2747' do
     shared_examples_for "good title results for 21세기의  한미동맹관계" do | query |
       it_behaves_like 'good results for query', 'title', query, 1, 6, '8375648', 1
@@ -127,7 +129,43 @@ describe "Korean spacing", :korean => true do
     end
   end # until the river  VUF-2744
   
-  context "mixed scripts" do
-  end # mixed scripts
+
+  context "Korean economy" do
+    shared_examples_for "good results for 한국경제" do | query |
+      it_behaves_like "expected result size", 'everything', query, 600, 650
+      # no spaces, exact 245a
+      it_behaves_like 'best matches first', 'everything', query, '6812133', 7
+      # spaces, exact 245a
+      it_behaves_like 'best matches first', 'everything', query, ['7912628', '8802925'], 7
+    end
+    context "한국경제 (no spaces)" do
+      it_behaves_like "good results for 한국경제", '한국경제'
+    end
+    context "한국 경제 (space)" do
+      it_behaves_like "good results for 한국경제", '한국 경제'
+    end
+  end
+
+
+  context "Korean economic future and the survival strategies" do
+    shared_examples_for "good results for 한국경제의미래와생존전략" do | query |
+      it_behaves_like "good results for query", 'everything', query, 1, 1, '9323348', 1
+    end
+    shared_examples_for "good results for 한국  경제의  미래와  생존  전략" do | query |
+      it_behaves_like "good results for query", 'everything', query, 1, 5, '9323348', 1
+    end
+    context "한국경제의미래와생존전략 (no spaces)" do
+      it_behaves_like "good results for 한국경제의미래와생존전략", '한국경제의미래와생존전략'
+    end
+    context "한국경제의  미래와  생존전략 (2 spaces)" do
+      it_behaves_like "good results for 한국경제의미래와생존전략", '한국경제의  미래와  생존전략'
+    end
+    context "한국  경제의  미래와  생존  전략 (4 spaces)" do
+      it_behaves_like "good results for 한국  경제의  미래와  생존  전략", '한국  경제의  미래와  생존  전략'
+    end
+    context "한국 경제 의 미래 와 생존 전략 (6 spaces)" do
+      it_behaves_like "good results for 한국  경제의  미래와  생존  전략", '한국 경제 의 미래 와 생존 전략'
+    end
+  end
 
 end
