@@ -66,3 +66,10 @@ shared_examples_for "good results for query" do | query_type, query, min, max, i
   include_examples "expected result size", query_type, query, min, max, solr_params
   include_examples "best matches first", query_type, query, id_list, num, solr_params
 end
+
+shared_examples_for "does not find irrelevant results" do | query_type, query, id_list, solr_params |
+  it "does not find #{id_list.inspect} in results" do
+    resp = cjk_query_resp_ids(query_type, query, solr_params ||= {})
+    resp.should_not include(id_list)
+  end
+end
