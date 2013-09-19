@@ -90,6 +90,58 @@ describe "Korean spacing", :korean => true do
     end
   end # author: Ŭn, Hŭi-gyŏng  VUF-2729
 
+  context "Kkum kkunŭn cha ka chʻangjo handa", :jira => 'VUF-2700' do
+    shared_examples_for "good results for 꿈꾸는 자가 창조한다" do | query_type, query |
+      it_behaves_like 'good results for query', query_type, query, 1, 1, '7378874', 1
+    end
+    context "title" do
+      context "꿈꾸는 자가 창조한다 (normal spacing by Koreans)" do
+        it_behaves_like "good results for 꿈꾸는 자가 창조한다", 'title', '꿈꾸는 자가 창조한다'
+      end
+      context "꿈 꾸는 자가 창조한다" do
+        it_behaves_like "good results for 꿈꾸는 자가 창조한다", 'title', '꿈 꾸는 자가 창조한다'
+      end
+      context "꿈꾸는 자 가 창조한다" do
+        # it has additional results
+        # it_behaves_like "good results for 꿈꾸는 자가 창조한다", 'title', '꿈꾸는 자 가 창조한다'
+        it_behaves_like 'good results for query', 'title', '꿈꾸는 자 가 창조한다', 1, 3, '7378874', 1
+      end
+      context "꿈꾸는 자가 창조 한다" do
+        it_behaves_like "good results for 꿈꾸는 자가 창조한다", 'title', '꿈꾸는 자가 창조 한다'
+      end
+      context "꿈꾸는 자가 창 조한다 (but Korean writing would not give space between 창 and 조 )" do
+        it_behaves_like "good results for 꿈꾸는 자가 창조한다", 'title', '꿈꾸는 자가 창 조한다'
+      end
+      context "꿈꾸는 자가 창조한 다 (but Korean writing would not give space between 한 and 다)" do
+        it_behaves_like "good results for 꿈꾸는 자가 창조한다", 'title', '꿈꾸는 자가 창조한 다'
+      end
+    end
+    context "everything" do
+      context "꿈꾸는 자가 창조한다 (normal spacing by Koreans)" do
+        it_behaves_like "good results for 꿈꾸는 자가 창조한다", 'everything', '꿈꾸는 자가 창조한다'
+      end
+      context "꿈 꾸는 자가 창조한다" do
+        # it has additional results
+        # it_behaves_like "good results for 꿈꾸는 자가 창조한다", 'everything', '꿈 꾸는 자가 창조한다'
+        it_behaves_like 'good results for query', 'everything', '꿈 꾸는 자가 창조한다', 1, 2, '7378874', 1
+      end
+      context "꿈꾸는 자 가 창조한다" do
+        # it has additional results
+        # it_behaves_like "good results for 꿈꾸는 자가 창조한다", 'everything', '꿈꾸는 자 가 창조한다'
+        it_behaves_like 'good results for query', 'everything', '꿈꾸는 자 가 창조한다', 1, 10, '7378874', 1
+      end
+      context "꿈꾸는 자가 창조 한다" do
+        it_behaves_like "good results for 꿈꾸는 자가 창조한다", 'everything', '꿈꾸는 자가 창조 한다'
+      end
+      context "꿈꾸는 자가 창 조한다 (but Korean writing would not give space between 창 and 조 )" do
+        it_behaves_like "good results for 꿈꾸는 자가 창조한다", 'everything', '꿈꾸는 자가 창 조한다'
+      end
+      context "꿈꾸는 자가 창조한 다 (but Korean writing would not give space between 한 and 다)" do
+        it_behaves_like "good results for 꿈꾸는 자가 창조한다", 'everything', '꿈꾸는 자가 창조한 다'
+      end
+    end
+  end # Kkum kkunŭn cha ka chʻangjo handa  VUF-2700
+
 
   context "phrases" do
     context "Korea's modern history", :jira => 'VUF-2722', :fixme => true do
