@@ -31,4 +31,25 @@ describe "Korean Titles", :korean => true do
     end
   end # History of Korean contemporary literature, VUF-2741
 
+  context "Hangul: film industry", :jira => 'VUF-2728' do
+    shared_examples_for "good title results for 영화산업" do | query |
+      # exact 영화 산업 starts 245a
+      it_behaves_like 'good results for query', 'title', query, 9, 15, '7197421', 1
+      # exact  영화 산업 ends 245a
+      it_behaves_like 'best matches first', 'title', query, '9423181', 3
+      # exact  영화 산업 or 영화산업 in middle of 245a
+      it_behaves_like 'best matches first', 'title', query, ['6971471', '9724759', '7906632', '6827294', '9252364'], 7
+      # both 2 char combos in title, but not together
+      it_behaves_like 'best matches first', 'title', query, ['9925013', '9563618'], 9
+    end
+    context "영화산업 (no spaces)" do
+      it_behaves_like "good title results for 영화산업", '영화산업'
+    end
+    context "영화  산업 (with spaces)" do
+      it_behaves_like "good title results for 영화산업", '영화 산업'
+      # (one 2 char combo in note field)
+      it_behaves_like 'best matches first', 'title', '영화 산업', '7793893', 10
+    end
+  end # Hangul: film industry, VUF-2728
+
 end
