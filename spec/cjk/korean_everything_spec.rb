@@ -5,8 +5,7 @@ describe "Korean Everything", :korean => true do
   
   lang_limit = {'fq'=>'language:Korean'}
 
-
-  context "Hangul: social change", :jira => 'VUF-2726' do
+  context "Hangul: social change", :jira => 'VUF-2776' do
     chars_together_in_245 = ['8538284',  # chars in sequence in 245a  (사회　 변동)
                               '6664109',
                               '8531245',
@@ -62,6 +61,6 @@ describe "Korean Everything", :korean => true do
     context "phrase 사회변동 (no spaces)" do
       it_behaves_like 'good results for query', 'everything', '"사회변동"', 25, 45, chars_together_in_245, 28, 'rows'=>40
     end
-  end # Hangul: social change, VUF-2726
+  end # Hangul: social change, VUF-2776
 
 end
