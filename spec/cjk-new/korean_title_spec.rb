@@ -5,7 +5,7 @@ describe "Korean Titles", :korean => true do
   
   lang_limit = {'fq'=>'language:Korean'}
 
-  context "History of Korean contemporary literature", :jira => 'VUF-2741' do
+  context "Hancha: History of Korean contemporary literature", :jira => 'VUF-2741' do
     shared_examples_for "good title results for 韓國現代文學史" do | query |
       # 7620045:  exact title:  Hanʼguk hyŏndae munhaksa  韓國現代文學史
       it_behaves_like 'good results for query', 'title', query, 5, 10, '7620045', 1, lang_limit
