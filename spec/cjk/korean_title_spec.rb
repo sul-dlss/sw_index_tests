@@ -31,6 +31,7 @@ describe "Korean Titles", :korean => true do
     end
   end # History of Korean contemporary literature, VUF-2741
 
+
   context "Hangul: film industry", :jira => 'VUF-2728' do
     shared_examples_for "good title results for 영화산업" do | query |
       # exact 영화 산업 starts 245a
@@ -51,5 +52,27 @@ describe "Korean Titles", :korean => true do
       it_behaves_like 'best matches first', 'title', '영화 산업', '7793893', 10
     end
   end # Hangul: film industry, VUF-2728
+
+
+  context "Hangul: Korea's modern history", :jira => 'VUF-2722' do
+    shared_examples_for "good title results for 한국 근대사" do | query |
+      it "titles match regex" do
+        resp = solr_response({'q'=>cjk_q_arg('title', query), 'fl'=>'id,vern_title_display', 'facet'=>'false'} )
+        # FIXME:  having trouble getting this regex to work, probably due to Unicode variant representation of Hangul chars?
+        # resp.should include({'vern_title_display' => /한*국\s*근대\s*사/}).in_each_of_first(20)
+        resp.should include({'vern_title_display' => /한국\s*근대사/i}).in_each_of_first(5)
+      end
+      # “한국 근대 의 사회 복지” (ckey: 6718961) and “통계로 본 한국 근현대사” (ckey: 6686526)
+      it_behaves_like 'does not find irrelevant results', 'title', query, ['6718961', '6686526'], 'rows' => 45
+    end
+    context "한국 근대사 (space, not a phrase)" do
+      it_behaves_like "expected result size", 'title', '한국 근대사', 200, 250
+      it_behaves_like "good title results for 한국 근대사", '한국 근대사'
+    end
+    context '"한국 근대사" (phrase)' do
+      it_behaves_like "expected result size", 'title', '"한국 근대사"', 90, 125
+      it_behaves_like "good title results for 한국 근대사", '"한국 근대사"'
+    end
+  end # Hangul: Korea's modern history   VUF-2722
 
 end
