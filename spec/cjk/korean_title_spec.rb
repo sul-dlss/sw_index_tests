@@ -57,7 +57,7 @@ describe "Korean Titles", :korean => true do
   context "Hangul: Korea's modern history", :jira => 'VUF-2722' do
     shared_examples_for "good title results for 한국 근대사" do | query |
       it "titles match regex" do
-        resp = solr_response({'q'=>cjk_q_arg('title', query), 'fl'=>'id,vern_title_display', 'facet'=>'false'} )
+        resp = solr_response({'q'=>cjk_q_arg('title', query), 'fl'=>'id,vern_title_display', 'facet'=>false} )
         # FIXME:  having trouble getting this regex to work, probably due to Unicode variant representation of Hangul chars?
         # resp.should include({'vern_title_display' => /한*국\s*근대\s*사/}).in_each_of_first(20)
         resp.should include({'vern_title_display' => /한국\s*근대사/i}).in_each_of_first(5)
