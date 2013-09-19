@@ -57,6 +57,7 @@ describe "Korean spacing", :korean => true do
     end
   end   # Korea-U.S. alliance relations in the 21st century  VUF-2747
 
+
   context "author: Ŭn, Hŭi-gyŏng", :jira => 'VUF-2729' do
     shared_examples_for "good author results for 은희경" do | query |
       #  "top 15 results are all relevant for searches both with and without whitespace between author’s last and first name."
@@ -89,6 +90,7 @@ describe "Korean spacing", :korean => true do
       it_behaves_like "good author results for 은희경", '은희경'
     end
   end # author: Ŭn, Hŭi-gyŏng  VUF-2729
+
 
   context "Kkum kkunŭn cha ka chʻangjo handa", :jira => 'VUF-2700' do
     shared_examples_for "good results for 꿈꾸는 자가 창조한다" do | query_type, query |
@@ -141,6 +143,25 @@ describe "Korean spacing", :korean => true do
       end
     end
   end # Kkum kkunŭn cha ka chʻangjo handa  VUF-2700
+
+
+  context "until the river", :jira => 'VUF-2744' do
+    shared_examples_for "good results for 강물이될때까지" do | query |
+      it_behaves_like 'good results for query', 'everything', query, 1, 1, '9097052', 1
+    end
+    context "강물이될때까지 (no spaces)" do
+      it_behaves_like "good results for 강물이될때까지", '강물이될때까지'
+    end
+    context "강물이 될때까지 (space between  이 and 될)" do
+      it_behaves_like "good results for 강물이될때까지", '강물이 될때까지'
+    end
+    context "강물이 될때 까지 (space between  이 and 될,  때 and 까)" do
+      it_behaves_like "good results for 강물이될때까지", '강물이 될때 까지'
+    end
+    context "강물 이 될 때 까지 (as in the record)" do
+      it_behaves_like "good results for 강물이될때까지", '강물 이 될 때 까지'
+    end
+  end # until the river  VUF-2744
 
 
   context "phrases" do
