@@ -62,7 +62,7 @@ shared_examples_for "matches in titles" do | query_type, query, regex, num, solr
   end
 end
 
-shared_examples_for "good results for query" do | query_type, query, min, max, id_list, num |
-  include_examples "expected result size", query_type, query, min, max
-  include_examples "best matches first", query_type, query, id_list, num
+shared_examples_for "good results for query" do | query_type, query, min, max, id_list, num, solr_params |
+  include_examples "expected result size", query_type, query, min, max, solr_params
+  include_examples "best matches first", query_type, query, id_list, num, solr_params
 end
