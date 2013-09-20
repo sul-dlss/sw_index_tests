@@ -212,6 +212,50 @@ describe "Korean spacing", :korean => true do
   end
 
   context "hangul + hancha" do
+    context "Analysis of Korean economy  韓國經濟의 分析" do
+      shared_examples_for "good results for 韓國經濟의 分析" do | query |
+        it_behaves_like "good results for query", 'everything', query, 5, 85, '6647380', 1
+      end
+      context "韓國經濟의 分析  (normal spacing)" do
+        it_behaves_like "good results for 韓國經濟의 分析", '韓國經濟의 分析 '
+      end
+      context "韓國 經濟 의 分析 (spacing in catalog)" do
+        it_behaves_like "good results for 韓國經濟의 分析", '韓國 經濟 의 分析'
+      end
+    end
+    context "Beauty of Korea  韓國의 美" do
+      shared_examples_for "good results for 韓國의 美" do | query |
+        it_behaves_like "good results for query", 'everything', query, 1, 35, '6665111', 1
+      end
+      context "韓國의 美  (normal spacing)" do
+        it_behaves_like "good results for 韓國의 美", '韓國의 美'
+      end
+      context "韓國 의 美 (spacing in catalog)" do
+        it_behaves_like "good results for 韓國의 美", '韓國 의 美'
+      end
+    end
+    context "Economic management and characteristics of North Korea  北韓의 經濟運營과 特性" do
+      shared_examples_for "good results for 北韓의 經濟運營과 特性" do | query |
+        it_behaves_like "good results for query", 'everything', query, 2, 2, ['6628055', '9342302'], 2
+      end
+      context "北韓의 經濟運營과 特性  (normal spacing)" do
+        it_behaves_like "good results for 北韓의 經濟運營과 特性", '北韓의 經濟運營과 特性'
+      end
+      context "北韓 의 經濟 運營 과 特性 (spacing in catalog)" do
+        it_behaves_like "good results for 北韓의 經濟運營과 特性", '北韓 의 經濟 運營 과 特性'
+      end
+    end
+    context "Right to speak in the Choson dynasty period  鮮時代의 言權" do
+      shared_examples_for "good results for 鮮時代의 言權" do | query |
+        it_behaves_like "good results for query", 'everything', query, 1, 30, '6633303', 1
+      end
+      context "鮮時代의 言權 (normal spacing)" do
+        it_behaves_like "good results for 鮮時代의 言權", '鮮時代의 言權'
+      end
+      context "朝鮮 時代 의 言權 (spacing in catalog)" do
+        it_behaves_like "good results for 鮮時代의 言權", '朝鮮 時代 의 言權'
+      end
+    end
     context "開化期에서" do
       shared_examples_for "good results for 開化期에서" do | query |
         it_behaves_like "good results for query", 'everything', query, 1, 2, '7148651', 1
@@ -219,7 +263,7 @@ describe "Korean spacing", :korean => true do
       context "開化期에서 (normal spacing)" do
         it_behaves_like "good results for 開化期에서", '開化期에서'
       end
-      context " 開化期 에서 (spacing in catalog)" do
+      context "開化期 에서 (spacing in catalog)" do
         it_behaves_like "good results for 開化期에서", '開化期 에서'
       end
     end
@@ -234,8 +278,6 @@ describe "Korean spacing", :korean => true do
         it_behaves_like "good results for 韓民族의 主體性과 韓國史의 正統性", '韓民族 의 主體性 과 韓國史 의 正統性'
       end
     end
-    
-    
   end
 
 end
