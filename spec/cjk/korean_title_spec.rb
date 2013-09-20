@@ -58,9 +58,7 @@ describe "Korean Titles", :korean => true do
     shared_examples_for "good title results for 한국 근대사" do | query |
       it "titles match regex" do
         resp = solr_response({'q'=>cjk_q_arg('title', query), 'fl'=>'id,vern_title_display', 'facet'=>false} )
-        # FIXME:  having trouble getting this regex to work, probably due to Unicode variant representation of Hangul chars?
-        # resp.should include({'vern_title_display' => /한*국\s*근대\s*사/}).in_each_of_first(20)
-        resp.should include({'vern_title_display' => /한국\s*근대사/i}).in_each_of_first(5)
+        resp.should include({'vern_title_display' => /한국[[:space:]]*근대[[:space:]]*사/i}).in_each_of_first(20)
       end
       # “한국 근대 의 사회 복지” (ckey: 6718961) and “통계로 본 한국 근현대사” (ckey: 6686526)
       it_behaves_like 'does not find irrelevant results', 'title', query, ['6718961', '6686526'], 'rows' => 45
