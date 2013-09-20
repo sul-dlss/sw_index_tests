@@ -54,12 +54,16 @@ describe "Korean Titles", :korean => true do
   end # Hangul: film industry, VUF-2728
 
 
-  context "Hangul: Korea's modern history", :jira => 'VUF-2722' do
+  context "Hangul: Korean modern history", :jira => 'VUF-2722' do
     shared_examples_for "good title results for 한국 근대사" do | query |
       it "titles match regex" do
         resp = solr_response({'q'=>cjk_q_arg('title', query), 'fl'=>'id,vern_title_display', 'facet'=>false} )
         resp.should include({'vern_title_display' => /한국[[:space:]]*근대[[:space:]]*사/i}).in_each_of_first(20)
       end
+      # 세계 속 한국 근대사 (Korean modern history in the world)
+      # 고쳐 쓴 한국 근대사 (Revised Korean modern history)
+      # 한국 근현대사 강의 (lecture on Korean modern and contemporary history)  includes the subject but not exactly top relevant topic.
+    
       # “한국 근대 의 사회 복지” (ckey: 6718961) and “통계로 본 한국 근현대사” (ckey: 6686526)
       it_behaves_like 'does not find irrelevant results', 'title', query, ['6718961', '6686526'], 'rows' => 45
     end
@@ -71,6 +75,6 @@ describe "Korean Titles", :korean => true do
       it_behaves_like "expected result size", 'title', '"한국 근대사"', 90, 125
       it_behaves_like "good title results for 한국 근대사", '"한국 근대사"'
     end
-  end # Hangul: Korea's modern history   VUF-2722
+  end # Hangul: Korean modern history   VUF-2722
 
 end
