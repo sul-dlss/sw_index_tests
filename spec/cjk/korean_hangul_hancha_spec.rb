@@ -21,4 +21,6 @@ describe "Korean: Hangul and Hancha scripts", :korean => true, :fixme => true do
     resp.should have_at_least(9).documents # 1928 in prod (2 korean), 4739 in soc (9 Korean)
   end
   
+  # Korean Home Bank:  한국주택은행  (hangul)  韓國住宅銀行  (hancha)
+  
 end

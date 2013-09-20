@@ -130,6 +130,26 @@ describe "Korean spacing", :korean => true do
   end # until the river  VUF-2744
   
 
+  context "Korean Home Bank  한국주택은행" do
+    shared_examples_for "good results for 한국주택은행" do | query |
+      it_behaves_like "good results for query", 'everything', query, 2, 2, '7682995', 1
+      it_behaves_like "best matches first", 'everything', query, '9163994', 2
+    end
+    context "한국주택은행 (no spaces)" do
+      it_behaves_like "good results for 한국주택은행", '한국주택은행'
+    end
+    context "한국  주택  은행 (2 spaces)" do
+      it_behaves_like "good results for 한국주택은행", '한국 주택 은행'
+    end
+    context "한국  주택은행 (first spaces)" do
+      it_behaves_like "good results for 한국주택은행", '한국 주택은행'
+    end
+    context "한국주택  은행 (last space)" do
+      it_behaves_like "good results for 한국주택은행", '한국주택 은행'
+    end
+  end # Korean Home Bank
+
+
   context "Korean economy" do
     shared_examples_for "good results for 한국경제" do | query |
       it_behaves_like "expected result size", 'everything', query, 600, 650
