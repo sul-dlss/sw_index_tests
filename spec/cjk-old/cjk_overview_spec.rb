@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
 
-describe "CJK Overview", :fixme => true, :vetted => 'vitus' do
+describe "CJK Overview", :fixme => true do
   
   shared_examples_for "gets expected number of results" do | query, query_type, num_exp |
     it "should have correct number of results" do

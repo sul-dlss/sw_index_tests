@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
 
-describe "Japanese Overview", :japanese => true do
+describe "Japanese Overview", :japanese => true, :fixme => true do
 
   lang_limit = {'fq'=>'language:Japanese'}
 

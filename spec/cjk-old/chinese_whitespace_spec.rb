@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
 
-describe "Chinese: Extraneous Spaces (from old RLIN records?)", :chinese => true do
+describe "Chinese: Extraneous Spaces (from old RLIN records?)", :chinese => true, :fixme => true do
 
   it "whitespace variants of 金瓶梅 (golden lotus) should get similar results" do
     resp = solr_resp_ids_from_query '金瓶梅' # 169 in soc as of 2012-11

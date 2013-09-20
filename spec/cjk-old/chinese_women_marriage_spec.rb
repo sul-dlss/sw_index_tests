@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
 
-describe "Chinese: Word Breaks - Women Marriage", :chinese => true do
+describe "Chinese: Women Marriage", :chinese => true, :fixme => true do
 
   # see also chinese_marriage_not_law spec for  women marriage law
 

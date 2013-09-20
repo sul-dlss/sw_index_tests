@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
 
-describe "Chinese: Single Character Searches", :chinese => true do
+describe "Chinese: Single Character Searches", :chinese => true, :fixme => true do
   
   it "title  飄 (float - gone with the wind) should get results", :vetted => 'vitus' do
     resp = solr_response(title_search_args('飄').merge({'fl'=>'id,vern_title_245a_display', 'facet'=>false})) 
