@@ -3,8 +3,6 @@ require 'spec_helper'
 
 describe "Korean spacing", :korean => true do
   
-  # TODO:  mixed scripts (Hangul + Hancha)
-
   context "Korea-U.S. alliance relations in the 21st century", :jira => 'VUF-2747' do
     shared_examples_for "good title results for 21세기의  한미동맹관계" do | query |
       it_behaves_like 'good results for query', 'title', query, 1, 6, '8375648', 1
@@ -186,6 +184,58 @@ describe "Korean spacing", :korean => true do
     context "한국 경제 의 미래 와 생존 전략 (6 spaces)" do
       it_behaves_like "good results for 한국  경제의  미래와  생존  전략", '한국 경제 의 미래 와 생존 전략'
     end
+  end
+
+
+  context "History of South Korea  한국의 역사" do
+    shared_examples_for "good results for 한국의 역사" do | query |
+      it_behaves_like "expected result size", 'everything', query, 490, 525
+    end
+    context "한국의 역사 (normal spacing)" do
+      it_behaves_like "good results for 한국의 역사", '한국의 역사'
+    end
+    context "한국 의 역사 (spacing in catalog)" do
+      it_behaves_like "good results for 한국의 역사", '한국 의 역사'
+    end
+  end
+
+  context "Experience and the type of novel  경험과 소설의 형식" do
+    shared_examples_for "good results for 경험과 소설의 형식" do | query |
+      it_behaves_like "good results for query", 'everything', query, 1, 4, '7875464', 1
+    end
+    context "경험과 소설의 형식 (normal spacing)" do
+      it_behaves_like "good results for 경험과 소설의 형식", '경험과 소설의 형식'
+    end
+    context "경험 과 소설 의 형식 (spacing in catalog)" do
+      it_behaves_like "good results for 경험과 소설의 형식", '경험 과 소설 의 형식'
+    end
+  end
+
+  context "hangul + hancha" do
+    context "開化期에서" do
+      shared_examples_for "good results for 開化期에서" do | query |
+        it_behaves_like "good results for query", 'everything', query, 1, 2, '7148651', 1
+      end
+      context "開化期에서 (normal spacing)" do
+        it_behaves_like "good results for 開化期에서", '開化期에서'
+      end
+      context " 開化期 에서 (spacing in catalog)" do
+        it_behaves_like "good results for 開化期에서", '開化期 에서'
+      end
+    end
+    context "韓民族의 主體性과 韓國史의 正統性" do
+      shared_examples_for "good results for 韓民族의 主體性과 韓國史의 正統性" do | query |
+        it_behaves_like "good results for query", 'everything', query, 1, 2, '7677363', 1
+      end
+      context "韓民族의 主體性과 韓國史의 正統性 (normal spacing)" do
+        it_behaves_like "good results for 韓民族의 主體性과 韓國史의 正統性", '韓民族의 主體性과 韓國史의 正統性'
+      end
+      context "韓民族 의 主體性 과 韓國史 의 正統性 (spacing in catalog)" do
+        it_behaves_like "good results for 韓民族의 主體性과 韓國史의 正統性", '韓民族 의 主體性 과 韓國史 의 正統性'
+      end
+    end
+    
+    
   end
 
 end
