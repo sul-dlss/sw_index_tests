@@ -22,5 +22,9 @@ describe "Korean: Hangul and Hancha scripts", :korean => true, :fixme => true do
   end
   
   # Korean Home Bank:  한국주택은행  (hangul)  韓國住宅銀行  (hancha)
+  # The growth of the Korean Economy: 
+  #    한국 경제 의 발전  hangul
+  #    韓國 經濟 의 發展    hancha 
+  #   한국 =  韓國,   경제 =  經濟,  발전 =  發展
   
 end
