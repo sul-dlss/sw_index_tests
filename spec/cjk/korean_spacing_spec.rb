@@ -162,7 +162,7 @@ describe "Korean spacing", :korean => true do
     context "한국 경제 (space)" do
       it_behaves_like "good results for 한국경제", '한국 경제'
     end
-  end
+  end # Korean economy
 
 
   context "Korean economic future and the survival strategies" do
@@ -184,8 +184,99 @@ describe "Korean spacing", :korean => true do
     context "한국 경제 의 미래 와 생존 전략 (6 spaces)" do
       it_behaves_like "good results for 한국  경제의  미래와  생존  전략", '한국 경제 의 미래 와 생존 전략'
     end
-  end
+  end # Korean economic future and the survival strategies
 
+
+  context "Korean economy at the turning point  전환기의 한국경제" do
+    shared_examples_for "good results for 전환기의 한국경제" do | query |
+      it_behaves_like "good results for query", 'everything', query, 3, 450, '7132960', 1
+    end
+    context "전환기의 한국경제  (normal spacing)" do
+      it_behaves_like "good results for 전환기의 한국경제", '전환기의 한국경제'
+      it_behaves_like "best matches first", 'everything', '전환기의 한국경제', '7774509', 2  # 245b
+      it_behaves_like "best matches first", 'everything', '전환기의 한국경제', '9724831', 3 # almost 245b
+    end
+    context "전환기 의 한국 경제 (spacing in catalog)" do
+      it_behaves_like "good results for 전환기의 한국경제", '전환기 의 한국 경제'
+    end
+  end # Korean economy at the turning point
+  context "Korea today  오늘의 한국" do
+    shared_examples_for "good results for 오늘의 한국" do | query |
+      it_behaves_like "good results for query", 'everything', query, 35, 50, '9652283', 1
+    end
+    context "오늘의 한국 (normal spacing)" do
+      it_behaves_like "good results for 오늘의 한국", '오늘의 한국'
+    end
+    context "오늘 의 한국 (spacing in catalog)" do
+      it_behaves_like "good results for 오늘의 한국", '오늘 의 한국'
+    end
+  end # Korea today
+  context "on the borderline  경계에서" do
+    shared_examples_for "good results for 경계에서" do | query |
+      it_behaves_like "good results for query", 'everything', query, 7, 15, '8838252', 1
+    end
+    context "경계에서 (normal spacing)" do
+      it_behaves_like "good results for 경계에서", '경계에서'
+    end
+    context "경계 에서 (spacing in catalog)" do
+      it_behaves_like "good results for 경계에서", '경계 에서'
+    end
+  end # on the borderline
+  context "World Inside Korea  한국속의 세계" do
+    shared_examples_for "good results for 한국속의 세계" do | query |
+      it_behaves_like "good results for query", 'everything', query, 12, 400, '7906866', 1
+    end
+    context "한국속의 세계 (normal spacing)" do
+      it_behaves_like "good results for 한국속의 세계", '한국속의 세계'
+    end
+    context " (spacing in catalog)" do
+      it_behaves_like "good results for 한국속의 세계", '한국 속 의 세계'
+    end
+  end # world inside korea
+  context "Society of North Korea  북한의 사회" do
+    shared_examples_for "good results for 북한의 사회" do | query |
+      it_behaves_like "good results for query", 'everything', query, 75, 80, ['9250730', '7158417'], 2
+    end
+    context "북한의 사회 (normal spacing)" do
+      it_behaves_like "good results for 북한의 사회", '북한의 사회'
+    end
+    context "북한 의 사회 (spacing in catalog)" do
+      it_behaves_like "good results for 북한의 사회", '북한 의 사회'
+    end
+  end # Society of North Korea
+  context "New writings on understanding of contemporary North Korea  새로 쓴 현대북한의 이해 " do
+    shared_examples_for "good results for 새로 쓴 현대북한의 이해" do | query |
+      it_behaves_like "good results for query", 'everything', query, 1, 1, '7755546', 1
+    end
+    context "새로 쓴 현대북한의 이해  (normal spacing)" do
+      it_behaves_like "good results for 새로 쓴 현대북한의 이해", '새로 쓴 현대북한의 이해'
+    end
+    context "새로 쓴 현대 북한 의 이해 (spacing in catalog)" do
+      it_behaves_like "good results for 새로 쓴 현대북한의 이해", '새로 쓴 현대 북한 의 이해'
+    end
+  end # New writings ...
+  context "Contemporary North Korean literature  북한의 현대문학" do
+    shared_examples_for "good results for 북한의 현대문학" do | query |
+      it_behaves_like "good results for query", 'everything', query, 4, 250, '6827379', 1
+    end
+    context "북한의 현대문학 (normal spacing)" do
+      it_behaves_like "good results for 북한의 현대문학", '북한의 현대문학'
+    end
+    context "북한 의 현대 문학 (spacing in catalog)" do
+      it_behaves_like "good results for 북한의 현대문학", '북한 의 현대 문학'
+    end
+  end # Contemporary North Korean literature
+  context "Art History of the Choson dynasty  조선미술사" do
+    shared_examples_for "good results for 조선미술사" do | query |
+      it_behaves_like "good results for query", 'everything', query, 15, 20, '7676909', 1
+    end
+    context "조선미술사 (normal spacing)" do
+      it_behaves_like "good results for 조선미술사", '조선미술사'
+    end
+    context "조선 미술사 (spacing in catalog)" do
+      it_behaves_like "good results for 조선미술사", '조선 미술사'
+    end
+  end  # Art History of the Choson dynasty
 
   context "History of South Korea  한국의 역사" do
     shared_examples_for "good results for 한국의 역사" do | query |
@@ -197,7 +288,7 @@ describe "Korean spacing", :korean => true do
     context "한국 의 역사 (spacing in catalog)" do
       it_behaves_like "good results for 한국의 역사", '한국 의 역사'
     end
-  end
+  end # History of South Korea
 
   context "Experience and the type of novel  경험과 소설의 형식" do
     shared_examples_for "good results for 경험과 소설의 형식" do | query |
@@ -209,7 +300,7 @@ describe "Korean spacing", :korean => true do
     context "경험 과 소설 의 형식 (spacing in catalog)" do
       it_behaves_like "good results for 경험과 소설의 형식", '경험 과 소설 의 형식'
     end
-  end
+  end # Experience and the type of novel
 
   context "hangul + hancha" do
     context "Analysis of Korean economy  韓國經濟의 分析" do
@@ -278,6 +369,6 @@ describe "Korean spacing", :korean => true do
         it_behaves_like "good results for 韓民族의 主體性과 韓國史의 正統性", '韓民族 의 主體性 과 韓國史 의 正統性'
       end
     end
-  end
+  end # hangul + hancha
 
 end
