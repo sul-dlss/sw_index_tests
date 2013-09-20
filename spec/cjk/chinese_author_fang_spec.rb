@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
 
-describe "Chinese Personal Name Author Searches", :chinese => true, :vetted => 'vitus' do
+describe "Chinese Personal Name Author Searches", :chinese => true do
 
   context "(Fang, Baochuan)" do
     shared_examples_for "great results for (Fang, Baochuan)" do |resp|
