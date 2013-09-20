@@ -35,6 +35,19 @@ shared_examples_for "best matches first" do | query_type, query, id_list, num, s
   end
 end
 
+shared_examples_for "good results for query" do | query_type, query, min, max, id_list, num, solr_params |
+  include_examples "expected result size", query_type, query, min, max, solr_params
+  include_examples "best matches first", query_type, query, id_list, num, solr_params
+end
+
+shared_examples_for "does not find irrelevant results" do | query_type, query, id_list, solr_params |
+  it "does not find #{id_list.inspect} in results" do
+    resp = cjk_query_resp_ids(query_type, query, solr_params ||= {})
+    resp.should_not include(id_list)
+  end
+end
+
+
 shared_examples_for "matches in short titles first" do | query_type, query, regex, num, solr_params |
   it "finds #{regex} in first #{num} titles" do
     solr_params ||= {}
@@ -62,14 +75,3 @@ shared_examples_for "matches in titles" do | query_type, query, regex, num, solr
   end
 end
 
-shared_examples_for "good results for query" do | query_type, query, min, max, id_list, num, solr_params |
-  include_examples "expected result size", query_type, query, min, max, solr_params
-  include_examples "best matches first", query_type, query, id_list, num, solr_params
-end
-
-shared_examples_for "does not find irrelevant results" do | query_type, query, id_list, solr_params |
-  it "does not find #{id_list.inspect} in results" do
-    resp = cjk_query_resp_ids(query_type, query, solr_params ||= {})
-    resp.should_not include(id_list)
-  end
-end
