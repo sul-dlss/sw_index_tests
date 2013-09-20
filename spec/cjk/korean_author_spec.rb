@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe "Korean spacing", :korean => true do
   
-  context "author: Ŭn, Hŭi-gyŏng", :jira => 'VUF-2729' do
+  context "Ŭn, Hŭi-gyŏng", :jira => 'VUF-2729' do
     #  "top 15 results are all relevant for searches both with and without whitespace between author’s last and first name."
     relevant = ['9628681',
                 '8814719',
@@ -34,9 +34,10 @@ describe "Korean spacing", :korean => true do
     context "은 희경 (spaces:  은: last name  희경:first name)" do
       it_behaves_like "good author results for 은희경", '은희경'
     end
-  end # author: Ŭn, Hŭi-gyŏng  VUF-2729
+  end # Ŭn, Hŭi-gyŏng  VUF-2729
 
-  context "author: Kang, In-ch'ŏl", :jira => 'VUF-2721' do
+
+  context "Kang, In-ch'ŏl", :jira => 'VUF-2721' do
     chars_together_in_100 = ['6914120', '6724932']
     chars_w_space_in_100_space = ['9954769',  # as  강 인철
                               '9927817',
@@ -70,6 +71,27 @@ describe "Korean spacing", :korean => true do
         it_behaves_like "good everything results for 강인철", '강 인철'
       end
     end
-  end # author   Kang, In-ch'ŏl  VUF-2721
+  end # Kang, In-ch'ŏl  VUF-2721
+
+
+  context "Han, Yŏng-u" do
+    shared_examples_for "good author results for 한영우" do | query |
+      it_behaves_like "expected result size", 'author', query, 29, 35      
+      #  7142656:   김영우 (different last name), and the character "한" appears in the "contributor" field, "한국 교육사 학회."
+      it_behaves_like 'does not find irrelevant results', 'author', query, '7142656', 'rows' => 30
+      it "author matches regex" do
+        resp = solr_response({'q'=>cjk_q_arg('author', query), 'fl'=>'id,vern_author_person_display', 'facet'=>false, 'rows' => 30})
+        resp.should include({'vern_author_person_display' => /한[[:space:]]*영우/}).in_each_of_first(25)
+      end
+    end
+    context "author search" do
+      context "한영우 (no spaces)" do
+        it_behaves_like "good author results for 한영우", '한영우'
+      end
+      context "한 영우 (spaces: 한 last name, 영우 first name)" do
+        it_behaves_like "good author results for 한영우", '한 영우'
+      end
+    end
+  end # Han, Yŏng-u
 
 end
