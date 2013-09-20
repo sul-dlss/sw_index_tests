@@ -44,13 +44,13 @@ describe "Chinese: Marriage NOT Marriage Law", :chinese => true do
   context "妇女 婚姻 法 simplified woman/marriage/law WITH spaces" do
     it_behaves_like "great results for woman marriage law", solr_resp_ids_from_query("妇女 婚姻 法")
   end
-  context "妇女婚姻法 simplified woman/marriage/law withOUT spaces", :fixme => true do
+  context "妇女婚姻法 simplified woman/marriage/law withOUT spaces" do
     it_behaves_like "great results for woman marriage law", solr_resp_ids_from_query("妇女婚姻法")
   end
   context "婦女 婚姻 法 traditional woman/marriage/law WITH spaces" do
     it_behaves_like "great results for woman marriage law", solr_resp_ids_from_query("婦女 婚姻 法")
   end
-  context "婦女 婚姻 法 traditional woman/marriage/law withOUT spaces", :fixme => true do
+  context "婦女 婚姻 法 traditional woman/marriage/law withOUT spaces" do
     it_behaves_like "great results for woman marriage law", solr_resp_ids_from_query("婦女婚姻法")
   end
   
