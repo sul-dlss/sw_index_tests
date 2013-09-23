@@ -56,14 +56,15 @@ describe "Japanese Everything Searches", :japanese => true do
     end
   end
 
-# FIXME DO THIS ONE  
-  context "manchuria" do
-    it_behaves_like "both scripts get expected result size", 'everything', 'katakana', 'マンチュリヤ', 'kanji', '満洲', 350, 400
+  context "manchuria", :jira => ['VUF-2712', 'VUF-2713'] do
     context "katakana", :jira => 'VUF-2712' do
-      it_behaves_like "expected result size", 'everything', ' マンチュリヤ', 1, 2
+      it_behaves_like "good results for query", 'everything', ' マンチュリヤ', 2, 3, ['6326474', '9375973'], 2
     end
     context "kanji", :jira => 'VUF-2713' do
-      it_behaves_like "expected result size", 'everything', "満洲", 362, 415
+      it_behaves_like "result size and vern short title matches first", 'everything', '満洲', 362, 415, /満洲/, 100
+      context "w lang limit" do
+        it_behaves_like "result size and vern short title matches first", 'everything', '満洲', 362, 400, /満洲/, 100, lang_limit
+      end
     end
   end
 
@@ -83,7 +84,7 @@ describe "Japanese Everything Searches", :japanese => true do
   context "seven wonders of sassafras springs  ササフラス・スプリングスの七不思議", :jira => 'VUF-2709' do
     it_behaves_like "expected result size", 'everything', 'ササフラス・スプリングスの七不思議', 1, 1
   end
-  context "survey/investigation", :jira => 'VUF-2727' do
+  context "survey/investigation", :jira => 'VUF-2727', :fixme => true do
     it_behaves_like "both scripts get expected result size", 'everything', 'traditional', ' 調查', 'modern', '調査', 100, 12000
   end
   context "TPP", :jira => 'VUF-2694' do
