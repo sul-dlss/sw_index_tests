@@ -7,7 +7,7 @@ describe "Japanese Everything Searches", :japanese => true do
 
   context "buddhism", :jira => 'VUF-2724' do
     # FIXME:  first character of traditional doesn't translate to first char of 
-    #  modern with ICU traditional->simplified    (see also japanese han variants)
+    #  modern with ICU traditional->simplified    (see also japanese_han_variants_spec)
     context "traditional 佛教" do
       it_behaves_like "result size and vern short title matches first", 'everything', '佛教', 1400, 1500, /佛教/, 100
       context "w lang limit" do
@@ -26,7 +26,7 @@ describe "Japanese Everything Searches", :japanese => true do
 
   context 'Edo (old name for Tokyo)', :jira => ['VUF-2726', 'VUF-2770'] do
     # FIXME:  second character of traditional doesn't translate to second char of 
-    #  modern with ICU traditional->simplified    (see also japanese han variants)
+    #  modern with ICU traditional->simplified    (see also japanese_han_variants_spec)
     context "traditional 江戶" do
       it_behaves_like "result size and vern short title matches first", 'everything', '江戶', 1900, 2000, /江戶/, 100
       context "w lang limit" do
@@ -57,6 +57,7 @@ describe "Japanese Everything Searches", :japanese => true do
   end
 
   context "manchuria", :jira => ['VUF-2712', 'VUF-2713'] do
+    # FIXME:  we currently have no katakana <-> han mapping.  (see also japanese_katakana_han_spec)
     context "katakana", :jira => 'VUF-2712' do
       it_behaves_like "good results for query", 'everything', ' マンチュリヤ', 2, 3, ['6326474', '9375973'], 2
     end
@@ -69,8 +70,8 @@ describe "Japanese Everything Searches", :japanese => true do
   end
 
   context "outside of Japan", :jira => 'VUF-2699' do
-    # Socrates everything search for 日外:2411 
-    # (this is closer to what I would expect for this very general search, the Searchworks result makes me wonder)
+    # Socrates everything search for 日外:2411  (this is closer to what I would expect
+    #  for this very general search; the Searchworks result makes me wonder)
     it_behaves_like "result size and vern short title matches first", 'everything', '日外', 500, 2500, /日外/, 35
   end
   context "publisher's name starting with 'outside of Japan'", :jira => 'VUF-2699' do
@@ -79,14 +80,17 @@ describe "Japanese Everything Searches", :japanese => true do
   end
 
   context "seven wonders 七不思議", :jira => 'VUF-2710' do
-    it_behaves_like "expected result size", 'everything', '七不思議', 3, 3
+    it_behaves_like "result size and vern short title matches first", 'everything', '七不思議', 3, 3, /七不思議/, 1
   end
+
   context "seven wonders of sassafras springs  ササフラス・スプリングスの七不思議", :jira => 'VUF-2709' do
-    it_behaves_like "expected result size", 'everything', 'ササフラス・スプリングスの七不思議', 1, 1
+    it_behaves_like "result size and vern short title matches first", 'everything', 'ササフラス・スプリングスの七不思議', 1, 1, /七不思議/, 1
   end
+
   context "survey/investigation", :jira => 'VUF-2727', :fixme => true do
     it_behaves_like "both scripts get expected result size", 'everything', 'traditional', ' 調查', 'modern', '調査', 100, 12000
   end
+
   context "TPP", :jira => 'VUF-2694' do
     it_behaves_like "expected result size", 'everything', 'TPP', 69, 80
   end    
