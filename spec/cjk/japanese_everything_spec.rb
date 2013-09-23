@@ -40,14 +40,22 @@ describe "Japanese Everything Searches", :japanese => true do
       end
     end
   end
-  
-  
-  context "Japan   China   thought", :jira => 'VUF-2737' do
-    it_behaves_like "expected result size", 'everything', '日本   中国   思想', 52, 55
+    
+  context "Japan China thought", :jira => 'VUF-2737' do
+    it_behaves_like "expected result size", 'everything', '日本  中国  思想', 65, 70
+    context "w lang limit" do
+      it_behaves_like "expected result size", 'everything', '日本  中国  思想', 32, 40, lang_limit
+    end
   end
+  
   context '(local/regional society)', :jira => 'VUF-2717' do
-    it_behaves_like "expected result size", 'everything', '"地域社会', 400, 425
+    it_behaves_like "expected result size", 'everything', '"地域社会', 490, 525
+    it_behaves_like "matches in vern short titles first", 'everything', '地域社会', /^地域社会$/, 1  # exact title match
+    context "w lang limit" do
+      it_behaves_like "expected result size", 'everything', '"地域社会', 430, 450, lang_limit
+    end
   end
+  
   context "manchuria" do
     it_behaves_like "both scripts get expected result size", 'everything', 'katakana', 'マンチュリヤ', 'kanji', '満洲', 350, 400
     context "katakana", :jira => 'VUF-2712' do
