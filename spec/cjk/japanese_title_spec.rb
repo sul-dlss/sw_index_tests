@@ -9,7 +9,7 @@ describe "Japanese Title searches", :japanese => true do
     it_behaves_like "expected result size", 'title', 'ブロック化', 1, 15
     it_behaves_like "best matches first", 'title', 'ブロック化', '9855019', 1
   end
-  context "buddhism", :jira => ['VUF-2724', 'VUF-2725'] do
+  context "buddhism", :jira => 'VUF-2725' do
     # FIXME:  first character of traditional doesn't translate to first char of 
     #  modern with ICU traditional->simplified    (see also japanese han variants)
     context "traditional 佛教" do
