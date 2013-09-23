@@ -10,15 +10,22 @@ describe "Japanese Title searches", :japanese => true do
     it_behaves_like "best matches first", 'title', 'ブロック化', '9855019', 1
   end
   context "buddhism", :jira => ['VUF-2724', 'VUF-2725'] do
-# FIXME:  First character of traditional doesn't translate to first char of modern
-#      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '佛教', 'modern', '仏教', 1150, 2000
-    # modern
-    it_behaves_like "expected result size", 'title', '仏教', 773, 2000
-    it_behaves_like "matches in short titles first", 'title', '仏教', /^仏教[\s[[:punct:]]]*$/, 3
-    it_behaves_like "matches in short titles first", 'title', '仏教', /仏教/, 100
-    # traditional
-    it_behaves_like "expected result size", 'title', '佛教', 773, 2000
-    it_behaves_like "matches in short titles first", 'title', '佛教', /佛教/, 100
+    # FIXME:  first character of traditional doesn't translate to first char of 
+    #  modern with ICU traditional->simplified    (see also japanese han variants)
+    context "traditional 佛教" do
+      it_behaves_like "result size and short title matches first", 'title', '佛教', 1100, 1250, /佛教/, 100
+      context "w lang limit" do
+        it_behaves_like "result size and short title matches first", 'title', '佛教', 160, 175, /佛教/, 100, lang_limit
+      end
+    end
+    context "modern 仏教" do
+      it_behaves_like "result size and short title matches first", 'title', '仏教', 775, 850, /仏教/, 100
+      exact_245a = ['6854317', '4162614', '6276328', '10243029', '10243045', '10243039']
+      it_behaves_like "matches in short titles first", 'title', '仏教', /^仏教[^[[:alnum:]]]*$/, 3  # exact title match
+      context "w lang limit" do
+        it_behaves_like "result size and short title matches first", 'title', '仏教', 765, 825, /仏教/, 100, lang_limit
+      end
+    end
   end
   context "editorial" do
     it_behaves_like "both scripts get expected result size", 'title', 'traditional', '論說', 'modern', '論説', 50, 100, lang_limit
