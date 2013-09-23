@@ -26,7 +26,8 @@ describe "Japanese Author Searches", :japanese => true do
   context "高橋 (common personal name)", :jira => 'VUF-2711' do
     it_behaves_like "expected result size", 'author', '高橋', 1021, 1050
   end
-  context "personal name  契沖", :fixme => true do
+  context "personal name  契沖", :jira => 'VUF-2772', :fixme => true do
+    # There are several kanji conversions, such as ”けいちゅう”　<=>  契沖,  傾注　 景中,  刑中, etc.,
     it_behaves_like "both scripts get expected result size", 'author', 'kanji', '契沖', 'hiragana', 'けいちゅう', 5, 5
   end
   context "personal name: kanji surname  釘貫 (surname of 釘貫亨)" do
