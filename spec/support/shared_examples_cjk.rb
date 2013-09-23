@@ -56,6 +56,10 @@ shared_examples_for "matches in short titles first" do | query_type, query, rege
     resp.should include({'vern_title_245a_display' => regex}).in_each_of_first(num)
   end
 end
+shared_examples_for "result size and short title matches first" do | query_type, query, min, max, regex, num, solr_params |
+  include_examples "expected result size", query_type, query, min, max, solr_params
+  include_examples "matches in short titles first", query_type, query, regex, num, solr_params
+end
 
 shared_examples_for "matches in titles first" do | query_type, query, regex, num, solr_params |
   it "finds #{regex} in first #{num} titles" do
@@ -64,6 +68,10 @@ shared_examples_for "matches in titles first" do | query_type, query, regex, num
     resp = solr_response({'q' => cjk_q_arg(query_type, query), 'fl'=>'id,vern_title_full_display', 'facet'=>false}.merge(solr_params))
     resp.should include({'vern_title_full_display' => regex}).in_each_of_first(num)
   end
+end
+shared_examples_for "result size and title matches first" do | query_type, query, min, max, regex, num, solr_params |
+  include_examples "expected result size", query_type, query, min, max, solr_params
+  include_examples "matches in titles first", query_type, query, regex, num, solr_params
 end
 
 shared_examples_for "matches in titles" do | query_type, query, regex, num, solr_params |
