@@ -87,8 +87,19 @@ describe "Japanese Everything Searches", :japanese => true do
     it_behaves_like "result size and vern short title matches first", 'everything', 'ササフラス・スプリングスの七不思議', 1, 1, /七不思議/, 1
   end
 
-  context "survey/investigation", :jira => 'VUF-2727', :fixme => true do
-    it_behaves_like "both scripts get expected result size", 'everything', 'traditional', ' 調查', 'modern', '調査', 100, 12000
+  context "survey/investigation (kanji)", :jira => 'VUF-2727' do
+    # FIXME:  second trad char isn't translated to modern by ICU trad-simp
+    #  (see also japanese_han_variants_spec)
+    context "traditional 調查" do
+      # NOTE:   调查  => chinese simplified
+      it_behaves_like "result size and vern short title matches first", 'everything', '調查', 7000, 12000, /(調查|调查)/, 100
+      context "w lang limit" do
+        it_behaves_like "result size and vern short title matches first", 'everything', '調查', 7000, 8000, /調查/, 100, lang_limit
+      end
+    end
+    context "modern 調査" do
+      it_behaves_like "result size and vern short title matches first", 'everything', '調査', 100, 115, /調査/, 25
+    end
   end
 
   context "TPP", :jira => 'VUF-2694' do
