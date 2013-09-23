@@ -23,7 +23,7 @@ describe "Japanese Everything Searches", :japanese => true do
       end
     end
   end
-  
+
   context 'Edo (old name for Tokyo)', :jira => ['VUF-2726', 'VUF-2770'] do
     # FIXME:  second character of traditional doesn't translate to second char of 
     #  modern with ICU traditional->simplified    (see also japanese han variants)
@@ -40,14 +40,14 @@ describe "Japanese Everything Searches", :japanese => true do
       end
     end
   end
-    
+
   context "Japan China thought", :jira => 'VUF-2737' do
     it_behaves_like "expected result size", 'everything', '日本  中国  思想', 65, 70
     context "w lang limit" do
       it_behaves_like "expected result size", 'everything', '日本  中国  思想', 32, 40, lang_limit
     end
   end
-  
+
   context '(local/regional society)', :jira => 'VUF-2717' do
     it_behaves_like "expected result size", 'everything', '"地域社会', 490, 525
     it_behaves_like "matches in vern short titles first", 'everything', '地域社会', /^地域社会$/, 1  # exact title match
@@ -55,7 +55,8 @@ describe "Japanese Everything Searches", :japanese => true do
       it_behaves_like "expected result size", 'everything', '"地域社会', 430, 450, lang_limit
     end
   end
-  
+
+# FIXME DO THIS ONE  
   context "manchuria" do
     it_behaves_like "both scripts get expected result size", 'everything', 'katakana', 'マンチュリヤ', 'kanji', '満洲', 350, 400
     context "katakana", :jira => 'VUF-2712' do
@@ -65,12 +66,17 @@ describe "Japanese Everything Searches", :japanese => true do
       it_behaves_like "expected result size", 'everything', "満洲", 362, 415
     end
   end
+
   context "outside of Japan", :jira => 'VUF-2699' do
-    it_behaves_like "expected result size", 'everything', '日外', 2000, 2450
+    # Socrates everything search for 日外:2411 
+    # (this is closer to what I would expect for this very general search, the Searchworks result makes me wonder)
+    it_behaves_like "result size and vern short title matches first", 'everything', '日外', 500, 2500, /日外/, 35
   end
   context "publisher's name starting with 'outside of Japan'", :jira => 'VUF-2699' do
-    it_behaves_like "expected result size", 'everything', '日外アソシエーツ', 455, 525
+    it_behaves_like "expected result size", 'everything', '日外アソシエーツ', 500, 600
+    it_behaves_like "matches in vern corp authors first", 'everything', '日外アソシエーツ', /日外アソシエーツ/, 2
   end
+
   context "seven wonders 七不思議", :jira => 'VUF-2710' do
     it_behaves_like "expected result size", 'everything', '七不思議', 3, 3
   end
