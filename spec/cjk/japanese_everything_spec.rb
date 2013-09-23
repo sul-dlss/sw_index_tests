@@ -5,6 +5,13 @@ describe "Japanese Everything Searches", :japanese => true do
 
   lang_limit = {'fq'=>'language:Japanese'}
 
+  context "1900 (year)", :jira => 'VUF-2754' do
+    it_behaves_like "expected result size", 'everything', '千九百年', 25, 35
+    context "w lang limit" do
+      it_behaves_like "expected result size", 'everything', '千九百年', 3, 5, lang_limit
+    end
+  end
+
   context "buddhism", :jira => 'VUF-2724' do
     # FIXME:  first character of traditional doesn't translate to first char of 
     #  modern with ICU traditional->simplified    (see also japanese_han_variants_spec)
