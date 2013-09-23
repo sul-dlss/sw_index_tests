@@ -9,10 +9,8 @@ describe "Japanese Kanji variants", :japanese => true, :fixme => true do
     context "buddhism", :jira => ['VUF-2724', 'VUF-2725'] do
       # First char of traditional doesn't translate to first char of modern with ICU traditional->simplified 
       it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '佛教', 'modern', '仏教', 2200, 2300
-      # trad 佛教
-      it_behaves_like "result size and vern short title matches first", 'everything', '佛教', 2200, 2300, /(佛教|仏教)/, 100
-      # modern 仏教
-      it_behaves_like "result size and vern short title matches first", 'everything', '仏教', 2200, 2300, /(佛教|仏教)/, 100
+      it_behaves_like "matches in vern short titles first", 'everything', '佛教', /(佛教|仏教)/, 100
+      it_behaves_like "matches in vern short titles first", 'everything', '仏教', /(佛教|仏教)/, 100
       exact_245a = ['6854317', '4162614', '6276328', '10243029', '10243045', '10243039']
       it_behaves_like "matches in vern short titles first", 'everything', '仏教', /^(佛教|仏教)[^[[:alnum:]]]*$/, 5  # exact title match
       context "w lang limit" do
@@ -38,9 +36,22 @@ describe "Japanese Kanji variants", :japanese => true, :fixme => true do
       end
     end
 
+    context "survey/investigation (kanji)", :jira => 'VUF-2727' do
+      # second trad char isn't translated to modern by ICU trad-simp
+      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', ' 調查', 'modern', '調査', 7000, 12000
+      # exact title match
+      it_behaves_like "matches in vern short titles first", 'everything', '調查', /^(調查|調査)[^[[:alnum:]]]*$/, 1
+      it_behaves_like "matches in vern short titles first", 'everything', '調査', /^(調查|調査)[^[[:alnum:]]]*$/, 1
+      context "w lang limit" do
+        it_behaves_like "both scripts get expected result size", 'everything', 'traditional', ' 調查', 'modern', '調査', 7000, 8000, lang_limit
+        it_behaves_like "matches in vern short titles first", 'everything', '調查', /(調查|調査)/, 100  # trad
+        it_behaves_like "matches in vern short titles first", 'everything', '調査', /(調查|調査)/, 100   # modern
+        # exact title match
+        it_behaves_like "matches in vern short titles first", 'everything', '調查', /^(調查|調査)[^[[:alnum:]]]*$/, 1
+        it_behaves_like "matches in vern short titles first", 'everything', '調査', /^(調查|調査)[^[[:alnum:]]]*$/, 1
+      end      
+    end
 
   end # modern Kanji != simplified Han
-
-
 
 end
