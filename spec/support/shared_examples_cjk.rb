@@ -48,7 +48,7 @@ shared_examples_for "does not find irrelevant results" do | query_type, query, i
 end
 
 
-shared_examples_for "matches in short titles first" do | query_type, query, regex, num, solr_params |
+shared_examples_for "matches in vern short titles first" do | query_type, query, regex, num, solr_params |
   it "finds #{regex} in first #{num} titles" do
     solr_params ||= {}
     solr_params.merge!('rows'=>num) if num > 20
@@ -56,12 +56,12 @@ shared_examples_for "matches in short titles first" do | query_type, query, rege
     resp.should include({'vern_title_245a_display' => regex}).in_each_of_first(num)
   end
 end
-shared_examples_for "result size and short title matches first" do | query_type, query, min, max, regex, num, solr_params |
+shared_examples_for "result size and vern short title matches first" do | query_type, query, min, max, regex, num, solr_params |
   include_examples "expected result size", query_type, query, min, max, solr_params
-  include_examples "matches in short titles first", query_type, query, regex, num, solr_params
+  include_examples "matches in vern short titles first", query_type, query, regex, num, solr_params
 end
 
-shared_examples_for "matches in titles first" do | query_type, query, regex, num, solr_params |
+shared_examples_for "matches in vern titles first" do | query_type, query, regex, num, solr_params |
   it "finds #{regex} in first #{num} titles" do
     solr_params ||= {}
     solr_params.merge!('rows'=>num) if num > 20
@@ -69,12 +69,12 @@ shared_examples_for "matches in titles first" do | query_type, query, regex, num
     resp.should include({'vern_title_full_display' => regex}).in_each_of_first(num)
   end
 end
-shared_examples_for "result size and title matches first" do | query_type, query, min, max, regex, num, solr_params |
+shared_examples_for "result size and vern title matches first" do | query_type, query, min, max, regex, num, solr_params |
   include_examples "expected result size", query_type, query, min, max, solr_params
-  include_examples "matches in titles first", query_type, query, regex, num, solr_params
+  include_examples "matches in vern titles first", query_type, query, regex, num, solr_params
 end
 
-shared_examples_for "matches in titles" do | query_type, query, regex, num, solr_params |
+shared_examples_for "matches in vern titles" do | query_type, query, regex, num, solr_params |
   it "finds #{regex} in titles" do
     solr_params ||= {}
     solr_params.merge!('rows'=>num) if num > 20
@@ -82,4 +82,18 @@ shared_examples_for "matches in titles" do | query_type, query, regex, num, solr
     resp.should include({'vern_title_full_display' => regex})
   end
 end
+
+shared_examples_for "matches in vern corp authors first" do | query_type, query, regex, num, solr_params |
+  it "finds #{regex} in first #{num} titles" do
+    solr_params ||= {}
+    solr_params.merge!('rows'=>num) if num > 20
+    resp = solr_response({'q' => cjk_q_arg(query_type, query), 'fl'=>'id,vern_title_245a_display', 'facet'=>false}.merge(solr_params))
+    resp.should include({'vern_author_person_display' => regex}).in_each_of_first(num)
+  end
+end
+shared_examples_for "result size and vern corp author first" do | query_type, query, min, max, regex, num, solr_params |
+  include_examples "expected result size", query_type, query, min, max, solr_params
+  include_examples "matches in vern corp authors first", query_type, query, regex, num, solr_params
+end
+
 
