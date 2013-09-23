@@ -56,11 +56,19 @@ describe "Japanese Everything Searches", :japanese => true do
   end
 
   context '(local/regional society)', :jira => 'VUF-2717' do
-    it_behaves_like "expected result size", 'everything', '"地域社会', 490, 525
+    it_behaves_like "expected result size", 'everything', '地域社会', 490, 525
     it_behaves_like "matches in vern short titles first", 'everything', '地域社会', /^地域社会$/, 1  # exact title match
     context "w lang limit" do
-      it_behaves_like "expected result size", 'everything', '"地域社会', 430, 450, lang_limit
+      it_behaves_like "expected result size", 'everything', '地域社会', 430, 450, lang_limit
     end
+  end
+
+  context '(local/regional society - longer)', :jira => 'VUF-2716' do
+    it_behaves_like "good results for query", 'everything', '地域社会から見る', 1, 5, '10221504', 1
+  end
+
+  context '(local/regional society - all of Japan)', :jira => 'VUF-2714' do
+    it_behaves_like "good results for query", 'everything', '地域社会から見る帝国日本と植民地', 1, 3, '10221504', 1
   end
 
   context "manchuria", :jira => ['VUF-2712', 'VUF-2713'] do
