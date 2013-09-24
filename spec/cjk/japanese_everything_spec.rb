@@ -55,6 +55,10 @@ describe "Japanese Everything Searches", :japanese => true do
     end
   end
 
+  context "kawaru no ka  変わるのか", :jira => 'VUF-2802' do
+    it_behaves_like "result size and vern title matches first", 'everything', '変わるのか', 30, 35, /変わるのか/, 4
+  end
+
   context '(local/regional society)', :jira => 'VUF-2717' do
     it_behaves_like "expected result size", 'everything', '地域社会', 490, 525
     it_behaves_like "matches in vern short titles first", 'everything', '地域社会', /^地域社会$/, 1  # exact title match
@@ -115,6 +119,10 @@ describe "Japanese Everything Searches", :japanese => true do
     context "modern 調査" do
       it_behaves_like "result size and vern short title matches first", 'everything', '調査', 100, 115, /調査/, 25
     end
+  end
+
+  context "Takamatsu Tumulus", :jira => 'VUF-2801' do
+    it_behaves_like "result size and vern short title matches first", 'everything', '高松 塚古墳', 6, 8, /高松\s*塚古墳/, 1
   end
 
   context "TPP", :jira => 'VUF-2694' do
