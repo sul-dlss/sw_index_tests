@@ -36,6 +36,13 @@ describe "Japanese Kanji variants", :japanese => true, :fixme => true do
       end
     end
 
+    context 'Jien (personal name)', :jira => 'VUF-2779' do
+      # Second char of traditional doesn't translate to second char of modern with ICU traditional->simplified 
+      it_behaves_like "both scripts get expected result size", 'author', 'traditional', '慈圓', 'modern', '慈円', 13, 20
+      it_behaves_like "matches in vern person authors first", 'author', '慈圓', /(慈圓|慈円)/, 4
+      it_behaves_like "matches in vern person authors first", 'author', '慈円', /(慈圓|慈円)/, 4
+    end
+
     context "survey/investigation (kanji)", :jira => 'VUF-2727' do
       # second trad char isn't translated to modern by ICU trad-simp
       it_behaves_like "both scripts get expected result size", 'everything', 'traditional', ' 調查', 'modern', '調査', 7000, 12000

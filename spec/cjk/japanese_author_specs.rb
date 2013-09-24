@@ -5,8 +5,7 @@ describe "Japanese Author Searches", :japanese => true do
 
   lang_limit = {'fq'=>'language:Japanese'}
   
-  context "buddhism", :jira => 'VUF-2723' do
-    # corporate author
+  context "buddhism (corporate author)", :jira => 'VUF-2723' do
     # FIXME:  first character of traditional doesn't translate to first char of 
     #  modern with ICU traditional->simplified    (see also japanese han variants)
     context "traditional 佛教" do
@@ -20,6 +19,17 @@ describe "Japanese Author Searches", :japanese => true do
       context "w lang limit" do
         it_behaves_like "result size and vern corp author matches first", 'author', '仏教', 80, 90, /仏教/, 2, lang_limit
       end
+    end
+  end
+
+  context "Jien (personal name)", :jira => 'VUF-2779' do
+    # FIXME:  second character of traditional doesn't translate to second char of 
+    #  modern with ICU traditional->simplified    (see also japanese han variants)
+    context "modern" do
+      it_behaves_like "result size and vern person author matches first", 'author', '慈円', 10, 15, /慈円/, 3
+    end
+    context "traditional" do
+      it_behaves_like "result size and vern person author matches first", 'author', '慈圓', 2, 15, /慈圓/, 1
     end
   end
 
