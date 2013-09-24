@@ -102,7 +102,7 @@ describe "Japanese Title searches", :japanese => true do
     it_behaves_like "expected result size", 'title', '海外渡航者人物事典', 1, 1
     it_behaves_like "best matches first", 'title', '海外渡航者人物事典', '5746725', 1
   end
-  context "pseudonym usage (modern, mixed)" do
+  context "pseudonym usage (modern, mixed scripts)" do
     it_behaves_like "good results for query", 'title', '近世仮名遣い', 1, 1, '7926218', 1
     it_behaves_like "good results for query", 'title', '近世仮名  遣い', 1, 1, '7926218', 1
     it_behaves_like "good results for query", 'title', '近世仮名  遣い論の研究', 1, 1, '7926218', 1
@@ -150,6 +150,7 @@ describe "Japanese Title searches", :japanese => true do
     end
   end
   context "Tsu child remains lantern shop", :jira => 'VUF-2701' do
+    # hiragana, kanji, katakana scripts all here
     it_behaves_like "expected result size", 'title', 'ちょうちん屋のままッ子', 1, 1
     it_behaves_like "best matches first", 'title', 'ちょうちん屋のままッ子', '10181601', 1   # in 245a
   end
