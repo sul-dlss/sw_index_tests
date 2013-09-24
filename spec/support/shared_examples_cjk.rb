@@ -20,12 +20,8 @@ end
 
 shared_examples_for "both scripts get expected result size" do | query_type, script_name1, query1, script_name2, query2, min, max, solr_params |
   include_examples "search results are same size", query_type, query1, query2, solr_params
-  context "#{script_name1}: #{query1}" do
-    include_examples "expected result size", query_type, query1, min, max, solr_params
-  end
-  context "#{script_name2}: #{query2}" do
-    include_examples "expected result size", query_type, query2, min, max, solr_params
-  end
+  include_examples "expected result size", query_type, query1, min, max, solr_params
+  include_examples "expected result size", query_type, query2, min, max, solr_params
 end
 
 shared_examples_for "best matches first" do | query_type, query, id_list, num, solr_params |
