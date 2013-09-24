@@ -49,10 +49,11 @@ describe "Japanese Author Searches", :japanese => true do
     it_behaves_like "result size and vern person author matches first", 'author', '高橋', 1021, 1075, /高橋/, 100
   end
 
-  context "personal name: kanji surname  釘貫 (surname of 釘貫亨)" do
-    it_behaves_like "expected result size", 'author', '釘貫', 1, 1
-    it_behaves_like "expected result size", 'author', '釘貫亨', 1, 1
+  context "Kuginuki (personal name): kanji surname  釘貫 (surname of 釘貫亨)" do
+    it_behaves_like "good results for query", 'author', '釘貫', 1, 1, '7926218', 1
+    it_behaves_like "good results for query", 'author', '釘貫亨', 1, 1, '7926218', 1
   end
+
   context "South Manchurian Railroad Company", :jira => ['VUF-2736', 'VUF-2739'], :fixme => true do
     it_behaves_like "both scripts get expected result size", 'author', 'modern', '南満州鉄道株式会社', 'traditional', '南滿洲鐵道株式會社', 400, 700
   end
