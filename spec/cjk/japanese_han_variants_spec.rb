@@ -56,7 +56,16 @@ describe "Japanese Kanji variants", :japanese => true, :fixme => true do
         # exact title match
         it_behaves_like "matches in vern short titles first", 'everything', '調查', /^(調查|調査)[^[[:alnum:]]]*$/, 1
         it_behaves_like "matches in vern short titles first", 'everything', '調査', /^(調查|調査)[^[[:alnum:]]]*$/, 1
-      end      
+      end
+    end
+
+    context "South Manchurian Railroad Company (kanji)", :jira => ['VUF-2736', 'VUF-2739'] do
+      # 4th and 8th trad chars isn't translated to modern by ICU trad-simp
+      it_behaves_like "both scripts get expected result size", 'author', 'modern', '南満州鉄道株式会社', 'traditional', '南滿洲鐵道株式會社', 690, 750
+      # note: Han simplified:  南滿洲鐵道株式会社
+      it_behaves_like "matches in vern corp authors first", 'author', '南滿洲鐵道株式會社', /(南滿洲鐵道株式會社|南滿洲鐵道株式会社|南満州鉄道株式会社)/, 100
+      it_behaves_like "matches in vern corp authors first", 'author', '南滿洲鐵道株式会社', /(南滿洲鐵道株式會社|南滿洲鐵道株式会社|南満州鉄道株式会社)/, 100
+      it_behaves_like "matches in vern corp authors first", 'author', '南満州鉄道株式会社', /(南滿洲鐵道株式會社|南滿洲鐵道株式会社|南満州鉄道株式会社)/, 100
     end
 
   end # modern Kanji != simplified Han
