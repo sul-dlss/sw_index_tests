@@ -106,6 +106,7 @@ describe "Japanese Title searches", :japanese => true do
     it_behaves_like "good results for query", 'title', '近世仮名遣い', 1, 1, '7926218', 1
     it_behaves_like "good results for query", 'title', '近世仮名  遣い', 1, 1, '7926218', 1
     it_behaves_like "good results for query", 'title', '近世仮名  遣い論の研究', 1, 1, '7926218', 1
+    it_behaves_like "good results for query", 'title', '近世仮名遣い論の研究', 1, 1, '7926218', 1
   end
   context "sports  スポーツ (katakana)", :jira => 'VUF-2738' do
     it_behaves_like "expected result size", 'title', 'スポーツ', 34, 50
