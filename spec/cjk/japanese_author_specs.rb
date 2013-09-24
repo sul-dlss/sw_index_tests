@@ -22,6 +22,11 @@ describe "Japanese Author Searches", :japanese => true do
     end
   end
 
+  context "The Group to Record War Experiences (corp author)", :jira => 'VUF-2763' do
+    # not sure if I have traditional and modern labelled correctly
+    it_behaves_like "both scripts get expected result size", 'author', 'traditional', '戦争体験を記録する会', 'modern', '戦争体験を記錄する会', 4, 4
+  end
+
   context "Jien (personal name)", :jira => 'VUF-2779' do
     # FIXME:  second character of traditional doesn't translate to second char of 
     #  modern with ICU traditional->simplified    (see also japanese han variants)
@@ -65,6 +70,10 @@ describe "Japanese Author Searches", :japanese => true do
       it_behaves_like "result size and vern corp author matches first", 'author', '南滿洲鐵道株式會社', 690, 725, /(南滿洲鐵道株式會社|南滿洲鐵道株式会社)/, 100
       it_behaves_like "matches in vern corp authors first", 'author', '南滿洲鐵道株式會社', /南滿洲鐵道株式會社/, 6
     end
+  end
+  
+  context "Sugawara no Takasue no Musume (personal name)", :jira => 'VUF-2765' do
+    it_behaves_like "result size and vern person author matches first", 'author', '菅原孝標女', 35, 45, /菅原孝標女/, 19
   end
   
 end
