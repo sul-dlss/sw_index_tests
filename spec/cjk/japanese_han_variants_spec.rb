@@ -43,6 +43,13 @@ describe "Japanese Kanji variants", :japanese => true, :fixme => true do
       it_behaves_like "matches in vern person authors first", 'author', '慈円', /(慈圓|慈円)/, 4
     end
 
+    context "painting dictionary", :jira => 'VUF-2697' do
+      # first character of traditional doesn't translate to first char of modern with ICU traditional->simplified
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '繪畫辞典', 'modern', '絵画辞典', 1, 1
+      it_behaves_like "best matches first", 'title', '繪畫辞典', '8448289', 1
+      it_behaves_like "best matches first", 'title', '絵画辞典', '8448289', 1
+    end
+
     context "survey/investigation (kanji)", :jira => 'VUF-2727' do
       # second trad char isn't translated to modern by ICU trad-simp
       it_behaves_like "both scripts get expected result size", 'everything', 'traditional', ' 調查', 'modern', '調査', 7000, 12000
@@ -69,6 +76,24 @@ describe "Japanese Kanji variants", :japanese => true, :fixme => true do
       it_behaves_like "matches in vern corp authors first", 'author', '南滿洲鐵道株式會社', /(南滿洲鐵道株式會社|南滿洲鐵道株式会社|南満州鉄道株式会社)/, 100
       it_behaves_like "matches in vern corp authors first", 'author', '南滿洲鐵道株式会社', /(南滿洲鐵道株式會社|南滿洲鐵道株式会社|南満州鉄道株式会社)/, 100
       it_behaves_like "matches in vern corp authors first", 'author', '南満州鉄道株式会社', /(南滿洲鐵道株式會社|南滿洲鐵道株式会社|南満州鉄道株式会社)/, 100
+    end
+
+    context "tale", :jira => ['VUF-2705', 'VUF-2742', 'VUF-2740'] do
+      # note:  Japanese do not use 语 (2nd char as simplified chinese) but rather 語
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '物語', 'chinese simp', '物语', 2351, 2455
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '物語', 'modern', '物語', 2351, 2455
+      it_behaves_like "matches in vern titles first", 'title', '物語', /物語/, 13  # 14 is 4223454 which has it in 240a
+    end
+    
+    context "weather", :jira => 'VUF-2756' do
+      # note:  2nd modern char isn't translated to simp 
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '天氣', 'modern', '天気', 10, 17
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '天氣', 'chinese', '天气', 10, 17
+    end
+
+    context "weekly" do
+      # 2nd trad char isn't translated to modern - these should be equivalent
+      it_behaves_like "both scripts get expected result size", 'title', 'modern', '週刊', 'traditional', '週刋', 83, 440, lang_limit
     end
 
   end # modern Kanji != simplified Han
