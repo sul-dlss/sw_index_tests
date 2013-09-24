@@ -54,7 +54,7 @@ describe "Japanese Title searches", :japanese => true do
     it_behaves_like "matches in vern titles", 'title', 'おじいさん', /オジいサン/, 11 # katagana script is in results
   end
   context "'hiragana'  ひらがな", :jira => 'VUF-2693' do
-    it_behaves_like "expected result size", 'title', 'ひらがな', 4, 26
+    it_behaves_like "expected result size", 'title', 'ひらがな', 4, 10
     it_behaves_like "best matches first", 'title', 'ひらがな', ['4217219', '9252490'], 3   # both in 245b
   end
   context "historical records" do
