@@ -131,11 +131,6 @@ end
 def cjk_mm_val
   @@cjk_mm_val
 end
-# the Solr ps value if it is to be adjusted due to CJK chars in the query string
-@@cjk_ps_val = 100
-def cjk_ps_val
-  @@cjk_ps_val
-end
 
 # return a hash containing mm and ps Solr parameters based on the CJK characters in the str
 def cjk_mm_ps_params(str)
@@ -146,12 +141,10 @@ def cjk_mm_ps_params(str)
       lower_limit = cjk_mm_val[0].to_i
       mm = (lower_limit + num_non_cjk_tokens).to_s + cjk_mm_val[1, cjk_mm_val.size]
 # FIXME:  do we need ps2 and ps3 explicitly passed in also?
-      {'mm' => mm, 'ps' => @@cjk_ps_val}
+      {'mm' => mm, 'qs' => 0}
     else
-      {'mm' => @@cjk_mm_val, 'ps' => @@cjk_ps_val}
+      {'mm' => @@cjk_mm_val, 'qs' => 0}
     end
-  elsif num_uni > 0
-    {'ps' => @@cjk_ps_val}
   else
     {}
   end
