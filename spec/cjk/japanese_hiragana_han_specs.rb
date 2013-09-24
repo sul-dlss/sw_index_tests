@@ -18,6 +18,19 @@ describe "Japanese Hiragana-Han translations", :japanese => true, :fixme => true
   end
   
   # hiragana-kanji:  see 'lantern shop' title search, :jira => 'VUF-2702'
+
+  context "tale", :jira => ['VUF-2705', 'VUF-2743', 'VUF-2742', 'VUF-2740'], :fixme => true do
+    it_behaves_like "both scripts get expected result size", 'title', 'hiragana', 'ものがたり', 'kanji', '物語', 5, 5
+    context "hiragana", :jira => ['VUF-2705', 'VUF-2743'] do
+      it_behaves_like "expected result size", 'title', 'ものがたり', 60, 83
+      it_behaves_like "matches in vern short titles first", 'title', 'ものがたり', /ものがたり/, 35
+    end
+    context "kanji", :jira => ['VUF-2705', 'VUF-2742', 'VUF-2740'] do
+      # note:  Japanese do not use 语 (2nd char as simplified chinese) but rather 語
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '物語', 'chinese simp', '物语', 2351, 2455
+      it_behaves_like "matches in vern titles first", 'title', '物語', /物語/, 13  # 14 is 4223454 which has it in 240a
+    end
+  end
   
 
 end
