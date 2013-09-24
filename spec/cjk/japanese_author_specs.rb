@@ -22,14 +22,23 @@ describe "Japanese Author Searches", :japanese => true do
       end
     end
   end
-  
-  context "高橋 (common personal name)", :jira => 'VUF-2711' do
-    it_behaves_like "expected result size", 'author', '高橋', 1021, 1050
-  end
-  context "personal name  契沖", :jira => 'VUF-2772', :fixme => true do
+
+  context "Keichū (personal name)", :jira => 'VUF-2772' do
+    # FIXME:  we have no translation from hiragana to Kanji.  See japanese_hiragana_han_specs
+    context "hiragana  けいちゅう", :fixme => true do
+      it_behaves_like "expected result size", 'author', 'けいちゅう', 0, 5
+      it_behaves_like "does not find irrelevant results", 'author', 'けいちゅう', '4227249'
+    end
     # There are several kanji conversions, such as ”けいちゅう”　<=>  契沖,  傾注　 景中,  刑中, etc.,
-    it_behaves_like "both scripts get expected result size", 'author', 'kanji', '契沖', 'hiragana', 'けいちゅう', 5, 5
+    context "kanji  契沖" do
+      it_behaves_like "result size and vern person author matches first", 'author', '契沖', 4, 7, /契沖/, 4
+    end
   end
+
+  context "Takahashi (common personal name)", :jira => 'VUF-2711' do
+    it_behaves_like "result size and vern person author matches first", 'author', '高橋', 1021, 1075, /高橋/, 100
+  end
+
   context "personal name: kanji surname  釘貫 (surname of 釘貫亨)" do
     it_behaves_like "expected result size", 'author', '釘貫', 1, 1
     it_behaves_like "expected result size", 'author', '釘貫亨', 1, 1
