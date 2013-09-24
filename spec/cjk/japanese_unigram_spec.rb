@@ -1,23 +1,18 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
 
-# need these to work -- CJKBigram approach could interfere with that
-describe "Japanese: Single Character Searches", :japanese => true, :fixme => true do
+describe "Japanese Unigrams", :japanese => true do
   
-  # TODO:  want  hiragana, katakana?  but only matters if we bigram?
+  # TODO:  want  hiragana, katakana
   
-  it "title  乱 (modern) should get results" do
-    resp = solr_response(title_search_args('乱').merge({'fl'=>'id,vern_title_245a_display', 'facet'=>false})) 
-    resp.should include('vern_title_245a_display'=>'乱').in_first(4).documents 
-    resp.should include("6260985") # famous movie by Akira Kurosawa
-    resp.should have_at_least(695).documents # 4 in prod, 695 title in soc
+  context "Ran  乱 (modern)" do
+    it_behaves_like "result size and vern short title matches first", 'title', '乱', 725, 800, /乱/, 4
+    it_behaves_like "best matches first", 'title', '乱', '6260985', 4
   end
 
-  it "title Zen  禅 (modern) should get results" do
-    resp = solr_response(title_search_args('禅').merge({'fl'=>'id,vern_title_245a_display', 'facet'=>false})) 
-    resp.should include('vern_title_245a_display'=>'禅').in_first(6).documents 
-    resp.should include("4193363") 
-    resp.should have_at_least(890).documents # 6 in prod, 890 title in soc
+  context "Zen  禅 (modern)" do
+    it_behaves_like "result size and vern short title matches first", 'title', '禅', 900, 1100, /禅/, 6
+    it_behaves_like "best matches first", 'title', '禅', '4193363', 6
   end
   
 end
