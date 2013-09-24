@@ -11,5 +11,8 @@ describe "Japanese Katakana-Han translations", :japanese => true, :fixme => true
     # see also japanese_everything spec for these searches
     it_behaves_like "both scripts get expected result size", 'everything', 'katakana', 'マンチュリヤ', 'kanji', '満洲', 350, 425
   end
+  
+  # katakana-kanji:  see 'blocking' title search, :jira => 'VUF-2695'
+  
 
 end

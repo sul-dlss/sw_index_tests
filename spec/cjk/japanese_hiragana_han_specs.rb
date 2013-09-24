@@ -16,5 +16,8 @@ describe "Japanese Hiragana-Han translations", :japanese => true, :fixme => true
       it_behaves_like "does not find irrelevant results", 'author', 'けいちゅう', '4227249'
     end
   end
+  
+  # hiragana-kanji:  see 'lantern shop' title search, :jira => 'VUF-2702'
+  
 
 end
