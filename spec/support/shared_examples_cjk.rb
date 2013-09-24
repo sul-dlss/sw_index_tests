@@ -83,6 +83,19 @@ shared_examples_for "matches in vern titles" do | query_type, query, regex, num,
   end
 end
 
+shared_examples_for "matches in vern person authors first" do | query_type, query, regex, num, solr_params |
+  it "finds #{regex} in first #{num} person authors" do
+    solr_params ||= {}
+    solr_params.merge!('rows'=>num) if num > 20
+    resp = solr_response({'q' => cjk_q_arg(query_type, query), 'fl'=>'id,vern_author_person_display', 'facet'=>false}.merge(solr_params))
+    resp.should include({'vern_author_person_display' => regex}).in_each_of_first(num)
+  end
+end
+shared_examples_for "result size and vern person author matches first" do | query_type, query, min, max, regex, num, solr_params |
+  include_examples "expected result size", query_type, query, min, max, solr_params
+  include_examples "matches in vern person authors first", query_type, query, regex, num, solr_params
+end
+
 shared_examples_for "matches in vern corp authors first" do | query_type, query, regex, num, solr_params |
   it "finds #{regex} in first #{num} corp authors" do
     solr_params ||= {}
@@ -95,5 +108,4 @@ shared_examples_for "result size and vern corp author matches first" do | query_
   include_examples "expected result size", query_type, query, min, max, solr_params
   include_examples "matches in vern corp authors first", query_type, query, regex, num, solr_params
 end
-
 
