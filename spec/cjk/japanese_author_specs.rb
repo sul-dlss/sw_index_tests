@@ -54,8 +54,17 @@ describe "Japanese Author Searches", :japanese => true do
     it_behaves_like "good results for query", 'author', '釘貫亨', 1, 1, '7926218', 1
   end
 
-  context "South Manchurian Railroad Company", :jira => ['VUF-2736', 'VUF-2739'], :fixme => true do
-    it_behaves_like "both scripts get expected result size", 'author', 'modern', '南満州鉄道株式会社', 'traditional', '南滿洲鐵道株式會社', 400, 700
+  context "South Manchurian Railroad Company", :jira => ['VUF-2736', 'VUF-2739'] do
+    # FIXME:  some characters of traditional doesn't translate to modern with
+    #  ICU traditional->simplified    (see also japanese han variants)
+    context "modern" do
+      it_behaves_like "expected result size", 'author', '南満州鉄道株式会社', 35, 45
+    end
+    context "traditional" do
+      # Han simplified:  南滿洲鐵道株式会社
+      it_behaves_like "result size and vern corp author matches first", 'author', '南滿洲鐵道株式會社', 690, 725, /(南滿洲鐵道株式會社|南滿洲鐵道株式会社)/, 100
+      it_behaves_like "matches in vern corp authors first", 'author', '南滿洲鐵道株式會社', /南滿洲鐵道株式會社/, 6
+    end
   end
   
 end
