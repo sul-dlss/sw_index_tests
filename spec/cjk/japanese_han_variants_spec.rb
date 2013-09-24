@@ -21,6 +21,10 @@ describe "Japanese Kanji variants", :japanese => true, :fixme => true do
       end
     end # buddhism
 
+    context "cherry blossoms", :jira => 'VUF-2781' do
+      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '櫻', 'modern', '桜', 4, 6
+    end
+
     context 'Edo (old name for Tokyo)', :jira => ['VUF-2726', 'VUF-2770'] do
       # Second char of traditional doesn't translate to second char of modern with ICU traditional->simplified 
       it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '江戶', 'modern', '江戸', 1900, 2000
@@ -41,6 +45,32 @@ describe "Japanese Kanji variants", :japanese => true, :fixme => true do
       it_behaves_like "both scripts get expected result size", 'author', 'traditional', '慈圓', 'modern', '慈円', 13, 20
       it_behaves_like "matches in vern person authors first", 'author', '慈圓', /(慈圓|慈円)/, 4
       it_behaves_like "matches in vern person authors first", 'author', '慈円', /(慈圓|慈円)/, 4
+    end
+    
+    context "(a journal title)", :jira => 'VUF-2762' do
+      # 文芸戦線 (modern Japanese way of writing title of an early 20th century journal, 
+      # which used the traditional characters for its title 文藝戰線)
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '文藝戰線', 'modern', '文芸戦線', 10, 5, lang_limit
+      it_behaves_like "best matches first", 'title', '文芸戦線', '6622409', 1
+    end
+    
+    context "Keio Gijuku University", :jira => 'VUF-2780' do
+      # "応(modern)" VS "應(traditional)". 
+      # "慶応義塾大学(Keio Gijuku University)" + "Search everything" retrieves 146 hits (all relevant). "慶應義塾大学" retrieves 262 hits (all relevant). 
+      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '慶應義塾大学', 'modern', '慶応義塾大学', 400, 450
+    end
+    
+    context "Mahayana Buddhism", :jifra => 'VUF-2761' do
+      # 大乘仏教 (Mahayana Buddhism; 大乘 = traditional Japanese characters, 仏教 = modern Japanese)
+      # Socrates retrieves ten records: the same two Japanese records and 
+      # eight Chinese records that contain the term written in traditional characters, 大乘佛教. 
+      it_behaves_like "expected result size", 'everything', '大乘仏教', 10, 15
+    end
+    
+    context "the origin", :jira => 'VUF-2782' do
+      # first char doesn't translate the same (modern != simplified) 
+      # both retrieve 24 results, but they do not retrieve the SAME results 
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '緣起', 'modern', '縁起', 48, 60, lang_limit
     end
 
     context "painting dictionary", :jira => 'VUF-2697' do
