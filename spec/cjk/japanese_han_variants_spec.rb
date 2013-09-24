@@ -60,7 +60,10 @@ describe "Japanese Kanji variants", :japanese => true, :fixme => true do
     end
 
     context "South Manchurian Railroad Company (kanji)", :jira => ['VUF-2736', 'VUF-2739'] do
-      # 4th and 8th trad chars isn't translated to modern by ICU trad-simp
+      #  満 (U+6E80) and 鉄 (U+9244) are Modern Japanese-only variants for traditional Han  滿 (U+6EFF) and 鐵 (U+9435)
+      #  (chars 2 and 4)
+      # simplified Chinese version of these two characters are 满 (U+6EE1) and 铁 (U+94C1). These are used in Chinese and not Japanese.
+      # we don't care about  南满洲铁道株式會社 (simplified (non-Japanese) chars 2,4) - a Japanese query wouldn't have it
       it_behaves_like "both scripts get expected result size", 'author', 'modern', '南満州鉄道株式会社', 'traditional', '南滿洲鐵道株式會社', 690, 750
       # note: Han simplified:  南滿洲鐵道株式会社
       it_behaves_like "matches in vern corp authors first", 'author', '南滿洲鐵道株式會社', /(南滿洲鐵道株式會社|南滿洲鐵道株式会社|南満州鉄道株式会社)/, 100
