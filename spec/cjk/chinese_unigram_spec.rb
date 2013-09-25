@@ -9,9 +9,15 @@ describe "Chinese Unigrams", :chinese => true do
     it_behaves_like "best matches first", 'title', '飘', '7737681', 5 # video
   end
 
+  context "home" do
+    it_behaves_like 'result size and vern short title matches first', 'title', '家', 18000, 20000, /^家[^[[:alnum:]]]*$/, 20
+    it_behaves_like 'best matches first', 'title', '家', '4172748', 10
+  end
+
   context "Zen", :jira => 'VUF-2790' do
     it_behaves_like "result size and vern short title matches first", 'title', '禪', 900, 1100, /(禪|禅)/, 100
     it_behaves_like "both scripts get expected result size", 'title', 'traditional', '禪', 'simplified', '禅', 900, 1100
+    it_behaves_like 'best matches first', 'title', '禪', '6815304', 10
   end
   
   context "bigram + unigram" do
