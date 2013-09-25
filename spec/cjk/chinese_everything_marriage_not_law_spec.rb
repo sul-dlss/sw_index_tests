@@ -15,12 +15,6 @@ describe "Chinese: Marriage NOT Marriage Law", :chinese => true do
     # marriage: 婚姻   (same for both)
     # law: 法   (same for both)    
     
-    # socrates:  4  as of 2013-08-13
-    #   8722338   woman (trad) 505t (many) ; marriage law: 505t, 505t ; marriage: diff 505t (mult)
-    #   4207254   woman (simp) 245c; 260b, 710a   marriage law:  245c, 710b;  marriage  245a
-    #   4200804   woman (simp) 245c, 710a;  marriage law:  245a, 710a  (no other occurrence of marriage)
-    #   6202487   woman (trad) 245c 260b, 710a;  marriage law:  245a, 500a, 710a  (no other occurrence of marriage)
-    
     it "should have matches for simplified 'woman' and 'marriage law'" do
       resp.should include("4200804") # woman (simp) 245c, 710a;  marriage law:  245a, 710a  (no other occurrence of marriage)
       resp.should include("4207254") # woman (simp) 245c; 260b, 710a   marriage law:  245c, 710b;  marriage  245a
