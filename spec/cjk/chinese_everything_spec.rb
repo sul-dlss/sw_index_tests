@@ -19,6 +19,18 @@ describe "Chinese Everything", :chinese => true do
     it_behaves_like "good results for query", 'everything', '储安平', 22, 30, ['6710188', '6342768', '6638798'], 25, 'rows' => 25
   end
 
+  context "history research", :jira => 'VUF-2771' do
+    context "no spaces" do
+      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '歷史研究', 'simplified', '历史研究', 2700, 2800
+    end
+    context "with space" do
+      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '歷史研究', 'simplified', '历史研究', 2700, 2800
+    end
+    context "as phrase" do
+      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '"歷史研究"', 'simplified', '"历史研究"', 400, 425
+    end
+  end
+
   context "Nanyang or Nanʼyō", :jira => 'SW-100' do
     it_behaves_like "result size and vern short title matches first", 'everything', '南洋', 750, 825, /南洋/, 100
     it_behaves_like "matches in vern titles", 'everything', '南洋', /南洋群島/, 20
