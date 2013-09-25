@@ -21,6 +21,13 @@ describe "Chinese Han variants", :chinese => true, :fixme => true do
     end
   end
   
+  context "International Politics Quarterly", :jira => 'VUF-2691' do
+    # the fifth character is different:  the traditional character is not xlated to the simple one
+    it_behaves_like "both scripts get expected result size", 'title', 'traditional', '國際政治硏究', 'simplified', '国际政治研究', 24, 40
+    it_behaves_like "best matches first", 'title', '國際政治硏究', '7106961', 1
+    it_behaves_like "best matches first", 'title', '国际政治研究', '7106961', 1
+  end
+
   it "囯 vs  国" do
     # FIXME:  I expect this is a bad test
     resp = solr_resp_doc_ids_only({'q'=>'民囯时期社会调查丛编'}) # A (囯) is second char  # 1 in prod: 8593449, 2 in soc as of 2012-11
