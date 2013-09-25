@@ -7,9 +7,11 @@ describe "Chinese Everything", :chinese => true do
     it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '中國經濟政策', 'simplified', '中国经济政策', 250, 300
     it_behaves_like "matches in vern short titles first", 'everything', '中國經濟政策', /^中國經濟政策$/, 1
     it_behaves_like "matches in vern short titles first", 'everything', '中國經濟政策', /(中國經濟政策|中国经济政策)/, 6
-    it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '中國 經濟 政策', 'simplified', '中国 经济 政策', 200, 250
-    it_behaves_like "matches in vern short titles first", 'everything', '中國 經濟 政策', /^中國經濟政策$/, 1
-    it_behaves_like "matches in vern short titles first", 'everything', '中國 經濟 政策', /(中國經濟政策|中国经济政策)/, 6
+    context "with spaces" do
+      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '中國 經濟 政策', 'simplified', '中国 经济 政策', 200, 250
+      it_behaves_like "matches in vern short titles first", 'everything', '中國 經濟 政策', /^中國經濟政策$/, 1
+      it_behaves_like "matches in vern short titles first", 'everything', '中國 經濟 政策', /(中國經濟政策|中国经济政策)/, 6
+    end
   end
 
   context "Chu Anping", :jira => 'VUF-2689' do
