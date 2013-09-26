@@ -57,6 +57,19 @@ describe "Chinese Han variants", :chinese => true, :fixme => true do
     it_behaves_like "best matches first", 'title', '国际政治研究', '7106961', 1
   end
 
+  context "Yue Fu Zhi", :jira => 'VUF-2746' do
+    # first char not translated by ICU trad->simp
+    #  嶽 U+5DBD  (trad)
+    #  岳 U+5CB3  (simp)
+    desired_results = ['10160893', '9589465', '9646016']
+    qtrad = '嶽州府志'
+    qsimp = '岳州府志'
+    it_behaves_like "both scripts get expected result size", 'title', 'traditional', qtrad, 'simplified', qsimp, 6, 10 
+    it_behaves_like "best matches first", 'title', qtrad, desired_results, 6
+    it_behaves_like "best matches first", 'title', qsimp, desired_results, 6
+  end
+
+
   it "囯 vs  国" do
     # FIXME:  I expect this is a bad test
     resp = solr_resp_doc_ids_only({'q'=>'民囯时期社会调查丛编'}) # A (囯) is second char  # 1 in prod: 8593449, 2 in soc as of 2012-11
