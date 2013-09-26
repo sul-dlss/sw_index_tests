@@ -144,3 +144,43 @@ shared_examples_for "great search results for old fiction (Han)" do
     expect(resp).to include(other)
   end
 end # shared examples  great search results for old fiction (Han)
+
+shared_examples_for "great search results for women and literature (Han)" do
+  # 婦女與文學  traditional  婦女  與  文學
+  #   女與   (BC chars)  has no meaning
+  #   與文   (CD chars)  has no meaning on its own
+  # 妇女与文学  simplified   妇女  与  文学
+  trad_245a_exact = ['6343505', '8246653']
+  trad_245a = ['8250645', '4724601', '6343719', '6343720'] # in 245a  (but other chars too)
+  trad_addl_titles = ['8234101'] # found in the 505, but not together
+  simp_245a_not_adjacent = ['7944106'] # women, and, lit in 245a, but char between women and and:  妇女观与文学
+  simp_245a_diff_order = ['7833961', # lit then women in 245a, other chars between
+                          '8802530', # lit then women in 245a, and in 245b'
+                          ] 
+  simp_partial_245a = ['5930857'] # women in  245b, 246a, other 246a;  lit in 245b, 246a, other 246a; chars between
+  it "traditional char matches" do
+    expect(resp).to include(trad_245a_exact).before(trad_245a)
+    expect(resp).to include(trad_245a).before(trad_addl_titles)
+  end
+  it "simplified char matches" do
+    expect(resp).to include(simp_245a_not_adjacent + simp_245a_diff_order + simp_partial_245a)
+  end
+  it "exact match 245a" do
+    expect(resp).to include(trad_245a_exact).in_first(trad_245a_exact.size).results
+  end
+  it "adjacent words in 245a" do
+    expect(resp).to include(trad_245a).in_first(7).results
+  end
+  it "words in 245a but not adjacent" do
+    expect(resp).to include(simp_245a_not_adjacent).in_first(10).results
+  end
+  it "words in 245a but diff order" do
+    expect(resp).to include(simp_245a_diff_order).in_first(15).results
+  end
+  it "words in 245b or 246a" do
+    expect(resp).to include(simp_partial_245a).in_first(15).results
+  end
+  it "addl title results" do
+    expect(resp).to include(trad_addl_titles)
+  end  
+end # shared examples  great search results for women and literature (Han)

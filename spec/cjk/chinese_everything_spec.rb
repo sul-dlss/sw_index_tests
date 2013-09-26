@@ -42,7 +42,7 @@ describe "Chinese Everything", :chinese => true do
   context "old fiction" do
     # old (simp)  旧   (trad)  舊
     # fiction (simp)  小说   (trad)  小說
-    shared_examples_for "great everything search results for old fiction (Han)" do
+    shared_examples_for "great everything search results for old fiction" do
       it_behaves_like "great search results for old fiction (Han)"
       it "other relevant results" do
         other = ["6288832", # old 505t; fiction 505t x2
@@ -57,10 +57,10 @@ describe "Chinese Everything", :chinese => true do
       it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '舊小說', 'simplified', '旧小说', 30, 70
       trad_resp = cjk_query_resp_ids('everything', '舊小說', {'rows'=>35})
       simp_resp = cjk_query_resp_ids('everything', '旧小说', {'rows'=>35})
-      it_behaves_like "great everything search results for old fiction (Han)" do
+      it_behaves_like "great everything search results for old fiction" do
         let (:resp) { trad_resp }
       end
-      it_behaves_like "great everything search results for old fiction (Han)" do
+      it_behaves_like "great everything search results for old fiction" do
         let (:resp) { simp_resp }
       end
     end
@@ -68,10 +68,48 @@ describe "Chinese Everything", :chinese => true do
       it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '舊 小說', 'simplified', '旧 小说', 30, 70
       trad_resp = cjk_query_resp_ids('title', '舊 小說')
       simp_resp = cjk_query_resp_ids('title', '旧 小说')
-      it_behaves_like "great everything search results for old fiction (Han)" do
+      it_behaves_like "great everything search results for old fiction" do
         let (:resp) { trad_resp }
       end
-      it_behaves_like "great everything search results for old fiction (Han)" do
+      it_behaves_like "great everything search results for old fiction" do
+        let (:resp) { simp_resp }
+      end
+    end
+  end
+
+  context "women *and* literature" do
+    shared_examples_for "great search results for women and literature" do
+      it_behaves_like "great search results for women and literature (Han)"
+      it "other relevant results" do
+        other = ['8925289', # trad  lit, women in 505a, but not together
+                  '8705135', # simp  lit x2 in 520a, women x2 in 520a, not together
+                  '8625928', # simp  women, lit in 520a, not together
+                  '8336358', # simp  women  in  245b, 246a, 520a;  lit in 520a
+                  '7925586', # simp  lit then women in 520, not together
+                  '6192248', # simp  lit, then women  in 505, not together
+                ]
+        expect(resp).to include(other)
+      end
+    end
+    context "no spaces" do
+      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '婦女與文學', 'simplified', '妇女与文学', 30, 50
+      trad_resp = cjk_query_resp_ids('everything', '婦女與文學', {'rows'=>50})
+      simp_resp = cjk_query_resp_ids('everything', '妇女与文学', {'rows'=>50})
+      it_behaves_like "great search results for women and literature" do
+        let (:resp) { trad_resp }
+      end
+      it_behaves_like "great search results for women and literature" do
+        let (:resp) { simp_resp }
+      end
+    end
+    context "spaces" do
+      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '婦女 與 文學', 'simplified', '妇女 与 文学', 25, 40
+      trad_resp = cjk_query_resp_ids('everything', '婦女 與 文學', {'rows'=>50})
+      simp_resp = cjk_query_resp_ids('everything', '妇女 与 文学', {'rows'=>50})
+      it_behaves_like "great search results for women and literature" do
+        let (:resp) { trad_resp }
+      end
+      it_behaves_like "great search results for women and literature" do
         let (:resp) { simp_resp }
       end
     end

@@ -108,81 +108,97 @@ describe "Chinese Title", :chinese => true do
   end
 
   context "People's Republic of China", :jira => 'SW-207' do
-    shared_examples_for "great results" do | query |
+    shared_examples_for "great results for PRC" do | query |
       it_behaves_like "matches in vern short titles first", 'title', query, /^(中國地方誌集成|中国地方志集成|中國地方志集成)[^[[:alpha:]]]*$/, 50
     end
     context "no spaces" do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '中國地方誌集成', 'simplified', '中国地方志集成', 850, 1100
-      it_behaves_like "great results", '中國地方誌集成'
-      it_behaves_like "great results", '中国地方志集成'
+      it_behaves_like "great results for PRC", '中國地方誌集成'
+      it_behaves_like "great results for PRC", '中国地方志集成'
     end
     context "spaces" do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '中國地 方誌 集成', 'simplified', '中国地 方志 集成', 850, 1100
-      it_behaves_like "great results", '中國地 方誌 集成'
-      it_behaves_like "great results", '中国地 方志 集成'
+      it_behaves_like "great results for PRC", '中國地 方誌 集成'
+      it_behaves_like "great results for PRC", '中国地 方志 集成'
     end
   end
 
   context "Quan Song bi ji" do
-    shared_examples_for "great results" do | query |
+    shared_examples_for "great results for Quan Song bi ji" do | query |
       it_behaves_like "matches in vern short titles first", 'title', query, /^全宋筆(記|记)[^[[:alpha:]]]*$/, 5
     end
     context "no spaces" do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '全宋笔记', 'simplified', '全宋筆記', 6, 8
-      it_behaves_like "great results", '全宋笔记'
-      it_behaves_like "great results", '全宋筆記'
+      it_behaves_like "great results for Quan Song bi ji", '全宋笔记'
+      it_behaves_like "great results for Quan Song bi ji", '全宋筆記'
     end
     context "middle space" do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '全宋 笔记', 'simplified', '全宋 筆記', 6, 8
-      it_behaves_like "great results", '全宋 笔记'
-      it_behaves_like "great results", '全宋 筆記'
+      it_behaves_like "great results for Quan Song bi ji", '全宋 笔记'
+      it_behaves_like "great results for Quan Song bi ji", '全宋 筆記'
     end
     context "two spaces" do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '全 宋 笔记', 'simplified', '全 宋 筆記', 6, 10
-      it_behaves_like "great results", '全 宋 笔记'
-      it_behaves_like "great results", '全 宋 筆記'
+      it_behaves_like "great results for Quan Song bi ji", '全 宋 笔记'
+      it_behaves_like "great results for Quan Song bi ji", '全 宋 筆記'
     end
   end
 
-  context "three kingdoms 3 char" do
+  context "Three Kingdoms 3 char" do
     # see chinese_unigram_spec
   end
 
-  context "three kingdoms 4 char, title search" do
-    shared_examples_for "great results" do | query |
+  context "Three Kingdoms 4 char, title search" do
+    shared_examples_for "great results for Three Kingdoms" do | query |
       it_behaves_like "matches in vern short titles first", 'title', query, /^(三國演義|三国演义)[^[[:alpha:]]]*$/, 12
     end
     context "no spaces" do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '三國演義', 'simplified', '三国演义', 83, 90
-      it_behaves_like "great results", '三國演義'
-      it_behaves_like "great results", '三国演义'
+      it_behaves_like "great results for Three Kingdoms", '三國演義'
+      it_behaves_like "great results for Three Kingdoms", '三国演义'
     end
     context "middle space" do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '三國 演義', 'simplified', '三国 演义', 83, 90
-      it_behaves_like "great results", '三國 演義'
-      it_behaves_like "great results", '三国 演义'
+      it_behaves_like "great results for Three Kingdoms", '三國 演義'
+      it_behaves_like "great results for Three Kingdoms", '三国 演义'
     end
     context "first space" do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '三 國演義', 'simplified', '三 国演义', 83, 90
-      it_behaves_like "great results", '三 國演義'
-      it_behaves_like "great results", '三 国演义'
+      it_behaves_like "great results for Three Kingdoms", '三 國演義'
+      it_behaves_like "great results for Three Kingdoms", '三 国演义'
     end
     context "all spaces" do
-      it_behaves_like "great results", '三 國 演 義'
-      it_behaves_like "great results", '三 国 演 义'
+      it_behaves_like "great results for Three Kingdoms", '三 國 演 義'
+      it_behaves_like "great results for Three Kingdoms", '三 国 演 义'
+    end
+  end
+
+  context "women *and* literature" do
+    context "no spaces" do
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '婦女與文學', 'simplified', '妇女与文学', 17, 25
+      trad_resp = cjk_query_resp_ids('title', '婦女與文學')
+      simp_resp = cjk_query_resp_ids('title', '妇女与文学')
+      it_behaves_like "great search results for women and literature (Han)" do
+        let (:resp) { trad_resp }
+      end
+      it_behaves_like "great search results for women and literature (Han)" do
+        let (:resp) { simp_resp }
+      end
+    end
+    context "spaces" do
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '婦女 與 文學', 'simplified', '妇女 与 文学', 17, 25
+      trad_resp = cjk_query_resp_ids('title', '婦女 與 文學')
+      simp_resp = cjk_query_resp_ids('title', '妇女 与 文学')
+      it_behaves_like "great search results for women and literature (Han)" do
+        let (:resp) { trad_resp }
+      end
+      it_behaves_like "great search results for women and literature (Han)" do
+        let (:resp) { simp_resp }
+      end
     end
   end
 
 =begin
-
-  context "women *and* literature, title search" do
-    context "no spaces" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "妇女与文学", "婦女與文學", 17
-    end
-    context "spaces" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "妇女 与 文学", "婦女 與 文學", 17
-    end
-  end
 
   context "women marriage, title search" do
     context "no spaces" do
