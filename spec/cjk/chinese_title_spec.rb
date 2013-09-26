@@ -261,6 +261,45 @@ describe "Chinese Title", :chinese => true do
       # 7808424 - woman 245b, 246a; marriage 245b, 246a  (1 char between)
       resp.should include(["7808424"])
     end
+    # Symph results from everything search 2012-11
+    #  妇女婚姻 no spaces    
+    #    SYMPH: 12  parsed to  妇女 same  婚姻   (same means same field)  2012-11
+    #       9654720   woman 245a, 520a;  marriage 520a
+    #       9229845   woman 245b, 246a;  marriage 245a
+    #       8716123   woman 245a;  marriage unlinked520a 
+    #       4401219   woman 245a;  marriage 245a
+    #       4520813   woman 505a, 740a;  marriage 245a, 505a, 740a
+    #       7808424   woman 245a, 246a;  marriage 245a, 246a
+    #       4178814   woman 245a;  marriage 245a
+    #       4222208   woman 245a, 490a, 830a;  marriage 245a
+    #       4207254   woman 245c, 260a, 710a;  marriage 245a, 245c, 710b
+    #       6201069   woman (as  婦女) 505a;  marriage 505a
+    #       6696574   woman (as  婦女) 110a;  marriage 245a
+    #       6343505   woman (as  婦女) 245a;  marriage 505a
+    # 
+    #  妇女 婚姻 space
+    #   SYMPH: 20  parsed to  妇女 and  婚姻     2012-11
+    #       9654720   woman 245a, 520a;  marriage 520a
+    #       9229845   woman 245b, 246a;  marriage 245a
+    #   NEW 8839221   woman 500a; marriage unlinked520a, 245a, 245a
+    #       8716123   woman 245a;  marriage unlinked520a 
+    #   NEW 8276633   woman 490a, 830a; marriage 245a
+    #   NEW 8245869   woman (as 婦女) 490a, 830a; marriage 245a
+    #       4401219   woman 245a;  marriage 245a 
+    #       4520813   woman 505a, 740a;  marriage 245a, 505a, 740a
+    #       7808424   woman 245a, 246a;  marriage 245a, 246a
+    #       4178814   woman 245a;  marriage 245a
+    #       4222208   woman 245a, 490a, 830a;  marriage 245a
+    #   NEW 4220723   woman 260b; marriage 245b
+    #   NEW 4205664   woman 260b; marriage 245a
+    #       4207254   woman 245c, 260a, 710a;  marriage 245a, 245c, 710b 
+    #       6201069   woman 505a (as  婦女);  marriage 505a
+    #   NEW 6542987   woman (as 婦女) 260b, 710a; marriage 245a
+    #       6696574   woman (as  婦女) 110a;  marriage 245a
+    #   NEW 6543091   woman (as  婦女) 110a, 260b; marriage 245a
+    #       6343505   woman (as  婦女) 245a;  marriage 505a
+    #   NEW 6543322   woman (as  婦女) 245a, 260b, 500a; marriage 500a
+    
   end # shared examples  great results for women marriage (Han)
 
   context "women marriage" do
