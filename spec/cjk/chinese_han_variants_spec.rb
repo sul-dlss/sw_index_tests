@@ -21,8 +21,37 @@ describe "Chinese Han variants", :chinese => true, :fixme => true do
     end
   end
   
+  context "history research" do
+    # the 3rd character
+    #  历史硏究   硏  U+784F   in the records   6433575, 9336336
+    #  历史研究   研  U+7814   simp
+    #  歷史研究   研  U+7814  (also) trad
+    shared_examples_for "great matches for history research" do | query_type, query |
+      it_behaves_like "best matches first", query_type, query, ['6433575', '9336336'], 2
+      it_behaves_like "matches in vern short titles first", query_type, query, /^歷史硏究$/, 2
+    end
+    context "no spaces" do
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '歷史研究', 'simplified', '历史研究', 562, 900
+      it_behaves_like "great matches for history research", 'title', '歷史研究'
+      it_behaves_like "great matches for history research", 'title', '历史研究'
+    end
+    context "with space" do
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '歷史 研究', 'simplified', '历史 研究', 1000, 1100
+      it_behaves_like "great matches for history research", 'title', '歷史 研究'
+      it_behaves_like "great matches for history research", 'title', '历史 研究'
+    end
+    context "as phrase" do
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '"歷史研究"', 'simplified', '"历史研究"', 155, 175
+      it_behaves_like "great matches for history research", 'title', '"歷史研究"'
+      it_behaves_like "great matches for history research", 'title', '"历史研究"'
+    end
+  end
+  
   context "International Politics Quarterly", :jira => 'VUF-2691' do
     # the fifth character is different:  the traditional character is not xlated to the simple one
+    # 硏 U+784F
+    # 研 U+7814  (simp, and in record 7106961)
+    # 硏 U+784F  (trad?)
     it_behaves_like "both scripts get expected result size", 'title', 'traditional', '國際政治硏究', 'simplified', '国际政治研究', 24, 40
     it_behaves_like "best matches first", 'title', '國際政治硏究', '7106961', 1
     it_behaves_like "best matches first", 'title', '国际政治研究', '7106961', 1
