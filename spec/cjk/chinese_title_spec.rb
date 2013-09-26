@@ -132,6 +132,7 @@ describe "Chinese Title", :chinese => true do
   end
 
   context "old fiction, title search" do
+=begin
     # old (simp)  旧
     # old (trad)  舊
     # fiction (simp)  小说
@@ -173,7 +174,7 @@ describe "Chinese Title", :chinese => true do
         expect(resp).to include(other)
       end
     end # shared examples  great search results for old fiction (Han)
-
+=end
     context "no spaces" do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '舊小說', 'simplified', '旧小说', 11, 15
       trad_resp = cjk_query_resp_ids('title', '舊小說', {'rows'=>'25'})
