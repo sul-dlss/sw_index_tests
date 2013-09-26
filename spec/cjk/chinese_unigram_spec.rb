@@ -21,7 +21,7 @@ describe "Chinese Unigrams", :chinese => true do
   end
   
   context "bigram + unigram" do
-    # also old fiction
+    # also old fiction in chinese_title
     context "Three kingdoms 三國誌" do
       # 三國 (three - bigram) and  誌 (kingdom unigram)
       # San guo zhi by Chen Shou  (exact 245a)
