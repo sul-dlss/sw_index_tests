@@ -2,69 +2,6 @@
 require 'spec_helper'
 
 describe "Chinese Title", :chinese => true do
-=begin  
-  shared_examples_for "gets expected number of results" do | query, query_type, num_exp |
-    it "should have correct number of results" do
-      case query_type
-        when 'title'
-          resp = solr_resp_doc_ids_only(title_search_args query)
-        when 'author'
-          resp = solr_resp_doc_ids_only(author_search_args query)
-        else
-          resp = solr_resp_ids_from_query query
-      end
-      resp.should have_exactly(num_exp).results
-    end
-  end # shared_examples for  gets expected number of results
-
-  shared_examples_for "title search gets expected number of results" do |query, num_exp|
-    it_behaves_like "gets expected number of results", query, 'title', num_exp
-  end
-  shared_examples_for "author search gets expected number of results" do |query, num_exp|
-    it_behaves_like "gets expected number of results", query, 'author', num_exp
-  end
-  shared_examples_for "everything search gets expected number of results" do |query, num_exp|
-    it_behaves_like "gets expected number of results", query, nil, num_exp
-  end
-  
-  shared_examples_for "both queries get same number of results" do | query1, query2, query_type |
-    it "both queries should get same number of results" do
-      case query_type
-        when 'title'
-          resp1 = solr_resp_doc_ids_only(title_search_args query1)
-          resp2 = solr_resp_doc_ids_only(title_search_args query2)
-        when 'author'
-          resp1 = solr_resp_doc_ids_only(author_search_args query1)
-          resp2 = solr_resp_doc_ids_only(author_search_args query2)
-        else
-          resp1 = solr_resp_ids_from_query query1
-          resp2 = solr_resp_ids_from_query query2
-      end
-      resp1.should have_the_same_number_of_results_as resp2
-    end
-  end
-  
-  shared_examples_for "both scripts get expected number of results" do | script_name1, query1, script_name2, query2, query_type, num_exp |
-    it_behaves_like "both queries get same number of results", query1, query2, query_type
-    context "#{script_name1}: #{query1}" do
-      it_behaves_like "gets expected number of results", query1, query_type, num_exp
-    end
-    context "#{script_name2}: #{query2}" do
-      it_behaves_like "gets expected number of results", query2, query_type, num_exp
-    end
-  end
-  
-  shared_examples_for "simplified and traditional title search get expected number of results" do | simplified_query, traditional_query, num_exp |
-    it_behaves_like "both scripts get expected number of results", 'simplified', simplified_query, 'traditional', traditional_query, 'title', num_exp
-  end
-  shared_examples_for "simplified and traditional author search get expected number of results" do | simplified_query, traditional_query, num_exp |
-    it_behaves_like "both scripts get expected number of results", 'simplified', simplified_query, 'traditional', traditional_query, 'author', num_exp
-  end
-  shared_examples_for "simplified and traditional everything search get expected number of results" do | simplified_query, traditional_query, num_exp |
-    it_behaves_like "both scripts get expected number of results", 'simplified', simplified_query, 'traditional', traditional_query, nil, num_exp
-  end
-=end  
-# --- end shared examples ----------------------------------------------------------------------------------------------------------------
   
   context "china economic policy", :jira => 'SW-100' do
     context "no spaces" do
@@ -105,6 +42,7 @@ describe "Chinese Title", :chinese => true do
   end
   
   context "history research", :jira => 'VUF-2771' do
+    # see also chinese_han_variants spec, as the 3rd character isn't matching what's in the record
     context "no spaces" do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '歷史研究', 'simplified', '历史研究', 562, 900
     end
@@ -144,7 +82,7 @@ describe "Chinese Title", :chinese => true do
                 ]
         expect(resp).to include(other)
       end
-    end # shared examples  great search results for old fiction (Han)
+    end
     context "no spaces" do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '舊小說', 'simplified', '旧小说', 11, 15
       trad_resp = cjk_query_resp_ids('title', '舊小說')
@@ -170,60 +108,72 @@ describe "Chinese Title", :chinese => true do
   end
 
   context "People's Republic of China", :jira => 'SW-207' do
+    shared_examples_for "great results" do | query |
+      it_behaves_like "matches in vern short titles first", 'title', query, /^(中國地方誌集成|中国地方志集成|中國地方志集成)[^[[:alpha:]]]*$/, 50
+    end
     context "no spaces" do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '中國地方誌集成', 'simplified', '中国地方志集成', 850, 1100
-      it_behaves_like "matches in vern short titles first", 'title', '中國地方誌集成', /^(中國地方誌集成|中国地方志集成|中國地方志集成)[^[[:alpha:]]]*$/, 50
-      it_behaves_like "matches in vern short titles first", 'title', '中国地方志集成', /^(中國地方誌集成|中国地方志集成|中國地方志集成)[^[[:alpha:]]]*$/, 50
+      it_behaves_like "great results", '中國地方誌集成'
+      it_behaves_like "great results", '中国地方志集成'
     end
     context "spaces" do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '中國地 方誌 集成', 'simplified', '中国地 方志 集成', 850, 1100
-      it_behaves_like "matches in vern short titles first", 'title', '中國地 方誌 集成', /^(中國地方誌集成|中国地方志集成|中國地方志集成)[^[[:alpha:]]]*$/, 50
-      it_behaves_like "matches in vern short titles first", 'title', '中国地 方志 集成', /^(中國地方誌集成|中国地方志集成|中國地方志集成)[^[[:alpha:]]]*$/, 50
+      it_behaves_like "great results", '中國地 方誌 集成'
+      it_behaves_like "great results", '中国地 方志 集成'
     end
   end
 
   context "Quan Song bi ji" do
+    shared_examples_for "great results" do | query |
+      it_behaves_like "matches in vern short titles first", 'title', query, /^全宋筆(記|记)[^[[:alpha:]]]*$/, 5
+    end
     context "no spaces" do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '全宋笔记', 'simplified', '全宋筆記', 6, 8
-      it_behaves_like "matches in vern short titles first", 'title', '全宋笔记', /^全宋筆(記|记)[^[[:alpha:]]]*$/, 5
-      it_behaves_like "matches in vern short titles first", 'title', '全宋筆記', /^全宋筆(記|记)[^[[:alpha:]]]*$/, 5
+      it_behaves_like "great results", '全宋笔记'
+      it_behaves_like "great results", '全宋筆記'
     end
-    context "one space" do
+    context "middle space" do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '全宋 笔记', 'simplified', '全宋 筆記', 6, 8
-      it_behaves_like "matches in vern short titles first", 'title', '全宋 笔记', /^全宋筆(記|记)[^[[:alpha:]]]*$/, 5
-      it_behaves_like "matches in vern short titles first", 'title', '全宋 筆記', /^全宋筆(記|记)[^[[:alpha:]]]*$/, 5
+      it_behaves_like "great results", '全宋 笔记'
+      it_behaves_like "great results", '全宋 筆記'
     end
     context "two spaces" do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '全 宋 笔记', 'simplified', '全 宋 筆記', 6, 10
-      it_behaves_like "matches in vern short titles first", 'title', '全 宋 笔记', /^全宋筆(記|记)[^[[:alpha:]]]*$/, 5
-      it_behaves_like "matches in vern short titles first", 'title', '全 宋 筆記', /^全宋筆(記|记)[^[[:alpha:]]]*$/, 5
+      it_behaves_like "great results", '全 宋 笔记'
+      it_behaves_like "great results", '全 宋 筆記'
     end
   end
 
-=begin    
-  context "three kingdoms 3 char, title search" do
-    context "no spaces" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "三国志", "三國誌", 170
-    end
-    context "space" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "三国 志", "三國 誌", 170
-    end
+  context "three kingdoms 3 char" do
+    # see chinese_unigram_spec
   end
 
   context "three kingdoms 4 char, title search" do
+    shared_examples_for "great results" do | query |
+      it_behaves_like "matches in vern short titles first", 'title', query, /^(三國演義|三国演义)[^[[:alpha:]]]*$/, 12
+    end
     context "no spaces" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "三国演义", "三國演義", 84
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '三國演義', 'simplified', '三国演义', 83, 90
+      it_behaves_like "great results", '三國演義'
+      it_behaves_like "great results", '三国演义'
     end
     context "middle space" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "三国 演义", "三國 演義", 84
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '三國 演義', 'simplified', '三国 演义', 83, 90
+      it_behaves_like "great results", '三國 演義'
+      it_behaves_like "great results", '三国 演义'
     end
     context "first space" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "三 国演义", "三 國演義", 85
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '三 國演義', 'simplified', '三 国演义', 83, 90
+      it_behaves_like "great results", '三 國演義'
+      it_behaves_like "great results", '三 国演义'
     end
     context "all spaces" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "三 国 演 义", "三 國 演 義", 88
+      it_behaves_like "great results", '三 國 演 義'
+      it_behaves_like "great results", '三 国 演 义'
     end
   end
+
+=begin
 
   context "women *and* literature, title search" do
     context "no spaces" do
