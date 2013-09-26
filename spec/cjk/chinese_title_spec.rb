@@ -198,6 +198,56 @@ describe "Chinese Title", :chinese => true do
     end
   end
 
+  context "women marriage law" do
+    shared_examples_for "great search results for women marriage law" do
+      # woman:   traditional:  婦女    simplified:  妇女
+      # marriage law: 婚姻法   marriage: 婚姻  (same for both)   law: 法   (same for both)
+      it "matches 505t trad 'woman' and 'marriage law'" do
+        expect(resp).to include("8722338") # woman (trad) 505t (many) ; marriage law: 505t, 505t ; marriage: diff 505t (mult)
+      end
+      it "matches 505t simp 'woman' and 'marriage' and 'law' but not 'marriage law'" do
+        expect(resp).to include("4520813") # woman (simp) 505a, 740a ; marriage 245a, 505a, 740a;  law 245a, 260a, 505a, 740a
+      end
+      it "matches 505t trad 'woman' and 'marriage' and 'law' but not 'marriage law'" do
+        expect(resp).to include("9665009") # woman (trad) 505t (mult) ; marriage 505t (mult); law 505t
+        expect(resp).to include("9665014") # woman (trad) 505t (mult) ; marriage 505t (mult); law 505t, 520t
+      end
+    end
+    context "no spaces" do
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '婦女婚姻法', 'simplified', '妇女婚姻法', 4, 8
+      trad_resp = cjk_query_resp_ids('title', '婦女婚姻法')
+      simp_resp = cjk_query_resp_ids('title', '妇女婚姻法')
+      it_behaves_like "great search results for women marriage law" do
+        let (:resp) { trad_resp }
+      end
+      it_behaves_like "great search results for women marriage law" do
+        let (:resp) { simp_resp }
+      end
+    end
+    context "one space" do
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '婦女 婚姻法', 'simplified', '妇女 婚姻法', 4, 8
+      trad_resp = cjk_query_resp_ids('title', '婦女 婚姻法')
+      simp_resp = cjk_query_resp_ids('title', '妇女 婚姻法')
+      it_behaves_like "great search results for women marriage law" do
+        let (:resp) { trad_resp }
+      end
+      it_behaves_like "great search results for women marriage law" do
+        let (:resp) { simp_resp }
+      end
+    end
+    context "two spaces" do
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '婦女 婚姻 法', 'simplified', '妇女 婚姻 法', 4, 8
+      trad_resp = cjk_query_resp_ids('title', '婦女 婚姻 法')
+      simp_resp = cjk_query_resp_ids('title', '妇女 婚姻 法')
+      it_behaves_like "great search results for women marriage law" do
+        let (:resp) { trad_resp }
+      end
+      it_behaves_like "great search results for women marriage law" do
+        let (:resp) { simp_resp }
+      end
+    end    
+  end # women marriage law
+
 =begin
 
   context "women marriage, title search" do
@@ -206,15 +256,6 @@ describe "Chinese Title", :chinese => true do
     end
     context "space" do
       it_behaves_like "simplified and traditional title search get expected number of results", "妇女 婚姻", "婦女 婚姻", 8
-    end
-  end
-
-  context "women 'marriage law', title search" do
-    context "no spaces" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "妇女婚姻法", "婦女婚姻法", 4
-    end
-    context "space" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "妇女 婚姻法", "婦女 婚姻法", 4
     end
   end
 
