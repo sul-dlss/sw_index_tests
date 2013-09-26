@@ -181,22 +181,26 @@ describe "Chinese Title", :chinese => true do
       it_behaves_like "matches in vern short titles first", 'title', '中国地 方志 集成', /^(中國地方誌集成|中国地方志集成|中國地方志集成)[^[[:alpha:]]]*$/, 50
     end
   end
-=begin  
-  context "Quan Song bi ji, title search" do
+
+  context "Quan Song bi ji" do
     context "no spaces" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "全宋筆記", "全宋笔记", 8
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '全宋笔记', 'simplified', '全宋筆記', 6, 8
+      it_behaves_like "matches in vern short titles first", 'title', '全宋笔记', /^全宋筆(記|记)[^[[:alpha:]]]*$/, 5
+      it_behaves_like "matches in vern short titles first", 'title', '全宋筆記', /^全宋筆(記|记)[^[[:alpha:]]]*$/, 5
     end
-    context "spaces" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "全宋 筆記", "全宋 笔记", 8
+    context "one space" do
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '全宋 笔记', 'simplified', '全宋 筆記', 6, 8
+      it_behaves_like "matches in vern short titles first", 'title', '全宋 笔记', /^全宋筆(記|记)[^[[:alpha:]]]*$/, 5
+      it_behaves_like "matches in vern short titles first", 'title', '全宋 筆記', /^全宋筆(記|记)[^[[:alpha:]]]*$/, 5
     end
-    context "real spaces" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "全 宋 筆記", "全 宋 笔记", 8
-    end
-    context "all spaces" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "全 宋 筆 記", "全 宋 笔 记", 8
+    context "two spaces" do
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '全 宋 笔记', 'simplified', '全 宋 筆記', 6, 10
+      it_behaves_like "matches in vern short titles first", 'title', '全 宋 笔记', /^全宋筆(記|记)[^[[:alpha:]]]*$/, 5
+      it_behaves_like "matches in vern short titles first", 'title', '全 宋 筆記', /^全宋筆(記|记)[^[[:alpha:]]]*$/, 5
     end
   end
-  
+
+=begin    
   context "three kingdoms 3 char, title search" do
     context "no spaces" do
       it_behaves_like "simplified and traditional title search get expected number of results", "三国志", "三國誌", 170
