@@ -102,7 +102,7 @@ describe "Chinese Everything", :chinese => true do
         let (:resp) { simp_resp }
       end
     end
-    context "spaces" do
+    context "with spaces" do
       it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '婦女 與 文學', 'simplified', '妇女 与 文学', 25, 40
       trad_resp = cjk_query_resp_ids('everything', '婦女 與 文學', {'rows'=>50})
       simp_resp = cjk_query_resp_ids('everything', '妇女 与 文学', {'rows'=>50})
@@ -116,8 +116,68 @@ describe "Chinese Everything", :chinese => true do
   end
 
   context "women marriage", :jira => 'SW-100' do
+    #  " 婚姻法 (marriage law) in sirsi dict, but 婚姻 (marriage) is what we wanted"
+    #   because sirsi dictionary approach does length-first matching
     it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '婦女婚姻', 'simplified', '妇女婚姻', 25, 40
     it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '婦女 婚姻', 'simplified', '妇女 婚姻', 25, 40
   end
+  
+  context "women marriage law" do
+    shared_examples_for "great search results for women marriage law" do
+      # woman:   traditional:  婦女    simplified:  妇女
+      # marriage law: 婚姻法   marriage: 婚姻  (same for both)   law: 法   (same for both)
+      it "matches simp 'woman' and 'marriage law'" do
+        expect(resp).to include("4200804") # woman (simp) 245c, 710a;  marriage law:  245a, 710a  (no other occurrence of marriage)
+        expect(resp).to include("4207254") # woman (simp) 245c; 260b, 710a   marriage law:  245c, 710b;  marriage  245a
+      end
+      it "matches trad 'woman' and 'marriage law'" do
+        expect(resp).to include("8722338") # woman (trad) 505t (many) ; marriage law: 505t, 505t ; marriage: diff 505t (mult)
+        expect(resp).to include("6202487") # woman (trad) 245c 260b, 710a; marriage law:  245a, 500a, 710a  (no other occurrence of marriage)
+        expect(resp).to include("6543154") # woman (trad) 245a, 245c, 710a; marriage law 710t
+        expect(resp).to include("9956874") # woman (trad) 245a, 245c, 710a; marriage law 710t
+      end
+      it "matches simp 'woman' and 'marriage' and 'law' but not 'marriage law'" do
+        expect(resp).to include("4520813") # woman (simp) 505a, 740a ; marriage 245a, 505a, 740a;  law 245a, 260a, 505a, 740a
+        expect(resp).to include("8716123") # woman (simp) 520a, 245a ; marriage 520a; law 520a, 260b, 490a, 830a
+      end
+      it "matches trad 'woman' and 'marriage' and 'law' but not 'marriage law'" do
+        expect(resp).to include("9665009") # woman (trad) 505t (mult) ; marriage 505t (mult); law 505t
+        expect(resp).to include("9665014") # woman (trad) 505t (mult) ; marriage 505t (mult); law 505t, 520t
+      end
+    end
+    context "no spaces" do
+      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '婦女婚姻法', 'simplified', '妇女婚姻法', 10, 15
+      trad_resp = cjk_query_resp_ids('everything', '婦女婚姻法')
+      simp_resp = cjk_query_resp_ids('everything', '妇女婚姻法')
+      it_behaves_like "great search results for women marriage law" do
+        let (:resp) { trad_resp }
+      end
+      it_behaves_like "great search results for women marriage law" do
+        let (:resp) { simp_resp }
+      end
+    end
+    context "one space" do
+      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '婦女 婚姻法', 'simplified', '妇女 婚姻法', 10, 15
+      trad_resp = cjk_query_resp_ids('everything', '婦女 婚姻法')
+      simp_resp = cjk_query_resp_ids('everything', '妇女 婚姻法')
+      it_behaves_like "great search results for women marriage law" do
+        let (:resp) { trad_resp }
+      end
+      it_behaves_like "great search results for women marriage law" do
+        let (:resp) { simp_resp }
+      end
+    end
+    context "two spaces" do
+      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '婦女 婚姻 法', 'simplified', '妇女 婚姻 法', 10, 15
+      trad_resp = cjk_query_resp_ids('everything', '婦女 婚姻 法')
+      simp_resp = cjk_query_resp_ids('everything', '妇女 婚姻 法')
+      it_behaves_like "great search results for women marriage law" do
+        let (:resp) { trad_resp }
+      end
+      it_behaves_like "great search results for women marriage law" do
+        let (:resp) { simp_resp }
+      end
+    end    
+  end # women marriage law
 
 end
