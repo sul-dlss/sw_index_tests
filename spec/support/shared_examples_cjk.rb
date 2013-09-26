@@ -182,5 +182,9 @@ shared_examples_for "great search results for women and literature (Han)" do
   end
   it "addl title results" do
     expect(resp).to include(trad_addl_titles)
-  end  
+  end
+  it "does not have irrelvant results", :fixme => true do
+    expect(resp).not_to include('6544163')
+    expect(resp).not_to include('5539339')
+  end
 end # shared examples  great search results for women and literature (Han)
