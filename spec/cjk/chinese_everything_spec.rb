@@ -39,6 +39,44 @@ describe "Chinese Everything", :chinese => true do
     it_behaves_like "good results for query", 'everything', '椰風蕉雨話南洋', 1, 1, '5564542', 1
   end
   
+  context "old fiction" do
+    # old (simp)  旧   (trad)  舊
+    # fiction (simp)  小说   (trad)  小說
+    shared_examples_for "great everything search results for old fiction (Han)" do
+      it_behaves_like "great search results for old fiction (Han)"
+      it "other relevant results" do
+        other = ["6288832", # old 505t; fiction 505t x2
+                  "7699186", # old (simp) in 245a, fiction (simp) in 490 and 830
+                  "6204747", # old 245a; fiction 490a; 830a
+                  "6698466", # old 245a; fiction 490a, 830a
+                ]
+        expect(resp).to include(other)
+      end
+    end # shared examples  great search results for old fiction (Han)
+    context "no spaces" do
+      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '舊小說', 'simplified', '旧小说', 30, 70
+      trad_resp = cjk_query_resp_ids('everything', '舊小說', {'rows'=>35})
+      simp_resp = cjk_query_resp_ids('everything', '旧小说', {'rows'=>35})
+      it_behaves_like "great everything search results for old fiction (Han)" do
+        let (:resp) { trad_resp }
+      end
+      it_behaves_like "great everything search results for old fiction (Han)" do
+        let (:resp) { simp_resp }
+      end
+    end
+    context "with space" do
+      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '舊 小說', 'simplified', '旧 小说', 30, 70
+      trad_resp = cjk_query_resp_ids('title', '舊 小說')
+      simp_resp = cjk_query_resp_ids('title', '旧 小说')
+      it_behaves_like "great everything search results for old fiction (Han)" do
+        let (:resp) { trad_resp }
+      end
+      it_behaves_like "great everything search results for old fiction (Han)" do
+        let (:resp) { simp_resp }
+      end
+    end
+  end
+
   context "women marriage", :jira => 'SW-100' do
     it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '婦女婚姻', 'simplified', '妇女婚姻', 25, 40
     it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '婦女 婚姻', 'simplified', '妇女 婚姻', 25, 40
