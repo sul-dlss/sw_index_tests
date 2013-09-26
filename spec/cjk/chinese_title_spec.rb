@@ -370,19 +370,11 @@ describe "Chinese Title", :chinese => true do
     end
   end # women AND marriage
 
-=begin
-
-  context "zen, title search" do
-    it_behaves_like "simplified and traditional title search get expected number of results", "禅", "禪", 962
+  context "zen" do
+    # see chinese_unigram_spec
   end
 
-  context "Zhengzhou geography, title search" do
-    context "no spaces" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "郑州地理", "鄭州地理", 2
-    end
-    context "space" do
-      it_behaves_like "simplified and traditional title search get expected number of results", "郑州 地理", "鄭州 地理", 2
-    end
+  context "Zhengzhou geography" do
+    # see chinese_zhengzhou_geography_spec
   end
-=end 
 end
