@@ -19,6 +19,20 @@ describe "Chinese Everything", :chinese => true do
     it_behaves_like "good results for query", 'everything', '储安平', 22, 30, ['6710188', '6342768', '6638798'], 25, 'rows' => 25
   end
 
+  context "Full Song notes" do
+    # more details: email on gryph-search week of 8/13/(2012?  2011?) w subject chinese search test - question 1 
+    shared_examples_for "great results for Full Song notes" do | query |
+      it_behaves_like "expected result size", 'everything', query, 6, 25
+      it_behaves_like "best matches first", 'everything', query, '5701106', 6  # record has  全宋筆记
+      it_behaves_like "best matches first", 'everything', query, ["9579321", "9579315", "6734714", "8146870"], 6 # records have  全宋筆記
+    end # shared examples  great search results for old fiction (Han)
+    it_behaves_like "both scripts get expected result size", 'everything', 'trad', '全宋筆記', 'simp', '全宋笔記', 6, 12
+    it_behaves_like "great results for Full Song notes", '全宋筆记'
+    it_behaves_like "great results for Full Song notes", '全宋筆記'
+    it_behaves_like "great results for Full Song notes", '全  宋  筆記'
+    it_behaves_like "great results for Full Song notes", '全  宋  笔記'
+  end
+
   context "history research", :jira => 'VUF-2771' do
     context "no spaces" do
       it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '歷史研究', 'simplified', '历史研究', 2700, 2800
