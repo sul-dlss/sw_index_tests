@@ -386,4 +386,8 @@ describe "Chinese Title", :chinese => true do
   context "Zhengzhou geography" do
     # see chinese_zhengzhou_geography_spec
   end
+  
+  context "Zhongguo jin xian dai nü xing xue shu cong kan xu bian", :jira => 'VUF-2706' do
+    it_behaves_like "expected result size", 'title', ' 中國近現代女性學術叢刊續編', 5, 10    
+  end
 end
