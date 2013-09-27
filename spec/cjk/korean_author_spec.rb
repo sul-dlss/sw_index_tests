@@ -45,7 +45,7 @@ describe "Korean author", :korean => true do
                               '9957716',
                               '7692263' ]
     shared_examples_for "good author results for 강인철" do | query |
-      it_behaves_like 'good results for query', 'author', query, 7, 10, chars_together_in_100 + chars_w_space_in_100_space, 7
+      it_behaves_like 'good results for query', 'author', query, 8, 12, chars_together_in_100 + chars_w_space_in_100_space, 8
     end
     shared_examples_for "good everything results for 강인철" do | query |
       it_behaves_like 'good author results for 강인철', query
