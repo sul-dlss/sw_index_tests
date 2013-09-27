@@ -17,6 +17,15 @@ describe "Chinese Title", :chinese => true do
     end
   end
   
+  context "Chinese historical research, phrase", :jira => 'VUF-2775' do
+    trad = '中國歷史研究'
+    simp = '中国历史研究'
+    context "phrase" do
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', "\"#{trad}\"", 'simplified', "\"#{simp}\"", 14, 15
+      it_behaves_like "matches in vern short titles first", 'title', "\"#{trad}\"", /(中國歷史研究|中国历史研究)/, 5
+    end
+  end
+
   context "(dream of) Red Chamber, a famous Chinese novel", :jira => 'VUF-2773' do
     it_behaves_like "both scripts get expected result size", 'title', 'traditional', '紅樓夢', 'simplified', '红楼梦', 500, 525
     it_behaves_like "matches in vern short titles first", 'title', '紅樓夢', /^(紅樓夢|红楼梦|紅楼夢)[^[[:alpha:]]]*$/, 3
