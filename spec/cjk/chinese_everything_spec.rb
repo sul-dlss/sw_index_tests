@@ -13,6 +13,16 @@ describe "Chinese Everything", :chinese => true do
       it_behaves_like "matches in vern short titles first", 'everything', '中國 經濟 政策', /(中國經濟政策|中国经济政策)/, 6
     end
   end
+  
+  context "contemporary china economic study", :jira => 'VUF-2767' do
+    trad = '當代中國經濟研究'
+    simp = '当代中国经济研究'
+    it_behaves_like "both scripts get expected result size", 'everything', 'traditional', trad, 'simplified', simp, 12, 90
+    it_behaves_like "best matches first", 'everything', simp, '4188269', 2
+    it_behaves_like "best matches first", 'everything', simp, 
+            ['4164852', '4188269', '10153644', '8225832', '4335450', '4185340', 
+              '10097344', '6319540', '4167881', '4166036', '9366459', '6370106'], 12
+  end
 
   context "Chu Anping", :jira => 'VUF-2689' do
     # see also chinese_han_variants spec, as there are two traditional forms of the second character
