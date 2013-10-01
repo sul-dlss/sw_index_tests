@@ -43,15 +43,17 @@ describe "Korean author", :korean => true do
                               '9927817',
                               '8504300',
                               '9957716',
-                              '7692263' ]
+                              '7692263',
+                              '10144316',
+                              '10144263' ]
     shared_examples_for "good author results for 강인철" do | query |
-      it_behaves_like 'good results for query', 'author', query, 8, 12, chars_together_in_100 + chars_w_space_in_100_space, 8
+      it_behaves_like 'good results for query', 'author', query, 8, 15, chars_together_in_100 + chars_w_space_in_100_space, 11
     end
     shared_examples_for "good everything results for 강인철" do | query |
       it_behaves_like 'good author results for 강인철', query
       in_245c = '9688452' # 245c has 편집 강 인철].
       in_245c_and_700 = '7850201'  # 245c has [著者 강 인철
-      it_behaves_like 'best matches first', 'everything', query, [in_245c, in_245c_and_700], 10
+      it_behaves_like 'best matches first', 'everything', query, [in_245c, in_245c_and_700], 13
       chars_out_of_order = '9696801' #  철강인  in 245a, 246a
       it_behaves_like 'does not find irrelevant results', 'author', query, chars_out_of_order
     end
