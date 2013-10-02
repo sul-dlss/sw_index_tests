@@ -104,7 +104,7 @@ describe "Chinese Title", :chinese => true do
       end
     end
     context "with space" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '舊 小說', 'simplified', '旧 小说', 11, 17
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '舊 小說', 'simplified', '旧 小说', 11, 20
       trad_resp = cjk_query_resp_ids('title', '舊 小說')
       simp_resp = cjk_query_resp_ids('title', '旧 小说')
       it_behaves_like "great title search results for old fiction (Han)" do
