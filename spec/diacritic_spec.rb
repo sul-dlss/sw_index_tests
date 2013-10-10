@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe "Diacritics" do
     
-  it "Acute Accent é" do
+  it "Acute Accent é", :jira => 'VUF-106' do
     resp = solr_resp_doc_ids_only({'q'=>'étude'})
     resp.should include(["466512", "5747443"])
     resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'etude'}))
@@ -16,7 +16,7 @@ describe "Diacritics" do
   end
   
   context "Umlaut" do
-    it "ä (German)" do
+    it "ä (German)", :jira => 'VUF-106' do
       resp = solr_resp_doc_ids_only({'q'=>'Ränsch-Trill'})
       resp.should include("2911735")
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'Ransch-Trill'}))
@@ -60,7 +60,7 @@ describe "Diacritics" do
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'Fevralskogo'}))
       # not designed to work with apostrophe substitution, esp. as apostrophe is Solr operator
 #      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"Fevral'skogo"}))
-    end   
+    end
   end
   
   it "Soft Znak ś" do
@@ -117,7 +117,7 @@ describe "Diacritics" do
       resp2.should have_the_same_number_of_results_as(resp2)
       resp2.should include("7926218")
     end
-    it "ū" do
+    it "ū", :jira => ['VUF-106', 'VUF-166'] do
       resp = solr_resp_doc_ids_only({'q'=>'Rekishi yūgaku'})
       resp.should include("5338009")
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'Rekishi yugaku'}))
@@ -180,7 +180,7 @@ describe "Diacritics" do
     resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=> "د" }))
   end
   
-  it "Arabic script alif with diacritics" do
+  it "Arabic script alif with diacritics", :jira => ['VUF-1807', 'SW-718'] do
     resp = solr_resp_doc_ids_only({'q'=> "أ" })
     resp.should have_documents
     resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>  "أ" }))
@@ -212,7 +212,7 @@ describe "Diacritics" do
       resp.should include(["6666891", "6733701"]).as_first(2).documents
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'Vakiflar dergisi'}))
     end
-    it "anlayısının", :jira => ['SW-718', 'SW-497'] do
+    it "anlayısının", :jira => ['SW-718', 'SW-497', 'VUF-1807'] do
       resp = solr_response({'q'=>"anlayısının", 'fl'=>'id,title_245a_display', 'facet'=>false})
       resp.should have_at_least(4).documents
       resp.should include("title_245a_display" => /anlay[ıi][sş][ıi]n[ıi]n/i).in_each_of_first(2).documents
