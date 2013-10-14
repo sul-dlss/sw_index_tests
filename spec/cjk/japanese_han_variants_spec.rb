@@ -65,11 +65,17 @@ describe "Japanese Kanji variants", :japanese => true, :fixme => true do
       it_behaves_like "expected result size", 'everything', '慶応義塾大学', 375, 450  # modern
     end
     
-    context "Mahayana Buddhism", :jifra => 'VUF-2761' do
+    context "Mahayana Buddhism", :jira => 'VUF-2761' do
       # 大乘仏教 (Mahayana Buddhism; 大乘 = traditional Japanese characters, 仏教 = modern Japanese)
       # Socrates retrieves ten records: the same two Japanese records and 
       # eight Chinese records that contain the term written in traditional characters, 大乘佛教. 
-      it_behaves_like "expected result size", 'everything', '大乘仏教', 10, 15
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '大乘佛教', 'modern', '大乘仏教', 10, 65
+      it_behaves_like "best matches first", 'title', '大乘佛教', ['4192936', '6667604'], 2  # trad
+      it_behaves_like "best matches first", 'title', '大乘仏教', ['4192936', '6667604'], 2  # modern
+# FIXME:
+      # 2nd char is not the same:  大乘仏教  in  4192936  and  大乗仏教  in 6667604
+#      it_behaves_like "matches in vern short titles first", 'title', '大乘佛教', /^(大乘佛教|大乘仏教)[^[[:alnum:]]]*$/, 2 # trad
+#      it_behaves_like "matches in vern short titles first", 'title', '大乘仏教', /^(大乘佛教|大乘仏教)[^[[:alnum:]]]*$/, 2 # modern
     end
     
     context "the origin", :jira => 'VUF-2782' do
