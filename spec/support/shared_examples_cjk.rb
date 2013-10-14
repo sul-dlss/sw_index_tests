@@ -45,7 +45,7 @@ end
 
 
 shared_examples_for "matches in vern short titles first" do | query_type, query, regex, num, solr_params |
-  it "finds #{regex} in first #{num} titles" do
+  it "finds #{regex} in first #{num} vern short titles" do
     solr_params ||= {}
     solr_params.merge!('rows'=>num) if num > 20
     resp = solr_response({'q' => cjk_q_arg(query_type, query), 'fl'=>'id,vern_title_245a_display', 'facet'=>false}.merge(solr_params))
@@ -58,7 +58,7 @@ shared_examples_for "result size and vern short title matches first" do | query_
 end
 
 shared_examples_for "matches in vern titles first" do | query_type, query, regex, num, solr_params |
-  it "finds #{regex} in first #{num} titles" do
+  it "finds #{regex} in first #{num} vern titles" do
     solr_params ||= {}
     solr_params.merge!('rows'=>num) if num > 20
     resp = solr_response({'q' => cjk_q_arg(query_type, query), 'fl'=>'id,vern_title_full_display', 'facet'=>false}.merge(solr_params))
@@ -71,7 +71,7 @@ shared_examples_for "result size and vern title matches first" do | query_type, 
 end
 
 shared_examples_for "matches in vern titles" do | query_type, query, regex, num, solr_params |
-  it "finds #{regex} in titles" do
+  it "finds #{regex} in vern titles" do
     solr_params ||= {}
     solr_params.merge!('rows'=>num) if num > 20
     resp = solr_response({'q' => cjk_q_arg(query_type, query), 'fl'=>'id,vern_title_full_display', 'facet'=>false}.merge(solr_params))
@@ -80,7 +80,7 @@ shared_examples_for "matches in vern titles" do | query_type, query, regex, num,
 end
 
 shared_examples_for "matches in vern person authors first" do | query_type, query, regex, num, solr_params |
-  it "finds #{regex} in first #{num} person authors" do
+  it "finds #{regex} in first #{num} vern person authors" do
     solr_params ||= {}
     solr_params.merge!('rows'=>num) if num > 20
     resp = solr_response({'q' => cjk_q_arg(query_type, query), 'fl'=>'id,vern_author_person_display', 'facet'=>false}.merge(solr_params))
@@ -93,7 +93,7 @@ shared_examples_for "result size and vern person author matches first" do | quer
 end
 
 shared_examples_for "matches in vern corp authors first" do | query_type, query, regex, num, solr_params |
-  it "finds #{regex} in first #{num} corp authors" do
+  it "finds #{regex} in first #{num} vern corp authors" do
     solr_params ||= {}
     solr_params.merge!('rows'=>num) if num > 20
     resp = solr_response({'q' => cjk_q_arg(query_type, query), 'fl'=>'id,vern_author_corp_display', 'facet'=>false}.merge(solr_params))
