@@ -32,16 +32,14 @@ describe "Japanese Kanji variants", :japanese => true, :fixme => true do
     context 'Edo (old name for Tokyo)', :jira => ['VUF-2726', 'VUF-2770'] do
       # Second char of traditional doesn't translate to second char of modern with ICU traditional->simplified 
       it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '江戶', 'modern', '江戸', 1900, 2000
-      # trad  江戶
-      it_behaves_like "result size and vern short title matches first", 'everything', '江戶', 1900, 2000, /(江戶|江戸)/, 100
-      # modern  江戸
-      it_behaves_like "expected result size", 'everything', '江戸', 3, 5
-      context "w lang limit" do
-        # trad
-        it_behaves_like "result size and vern short title matches first", 'everything', '江戶', 1900, 1950, /江戶/, 100, lang_limit
-        # modern
-        it_behaves_like "expected result size", 'everything', '江戸', 3, 5, lang_limit
-      end
+      it_behaves_like "matches in vern short titles first", 'everything', '江戶', /(江戶|江戸)/, 100  # trad
+      it_behaves_like "matches in vern short titles first", 'everything', '江戸', /(江戶|江戸)/, 100  # modern
+      # exact match
+      it_behaves_like "matches in vern short titles first", 'everything', '江戶', /^(江戶|江戸)[^[[:alnum:]]]*$/, 3  # trad
+      it_behaves_like "matches in vern short titles first", 'everything', '江戸', /^(江戶|江戸)[^[[:alnum:]]]*$/, 3  # modern
+      # starts w
+      it_behaves_like "matches in vern short titles first", 'everything', '江戶', /^(江戶|江戸)/, 12  # trad
+      it_behaves_like "matches in vern short titles first", 'everything', '江戸', /^(江戶|江戸)/, 12  # modern
     end
 
     context 'Jien (personal name)', :jira => 'VUF-2779' do
