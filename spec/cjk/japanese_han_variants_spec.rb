@@ -24,7 +24,9 @@ describe "Japanese Kanji variants", :japanese => true, :fixme => true do
     end # buddhism
 
     context "cherry blossoms", :jira => 'VUF-2781' do
-      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '櫻', 'modern', '桜', 4, 6
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '櫻', 'modern', '桜', 175, 200
+      it_behaves_like "matches in vern short titles first", 'everything', '櫻', /^桜$/, 2  # trad
+      it_behaves_like "matches in vern short titles first", 'everything', '桜', /^桜$/, 2  # modern
     end
 
     context 'Edo (old name for Tokyo)', :jira => ['VUF-2726', 'VUF-2770'] do
