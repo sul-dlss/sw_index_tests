@@ -122,11 +122,11 @@ describe "Japanese Kanji variants", :japanese => true, :fixme => true do
       it_behaves_like "matches in vern corp authors first", 'author', '南満州鉄道株式会社', /^南(滿|満)(洲|州)(鉄|鐵)道株式(会|會)社[^[[:alnum:]]]*.*$/, 18 # modern w 3rd char var
     end
 
-    context "tale", :jira => ['VUF-2705', 'VUF-2742', 'VUF-2740'] do
-      # note:  Japanese do not use 语 (2nd char as simplified chinese) but rather 語
+    context "tale", :jira => ['VUF-2742', 'VUF-2740'] do
+      # note:  Japanese do not use 语 (2nd char as simplified chinese) but rather 語, so japanese modern is same as trad
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '物語', 'chinese simp', '物语', 2351, 2455
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '物語', 'modern', '物語', 2351, 2455
       it_behaves_like "matches in vern titles first", 'title', '物語', /物語/, 13  # 14 is 4223454 which has it in 240a
+      it_behaves_like "matches in vern titles first", 'title', '物語', /物語/, 100, lang_limit
     end
     
     context "weather", :jira => 'VUF-2756' do
