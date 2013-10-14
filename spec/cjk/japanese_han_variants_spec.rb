@@ -52,7 +52,7 @@ describe "Japanese Kanji variants", :japanese => true, :fixme => true do
     context "(a journal title)", :jira => 'VUF-2762' do
       # 文芸戦線 (modern Japanese way of writing title of an early 20th century journal, 
       # which used the traditional characters for its title 文藝戰線)
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '文藝戰線', 'modern', '文芸戦線', 10, 5, lang_limit
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '文藝戰線', 'modern', '文芸戦線', 5, 10, lang_limit
       it_behaves_like "best matches first", 'title', '文芸戦線', '6622409', 1
     end
     
