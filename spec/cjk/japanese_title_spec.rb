@@ -9,7 +9,22 @@ describe "Japanese Title searches", :japanese => true do
     it_behaves_like "expected result size", 'title', 'ブロック化', 12, 15
     it_behaves_like "best matches first", 'title', 'ブロック化', '9855019', 1
   end
-  # buddhism:  (see japanese han variants spec)
+  context "buddhism", :jira => ['VUF-2724', 'VUF-2725'] do
+    # First char of traditional doesn't translate to first char of modern with ICU traditional->simplified 
+    # (traditional and simplified are the same;  modern is different)
+    it_behaves_like "both scripts get expected result size", 'title', 'traditional', '佛教', 'modern', '仏教', 1900, 2100
+    it_behaves_like "matches in vern short titles first", 'title', '佛教', /(佛教|仏教)/, 100  # trad
+    it_behaves_like "matches in vern short titles first", 'title', '仏教', /(佛教|仏教)/, 100  # modern
+    exact_245a = ['6854317', '4162614', '6276328', '10243029', '10243045', '10243039']
+    it_behaves_like "matches in vern short titles first", 'title', '仏教', /^(佛教|仏教)[^[[:alnum:]]]*$/, 3 # exact title match
+    it_behaves_like "matches in vern short titles first", 'title', '仏教', /^(佛教|仏教).*$/, 7 # title starts w match
+    context "w lang limit" do
+      # trad
+      it_behaves_like "result size and vern short title matches first", 'title', '佛教', 900, 1000, /(佛教|仏教)/, 100, lang_limit
+      # modern
+      it_behaves_like "result size and vern short title matches first", 'title', '仏教', 900, 1000, /(佛教|仏教)/, 100, lang_limit
+    end
+  end
   context "editorial" do
     it_behaves_like "both scripts get expected result size", 'title', 'traditional', '論說', 'modern', '論説', 50, 100, lang_limit
     it_behaves_like "matches in vern short titles first", 'title', '論説', /論說|論説/, 16, lang_limit
