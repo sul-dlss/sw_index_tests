@@ -13,39 +13,22 @@ describe "Japanese Everything Searches", :japanese => true do
   end
 
   context "buddhism", :jira => 'VUF-2724' do
-    # FIXME:  first character of traditional doesn't translate to first char of 
-    #  modern with ICU traditional->simplified    (see also japanese_han_variants_spec)
-    context "traditional 佛教" do
-      it_behaves_like "result size and vern short title matches first", 'everything', '佛教', 1400, 1500, /佛教/, 100
-      context "w lang limit" do
-        it_behaves_like "result size and vern short title matches first", 'everything', '佛教', 190, 225, /佛教/, 100, lang_limit
-      end
-    end
-    context "modern 仏教" do
-      it_behaves_like "result size and vern short title matches first", 'everything', '仏教', 820, 850, /仏教/, 100
-      exact_245a = ['6854317', '4162614', '6276328', '10243029', '10243045', '10243039']
-      it_behaves_like "matches in vern short titles first", 'everything', '仏教', /^仏教[^[[:alnum:]]]*$/, 3  # exact title match
-      context "w lang limit" do
-        it_behaves_like "result size and vern short title matches first", 'everything', '仏教', 820, 850, /仏教/, 100, lang_limit
-      end
-    end
+    # First char of traditional doesn't translate to first char of modern with ICU traditional->simplified 
+    # (see japanese_han_variants)
   end
 
   context 'Edo (old name for Tokyo)', :jira => ['VUF-2726', 'VUF-2770'] do
-    # FIXME:  second character of traditional doesn't translate to second char of 
-    #  modern with ICU traditional->simplified    (see also japanese_han_variants_spec)
-    context "traditional 江戶" do
-      it_behaves_like "result size and vern short title matches first", 'everything', '江戶', 1900, 2000, /江戶/, 100
-      context "w lang limit" do
-        it_behaves_like "result size and vern short title matches first", 'everything', '江戶', 1900, 1950, /江戶/, 100, lang_limit
-      end
-    end
-    context "modern 江戸" do
-      it_behaves_like "expected result size", 'everything', '江戸', 3, 5
-      context "w lang limit" do
-        it_behaves_like "expected result size", 'everything', '江戸', 3, 5, lang_limit
-      end
-    end
+    # second character of traditional doesn't translate to second char of modern with ICU traditional->simplified
+    # (see also japanese_han_variants_spec)
+    it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '江戶', 'modern', '江戸', 1900, 2000, lang_limit
+    it_behaves_like "matches in vern short titles first", 'everything', '江戶', /(江戶|江戸)/, 100, lang_limit  # trad
+    it_behaves_like "matches in vern short titles first", 'everything', '江戸', /(江戶|江戸)/, 100, lang_limit # modern
+    # exact match
+    it_behaves_like "matches in vern short titles first", 'everything', '江戶', /^(江戶|江戸)[^[[:alnum:]]]*$/, 3, lang_limit  # trad
+    it_behaves_like "matches in vern short titles first", 'everything', '江戸', /^(江戶|江戸)[^[[:alnum:]]]*$/, 3, lang_limit  # modern
+    # starts w
+    it_behaves_like "matches in vern short titles first", 'everything', '江戶', /^(江戶|江戸)/, 12, lang_limit  # trad
+    it_behaves_like "matches in vern short titles first", 'everything', '江戸', /^(江戶|江戸)/, 12, lang_limit  # modern
   end
 
   context "Imperial" do
@@ -94,9 +77,10 @@ describe "Japanese Everything Searches", :japanese => true do
       it_behaves_like "good results for query", 'everything', ' マンチュリヤ', 2, 3, ['6326474', '9375973'], 2
     end
     context "kanji", :jira => 'VUF-2713' do
-      it_behaves_like "result size and vern short title matches first", 'everything', '満洲', 362, 415, /満洲/, 100
+      # note: first char is a modern japanese variant
+      it_behaves_like "result size and vern short title matches first", 'everything', '満洲', 2000, 2100, /(満|滿)洲/, 80
       context "w lang limit" do
-        it_behaves_like "result size and vern short title matches first", 'everything', '満洲', 362, 400, /満洲/, 100, lang_limit
+        it_behaves_like "result size and vern short title matches first", 'everything', '満洲', 1775, 1825, /(満|滿)洲/, 100, lang_limit
       end
     end
   end
@@ -121,17 +105,7 @@ describe "Japanese Everything Searches", :japanese => true do
 
   context "survey/investigation (kanji)", :jira => 'VUF-2727' do
     # FIXME:  second trad char isn't translated to modern by ICU trad-simp
-    #  (see also japanese_han_variants_spec)
-    context "traditional 調查" do
-      # NOTE:   调查  => chinese simplified
-      it_behaves_like "result size and vern short title matches first", 'everything', '調查', 7000, 12000, /(調查|调查)/, 100
-      context "w lang limit" do
-        it_behaves_like "result size and vern short title matches first", 'everything', '調查', 7000, 8000, /調查/, 100, lang_limit
-      end
-    end
-    context "modern 調査" do
-      it_behaves_like "result size and vern short title matches first", 'everything', '調査', 100, 115, /調査/, 25
-    end
+    # (see japanese_han_variants)
   end
 
   context "Takamatsu Tumulus", :jira => 'VUF-2801' do
