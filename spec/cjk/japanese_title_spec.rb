@@ -129,16 +129,19 @@ describe "Japanese Title searches", :japanese => true do
     it_behaves_like "best matches first", 'title', '仏教学', '7641164', 4  # in Korean!
   end
   context "survey/investigation", :jira => 'VUF-2727' do
-    # FIXME:  second trad char isn't translated to modern - these should be equivalent
+    # second trad char isn't translated to modern with ICU trad -> simp
     # (see also japanese han variants)
-    context "modern" do
-      it_behaves_like "expected result size", 'title', '調査', 55, 65, lang_limit
-      it_behaves_like "matches in vern short titles first", 'title', '調査', /調査/, 25, lang_limit
-      it_behaves_like "matches in vern titles first", 'title', '調査', /調査/, 30, lang_limit
-    end
-    context "traditional" do
-      it_behaves_like "expected result size", 'title', '調查', 4450, 4700, lang_limit
-      it_behaves_like "matches in vern short titles first", 'title', '調查', /調查/, 100, lang_limit
+    it_behaves_like "both scripts get expected result size", 'title', 'traditional', ' 調查', 'modern', '調査', 7000, 8000
+    # exact title match
+    it_behaves_like "matches in vern short titles first", 'title', '調查', /^(調查|調査)[^[[:alnum:]]]*$/, 1 # trad
+    it_behaves_like "matches in vern short titles first", 'title', '調査', /^(調查|調査)[^[[:alnum:]]]*$/, 1 # mod
+    context "w lang limit" do
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', ' 調查', 'modern', '調査', 4450, 4700, lang_limit
+      it_behaves_like "matches in vern short titles first", 'title', '調查', /(調查|調査)/, 100, lang_limit   # trad
+      it_behaves_like "matches in vern short titles first", 'title', '調査', /(調查|調査)/, 100, lang_limit  # modern
+      # exact title match
+      it_behaves_like "matches in vern short titles first", 'title', '調查', /^(調查|調査)[^[[:alnum:]]]*$/, 1
+      it_behaves_like "matches in vern short titles first", 'title', '調査', /^(調查|調査)[^[[:alnum:]]]*$/, 1
     end
   end
   context "tale", :jira => ['VUF-2705', 'VUF-2743', 'VUF-2742', 'VUF-2740'] do
