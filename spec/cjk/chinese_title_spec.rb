@@ -5,15 +5,15 @@ describe "Chinese Title", :chinese => true do
   
   context "china economic policy", :jira => 'SW-100' do
     context "no spaces" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '中國經濟政策', 'simplified', '中国经济政策', 55, 75
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '中國經濟政策', 'simplified', '中国经济政策', 75, 100
       it_behaves_like "matches in vern short titles first", 'title', '中國經濟政策', /^中國經濟政策$/, 1
-      it_behaves_like "matches in vern short titles first", 'title', '中國經濟政策', /(中國經濟政策|中国经济政策)/, 6
+      it_behaves_like "matches in vern short titles first", 'title', '中國經濟政策', /(中國經濟政策|中国经济政策|中国経済政策史)/, 7
     end
     context "with spaces" do
       # TODO:  would like to have better precision here -- too many results now
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '中國 經濟 政策', 'simplified', '中国 经济 政策', 55, 90
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '中國 經濟 政策', 'simplified', '中国 经济 政策', 75, 125
       it_behaves_like "matches in vern titles", 'title', '中國 經濟 政策', /^中國經濟政策 \/.*$/, 2
-      it_behaves_like "matches in vern short titles first", 'title', '中國 經濟 政策', /(中國經濟政策|中国经济政策)/, 6
+      it_behaves_like "matches in vern short titles first", 'title', '中國 經濟 政策', /(中國經濟政策|中国经济政策|中国経済政策史)/, 7
     end
   end
   
@@ -21,8 +21,9 @@ describe "Chinese Title", :chinese => true do
     trad = '中國歷史研究'
     simp = '中国历史研究'
     context "phrase" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', "\"#{trad}\"", 'simplified', "\"#{simp}\"", 14, 15
-      it_behaves_like "matches in vern short titles first", 'title', "\"#{trad}\"", /(中國歷史研究|中国历史研究)/, 5
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', "\"#{trad}\"", 'simplified', "\"#{simp}\"", 14, 30
+      it_behaves_like "matches in vern short titles first", 'title', "\"#{trad}\"", /中[國国][歷历歴]史[研硏]究/, 12
+      it_behaves_like "matches in vern short titles first", 'title', "\"#{simp}\"", /中[國国][歷历歴]史[研硏]究/, 12
     end
   end
 
@@ -53,13 +54,13 @@ describe "Chinese Title", :chinese => true do
   context "history research", :jira => 'VUF-2771' do
     # see also chinese_han_variants spec, as the 3rd character isn't matching what's in the record
     context "no spaces" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '歷史研究', 'simplified', '历史研究', 562, 900
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '歷史研究', 'simplified', '历史研究', 1300, 1500
     end
     context "with space" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '歷史 研究', 'simplified', '历史 研究', 1000, 1100
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '歷史 研究', 'simplified', '历史 研究', 1700, 1850
     end
     context "as phrase" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '"歷史研究"', 'simplified', '"历史研究"', 155, 175
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '"歷史研究"', 'simplified', '"历史研究"', 250, 325
     end
   end
   
