@@ -151,10 +151,10 @@ describe "Japanese Title searches", :japanese => true do
       it_behaves_like "matches in vern short titles first", 'title', 'ものがたり', /ものがたり/, 35
     end
     context "kanji", :jira => ['VUF-2705', 'VUF-2742', 'VUF-2740'] do
-      # FIXME:  Japanese do not use 语 (2nd char as simplified chinese) but rather 語
-      # (see also japanese han variants)
+      # Japanese do not use 语 (2nd char as simplified chinese) but rather 語 (trad char)
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '物語', 'chinese simp', '物语', 2351, 2455
       it_behaves_like "matches in vern titles first", 'title', '物語', /物語/, 13  # 14 is 4223454 which has it in 240a
+      it_behaves_like "matches in vern titles first", 'title', '物語', /物語/, 100, lang_limit
     end
   end
   context "Tsu child remains lantern shop", :jira => 'VUF-2701' do
@@ -167,18 +167,15 @@ describe "Japanese Title searches", :japanese => true do
     it_behaves_like "best matches first", 'title', '白鳥のふたごものがたり', '10185778', 1   # in 245a
   end
   context "weather", :jira => 'VUF-2756' do
-    # FIXME:  2nd modern char isn't same as translate simplified han
-    # (see also japanese han variants)
-    it_behaves_like "both scripts get expected result size", 'title', 'traditional', '天氣', 'chinese', '天气', 10, 17
-    context "modern" do
-      it_behaves_like "expected result size", 'title', '天気', 2, 17
-      it_behaves_like "matches in vern short titles first", 'title', '天気', /天気/, 2
-    end
-    context "traditional" do
-      it_behaves_like "expected result size", 'title', '天氣', 10, 17
-      it_behaves_like "matches in vern short titles first", 'title', '天氣', /(天氣|天气)/, 7
-      it_behaves_like "matches in vern titles first", 'title', '天氣', /(天氣|天气)/, 9
-    end
+    # (see also japanese han variants)  2nd modern char isn't same as translated simplified han
+    # traditional:   天氣 
+    # modern:   天気
+    # chinese simp:  天气
+    it_behaves_like "both scripts get expected result size", 'title', 'traditional', '天氣', 'modern', '天気', 10, 17
+    it_behaves_like "matches in vern short titles first", 'title', '天気', /天(氣|気|气)/, 9 # modern
+    it_behaves_like "matches in vern short titles first", 'title', '天氣', /天(氣|気|气)/, 9 # trad
+    it_behaves_like "matches in vern titles first", 'title', '天気', /天(氣|気|气)/, 11 # modern
+    it_behaves_like "matches in vern titles first", 'title', '天氣', /天(氣|気|气)/, 11 # trad
   end
   context "weekly" do
     # FIXME:  2nd trad char isn't translated to modern  (modern != simplified)
