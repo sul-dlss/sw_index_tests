@@ -4,24 +4,24 @@ require 'spec_helper'
 describe "Chinese Everything", :chinese => true do
 
   context "china economic policy", :jira => 'SW-100' do
-    it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '中國經濟政策', 'simplified', '中国经济政策', 250, 300
+    it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '中國經濟政策', 'simplified', '中国经济政策', 250, 325
     it_behaves_like "matches in vern short titles first", 'everything', '中國經濟政策', /^中國經濟政策$/, 1
-    it_behaves_like "matches in vern short titles first", 'everything', '中國經濟政策', /(中國經濟政策|中国经济政策)/, 6
+    it_behaves_like "matches in vern short titles first", 'everything', '中國經濟政策', /(中國經濟政策|中国经济政策|中国経済政策史)/, 7
     context "with spaces" do
-      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '中國 經濟 政策', 'simplified', '中国 经济 政策', 200, 250
+      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '中國 經濟 政策', 'simplified', '中国 经济 政策', 225, 275
       it_behaves_like "matches in vern short titles first", 'everything', '中國 經濟 政策', /^中國經濟政策$/, 1
-      it_behaves_like "matches in vern short titles first", 'everything', '中國 經濟 政策', /(中國經濟政策|中国经济政策)/, 6
+      it_behaves_like "matches in vern short titles first", 'everything', '中國 經濟 政策', /(中國經濟政策|中国经济政策|中国経済政策史)/, 7
     end
   end
   
   context "contemporary china economic study", :jira => 'VUF-2767' do
     trad = '當代中國經濟研究'
     simp = '当代中国经济研究'
-    it_behaves_like "both scripts get expected result size", 'everything', 'traditional', trad, 'simplified', simp, 12, 90
-    it_behaves_like "best matches first", 'everything', simp, '4188269', 2
+    it_behaves_like "both scripts get expected result size", 'everything', 'traditional', trad, 'simplified', simp, 12, 140
+    it_behaves_like "best matches first", 'everything', simp, '4188269', 4
     it_behaves_like "best matches first", 'everything', simp, 
             ['4164852', '4188269', '10153644', '8225832', '4335450', '4185340', 
-              '10097344', '6319540', '4167881', '4166036', '9366459', '6370106'], 13
+              '10097344', '6319540', '4167881', '4166036', '9366459', '6370106'], 14
   end
 
   context "Chu Anping", :jira => 'VUF-2689' do
@@ -45,13 +45,13 @@ describe "Chinese Everything", :chinese => true do
 
   context "history research", :jira => 'VUF-2771' do
     context "no spaces" do
-      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '歷史研究', 'simplified', '历史研究', 2700, 2800
+      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '歷史研究', 'simplified', '历史研究', 2700, 5200
     end
     context "with space" do
-      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '歷史研究', 'simplified', '历史研究', 2700, 2800
+      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '歷史研究', 'simplified', '历史研究', 2700, 5200
     end
     context "as phrase" do
-      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '"歷史研究"', 'simplified', '"历史研究"', 400, 425
+      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '"歷史研究"', 'simplified', '"历史研究"', 400, 725
     end
   end
 
