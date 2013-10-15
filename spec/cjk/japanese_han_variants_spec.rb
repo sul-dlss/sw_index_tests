@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
 
-describe "Japanese Kanji variants", :japanese => true, :fixme => true do
+describe "Japanese Kanji variants", :japanese => true do
 
   lang_limit = {'fq'=>'language:Japanese'}
 
@@ -10,8 +10,8 @@ describe "Japanese Kanji variants", :japanese => true, :fixme => true do
       # First char of traditional doesn't translate to first char of modern with ICU traditional->simplified 
       # (traditional and simplified are the same;  modern is different)
       it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '佛教', 'modern', '仏教', 2200, 2300
-      it_behaves_like "matches in vern short titles first", 'everything', '佛教', /(佛教|仏教)/, 100
-      it_behaves_like "matches in vern short titles first", 'everything', '仏教', /(佛教|仏教)/, 100
+      it_behaves_like "matches in vern short titles first", 'everything', '佛教', /(佛教|仏教)/, 100  # trad
+      it_behaves_like "matches in vern short titles first", 'everything', '仏教', /(佛教|仏教)/, 100  # modern
       exact_245a = ['6854317', '4162614', '6276328', '10243029', '10243045', '10243039']
       it_behaves_like "matches in vern short titles first", 'everything', '仏教', /^(佛教|仏教)[^[[:alnum:]]]*$/, 3 # exact title match
       it_behaves_like "matches in vern short titles first", 'title', '仏教', /^(佛教|仏教).*$/, 7 # title starts w match
@@ -135,7 +135,7 @@ describe "Japanese Kanji variants", :japanese => true, :fixme => true do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '天氣', 'chinese', '天气', 10, 17
     end
 
-    context "weekly" do
+    context "weekly", :fixme => true do
       # 2nd trad char isn't translated to modern - these should be equivalent
       it_behaves_like "both scripts get expected result size", 'title', 'modern', '週刊', 'traditional', '週刋', 83, 440, lang_limit
     end
