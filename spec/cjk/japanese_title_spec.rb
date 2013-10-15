@@ -9,24 +9,7 @@ describe "Japanese Title searches", :japanese => true do
     it_behaves_like "expected result size", 'title', 'ブロック化', 12, 15
     it_behaves_like "best matches first", 'title', 'ブロック化', '9855019', 1
   end
-  context "buddhism", :jira => 'VUF-2725' do
-    # FIXME:  first character of traditional doesn't translate to first char of 
-    #  modern with ICU traditional->simplified    (see also japanese han variants)
-    context "traditional 佛教" do
-      it_behaves_like "result size and vern short title matches first", 'title', '佛教', 1100, 1250, /佛教/, 100
-      context "w lang limit" do
-        it_behaves_like "result size and vern short title matches first", 'title', '佛教', 160, 175, /佛教/, 100, lang_limit
-      end
-    end
-    context "modern 仏教" do
-      it_behaves_like "result size and vern short title matches first", 'title', '仏教', 775, 850, /仏教/, 100
-      exact_245a = ['6854317', '4162614', '6276328', '10243029', '10243045', '10243039']
-      it_behaves_like "matches in vern short titles first", 'title', '仏教', /^仏教[^[[:alnum:]]]*$/, 3  # exact title match
-      context "w lang limit" do
-        it_behaves_like "result size and vern short title matches first", 'title', '仏教', 765, 825, /仏教/, 100, lang_limit
-      end
-    end
-  end
+  # buddhism:  (see japanese han variants spec)
   context "editorial" do
     it_behaves_like "both scripts get expected result size", 'title', 'traditional', '論說', 'modern', '論説', 50, 100, lang_limit
     it_behaves_like "matches in vern short titles first", 'title', '論説', /論說|論説/, 16, lang_limit
@@ -117,18 +100,18 @@ describe "Japanese Title searches", :japanese => true do
     it_behaves_like "matches in vern short titles first", 'title', 'スポーツ', /スポーツ/, 20
   end
   context "Study of Buddhism", :jira => ['VUF-2732', 'VUF-2733'] do
-    # FIXME:  first trad character isn't translated to modern - these should be equivalent
-    # (see also japanese han variants)  
-    context "modern" do
-      it_behaves_like "expected result size", 'title', '仏教学', 100, 135
-      it_behaves_like "matches in vern short titles first", 'title', '仏教学', /仏教学/, 8
-    end
-    context "traditional" do
-      it_behaves_like "expected result size", 'title', '佛教學', 150, 175
-      it_behaves_like "matches in vern short titles first", 'title', '佛教學', /佛教學/, 3
-      it_behaves_like "best matches first", 'title', '佛教學', '7813279', 1
-      it_behaves_like "best matches first", 'title', '佛教學', '7641164', 2  # in Korean!
-    end
+    # First char of traditional doesn't translate to first char of modern with ICU traditional->simplified
+    # (see also japanese han variants for plain buddhism)
+    it_behaves_like "both scripts get expected result size", 'title', 'traditional', '佛教學', 'modern', '仏教学', 275, 325
+    it_behaves_like "both scripts get expected result size", 'title', 'traditional', '佛教學', 'modern', '仏教学', 150, 175, lang_limit    
+    it_behaves_like "matches in vern short titles first", 'title', '佛教學', /(佛|仏)教(學|学)/, 15, lang_limit # trad
+    it_behaves_like "matches in vern short titles first", 'title', '仏教学', /(佛|仏)教(學|学)/, 15, lang_limit # modern
+    it_behaves_like "matches in vern short titles first", 'title', '佛教學', /(佛|仏)教(學|学)/, 15 # trad
+    it_behaves_like "matches in vern short titles first", 'title', '仏教学', /(佛|仏)教(學|学)/, 15 # modern
+    it_behaves_like "best matches first", 'title', '佛教學', '7813279', 1
+    it_behaves_like "best matches first", 'title', '佛教學', '7641164', 3  # in Korean!
+    it_behaves_like "best matches first", 'title', '仏教学', '7813279', 1
+    it_behaves_like "best matches first", 'title', '仏教学', '7641164', 4  # in Korean!
   end
   context "survey/investigation", :jira => 'VUF-2727' do
     # FIXME:  second trad char isn't translated to modern - these should be equivalent
