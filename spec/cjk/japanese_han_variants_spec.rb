@@ -72,10 +72,8 @@ describe "Japanese Kanji variants", :japanese => true do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '大乘佛教', 'modern', '大乘仏教', 10, 65
       it_behaves_like "best matches first", 'title', '大乘佛教', ['4192936', '6667604'], 2  # trad
       it_behaves_like "best matches first", 'title', '大乘仏教', ['4192936', '6667604'], 2  # modern
-# FIXME:
-      # 2nd char is not the same:  大乘仏教  in  4192936  and  大乗仏教  in 6667604
-#      it_behaves_like "matches in vern short titles first", 'title', '大乘佛教', /^(大乘佛教|大乘仏教)[^[[:alnum:]]]*$/, 2 # trad
-#      it_behaves_like "matches in vern short titles first", 'title', '大乘仏教', /^(大乘佛教|大乘仏教)[^[[:alnum:]]]*$/, 2 # modern
+      it_behaves_like "matches in vern short titles first", 'title', '大乘佛教', /^大(乗|乘)(佛|仏)教[^[[:alnum:]]]*$/, 2 # trad
+      it_behaves_like "matches in vern short titles first", 'title', '大乘仏教', /^大(乗|乘)(佛|仏)教[^[[:alnum:]]]*$/, 2 # modern
     end
     
     context "the origin", :jira => 'VUF-2782' do
