@@ -35,13 +35,13 @@ describe "Korean Titles", :korean => true do
   context "Hangul: film industry", :jira => 'VUF-2728' do
     shared_examples_for "good title results for 영화산업" do | query |
       # exact 영화 산업 starts 245a
-      it_behaves_like 'good results for query', 'title', query, 9, 15, '7197421', 1
+      it_behaves_like 'good results for query', 'title', query, 9, 15, '7509500', 1
       # exact  영화 산업 ends 245a
       it_behaves_like 'best matches first', 'title', query, '9423181', 3
       # exact  영화 산업 or 영화산업 in middle of 245a
-      it_behaves_like 'best matches first', 'title', query, ['6971471', '9724759', '7906632', '6827294', '9252364'], 7
+      it_behaves_like 'best matches first', 'title', query, ['7197421', '6971471', '9724759', '7906632', '6827294', '9252364'], 8
       # both 2 char combos in title, but not together
-      it_behaves_like 'best matches first', 'title', query, ['9925013', '9563618'], 10
+      it_behaves_like 'best matches first', 'title', query, ['9925013', '9563618'], 11
     end
     context "영화산업 (no spaces)" do
       it_behaves_like "good title results for 영화산업", '영화산업'
