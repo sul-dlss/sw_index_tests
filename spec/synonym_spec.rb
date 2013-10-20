@@ -125,8 +125,8 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
       end
       it "C programming", :jira => 'VUF-1993' do
         resp = solr_resp_doc_ids_only(subject_search_args('C programming'))
-        resp.should have_at_least(1000).results
-        resp.should have_at_most(1200).results
+        resp.should have_at_least(1100).results
+        resp.should have_at_most(1250).results
         resp.should include("4617632")
       end
     end
