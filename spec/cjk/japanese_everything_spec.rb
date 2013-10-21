@@ -78,9 +78,9 @@ describe "Japanese Everything Searches", :japanese => true do
     end
     context "kanji", :jira => 'VUF-2713' do
       # note: first char is a modern japanese variant
-      it_behaves_like "result size and vern short title matches first", 'everything', '満洲', 2000, 2100, /(満|滿)洲/, 80
+      it_behaves_like "result size and vern short title matches first", 'everything', '満洲', 2000, 2450, /(満|滿|满)(洲|州)/, 100
       context "w lang limit" do
-        it_behaves_like "result size and vern short title matches first", 'everything', '満洲', 1775, 1825, /(満|滿)洲/, 100, lang_limit
+        it_behaves_like "result size and vern short title matches first", 'everything', '満洲', 1775, 2200, /(満|滿|满)(洲|州)/, 100, lang_limit
       end
     end
   end
