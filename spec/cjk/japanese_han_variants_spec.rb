@@ -9,17 +9,18 @@ describe "Japanese Kanji variants", :japanese => true do
     context "buddhism", :jira => ['VUF-2724', 'VUF-2725'] do
       # First char of traditional doesn't translate to first char of modern with ICU traditional->simplified 
       # (traditional and simplified are the same;  modern is different)
-      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '佛教', 'modern', '仏教', 2200, 2300
-      it_behaves_like "matches in vern short titles first", 'everything', '佛教', /(佛教|仏教)/, 100  # trad
-      it_behaves_like "matches in vern short titles first", 'everything', '仏教', /(佛教|仏教)/, 100  # modern
+      # second char also has variant:   敎 654E (variant) => 教 6559 (std trad)
+      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '佛教', 'modern', '仏教', 2200, 3100
+      it_behaves_like "matches in vern short titles first", 'everything', '佛教', /(佛|仏)(教|敎)/, 100  # trad
+      it_behaves_like "matches in vern short titles first", 'everything', '仏教', /(佛|仏)(教|敎)/, 100  # modern
       exact_245a = ['6854317', '4162614', '6276328', '10243029', '10243045', '10243039']
-      it_behaves_like "matches in vern short titles first", 'everything', '仏教', /^(佛教|仏教)[^[[:alnum:]]]*$/, 3 # exact title match
-      it_behaves_like "matches in vern short titles first", 'title', '仏教', /^(佛教|仏教).*$/, 7 # title starts w match
+      it_behaves_like "matches in vern short titles first", 'everything', '仏教', /^(佛|仏)(教|敎)[^[[:alnum:]]]*$/, 3 # exact title match
+      it_behaves_like "matches in vern short titles first", 'title', '仏教', /^(佛|仏)(教|敎).*$/, 7 # title starts w match
       context "w lang limit" do
         # trad
-        it_behaves_like "result size and vern short title matches first", 'everything', '佛教', 1000, 1100, /(佛教|仏教)/, 100, lang_limit
+        it_behaves_like "result size and vern short title matches first", 'everything', '佛教', 1000, 1300, /(佛|仏)(教|敎)/, 100, lang_limit
         # modern
-        it_behaves_like "result size and vern short title matches first", 'everything', '仏教', 1000, 1100, /(佛教|仏教)/, 100, lang_limit
+        it_behaves_like "result size and vern short title matches first", 'everything', '仏教', 1000, 1300, /(佛|仏)(教|敎)/, 100, lang_limit
       end
     end # buddhism
 
@@ -110,14 +111,11 @@ describe "Japanese Kanji variants", :japanese => true do
       #  (chars 2 and 4) (char 8 also different)
       # simplified Chinese version of these two characters are 满 (U+6EE1) and 铁 (U+94C1). These are used in Chinese and not Japanese.
       # we don't care about  南满洲铁道株式會社 (Han simplified (non-Japanese) chars 2,4) - a Japanese query wouldn't have it
-# FIXME:  3rd char should also be a variant?
-#      it_behaves_like "both scripts get expected result size", 'author', 'traditional', '南滿洲鐵道株式會社', 'modern', '南満州鉄道株式会社', 600, 750
+      it_behaves_like "both scripts get expected result size", 'author', 'traditional', '南滿洲鐵道株式會社', 'modern', '南満州鉄道株式会社', 600, 750
       it_behaves_like "expected result size", 'author', '南滿洲鐵道株式會社', 600, 750  # trad
-      it_behaves_like "expected result size", 'author', '南満州鉄道株式会社', 600, 750  # modern      
-      it_behaves_like "matches in vern corp authors first", 'author', '南滿洲鐵道株式會社', /^南(滿|満)洲(鉄|鐵)道株式(会|會)社[^[[:alnum:]]]*.*$/, 100 # traditional
-# FIXME:
-#      it_behaves_like "matches in vern corp authors first", 'author', '南満州鉄道株式会社', /^南(滿|満)洲(鉄|鐵)道株式(会|會)社[^[[:alnum:]]]*.*$/, 100 # modern
-      it_behaves_like "matches in vern corp authors first", 'author', '南満州鉄道株式会社', /^南(滿|満)(洲|州)(鉄|鐵)道株式(会|會)社[^[[:alnum:]]]*.*$/, 18 # modern w 3rd char var
+      it_behaves_like "expected result size", 'author', '南満州鉄道株式会社', 600, 750  # modern
+      it_behaves_like "matches in vern corp authors first", 'author', '南滿洲鐵道株式會社', /^南(滿|満)(洲|州)(鉄|鐵)道株式(会|會)社[^[[:alnum:]]]*.*$/, 100 # traditional
+      it_behaves_like "matches in vern corp authors first", 'author', '南満州鉄道株式会社', /^南(滿|満)(洲|州)(鉄|鐵)道株式(会|會)社[^[[:alnum:]]]*.*$/, 100 # modern
     end
 
     context "tale", :jira => ['VUF-2742', 'VUF-2740'] do
@@ -125,14 +123,23 @@ describe "Japanese Kanji variants", :japanese => true do
     end
     
     context "weather", :jira => 'VUF-2756' do
-      # note:  2nd modern char isn't translated to simp 
+      # note:  2nd modern char isn't translated to simp by ICU 
+      # traditional:   天氣 
+      # modern:   天気
+      # chinese simp:  天气
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '天氣', 'modern', '天気', 10, 17
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '天氣', 'chinese', '天气', 10, 17
+      it_behaves_like "matches in vern short titles first", 'title', '天気', /天(氣|気|气)/, 9 # modern
+      it_behaves_like "matches in vern short titles first", 'title', '天氣', /天(氣|気|气)/, 9 # trad
+      it_behaves_like "matches in vern titles first", 'title', '天気', /天(氣|気|气)/, 11 # modern
+      it_behaves_like "matches in vern titles first", 'title', '天氣', /天(氣|気|气)/, 11 # trad
     end
 
-    context "weekly", :fixme => true do
-      # 2nd trad char isn't translated to modern - these should be equivalent
-      it_behaves_like "both scripts get expected result size", 'title', 'modern', '週刊', 'traditional', '週刋', 83, 440, lang_limit
+    context "weekly" do
+      # 2nd trad char isn't translated to modern by ICU - these should be equivalent
+      #  modern 刊 520A => trad 刋 520B
+      # (see also japanese title)
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '週刋', 'modern', '週刊', 73, 100, lang_limit
     end
 
   end # modern Kanji != simplified Han
