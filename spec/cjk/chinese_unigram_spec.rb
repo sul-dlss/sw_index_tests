@@ -36,18 +36,22 @@ describe "Chinese Unigrams", :chinese => true do
                       '6435402', # 65 juan  v1-5  harvard-yenching coll, sal1&2
                       '6829978', # 65 juan  v1-4  EAL chinese coll
                       '10102192', # v96-97  sal1&2
-                      '8656532',  # ser2 v15  sal1&2
-                      '6435401'   # v1-16  harvard-yenching coll, sal1&2
+                      '8656532', # ser2 v15  sal1&2
+                      '6435401' # v1-16  harvard-yenching coll, sal1&2
                       ]
       korean_245a = ['8303152', # Samgukchi / Na Kwan-jung chiŭm  author Luo, Guanzhong  (245a, first 3 chars of 240a, 700t)
                       '10156316' # Samgukchi by  Yi Mun-yŏl p'yŏngyŏk  (245a, part of 246a, 500a, 700t)
                     ]
+      japanese_245a = ['9146942', # has variant 2nd char 囯 56EF 
+                ]
       it_behaves_like "good results for query", 'title', '三國誌', 170, 200, chinese_245a, 20
       it_behaves_like "good results for query", 'title', '三國 誌', 170, 200, chinese_245a, 25, 'rows' => 25
-      it_behaves_like "result size and vern short title matches first", 'title', '三國誌', 170, 200, /(三國誌|三国志|三國志)/, 30, 'rows' => 50
-      it_behaves_like "result size and vern short title matches first", 'title', '三国 志', 170, 200, /(三國誌|三国志|三國志)/, 30, 'rows' => 50
+      it_behaves_like "result size and vern short title matches first", 'title', '三國誌', 170, 200, /三(國|国|囯)(誌|志)/, 30, 'rows' => 50
+      it_behaves_like "result size and vern short title matches first", 'title', '三国 志', 170, 200, /三(國|国|囯)(誌|志)/, 30, 'rows' => 50
       it_behaves_like "best matches first", 'title', '三國誌', korean_245a, 20
       it_behaves_like "best matches first", 'title', '三國 誌', korean_245a, 20
+      it_behaves_like "best matches first", 'title', '三國誌', japanese_245a, 20
+      it_behaves_like "best matches first", 'title', '三國 誌', japanese_245a, 20
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '三國誌', 'simplified', '三国志', 170, 200
     end
   end
