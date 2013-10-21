@@ -160,7 +160,7 @@ describe "Chinese Title", :chinese => true do
 
   context "Three Kingdoms 4 char, title search" do
     shared_examples_for "great results for Three Kingdoms" do | query |
-      it_behaves_like "matches in vern short titles first", 'title', query, /^(三國演義|三国演义)[^[[:alpha:]]]*$/, 12
+      it_behaves_like "matches in vern short titles first", 'title', query, /^三(國|国|囯)演(義|义)[^[[:alpha:]]]*$/, 13
     end
     context "no spaces" do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '三國演義', 'simplified', '三国演义', 83, 90
