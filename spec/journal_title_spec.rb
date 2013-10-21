@@ -596,13 +596,13 @@ describe "journal/newspaper titles" do
 
     it "as title search with format journal" do
       resp = solr_response(title_search_args('nature').merge({'fq' => 'format:"Journal/Periodical"', 'fl'=>'id,title_display', 'facet'=>false}))
-      resp.should have_at_most(1100).documents
+      resp.should have_at_most(1125).documents
       resp.should include({'title_display' => /^Nature \[print\/digital\]\./}).in_first(5)
       resp.should include({'title_display' => /^Nature; international journal of science/}).in_first(5)
     end
 
     it_behaves_like "great results for format journal", "Nature" do
-      journal = ['10242155', # london 0028-0836, lane/medical
+      journal = ['10263656', # london 0028-0836, lane/medical
                   '3195844', # london 0028-0836, biology
                   '8829478', # london, spec
                   '466281', # directory of biologicals
@@ -614,7 +614,7 @@ describe "journal/newspaper titles" do
   
   context "Science" do
     it_behaves_like "title query, format journal", "Science" do
-      journal = ['9763571', # online, lane/medical
+      journal = ['10263891', # online, lane/medical
                   '394654', # 0036-8075, green
                   '3195846', # 0036-8075, biology
                   '433334', # bimonthly, 0193-4511
