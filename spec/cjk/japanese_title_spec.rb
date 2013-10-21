@@ -12,6 +12,7 @@ describe "Japanese Title searches", :japanese => true do
   context "buddhism", :jira => ['VUF-2724', 'VUF-2725'] do
     # First char of traditional doesn't translate to first char of modern with ICU traditional->simplified 
     # (traditional and simplified are the same;  modern is different)
+    # (see also japanese han variants spec)
     it_behaves_like "both scripts get expected result size", 'title', 'traditional', '佛教', 'modern', '仏教', 1900, 2700
     it_behaves_like "matches in vern short titles first", 'title', '佛教', /(佛|仏)(教|敎)/, 100  # trad
     it_behaves_like "matches in vern short titles first", 'title', '仏教', /(佛|仏)(教|敎)/, 100  # modern
