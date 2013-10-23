@@ -134,7 +134,7 @@ describe "Chinese Title", :chinese => true do
 
   context "Quan Song bi ji" do
     shared_examples_for "great results for Quan Song bi ji" do | query |
-      it_behaves_like "matches in vern short titles first", 'title', query, /^全宋筆(記|记)[^[[:alpha:]]]*$/, 5
+      it_behaves_like "matches in vern short titles first", 'title', query, /^全宋(筆|笔)(記|记)[^[[:alpha:]]]*$/, 5
     end
     context "no spaces" do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '全宋笔记', 'simplified', '全宋筆記', 6, 8
@@ -147,7 +147,7 @@ describe "Chinese Title", :chinese => true do
       it_behaves_like "great results for Quan Song bi ji", '全宋 筆記'
     end
     context "two spaces" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '全 宋 笔记', 'simplified', '全 宋 筆記', 6, 10
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '全 宋 笔记', 'simplified', '全 宋 筆記', 6, 12
       it_behaves_like "great results for Quan Song bi ji", '全 宋 笔记'
       it_behaves_like "great results for Quan Song bi ji", '全 宋 筆記'
     end
