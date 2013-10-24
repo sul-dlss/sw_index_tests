@@ -41,16 +41,15 @@ describe "Stopwords such as 'the' 'a' 'or' should now work" do
     resp.should include("8167359").in_first(7).results
   end
 
-  it '"IT *and* Society" qt=advanced, description qf', :jira => 'SW-500', :fixme => [true, 'used to work - data changed?'] do
-    resp = solr_resp_doc_ids_only({'q'=>'{!qf=$qf_description pf=$qf_description pf2=$qf_description2 pf2=$qf_description2}(IT and Society)', 'qt'=>'advanced'}) 
-#    resp = solr_resp_doc_ids_only({'q'=>'{!qf=all_search pf=all_search^10}(IT and Society)', 'qt'=>'advanced'}) 
+  it '"IT *and* Society" defType=>lucene, description qf', :jira => 'SW-500', :fixme => [true, 'used to work - data changed?'] do
+    resp = solr_resp_doc_ids_only({'q'=>'{!qf=$qf_description pf=$qf_description pf2=$qf_description2 pf2=$qf_description2}(IT and Society)', 'defType'=>'lucene'}) 
     resp.should include("8167359").in_first(7).results
   end
 
-  it '"IT *&* Society" qt=advanced, description qf', :jira => 'SW-500', :fixme => [true, 'used to work - data changed?'] do
-    resp = solr_resp_doc_ids_only({'q'=>'{!qf=$qf_description pf=$qf_description pf2=$qf_description2 pf2=$qf_description2}(IT & Society)', 'qt'=>'advanced'}) 
+  it '"IT *&* Society" defType=>lucene, description qf', :jira => 'SW-500', :fixme => [true, 'used to work - data changed?'] do
+    resp = solr_resp_doc_ids_only({'q'=>'{!qf=$qf_description pf=$qf_description pf2=$qf_description2 pf2=$qf_description2}(IT & Society)', 'defType'=>'lucene'}) 
     resp.should include("8167359").in_first(7).results
-    resp = solr_resp_doc_ids_only({'q'=>'{!qf=$qf_description pf=$qf_description pf2=$qf_description2 pf2=$qf_description2}(IT&Society)', 'qt'=>'advanced'}) 
+    resp = solr_resp_doc_ids_only({'q'=>'{!qf=$qf_description pf=$qf_description pf2=$qf_description2 pf2=$qf_description2}(IT&Society)', 'defType'=>'lucene'}) 
     resp.should include("8167359").in_first(7).results
   end
   
