@@ -7,13 +7,13 @@ describe "advanced search" do
   context "title with boolean", :jira => 'SW-939' do
     context "color OR colour photography", :jira => 'SW-939' do
       before(:all) do
-        @color = solr_resp_doc_ids_only({'q'=>"#{title_query('+color +photography')}"}.merge(solr_args))
-        @colour = solr_resp_doc_ids_only({'q'=>"#{title_query('+colour +photography')}"}.merge(solr_args))
+        @color = solr_resp_doc_ids_only({'q'=>"#{title_query('color photography')}"}.merge(solr_args))
+        @colour = solr_resp_doc_ids_only({'q'=>"#{title_query('colour photography')}"}.merge(solr_args))
       end
       it "color OR colour photography", :fixme => true do
-        # I think this test should be +(color colour) +photography ... but it fails that way
-        #resp = solr_resp_ids_titles({'q'=>"#{title_query('+(color colour) +photography')}"}.merge(solr_args))
-        resp = solr_resp_ids_titles({'q'=>"#{title_query('(color colour) +photography')}"}.merge(solr_args))
+        # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a OR
+        # https://issues.apache.org/jira/browse/SOLR-2649
+        resp = solr_resp_ids_titles({'q'=>"#{title_query('(color OR colour) photography')}"}.merge(solr_args))
         resp.should have_more_results_than(@color)
         resp.should have_more_results_than(@colour)
         resp.should include('title_245a_display' => /color photography/i)
@@ -23,9 +23,9 @@ describe "advanced search" do
         resp.should have_at_most(200).results
       end
       it "colour OR color photography", :fixme => true do
-        # I think this test should be +(colour color) +photography ... but it fails that way
-        #resp = solr_resp_ids_titles({'q'=>"#{title_query('+(colour color) +photography')}"}.merge(solr_args))
-        resp = solr_resp_ids_titles({'q'=>"#{title_query('(colour color) +photography')}"}.merge(solr_args))
+        # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a OR
+        # https://issues.apache.org/jira/browse/SOLR-2649
+        resp = solr_resp_ids_titles({'q'=>"#{title_query('(colour OR color) photography')}"}.merge(solr_args))
         resp.should have_more_results_than(@color)
         resp.should have_more_results_than(@colour)
         resp.should include('title_245a_display' => /color photography/i)
@@ -37,13 +37,13 @@ describe "advanced search" do
     end
     context "nossa OR nuestra america", :jira => 'SW-939' do
       before(:all) do
-        @nossa = solr_resp_doc_ids_only({'q'=>"#{title_query('+nossa +america')}"}.merge(solr_args))
-        @nuestra = solr_resp_doc_ids_only({'q'=>"#{title_query('+nuestra +america')}"}.merge(solr_args))
+        @nossa = solr_resp_doc_ids_only({'q'=>"#{title_query('nossa america')}"}.merge(solr_args))
+        @nuestra = solr_resp_doc_ids_only({'q'=>"#{title_query('nuestra america')}"}.merge(solr_args))
       end
       it "nossa OR nuestra america", :fixme => true do
-        # I think this test should be +(nossa nuestra) +america ... but it fails that way
-        # resp = solr_resp_ids_titles({'q'=>"#{title_query('+(nossa nuestra) +america')}"}.merge(solr_args))
-        resp = solr_resp_ids_titles({'q'=>"#{title_query('(nossa nuestra) +america')}"}.merge(solr_args))
+        # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a OR
+        # https://issues.apache.org/jira/browse/SOLR-2649
+        resp = solr_resp_ids_titles({'q'=>"#{title_query('(nossa OR nuestra) america')}"}.merge(solr_args))
         resp.should have_more_results_than(@nossa)
         resp.should have_more_results_than(@nuestra)
         resp.should include('title_245a_display' => /nossa am[eé]rica/i)
@@ -53,9 +53,9 @@ describe "advanced search" do
         resp.should have_at_most(500).results
       end
       it "nuestra OR nossa america", :fixme => true do
-        # I think this test should be +(nuestra nossa) +america ... but it fails that way
-        # resp = solr_resp_ids_titles({'q'=>"#{title_query('+(nuestra nossa) +america')}"}.merge(solr_args))
-        resp = solr_resp_ids_titles({'q'=>"#{title_query('(nuestra nossa) +america')}"}.merge(solr_args))
+        # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a OR
+        # https://issues.apache.org/jira/browse/SOLR-2649
+        resp = solr_resp_ids_titles({'q'=>"#{title_query('(nuestra OR nossa) america')}"}.merge(solr_args))
         resp.should have_more_results_than(@nossa)
         resp.should have_more_results_than(@nuestra)
         resp.should include('title_245a_display' => /nossa am[eé]rica/i)
@@ -69,28 +69,29 @@ describe "advanced search" do
   
   context "subject and keyword" do
     context "subject street art OR graffiti", :jira => 'VUF-1013' do
-      # the following is busted due to Solr edismax bug
+      # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a OR
       # https://issues.apache.org/jira/browse/SOLR-2649
       it "subject ((street art) OR graffiti OR mural)", :fixme => true do
-        resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('(+street +art) OR graffiti OR mural')}"}.merge(solr_args))
+        resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('(street art) OR graffiti OR mural')}"}.merge(solr_args))
         resp.should have_at_least(1000).results
         resp.should have_at_most(2000).results
       end
       it "keyword chicano" do
-        resp = solr_resp_doc_ids_only({'q'=>"#{description_query('+chicano')}"}.merge(solr_args))
+        resp = solr_resp_doc_ids_only({'q'=>"#{description_query('chicano')}"}.merge(solr_args))
         resp.should have_at_least(2300).results
         resp.should have_at_most(3000).results
       end
-      # the following is busted due to Solr edismax bug
+      # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a OR
       # https://issues.apache.org/jira/browse/SOLR-2649
       it "subject ((street art) OR graffiti OR mural) and keyword chicano", :fixme => true do
-        resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('(+street +art) OR graffiti OR mural')} AND #{description_query('+chicano')}"}.merge(solr_args))
+        resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('(street art) OR graffiti OR mural')} AND #{description_query('chicano')}"}.merge(solr_args))
         resp.should include(['3034294','525462','3120734','1356131','7746467'])
         resp.should have_at_most(10).results
       end
-      # can't do quotes in a local params query
+      # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a OR
+      # https://issues.apache.org/jira/browse/SOLR-2649
       it 'subject ("street art" OR graffiti OR mural) and keyword chicano', :fixme => true do
-        resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('(+"street art") OR graffiti OR mural')} AND #{description_query('+chicano')}"}.merge(solr_args))
+        resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('\"street art\" OR graffiti OR mural')} AND #{description_query('chicano')}"}.merge(solr_args))
         resp.should include(['3034294','525462','3120734','1356131','7746467'])
         resp.should have_at_most(10).results
       end
@@ -98,24 +99,22 @@ describe "advanced search" do
 
     context "subject -congresses, keyword IEEE xplore", :jira => 'SW-623' do
       it "subject -congresses" do
-        # NOTE: advanced qp currently doesn't support hyphen as NOT
         resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('(-congresses)')}"}.merge(solr_args))
         resp.should have_at_least(200000).results
       end
       it "subject NOT congresses" do
-        resp = solr_resp_doc_ids_only({'q'=>"NOT #{subject_query('congresses')}"}.merge(solr_args))
+        resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('NOT congresses')}"}.merge(solr_args))
         resp.should have_at_least(200000).results
       end
       it "keyword" do
-        resp = solr_resp_doc_ids_only({'q'=>"#{description_query('+IEEE +xplore')}"}.merge(solr_args))
+        resp = solr_resp_doc_ids_only({'q'=>"#{description_query('IEEE xplore')}"}.merge(solr_args))
         resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query("IEEE Xplore"))
         resp.should have_at_least(7000).results
         resp.should have_at_most(7600).results
-        #  optional terms (no +)
-        resp.should have_fewer_results_than(solr_resp_doc_ids_only({'q'=>"#{description_query('IEEE xplore')}"}.merge(solr_args)))
+        resp.should have_fewer_results_than(solr_resp_doc_ids_only({'q'=>"#{description_query('IEEE OR xplore')}"}.merge(solr_args)))
       end
       it "subject NOT congresses and keyword" do
-        resp = solr_resp_doc_ids_only({'q'=>"NOT #{subject_query('congresses')} AND #{description_query('+IEEE +xplore')}"}.merge(solr_args))
+        resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('NOT congresses')} AND #{description_query('IEEE xplore')}"}.merge(solr_args))
         resp.should have_at_least(800).results
         resp.should have_at_most(1350).results
       end
@@ -123,33 +122,28 @@ describe "advanced search" do
 
     context "subject home schooling, keyword Socialization", :jira => 'VUF-1352' do
       before(:all) do
-        @sub_no_phrase = solr_resp_doc_ids_only({'q'=>"#{subject_query('+home +schooling')}"}.merge(solr_args))
-        # single term doesn't require +
-        @sub_phrase = solr_resp_doc_ids_only({'q'=>"#{subject_query('"home schooling"')}"}.merge(solr_args))
+        @sub_no_phrase = solr_resp_doc_ids_only({'q'=>"#{subject_query('home schooling')}"}.merge(solr_args))
+        @sub_phrase = solr_resp_doc_ids_only({'q'=>"#{subject_query('\"home schooling\"')}"}.merge(solr_args))
       end
       it "subject not as a phrase" do
         @sub_no_phrase.should have_at_least(575).results
         @sub_no_phrase.should have_at_most(650).results
         @sub_no_phrase.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args('home schooling')))
       end
-      it "subject as a phrase", :fixme => true do
-        # phrase searching doesn't work with advanced search (local params)
+      it "subject as a phrase" do
         @sub_phrase.should have_at_least(500).results
         @sub_phrase.should have_at_most(574).results
         @sub_phrase.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args('"home schooling"')))
         @sub_phrase.should have_fewer_results_than @sub_no_phrase
       end
       it "keyword" do
-        resp = solr_resp_doc_ids_only({'q'=>"#{description_query('+Socialization')}"}.merge(solr_args))
-#          resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query("Socialization"))
-        #  optional single term (no +) same as required single term
-        resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"#{description_query('Socialization')}"}.merge(solr_args)))
+        resp = solr_resp_doc_ids_only({'q'=>"#{description_query('Socialization')}"}.merge(solr_args))
+#        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query("Socialization"))
         resp.should have_at_least(400000).results
         resp.should have_at_most(500000).results
       end
       it "subject (not a phrase) and keyword" do
-        #  optional single term (no +) same as required single term
-        resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('+home +schooling')} AND #{description_query('Socialization')}"}.merge(solr_args))
+        resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('home schooling')} AND #{description_query('Socialization')}"}.merge(solr_args))
         resp.should have_fewer_results_than(@sub_no_phrase)
         resp.should have_at_least(75).results
         resp.should have_at_most(150).results
@@ -161,16 +155,15 @@ describe "advanced search" do
     context 'author phrase "Institute for Mathematical Studies in the Social Sciences"', :jira => 'VUF-1698' do
       before(:all) do
         @qterms = 'Institute for Mathematical Studies in the Social Sciences'
+        # mark required or mm kicks in, as there are 8 terms
         @no_phrase = solr_resp_doc_ids_only({'q'=>"#{author_query('+Institute +for +Mathematical +Studies +in +the +Social +Sciences')}"}.merge(solr_args))
-        #  optional single term (no +) same as required single term
         @phrase = solr_resp_doc_ids_only({'q'=>"#{author_query('"Institute for Mathematical Studies in the Social Sciences"')}"}.merge(solr_args))
       end
       it "number of results with each term required, not as a phrase" do
         @no_phrase.should have_at_least(725).results
         @no_phrase.should have_at_most(800).results
       end
-      it "number of results as a phrase", :fixme => true do
-        # NOTE:  phrases aren't supposed to work with advanced search (local params)
+      it "number of results as a phrase" do
         #    ?? phrase gets more due to allowed phrase slop?  long query, lots of common words
         @phrase.should have_at_least(900).results
         @phrase.should have_at_most(950).results
@@ -185,18 +178,18 @@ describe "advanced search" do
   context "author + title" do
     context "author title: history man by malcolm bradbury", :jira => 'SW-805' do
       it "author" do
-        resp = solr_resp_doc_ids_only({'q'=>"#{author_query('+malcolm +bradbury')}"}.merge(solr_args))
+        resp = solr_resp_doc_ids_only({'q'=>"#{author_query('malcolm bradbury')}"}.merge(solr_args))
         resp.should have_at_least(40).results
         resp.should have_at_most(60).results
         resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(author_search_args('malcolm bradbury')))
       end
       it "title" do
-        resp = solr_resp_doc_ids_only({'q'=>"#{title_query('+the +history +man')}"}.merge(solr_args))
+        resp = solr_resp_doc_ids_only({'q'=>"#{title_query('the history man')}"}.merge(solr_args))
         resp.should have_at_least(1200).results
         resp.should have_at_most(1300).results
       end
       it "author and title" do
-        resp = solr_resp_doc_ids_only({'q'=>"#{author_query('+malcolm +bradbury')} AND #{title_query('+the +history +man')}"}.merge(solr_args))
+        resp = solr_resp_doc_ids_only({'q'=>"#{author_query('malcolm bradbury')} AND #{title_query('the history man')}"}.merge(solr_args))
         resp.should include('1433520').as_first
         resp.should have_at_most(3).results
       end
@@ -207,14 +200,13 @@ describe "advanced search" do
         @author_resp = solr_resp_doc_ids_only({'q'=>"#{author_query('stalin')}"}.merge(solr_args))
       end
       it "author" do
-        # required operator (+) is not needed for single arg
-        @author_resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"#{author_query('+stalin')}"}.merge(solr_args)))
+        @author_resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"#{author_query('stalin')}"}.merge(solr_args)))
         @author_resp.should have_at_least(600).results
         @author_resp.should have_at_most(700).results
         @author_resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(author_search_args('stalin')))
       end
       it "title rechi OR sochineniia" do
-        resp = solr_resp_doc_ids_only({'q'=>"#{title_query('rechi sochineniia')}"}.merge(solr_args))
+        resp = solr_resp_doc_ids_only({'q'=>"#{title_query('rechi OR sochineniia')}"}.merge(solr_args))
         resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('rechi OR sochineniia')))
         resp.should have_at_least(2200).results
         resp.should have_at_most(2400).results
@@ -232,7 +224,7 @@ describe "advanced search" do
         resp.should have_at_most(12).results
       end
       it "author and title both terms optional" do
-        resp = solr_resp_doc_ids_only({'q'=>"#{author_query('stalin')} AND #{title_query('rechi sochineniia')}"}.merge(solr_args))
+        resp = solr_resp_doc_ids_only({'q'=>"#{author_query('stalin')} AND #{title_query('rechi OR sochineniia')}"}.merge(solr_args))
         resp.should have_fewer_results_than @author_resp
         resp.should have_at_least(20).results
         resp.should have_at_most(30).results
@@ -241,7 +233,7 @@ describe "advanced search" do
 
     context "author mcrae, title jazz", :jira => 'SW-168' do
       it "author barry mcrae title jazz" do
-        resp = solr_resp_doc_ids_only({'q'=>"#{author_query('+mcrae +barry')} AND #{title_query('jazz')}"}.merge(solr_args))
+        resp = solr_resp_doc_ids_only({'q'=>"#{author_query('mcrae barry')} AND #{title_query('jazz')}"}.merge(solr_args))
         resp.should have_fewer_results_than(solr_resp_ids_from_query "barry mcrae jazz")
         resp.should include(['2130330', '336046']).in_first(2)
         resp.should have_at_most(10).results
@@ -261,20 +253,19 @@ describe "advanced search" do
         @author_resp = solr_resp_doc_ids_only({'q'=>"#{author_query('campana')}"}.merge(solr_args))
       end
       it "author" do
-        #  optional single term (without +) same as required single term
-        @author_resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"#{author_query('+campana')}"}.merge(solr_args)))
+        @author_resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"#{author_query('campana')}"}.merge(solr_args)))
         @author_resp.should have_at_least(175).results
         @author_resp.should have_at_most(225).results
         @author_resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(author_search_args('campana')))
       end
       it "keyword" do
-        resp = solr_resp_doc_ids_only({'q'=>"#{description_query('+storia +e +letteratura')}"}.merge(solr_args))
+        resp = solr_resp_doc_ids_only({'q'=>"#{description_query('storia e letteratura')}"}.merge(solr_args))
         resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query("storia e letteratura"))
         resp.should have_at_least(1500).results
         resp.should have_at_most(2000).results
       end
       it "author and keyword" do
-        resp = solr_resp_doc_ids_only({'q'=>"#{author_query('campana')} AND #{description_query('+storia +e +letteratura')}"}.merge(solr_args))
+        resp = solr_resp_doc_ids_only({'q'=>"#{author_query('campana')} AND #{description_query('storia e letteratura')}"}.merge(solr_args))
         resp.should have_fewer_results_than(@author_resp)
         resp.should have_at_most(10).results
       end
@@ -283,13 +274,13 @@ describe "advanced search" do
   
   context "nested NOT in subject", :jira => 'VUF-1387' do
     it "digestive organs" do
-      resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('+digestive +organs')}"}.merge(solr_args))
+      resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('digestive organs')}"}.merge(solr_args))
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args 'digestive organs'))
       resp.should have_at_least(325).results
       resp.should have_at_most(400).results
     end
     it "digestive organs NOT disease" do
-      resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('+digestive +organs')} AND NOT #{subject_query('disease')}"}.merge(solr_args))
+      resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('digestive organs')} AND NOT #{subject_query('disease')}"}.merge(solr_args))
       # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a NOT
       # https://issues.apache.org/jira/browse/SOLR-2649
 #      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args 'digestive organs NOT disease'))
@@ -297,7 +288,7 @@ describe "advanced search" do
       resp.should have_at_most(200).results
     end
     it "digestive organs NOT disease NOT cancer" do
-      resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('+digestive +organs')} AND NOT #{subject_query('disease')} AND NOT #{subject_query('cancer')}"}.merge(solr_args))
+      resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('digestive organs')} AND NOT #{subject_query('disease')} AND NOT #{subject_query('cancer')}"}.merge(solr_args))
       # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a NOT
       # https://issues.apache.org/jira/browse/SOLR-2649
 #      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args 'digestive organs NOT disease NOT cancer'))
@@ -305,7 +296,7 @@ describe "advanced search" do
       resp.should have_at_most(100).results
     end
     it "with parens" do
-      resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('+digestive +organs')} AND NOT #{subject_query('(disease OR cancer)')}"}.merge(solr_args))
+      resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('digestive organs')} AND NOT #{subject_query('(disease OR cancer)')}"}.merge(solr_args))
       # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a NOT
       # https://issues.apache.org/jira/browse/SOLR-2649
 #      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args 'digestive organs NOT (disease OR cancer)'))
@@ -317,68 +308,68 @@ describe "advanced search" do
   context "pub info" do
 
     it "publisher and place and year", :jira => 'SW-202' do
-      resp = solr_resp_doc_ids_only({'q'=>"#{pub_info_query('+Instress, +Saratoga, +1999')}"}.merge(solr_args))
+      resp = solr_resp_doc_ids_only({'q'=>"#{pub_info_query('Instress, Saratoga, 1999')}"}.merge(solr_args))
       resp.should include(['4123450', '4282796', '4314776', '4297734', '4233634'])
       resp.should have_at_most(10).results
     end
 
     context "subject 'soviet union and historiography' and pub info '1910-1911", :jira => 'VUF-1781' do
       it "subject" do
-        resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('+soviet +union +and +historiography')}"}.merge(solr_args))
+        resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('soviet union and historiography')}"}.merge(solr_args))
         resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args 'soviet union and historiography'))
         resp.should have_at_least(200).results
         resp.should have_at_most(250).results
       end
       it "subject without 'and'" do
-        resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('+soviet +union +historiography')}"}.merge(solr_args))
+        resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('soviet union historiography')}"}.merge(solr_args))
         resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args 'soviet union historiography'))
         resp.should have_at_least(875).results
         resp.should have_at_most(950).results
       end
       it "pub info 2010" do
-        resp = solr_resp_doc_ids_only({'q'=>"#{pub_info_query('+2010')}"}.merge(solr_args))
+        resp = solr_resp_doc_ids_only({'q'=>"#{pub_info_query('2010')}"}.merge(solr_args))
         resp.should have_at_least(127000).results
         resp.should have_at_most(130000).results
       end
       it "pub info 2011" do
-        resp = solr_resp_doc_ids_only({'q'=>"#{pub_info_query('+2011')}"}.merge(solr_args))
+        resp = solr_resp_doc_ids_only({'q'=>"#{pub_info_query('2011')}"}.merge(solr_args))
         resp.should have_at_least(117000).results
         resp.should have_at_most(120000).results
       end
       it "subject and pub info 2010" do
-        resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('+soviet +union +and +historiography')} AND #{pub_info_query('+2010')}"}.merge(solr_args))
+        resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('soviet union and historiography')} AND #{pub_info_query('2010')}"}.merge(solr_args))
         resp.should have_at_least(8).results
         resp.should have_at_most(15).results
       end
       it "subject and pub info 2011" do
-        resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('+soviet +union +and +historiography')} AND #{pub_info_query('+2011')}"}.merge(solr_args))
+        resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('soviet union and historiography')} AND #{pub_info_query('2011')}"}.merge(solr_args))
         resp.should have_at_least(15).results
         resp.should have_at_most(25).results
       end
       it "subject without 'and' and pub info 2010" do
-        resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('+soviet +union +historiography')} AND #{pub_info_query('+2010')}"}.merge(solr_args))
+        resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('soviet union historiography')} AND #{pub_info_query('2010')}"}.merge(solr_args))
         resp.should have_at_least(15).results
         resp.should have_at_most(25).results
       end
       it "subject without 'and' and pub info 2011" do
-        resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('+soviet +union +historiography')} AND #{pub_info_query('+2011')}"}.merge(solr_args))
+        resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('soviet union historiography')} AND #{pub_info_query('2011')}"}.merge(solr_args))
         resp.should have_at_least(25).results
         resp.should have_at_most(40).results
       end
       context "search range of years in pub_info", :fixme => true do
         it "pub info 2010-2011" do
-          resp = solr_resp_doc_ids_only({'q'=>"#{pub_info_query('+2010-2011')}"}.merge(solr_args))
-          resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"#{pub_info_query('+2010 +2011')}"}.merge(solr_args)))
+          resp = solr_resp_doc_ids_only({'q'=>"#{pub_info_query('2010-2011')}"}.merge(solr_args))
+          resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"#{pub_info_query('2010 2011')}"}.merge(solr_args)))
           resp.should have_at_least(2).results
           resp.should have_at_most(10).results
         end
         it "subject and pub info" do
-          resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('+soviet +union +and +historiography')} AND #{pub_info_query('+2010-2011')}"}.merge(solr_args))
+          resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('soviet union and historiography')} AND #{pub_info_query('2010-2011')}"}.merge(solr_args))
           resp.should have_at_least(25).results
           resp.should have_at_most(35).results
         end
         it "subject without 'and' and pub info" do
-          resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('+soviet +union +historiography')} AND #{pub_info_query('+2010-2011')}"}.merge(solr_args))
+          resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('soviet union historiography')} AND #{pub_info_query('2010-2011')}"}.merge(solr_args))
           resp.should have_at_least(35).results
           resp.should have_at_most(60).results
         end
@@ -435,6 +426,6 @@ describe "advanced search" do
     '_query_:"{!edismax qf=$qf_number pf=$pf_number pf3=$pf_number3 pf2=$pf_number2}' + terms + '"'
   end
   def solr_args
-    {"qt"=>"advanced"}.merge(doc_ids_only)
+    {"defType"=>"lucene"}.merge(doc_ids_only)
   end
 end
