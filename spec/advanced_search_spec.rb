@@ -408,22 +408,25 @@ describe "advanced search" do
   end
   
   def title_query terms
-    '_query_:"{!edismax qf=$qf_title pf=$pf_title pf3=$pf_title3 pf2=$pf_title2}' + terms + '"'
+    '_query_:"{!edismax qf=$qf_title pf=$pf_title pf3=$pf3_title pf2=$pf2_title}' + terms + '"'
   end
   def author_query terms
-    '_query_:"{!edismax qf=$qf_author pf=$pf_author pf3=$pf_author3 pf2=$pf_author2}' + terms + '"'
+    '_query_:"{!edismax qf=$qf_author pf=$pf_author pf3=$pf3_author pf2=$pf2_author}' + terms + '"'
   end
   def subject_query terms
-    '_query_:"{!edismax qf=$qf_subject pf=$pf_subject pf3=$pf_subject3 pf2=$pf_subject2}' + terms + '"'
+    '_query_:"{!edismax qf=$qf_subject pf=$pf_subject pf3=$pf3_subject pf2=$pf2_subject}' + terms + '"'
   end
   def description_query terms
-    '_query_:"{!edismax qf=$qf_description pf=$pf_description pf3=$pf_description3 pf2=$pf_description2}' + terms + '"'
+    '_query_:"{!edismax qf=$qf_description pf=$pf_description pf3=$pf3_description pf2=$pf2_description}' + terms + '"'
+  end
+  def summary_query terms
+    '_query_:"{!edismax qf=$qf_summary pf=$pf_summary pf3=$pf3_summary pf2=$pf2_summary}' + terms + '"'
   end
   def pub_info_query terms
-    '_query_:"{!edismax qf=$qf_pub_info pf=$pf_pub_info pf3=$pf_pub_info3 pf2=$pf_pub_info2}' + terms + '"'
+    '_query_:"{!edismax qf=$qf_pub_info pf=$pf_pub_info pf3=$pf3_pub_info pf2=$pf2_pub_info}' + terms + '"'
   end
   def number_query terms
-    '_query_:"{!edismax qf=$qf_number pf=$pf_number pf3=$pf_number3 pf2=$pf_number2}' + terms + '"'
+    '_query_:"{!edismax qf=$qf_number pf=$pf_number pf3=$pf3_number pf2=$pf2_number}' + terms + '"'
   end
   def solr_args
     {"defType"=>"lucene"}.merge(doc_ids_only)

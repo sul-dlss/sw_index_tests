@@ -84,13 +84,13 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
         resp.should have_at_least(3000).documents
       end
       it "advanced search" do
-        author_query = '_query_:"{!edismax pf=$pf_author qf=$qf_author pf3=$pf_author3 pf2=$pf_author2}\"Carl Philipp Emanuel Bach\""'
-        cello_title_query = '_query_:"{!edismax pf=$pf_title qf=$qf_title pf3=$pf_title3 pf2=$pf_title2}cello"'
+        author_query = '_query_:"{!edismax pf=$pf_author qf=$qf_author pf3=$pf3_author pf2=$pf2_author}\"Carl Philipp Emanuel Bach\""'
+        cello_title_query = '_query_:"{!edismax pf=$pf_title qf=$qf_title pf3=$pf3_title pf2=$pf2_title}cello"'
         cello_resp = solr_resp_doc_ids_only({'defType'=>'lucene', 'q'=>"#{author_query} AND #{cello_title_query}"})
-        vocello_title_query = '_query_:"{!edismax pf=$pf_title qf=$qf_title pf3=$pf_title3 pf2=$pf_title2}violoncello"'
+        vocello_title_query = '_query_:"{!edismax pf=$pf_title qf=$qf_title pf3=$pf3_title pf2=$pf2_title}violoncello"'
         vocello_resp = solr_resp_doc_ids_only({'defType'=>'lucene', 'q'=>"#{author_query} AND #{vocello_title_query}"})
         cello_resp.should have_the_same_number_of_results_as vocello_resp
-        vicello_title_query = '_query_:"{!edismax pf=$pf_title qf=$qf_title pf3=$pf_title3 pf2=$pf_title2}violincello"'
+        vicello_title_query = '_query_:"{!edismax pf=$pf_title qf=$qf_title pf3=$pf3_title pf2=$pf2_title}violincello"'
         vicello_resp = solr_resp_doc_ids_only({'defType'=>'lucene', 'q'=>"#{author_query} AND #{vicello_title_query}"})
         cello_resp.should have_the_same_number_of_results_as vicello_resp
       end
@@ -291,16 +291,16 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
       end
 
       it "advanced search for title with b♭ and with author" do
-        author_query = '_query_:"{!edismax pf=$pf_author qf=$qf_author pf3=$pf_author3 pf2=$pf_author2}Carl Philipp Emanuel Bach"'
-        ♭_title_query = '_query_:"{!edismax pf=$pf_title qf=$qf_title pf3=$pf_title3 pf2=$pf_title2}cello b♭"'
+        author_query = '_query_:"{!edismax pf=$pf_author qf=$qf_author pf3=$pf3_author pf2=$pf2_author}Carl Philipp Emanuel Bach"'
+        ♭_title_query = '_query_:"{!edismax pf=$pf_title qf=$qf_title pf3=$pf3_title pf2=$pf2_title}cello b♭"'
         ♭_resp = solr_resp_doc_ids_only({'defType'=>'lucene', 'q'=>"#{author_query} AND #{♭_title_query}"})
         ♭_resp.should include('7697437')  # b♭  is in 700r, which is in title_related_search
-        b_title_query = '_query_:"{!edismax pf=$pf_title qf=$qf_title pf3=$pf_title3 pf2=$pf_title2}cello bb"'
+        b_title_query = '_query_:"{!edismax pf=$pf_title qf=$qf_title pf3=$pf3_title pf2=$pf2_title}cello bb"'
         ♭_resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'defType'=>'lucene', 'q'=>"#{author_query} AND #{b_title_query}"}))
-        hyphen_title_query = '_query_:"{!edismax pf=$pf_title qf=$qf_title pf3=$pf_title3 pf2=$pf_title2}cello b-flat"'
+        hyphen_title_query = '_query_:"{!edismax pf=$pf_title qf=$qf_title pf3=$pf3_title pf2=$pf2_title}cello b-flat"'
         ♭_resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'defType'=>'lucene', 'q'=>"#{author_query} AND #{hyphen_title_query}"}))
         # could have b in one 700 title, and flat in another
-#        space_title_query = '_query_:"{!edismax pf=$pf_title qf=$qf_title pf3=$pf_title3 pf2=$pf_title2}+cello +b +flat"'
+#        space_title_query = '_query_:"{!edismax pf=$pf_title qf=$qf_title pf3=$pf3_title pf2=$pf2_title}+cello +b +flat"'
 #        ♭_resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'defType'=>'lucene', 'q'=>"#{author_query} AND #{space_title_query}"}))
         # do a title search and facet on composer
       end

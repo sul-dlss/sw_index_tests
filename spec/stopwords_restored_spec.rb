@@ -42,14 +42,14 @@ describe "Stopwords such as 'the' 'a' 'or' should now work" do
   end
 
   it '"IT *and* Society" defType=>lucene, description qf', :jira => 'SW-500', :fixme => [true, 'used to work - data changed?'] do
-    resp = solr_resp_doc_ids_only({'q'=>'{!qf=$qf_description pf=$qf_description pf2=$qf_description2 pf2=$qf_description2}(IT and Society)', 'defType'=>'lucene'}) 
+    resp = solr_resp_doc_ids_only({'q'=>'{!qf=$qf_description pf=$qf_description pf3=$qf3_description pf2=$qf2_description}(IT and Society)', 'defType'=>'lucene'}) 
     resp.should include("8167359").in_first(7).results
   end
 
   it '"IT *&* Society" defType=>lucene, description qf', :jira => 'SW-500', :fixme => [true, 'used to work - data changed?'] do
-    resp = solr_resp_doc_ids_only({'q'=>'{!qf=$qf_description pf=$qf_description pf2=$qf_description2 pf2=$qf_description2}(IT & Society)', 'defType'=>'lucene'}) 
+    resp = solr_resp_doc_ids_only({'q'=>'{!qf=$qf_description pf=$qf_description pf3=$qf3_description pf2=$qf2_description}(IT & Society)', 'defType'=>'lucene'}) 
     resp.should include("8167359").in_first(7).results
-    resp = solr_resp_doc_ids_only({'q'=>'{!qf=$qf_description pf=$qf_description pf2=$qf_description2 pf2=$qf_description2}(IT&Society)', 'defType'=>'lucene'}) 
+    resp = solr_resp_doc_ids_only({'q'=>'{!qf=$qf_description pf=$qf_description pf3=$qf3_description pf2=$qf2_description}(IT&Society)', 'defType'=>'lucene'}) 
     resp.should include("8167359").in_first(7).results
   end
   
@@ -58,6 +58,5 @@ describe "Stopwords such as 'the' 'a' 'or' should now work" do
     resp.should include("8517619")
     resp.should_not include(["8545853", "6653471"])
   end
-  
-  
+
 end
