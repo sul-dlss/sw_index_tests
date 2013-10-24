@@ -157,19 +157,18 @@ describe "advanced search" do
         @qterms = 'Institute for Mathematical Studies in the Social Sciences'
         # mark required or mm kicks in, as there are 8 terms
         @no_phrase = solr_resp_doc_ids_only({'q'=>"#{author_query('+Institute +for +Mathematical +Studies +in +the +Social +Sciences')}"}.merge(solr_args))
-        @phrase = solr_resp_doc_ids_only({'q'=>"#{author_query('"Institute for Mathematical Studies in the Social Sciences"')}"}.merge(solr_args))
+        @phrase = solr_resp_doc_ids_only({'q'=>"#{author_query('\"Institute for Mathematical Studies in the Social Sciences\"')}"}.merge(solr_args))
       end
       it "number of results with each term required, not as a phrase" do
         @no_phrase.should have_at_least(725).results
         @no_phrase.should have_at_most(800).results
       end
       it "number of results as a phrase" do
-        #    ?? phrase gets more due to allowed phrase slop?  long query, lots of common words
-        @phrase.should have_at_least(900).results
-        @phrase.should have_at_most(950).results
+        @phrase.should have_at_least(725).results
+        @phrase.should have_at_most(800).results
       end
-      it "have the same number of results as a plain author query", :fixme => true do
-        @no_phrase.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(author_search_args(@qterms)))
+      it "have the same number of results as a plain author query" do
+        @no_phrase.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(author_search_args('+Institute +for +Mathematical +Studies +in +the +Social +Sciences')))
         @phrase.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(author_search_args('"' + @qterms + '"')))
       end
     end
