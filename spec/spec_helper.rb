@@ -234,6 +234,10 @@ def doc_ids_full_titles
   @@doc_ids_full_titles
 end
 
+def solr_conn
+  @@solr
+end
+
 def solr_schema
   @@schema_xml ||= @@solr.send_and_receive('admin/file/', {:method => :get, :params => {'file'=>'schema.xml', :wt=>'xml'}}) 
 end
