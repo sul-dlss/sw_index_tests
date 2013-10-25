@@ -156,29 +156,28 @@ describe "CJK Helper", :chinese => true, :fixme => true do
   context "Solr mm and ps parameters" do
     context "should not send in a Solr mm param if only 1 or 2 CJK chars" do
       it "1 CJK char" do
-        cjk_mm_ps_params("飘")['mm'].should == nil
+        cjk_mm_qs_params("飘")['mm'].should == nil
       end
       it "2 CJK (adj) char" do
-        cjk_mm_ps_params("三國")['mm'].should == nil
+        cjk_mm_qs_params("三國")['mm'].should == nil
       end
       context "mixed with non-CJK scripts" do
-#FIXME:  what about ps???
         context "bigram" do
           it "first CJK" do
-            cjk_mm_ps_params("董桥abc")['mm'].should == nil
-            cjk_mm_ps_params("董桥 abc")['mm'].should == nil
-            cjk_mm_ps_params(" 董桥 abc")['mm'].should == nil
+            cjk_mm_qs_params("董桥abc")['mm'].should == nil
+            cjk_mm_qs_params("董桥 abc")['mm'].should == nil
+            cjk_mm_qs_params(" 董桥 abc")['mm'].should == nil
           end
           it "last CJK" do
-            cjk_mm_ps_params("abc董桥")['mm'].should == nil
-            cjk_mm_ps_params("abc 董桥")['mm'].should == nil
-            cjk_mm_ps_params("abc 董桥 ")['mm'].should == nil
+            cjk_mm_qs_params("abc董桥")['mm'].should == nil
+            cjk_mm_qs_params("abc 董桥")['mm'].should == nil
+            cjk_mm_qs_params("abc 董桥 ")['mm'].should == nil
           end
           it "(latin)(CJK)(latin)" do
-            cjk_mm_ps_params("abc董桥abc")['mm'].should == nil
-            cjk_mm_ps_params("abc 董桥abc")['mm'].should == nil
-            cjk_mm_ps_params("abc董桥 abc")['mm'].should == nil
-            cjk_mm_ps_params("abc 董桥 abc")['mm'].should == nil
+            cjk_mm_qs_params("abc董桥abc")['mm'].should == nil
+            cjk_mm_qs_params("abc 董桥abc")['mm'].should == nil
+            cjk_mm_qs_params("abc董桥 abc")['mm'].should == nil
+            cjk_mm_qs_params("abc 董桥 abc")['mm'].should == nil
           end
         end
       end # mixed      
@@ -186,39 +185,39 @@ describe "CJK Helper", :chinese => true, :fixme => true do
 
     context "only CJK chars in query" do
       it "3 CJK (adj) char: mm=cjk_mm_val, ps=cjk_ps_val" do
-        cjk_mm_ps_params("マンガ").should == {'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val}
+        cjk_mm_qs_params("マンガ").should == {'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val}
       end
       it "4 CJK (adj) char: mm=cjk_mm_val, ps=cjk_ps_val" do
-        cjk_mm_ps_params("历史研究").should == {'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val}
+        cjk_mm_qs_params("历史研究").should == {'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val}
       end
       it "5 CJK (adj) char: mm=cjk_mm_val, ps=cjk_ps_val" do
-        cjk_mm_ps_params("妇女与婚姻").should == {'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val}
+        cjk_mm_qs_params("妇女与婚姻").should == {'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val}
       end
       it "6 CJK (adj) char: mm=cjk_mm_val, ps=cjk_ps_val" do
-        cjk_mm_ps_params("한국주택은행").should == {'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val}
+        cjk_mm_qs_params("한국주택은행").should == {'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val}
       end
       it "7 CJK (adj) char: mm=cjk_mm_val, ps=cjk_ps_val" do
-        cjk_mm_ps_params("中国地方志集成").should == {'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val}
+        cjk_mm_qs_params("中国地方志集成").should == {'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val}
       end
     end
     
     context "mixed with non-CJK scripts" do
       # for each non-cjk token, add 1 to the lower limit of mm
       it "first CJK" do
-        cjk_mm_ps_params("マンガabc").should == {'mm'=>mm_plus_1, 'ps'=>cjk_ps_val}
-        cjk_mm_ps_params("マンガ abc").should == {'mm'=>mm_plus_1, 'ps'=>cjk_ps_val}
-        cjk_mm_ps_params(" マンガ abc").should == {'mm'=>mm_plus_1, 'ps'=>cjk_ps_val}
+        cjk_mm_qs_params("マンガabc").should == {'mm'=>mm_plus_1, 'ps'=>cjk_ps_val}
+        cjk_mm_qs_params("マンガ abc").should == {'mm'=>mm_plus_1, 'ps'=>cjk_ps_val}
+        cjk_mm_qs_params(" マンガ abc").should == {'mm'=>mm_plus_1, 'ps'=>cjk_ps_val}
       end
       it "last CJK" do
-        cjk_mm_ps_params("abcマンガ").should == {'mm'=>mm_plus_1, 'ps'=>cjk_ps_val}
-        cjk_mm_ps_params("abc マンガ").should == {'mm'=>mm_plus_1, 'ps'=>cjk_ps_val}
-        cjk_mm_ps_params("abc マンガ ").should == {'mm'=>mm_plus_1, 'ps'=>cjk_ps_val}
+        cjk_mm_qs_params("abcマンガ").should == {'mm'=>mm_plus_1, 'ps'=>cjk_ps_val}
+        cjk_mm_qs_params("abc マンガ").should == {'mm'=>mm_plus_1, 'ps'=>cjk_ps_val}
+        cjk_mm_qs_params("abc マンガ ").should == {'mm'=>mm_plus_1, 'ps'=>cjk_ps_val}
       end
       it "(latin)(CJK)(latin)" do
-        cjk_mm_ps_params("abcマンガabc").should == {'mm'=>mm_plus_2, 'ps'=>cjk_ps_val}
-        cjk_mm_ps_params("abc マンガabc").should == {'mm'=>mm_plus_2, 'ps'=>cjk_ps_val}
-        cjk_mm_ps_params("abcマンガ abc").should == {'mm'=>mm_plus_2, 'ps'=>cjk_ps_val}
-        cjk_mm_ps_params("abc マンガ abc").should == {'mm'=>mm_plus_2, 'ps'=>cjk_ps_val}
+        cjk_mm_qs_params("abcマンガabc").should == {'mm'=>mm_plus_2, 'ps'=>cjk_ps_val}
+        cjk_mm_qs_params("abc マンガabc").should == {'mm'=>mm_plus_2, 'ps'=>cjk_ps_val}
+        cjk_mm_qs_params("abcマンガ abc").should == {'mm'=>mm_plus_2, 'ps'=>cjk_ps_val}
+        cjk_mm_qs_params("abc マンガ abc").should == {'mm'=>mm_plus_2, 'ps'=>cjk_ps_val}
       end
 
       # add 1 to the lower limit of mm

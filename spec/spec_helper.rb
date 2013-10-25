@@ -99,8 +99,6 @@ def cjk_series_q_arg(query_str)
   "{!qf=$qf_series_cjk pf=$pf_series_cjk pf3=$pf3_series_cjk pf2=$pf2_series_cjk}#{query_str}"
 end
 
-
-
 # return the number of CJK unigrams in the str
 def num_cjk_uni(str)
   if str
@@ -132,15 +130,14 @@ def cjk_mm_val
   @@cjk_mm_val
 end
 
-# return a hash containing mm and ps Solr parameters based on the CJK characters in the str
-def cjk_mm_ps_params(str)
+# return a hash containing mm and qs Solr parameters based on the CJK characters in the str
+def cjk_mm_qs_params(str)
   num_uni = num_cjk_uni(str)
   if num_uni > 2
     num_non_cjk_tokens = str.scan(/[[:alnum]]+/).size 
     if num_non_cjk_tokens > 0
       lower_limit = cjk_mm_val[0].to_i
       mm = (lower_limit + num_non_cjk_tokens).to_s + cjk_mm_val[1, cjk_mm_val.size]
-# FIXME:  do we need ps2 and ps3 explicitly passed in also?
       {'mm' => mm, 'qs' => 0}
     else
       {'mm' => @@cjk_mm_val, 'qs' => 0}
@@ -209,7 +206,7 @@ def solr_response(solr_params, req_handler='select')
       solr_params['q'] = cjk_everything_q_arg q_val
     end
     RSpecSolr::SolrResponseHash.new(@@solr.send_and_receive(req_handler, {:method => :get, 
-      :params => solr_params.merge("testing"=>"sw_index_test").merge(cjk_mm_ps_params(q_val))}))
+      :params => solr_params.merge("testing"=>"sw_index_test").merge(cjk_mm_qs_params(q_val))}))
   end # have CJK in query
 end    
 
