@@ -60,7 +60,7 @@ describe "Chinese Han variants", :chinese => true do
       it_behaves_like "best matches first", 'title', '历史 研究', ['6433575', '9336336'], 3
     end
     context "as phrase" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '"歷史研究"', 'simplified', '"历史研究"', 155, 275
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '"歷史研究"', 'simplified', '"历史研究"', 200, 300
       it_behaves_like "great matches for history research", 'title', '"歷史研究"'
       it_behaves_like "great matches for history research", 'title', '"历史研究"'
     end
