@@ -8,7 +8,7 @@ describe "CJK Advanced Search" do
   #   AND the matches shouldn't require whitespace for word boundaries
   
   context "Publication Info" do
-    context "Publisher: Akatsuki Shobō" do
+    context "Publisher: Akatsuki Shobō  曉書房" do
       before(:all) do
         @resp = cjk_adv_solr_resp({'q'=>"#{cjk_pub_info_query('曉書房')}"}.merge(solr_args))
       end
@@ -26,7 +26,7 @@ describe "CJK Advanced Search" do
       end
     end
     
-    context "Publisher: Mineruva Shobō" do
+    context "Publisher: Mineruva Shobō  ミネルヴァ 書房" do
       before(:all) do
         @resp = cjk_adv_solr_resp({'q'=>"#{cjk_pub_info_query('ミネルヴァ 書房')}"}.merge(solr_args))
       end
@@ -45,7 +45,7 @@ describe "CJK Advanced Search" do
       end
     end
     
-    context "Place:  Okinawa-ken Ginowan-shi" do
+    context "Place:  Okinawa-ken Ginowan-shi  沖縄県宜野湾市" do
       exact_matches = ['9392905', '9350464']
       before(:all) do
         @resp = cjk_adv_solr_resp({'q'=>"#{cjk_pub_info_query('沖縄県宜野湾市')}"}.merge(solr_args))
@@ -86,7 +86,7 @@ describe "CJK Advanced Search" do
   end # Publication Info
   
   context "Summary/ToC" do
-    context "ToC: Haiku futabashū" do
+    context "ToC: Haiku futabashū  俳句二葉集" do
       before(:all) do
         @resp = cjk_adv_solr_resp({'q'=>"#{cjk_summary_query('俳句二葉集')}"}.merge(solr_args))
       end
@@ -102,6 +102,20 @@ describe "CJK Advanced Search" do
       it "matches without spaces present" do
         no_space_exact_matches = ['6305856', '6626759'] 
         @resp.should include(no_space_exact_matches).in_first(5).documents
+      end
+    end
+    context "Ningxia Border Region  陝甘寧邊區" do
+      before(:all) do
+        @resp = cjk_adv_solr_resp({'q'=>"#{cjk_summary_query('陝甘寧邊區')}"}.merge(solr_args))
+      end
+      no_space_exact_matches = ['6326387', '6328507', '8795876', '9134891', '6514338', '6723694', '6723782', '6298281'] 
+      it "num expected" do
+        # there are 0 exact matches as of 2013-10-29; these are the only ones found w/o cjk search fields
+        @resp.should have_at_least(no_space_exact_matches.size).documents
+        @resp.should have_at_most(20).documents  # 180 match everything search
+      end
+      it "matches without spaces present" do
+        @resp.should include(no_space_exact_matches).in_first(10).documents
       end
     end
   end
