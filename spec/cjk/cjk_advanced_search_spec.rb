@@ -77,14 +77,7 @@ describe "CJK Advanced Search" do
         resp.should have_at_least(30).documents # matches 19 wo cjk search fields
         resp.should have_at_most(3500).documents # 6560 match everything search
       end
-    end
-    
-=begin    
-    context "publication and title", :jira => 'SW-974' do
-      expected = ['9617331', '5175639', '4822276']
-      #  I put "济南“ (city name) in search query box for Publisher, place, year, and "日报” （daily newspaper) in the box for Title, 
-    end
-=end    
+    end    
   end # Publication Info
   
   context "Summary/ToC" do
@@ -163,16 +156,19 @@ describe "CJK Advanced Search" do
       end
     end # title + author
     context "title + pub info" do
-      context "title Daily Report (日報), place Jinan (濟南)" do
+      context "title Daily Report (日報), place Jinan (濟南)", :jira => 'SW-974' do
+        expected = ['9617331', '5175639', '4822276']
         it "AND" do
           resp = cjk_adv_solr_resp({'q'=>"#{cjk_title_query('日報')} AND #{cjk_pub_info_query('濟南')}"}.merge(solr_args))
           resp.should have_at_least(5).documents # none with non-CJK aware fields
           resp.should have_at_most(15).documents
+          resp.should include(expected)
         end
         it "OR" do
           resp = cjk_adv_solr_resp({'q'=>"#{cjk_title_query('日報')} OR #{cjk_pub_info_query('濟南')}"}.merge(solr_args))
           resp.should have_at_least(5000).documents # almost 5000 with non-CJK aware fields
           resp.should have_at_most(10000).documents
+          resp.should include(expected)
         end
       end
       context "unigram title Float (飄), place Shanghai (上海)" do
