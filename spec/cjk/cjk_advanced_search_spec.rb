@@ -7,6 +7,8 @@ describe "CJK Advanced Search" do
   # in a CJK-aware advanced search, we should get matches that are only in the desired fields 
   #   AND the matches shouldn't require whitespace for word boundaries
   
+  # NOTE:  title, author, subject and series  CJK qf and pf are tested elsewhere
+  
   context "Publication Info" do
     context "Publisher: Akatsuki Shobō  曉書房" do
       before(:all) do
@@ -117,6 +119,19 @@ describe "CJK Advanced Search" do
       it "matches without spaces present" do
         @resp.should include(no_space_exact_matches).in_first(10).documents
       end
+    end
+  end
+  
+  context "Description (catchall only)" do
+    it "Ningxia Border Region ( 陝甘寧邊區) num expected" do
+      resp = cjk_adv_solr_resp({'q'=>"#{cjk_description_query('陝甘寧邊區')}"}.merge(solr_args))
+      resp.should have_at_least(150).documents # 63 match whitespace (non-CJK aware search)
+      resp.should have_at_most(250).documents
+    end
+    it "Tsu (津):  num expected" do
+      resp = cjk_adv_solr_resp({'q'=>"#{cjk_description_query('津')}"}.merge(solr_args))
+      resp.should have_at_least(30).documents # matches 22 wo cjk search fields
+      resp.should have_at_most(8000).documents 
     end
   end
   
