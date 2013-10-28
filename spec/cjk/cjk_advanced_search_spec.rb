@@ -135,6 +135,75 @@ describe "CJK Advanced Search" do
     end
   end
   
+  context "combining fields" do
+    context "title + author" do
+      context "title Nihon seishin seisei shiron (日本精神生成史論), author Shigeo Suzuki (鈴木重雄)" do
+        it "AND" do
+          resp = cjk_adv_solr_resp({'q'=>"#{cjk_title_query('日本精神生成史論')} AND #{cjk_author_query('鈴木重雄')}"}.merge(solr_args))
+          resp.should have_at_least(1).documents # 1 with non-CJK aware fields
+          resp.should have_at_most(5).documents
+        end
+        it "OR" do
+          resp = cjk_adv_solr_resp({'q'=>"#{cjk_title_query('日本精神生成史論')} OR #{cjk_author_query('鈴木重雄')}"}.merge(solr_args))
+          resp.should have_at_least(5).documents # 4 with non-CJK aware fields
+          resp.should have_at_most(20).documents
+        end
+      end
+      context "title Ji cu zhan shu (基礎戰術), author Mao, Zedong (毛澤東)" do
+        it "AND" do
+          resp = cjk_adv_solr_resp({'q'=>"#{cjk_title_query('基礎戰術')} AND #{cjk_author_query('毛澤東')}"}.merge(solr_args))
+          resp.should have_at_least(2).documents # 2 with non-CJK aware fields
+          resp.should have_at_most(5).documents
+        end
+        it "OR" do
+          resp = cjk_adv_solr_resp({'q'=>"#{cjk_title_query('基礎戰術')} OR #{cjk_author_query('毛澤東')}"}.merge(solr_args))
+          resp.should have_at_least(350).documents # 316 with non-CJK aware fields
+          resp.should have_at_most(500).documents
+        end
+      end
+    end # title + author
+    context "title + pub info" do
+      context "title Daily Report (日報), place Jinan (濟南)" do
+        it "AND" do
+          resp = cjk_adv_solr_resp({'q'=>"#{cjk_title_query('日報')} AND #{cjk_pub_info_query('濟南')}"}.merge(solr_args))
+          resp.should have_at_least(5).documents # none with non-CJK aware fields
+          resp.should have_at_most(15).documents
+        end
+        it "OR" do
+          resp = cjk_adv_solr_resp({'q'=>"#{cjk_title_query('日報')} OR #{cjk_pub_info_query('濟南')}"}.merge(solr_args))
+          resp.should have_at_least(5000).documents # almost 5000 with non-CJK aware fields
+          resp.should have_at_most(10000).documents
+        end
+      end
+      context "unigram title Float (飄), place Shanghai (上海)" do
+        it "AND" do
+          resp = cjk_adv_solr_resp({'q'=>"#{cjk_title_query('飄')} AND #{cjk_pub_info_query('上海')}"}.merge(solr_args))
+          resp.should have_at_least(10).documents # 1 with non-CJK aware fields
+          resp.should have_at_most(20).documents
+        end
+        it "OR" do
+          resp = cjk_adv_solr_resp({'q'=>"#{cjk_title_query('飄')} OR #{cjk_pub_info_query('上海')}"}.merge(solr_args))
+          resp.should have_at_least(40000).documents # over 36000 with non-CJK aware fields
+          resp.should have_at_most(45000).documents
+        end
+      end
+    end # title + pub info
+    context "keyword + place" do
+      context "Ningxia Border Region (陝甘寧邊區), place Yan'an (延安)" do
+        it "AND" do
+          resp = cjk_adv_solr_resp({'q'=>"#{cjk_description_query('陝甘寧邊區')} AND #{cjk_pub_info_query('延安')}"}.merge(solr_args))
+          resp.should have_at_least(30).documents # 25 with non-CJK aware fields
+          resp.should have_at_most(40).documents
+        end
+        it "OR" do
+          resp = cjk_adv_solr_resp({'q'=>"#{cjk_description_query('陝甘寧邊區')} OR #{cjk_pub_info_query('延安')}"}.merge(solr_args))
+          resp.should have_at_least(375).documents # 329 with non-CJK aware fields
+          resp.should have_at_most(500).documents
+        end
+      end
+    end
+  end
+  
   
 private  
   
