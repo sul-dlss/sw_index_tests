@@ -206,7 +206,7 @@ describe "Korean spacing", :korean => true do
 
   context "Korean economy at the turning point" do
     shared_examples_for "good results for 전환기의 한국경제" do | query |
-      it_behaves_like "good results for query", 'everything', query, 3, 450, '7132960', 1
+      it_behaves_like "good results for query", 'everything', query, 3, 475, '7132960', 1
     end
     context "전환기의 한국경제  (normal spacing)" do
       it_behaves_like "good results for 전환기의 한국경제", '전환기의 한국경제'
