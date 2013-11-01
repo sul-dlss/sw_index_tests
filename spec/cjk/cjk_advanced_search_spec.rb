@@ -48,7 +48,6 @@ describe "CJK Advanced Search" do
     end
     
     context "Place:  Okinawa-ken Ginowan-shi  沖縄県宜野湾市" do
-      exact_matches = ['9392905', '9350464']
       before(:all) do
         @resp = cjk_adv_solr_resp({'q'=>"#{cjk_pub_info_query('沖縄県宜野湾市')}"}.merge(solr_args))
       end
@@ -58,6 +57,7 @@ describe "CJK Advanced Search" do
         @resp.should have_at_most(16).documents # 17 match everything search
       end
       it "whitespace exact matches first" do
+        exact_matches = ['9392905', '9350464']
         @resp.should include(exact_matches).in_first(exact_matches.size).documents
       end
       it "matches without spaces present" do
