@@ -231,6 +231,6 @@ describe "CJK Helper", :chinese => true, :fixme => true do
         (lower_limit + 2).to_s + cjk_mm_val[1, cjk_mm_val.size]
       end
     end # mixed      
-  end # mm and ps params
+  end # mm and qs params
 
 end
