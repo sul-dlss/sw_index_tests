@@ -31,7 +31,7 @@ describe "Chinese Han variants", :chinese => true do
                             '6833733', # 245a,  9th
                           ]
     shared_examples_for "great matches for Hiroshi" do | query |
-      it_behaves_like "matches in vern short titles first", 'title', query, /(廣|广)(甯|寧|宁)(縣|县)/, 10 # modern
+      it_behaves_like "matches in vern short titles first", 'title', query, /(廣|广)(甯|寧|宁)(縣|县)/, 9 # modern
       it_behaves_like "best matches first", 'title', query, addl_desired_results, 10
     end
     trad = '廣甯縣'
