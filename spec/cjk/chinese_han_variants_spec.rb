@@ -8,17 +8,17 @@ describe "Chinese Han variants", :chinese => true do
     # In the Unicode standard, it is the "without dot" version (U+7DD2) that is linked to the simplified form (U+7EEA). The "with dot" version is not. 
     # We have more records with the "with dot" version than the "without dot" version. 
     #   added  7DD6 -> 7DD2 mapping
-    it_behaves_like "both scripts get expected result size", 'everything', 'with dot', '光緖', 'without dot', '光緒', 5100, 5300
-    it_behaves_like "both scripts get expected result size", 'everything', 'traditional (with dot)', '光緖', 'simplified', '光绪', 5100, 5300
-    it_behaves_like "both scripts get expected result size", 'everything', 'without dot', '光緒', 'simplified', '光绪', 5100, 5300
+    it_behaves_like "both scripts get expected result size", 'everything', 'with dot', '光緖', 'without dot', '光緒', 5000, 5300
+    it_behaves_like "both scripts get expected result size", 'everything', 'traditional (with dot)', '光緖', 'simplified', '光绪', 5000, 5300
+    it_behaves_like "both scripts get expected result size", 'everything', 'without dot', '光緒', 'simplified', '光绪', 5000, 5300
     context "with dot U+7DD6  緖" do
-      it_behaves_like "expected result size", 'everything', '光緖', 5100, 5300
+      it_behaves_like "expected result size", 'everything', '光緖', 5000, 5300
     end
     context "without dot U+7DD2 緒" do
-      it_behaves_like "expected result size", 'everything', '光緒', 5100, 5300
+      it_behaves_like "expected result size", 'everything', '光緒', 5000, 5300
     end
     context "simplified U+7EEA 绪" do
-      it_behaves_like "expected result size", 'everything', '光绪', 5100, 5300
+      it_behaves_like "expected result size", 'everything', '光绪', 5000, 5300
     end
   end
   
