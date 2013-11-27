@@ -58,16 +58,16 @@ describe "Japanese Everything Searches", :japanese => true do
   end
 
   context '(local/regional society - longer)', :jira => 'VUF-2716' do
-    it_behaves_like "good results for query", 'everything', '地域社会から見る', 3, 5, ['10221504', '10250667'], 2
+    it_behaves_like "good results for query", 'everything', '地域社会から見る', 3, 5, '10250667', 1
     context "phrase" do
-      it_behaves_like "good results for query", 'everything', '”地域社会から見る”', 3, 5, ['10221504', '10250667'], 2
+      it_behaves_like "good results for query", 'everything', '”地域社会から見る”', 3, 5, '10250667', 1
     end
   end
 
   context '(local/regional society - all of Japan)', :jira => 'VUF-2714' do
-    it_behaves_like "good results for query", 'everything', '地域社会から見る帝国日本と植民地', 1, 3, ['10221504', '10250667'], 2
+    it_behaves_like "good results for query", 'everything', '地域社会から見る帝国日本と植民地', 1, 3, '10250667', 1
     context "phrase" do
-      it_behaves_like "good results for query", 'everything', '"地域社会から見る帝国日本と植民地"', 1, 3, ['10221504', '10250667'], 2
+      it_behaves_like "good results for query", 'everything', '"地域社会から見る帝国日本と植民地"', 1, 3, '10250667', 1
     end
   end
 
