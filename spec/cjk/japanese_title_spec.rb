@@ -82,7 +82,7 @@ describe "Japanese Title searches", :japanese => true do
     it_behaves_like "best matches first", 'title', 'ちょうちん', '10181601', 1   # in 245a
   end
   context "manga/comics", :jira => ['VUF-2734', 'VUF-2735'] do
-    it_behaves_like "both scripts get expected result size", 'title', 'hiragana', 'まんが', 'katakana', 'マンガ', 210, 275      
+    it_behaves_like "both scripts get expected result size", 'title', 'hiragana', 'まんが', 'katakana', 'マンガ', 210, 290      
     it_behaves_like "matches in vern short titles first", 'title', 'まんが', /まんが|マンガ/, 100
     it_behaves_like "matches in vern titles", 'title', 'まんが', /まんが/, 20 # hiragana script is in results
     it_behaves_like "matches in vern titles", 'title', 'マンガ', /マンガ/, 20 # katagana script is in results
