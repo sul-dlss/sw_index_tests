@@ -14,8 +14,8 @@ describe "sorting results" do
       resp = solr_response({'fq'=>'format:Book', 'fl'=>'id,pub_date', 'facet'=>false})
       year = Time.new.year
       resp.should include("pub_date" => /(#{year}|#{year + 1}|#{year + 2})/).in_each_of_first(20).documents
-      # _Action research_ (2014, Cubberley) before _Africa's discovery of Europe_ (2014, Green)
-      resp.should include('10094485').before('10145562')
+      # _The Aboriginal Tent Embassy_ (2014, Green) before _Accentuate the negative_ (2014, Education)
+      resp.should include('10230492').before('10202684')
     end
     
     it "with facet access:Online; default sort should be by pub date desc then title asc" do
