@@ -297,7 +297,7 @@ describe "Korean spacing", :korean => true do
 
   context "History of South Korea" do
     shared_examples_for "good results for 한국의 역사" do | query |
-      it_behaves_like "expected result size", 'everything', query, 490, 525
+      it_behaves_like "expected result size", 'everything', query, 490, 550
     end
     context "한국의 역사 (normal spacing)" do
       it_behaves_like "good results for 한국의 역사", '한국의 역사'
