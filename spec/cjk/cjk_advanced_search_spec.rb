@@ -151,7 +151,7 @@ describe "CJK Advanced Search" do
         it "OR" do
           resp = cjk_adv_solr_resp({'q'=>"#{cjk_title_query('基礎戰術')} OR #{cjk_author_query('毛澤東')}"}.merge(solr_args))
           resp.should have_at_least(350).documents # 316 with non-CJK aware fields
-          resp.should have_at_most(500).documents
+          resp.should have_at_most(525).documents
         end
       end
     end # title + author
