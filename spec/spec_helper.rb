@@ -7,6 +7,17 @@ $LOAD_PATH.unshift(File.dirname(__FILE__))
 require 'rspec-solr'
 require 'support/shared_examples_cjk'
 
+# Runs a block of code without warnings.
+# e.g. as class vars here are on Object class, we get a lot of 
+#   "class variable access from toplevel" warnings
+def silence_warnings(&block)
+  warn_level = $VERBOSE
+  $VERBOSE = nil
+  result = block.call
+  $VERBOSE = warn_level
+  result
+end
+
 RSpec.configure do |config|
   baseurl = ENV["URL"]
   if baseurl
@@ -15,8 +26,10 @@ RSpec.configure do |config|
     yml_group = ENV["YML_GROUP"] ||= 'test'
     solr_config = YAML::load_file('config/solr.yml')[yml_group]
   end
-  @@solr = RSolr.connect(solr_config)
-  puts "Solr URL: #{@@solr.uri}"
+  silence_warnings { 
+    @@solr = RSolr.connect(solr_config) 
+    puts "Solr URL: #{@@solr.uri}"
+  }
 end
 
 # send a GET request to the default Solr request handler with the indicated query
@@ -125,9 +138,11 @@ def cjk_bigram_tokens(str)
 end
 
 # the Solr mm value if it is to be adjusted due to CJK chars in the query string
-@@cjk_mm_val = '3<86%'
+silence_warnings { 
+  @@cjk_mm_val = '3<86%'
+}
 def cjk_mm_val
-  @@cjk_mm_val
+  silence_warnings { @@cjk_mm_val }
 end
 
 # return a hash containing mm and qs Solr parameters based on the CJK characters in the str
@@ -140,7 +155,7 @@ def cjk_mm_qs_params(str)
       mm = (lower_limit + num_non_cjk_tokens).to_s + cjk_mm_val[1, cjk_mm_val.size]
       {'mm' => mm, 'qs' => 0}
     else
-      {'mm' => @@cjk_mm_val, 'qs' => 0}
+      {'mm' => cjk_mm_val, 'qs' => 0}
     end
   else
     {}
@@ -173,7 +188,6 @@ def cjk_q_arg(query_type, query)
   end
 end
 
-
 private
 
 # send a GET request to the indicated Solr request handler with the indicated Solr parameters
@@ -183,7 +197,7 @@ private
 def solr_response(solr_params, req_handler='select')
   q_val = solr_params['q']
   if num_cjk_uni(q_val) == 0
-    RSpecSolr::SolrResponseHash.new(@@solr.send_and_receive(req_handler, {:method => :get, :params => solr_params.merge("testing"=>"sw_index_test")}))
+    RSpecSolr::SolrResponseHash.new(silence_warnings { @@solr.send_and_receive(req_handler, {:method => :get, :params => solr_params.merge("testing"=>"sw_index_test")}) } )
   else
     # we have CJK - separate user query string out from local params
     if q_val =~ /\{(.*)\}(.*)/
@@ -205,44 +219,47 @@ def solr_response(solr_params, req_handler='select')
     else
       solr_params['q'] = cjk_everything_q_arg q_val
     end
-    RSpecSolr::SolrResponseHash.new(@@solr.send_and_receive(req_handler, {:method => :get, 
-      :params => solr_params.merge("testing"=>"sw_index_test").merge(cjk_mm_qs_params(q_val))}))
+    RSpecSolr::SolrResponseHash.new(silence_warnings { 
+                    @@solr.send_and_receive(req_handler, {:method => :get, 
+                                    :params => solr_params.merge("testing"=>"sw_index_test").merge(cjk_mm_qs_params(q_val))}) 
+                                    } )
   end # have CJK in query
 end    
 
 # use these Solr HTTP params to reduce the size of the Solr responses
 # response documents will only have id fields, and there will be no facets in the response
-@@doc_ids_only = {'fl'=>'id', 'facet'=>'false'}
-@@doc_ids_short_titles = {'fl'=>'id,title_245a_display', 'facet'=>'false'}
-@@doc_ids_full_titles = {'fl'=>'id,title_full_display', 'facet'=>'false'}
+silence_warnings {
+  @@doc_ids_only = {'fl'=>'id', 'facet'=>'false'}
+  @@doc_ids_short_titles = {'fl'=>'id,title_245a_display', 'facet'=>'false'}
+  @@doc_ids_full_titles = {'fl'=>'id,title_full_display', 'facet'=>'false'}
+}
 
 # response documents will only have id fields, and there will be no facets in the response
 # @return [Hash] Solr HTTP params to reduce the size of the Solr responses
 def doc_ids_only
-  @@doc_ids_only
+  silence_warnings { @@doc_ids_only }
 end
 
 # response documents will only have id and title_245a_display fields, and there will be no facets in the response
 # @return [Hash] Solr HTTP params to reduce the size of the Solr responses
 def doc_ids_short_titles
-  @@doc_ids_short_titles
+  silence_warnings { @@doc_ids_short_titles }
 end
 
 # response documents will only have id and title_full_display fields, and there will be no facets in the response
 # @return [Hash] Solr HTTP params to reduce the size of the Solr responses
 def doc_ids_full_titles
-  @@doc_ids_full_titles
+  silence_warnings { @@doc_ids_full_titles }
 end
 
 def solr_conn
-  @@solr
+  silence_warnings { @@solr }
 end
 
 def solr_schema
-  @@schema_xml ||= @@solr.send_and_receive('admin/file/', {:method => :get, :params => {'file'=>'schema.xml', :wt=>'xml'}}) 
+  silence_warnings { @@schema_xml ||= @@solr.send_and_receive('admin/file/', {:method => :get, :params => {'file'=>'schema.xml', :wt=>'xml'}}) }
 end
 
 def solr_config_xml
-  @@solrconfig_xml = @@solr.send_and_receive('admin/file/', {:method => :get, :params => {'file'=>'solrconfig.xml', :wt=>'xml'}}) 
+  silence_warnings { @@solrconfig_xml = @@solr.send_and_receive('admin/file/', {:method => :get, :params => {'file'=>'solrconfig.xml', :wt=>'xml'}}) }
 end
-
