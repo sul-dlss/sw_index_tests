@@ -79,7 +79,7 @@ describe "Japanese Title searches", :japanese => true do
   end
   context "lantern shop", :jira => 'VUF-2702' do
     it_behaves_like "expected result size", 'title', 'ちょうちん屋', 1, 2
-    it_behaves_like "best matches first", 'title', 'ちょうちん', '10181601', 1   # in 245a
+    it_behaves_like "best matches first", 'title', 'ちょうちん屋', '10181601', 1   # in 245a
   end
   context "manga/comics", :jira => ['VUF-2734', 'VUF-2735'] do
     it_behaves_like "both scripts get expected result size", 'title', 'hiragana', 'まんが', 'katakana', 'マンガ', 210, 290      
