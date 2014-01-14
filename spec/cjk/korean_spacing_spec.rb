@@ -285,7 +285,7 @@ describe "Korean spacing", :korean => true do
   end # Contemporary North Korean literature
   context "Art History of the Choson dynasty" do
     shared_examples_for "good results for 조선미술사" do | query |
-      it_behaves_like "good results for query", 'everything', query, 15, 22, '7676909', 1
+      it_behaves_like "good results for query", 'everything', query, 15, 25, '7676909', 1
     end
     context "조선미술사 (normal spacing)" do
       it_behaves_like "good results for 조선미술사", '조선미술사'
