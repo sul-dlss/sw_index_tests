@@ -529,9 +529,9 @@ describe "journal/newspaper titles" do
   context "the wall street journal", :jira => ['SW-585','VUF-1715'] do
     it "should get ckey 486902 above fold" do
       resp = solr_resp_ids_titles(title_search_args 'wall street journal')
-      resp.should include('486902').in_first(3)
+      resp.should include('486902').in_first(4)
       resp = solr_resp_ids_titles(title_search_args 'the wall street journal')
-      resp.should include('486902').in_first(3)
+      resp.should include('486902').in_first(4)
     end
 
     it_behaves_like "great results for journal/newspaper", "the wall street journal" do
