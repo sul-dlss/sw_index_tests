@@ -8,8 +8,6 @@ describe "sorting results" do
 #      resp = solr_response({'fl'=>'id,pub_date', 'facet'=>false})
       resp = solr_response({'fl'=>'id,pub_date,imprint_display', 'facet'=>false})
       resp.should_not include('1') # should not be in document id order
-#      year = Time.new.year
-#      resp.should include("pub_date" => /(#{year}|#{year + 1}|#{year + 2})/).in_each_of_first(20).documents
       docs_match_current_year resp
     end
 
@@ -18,7 +16,7 @@ describe "sorting results" do
 #      resp = solr_response({'fq'=>'format:Book', 'fl'=>'id,pub_date', 'facet'=>false})
 #      year = Time.new.year
 #      resp.should include("pub_date" => /(#{year}|#{year + 1}|#{year + 2})/).in_each_of_first(20).documents
-      resp = solr_response({'fq'=>'format:Book', 'fl'=>'id,pub_date,imprint_display', 'facet'=>false})
+      resp = solr_response({'fq'=>'format:Book', 'fl'=>'id,pub_date,imprint_display', 'facet'=>false, 'rows'=>25})
       docs_match_current_year resp
       # _The Aboriginal Tent Embassy_ (2014, Green) before _Accentuate the negative_ (2014, Education)
       resp.should include('10230492').before('10202684')
