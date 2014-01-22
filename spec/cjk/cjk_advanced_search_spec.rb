@@ -35,7 +35,8 @@ describe "CJK Advanced Search" do
       it "num expected" do
         # there are only 6 exact matches as of 2013-10-25; these are the only ones found w/o cjk search fields
         @resp.should have_at_least(800).documents
-        @resp.should have_at_most(924).documents  # 925 match everything search
+        everything_num = cjk_query_resp_ids('everything', 'ミネルヴァ 書房').size
+        @resp.should have_at_most(everything_num - 1).documents
       end
       it "whitespace exact matches first" do
         exact_matches = ['4196577', '4203788', '4199853', '4198109', '4203994', '4197487']
