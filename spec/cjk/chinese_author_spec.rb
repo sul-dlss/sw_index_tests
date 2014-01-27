@@ -28,11 +28,11 @@ describe "Chinese Author", :chinese => true do
   end
 
   context "Liang, Hong", :jira => 'VUF-2688' do
-    it_behaves_like "both scripts get expected result size", 'author', 'traditional', '梁鴻', 'simplified', '梁鸿', 8, 12
+    it_behaves_like "both scripts get expected result size", 'author', 'traditional', '梁鴻', 'simplified', '梁鸿', 8, 15
     it_behaves_like "matches in vern person authors first", 'author', '梁鸿', /(梁鴻|梁鸿)/, 7
     it_behaves_like "matches in vern person authors first", 'author', '梁鸿', /^(梁鴻|梁鸿)[^[[:alpha:]]]*$/, 3
     context "phrase" do
-      it_behaves_like "both scripts get expected result size", 'author', 'traditional', '"梁鴻"', 'simplified', '"梁鸿"', 8, 12
+      it_behaves_like "both scripts get expected result size", 'author', 'traditional', '"梁鴻"', 'simplified', '"梁鸿"', 8, 15
       it_behaves_like "matches in vern person authors first", 'author', '"梁鸿"', /(梁鴻|梁鸿)/, 7
       it_behaves_like "matches in vern person authors first", 'author', '"梁鸿"', /^(梁鴻|梁鸿)[^[[:alpha:]]]*$/, 3
     end
