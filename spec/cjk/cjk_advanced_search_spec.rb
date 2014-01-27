@@ -43,7 +43,7 @@ describe "CJK Advanced Search" do
         @resp.should include(exact_matches).in_first(exact_matches.size).documents
       end
       it "matches without spaces present" do
-        no_space_exact_matches = ['9714673', '9714675']  # 2 out of many
+        no_space_exact_matches = ['10352409', '10330858']  # 2 out of many
         @resp.should include(no_space_exact_matches).in_first(20).documents
       end
     end
