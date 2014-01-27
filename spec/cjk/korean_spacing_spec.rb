@@ -188,7 +188,7 @@ describe "Korean spacing", :korean => true do
 
   context "As I listened" do
     shared_examples_for "good results for 귀를 기울이면" do | query |
-      it_behaves_like "expected result size", 'everything', query, 1, 12
+      it_behaves_like "expected result size", 'everything', query, 1, 15
     end
     context "귀를 기울이면 (normal spacing)" do
       it_behaves_like "good results for 귀를 기울이면", '경계에서'
