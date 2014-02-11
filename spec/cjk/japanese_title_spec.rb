@@ -177,7 +177,7 @@ describe "Japanese Title searches", :japanese => true do
     it_behaves_like "matches in vern short titles first", 'title', '週刋', /週(刊|刋)/, 20, lang_limit # trad
   end
   context "TPP", :jira => 'VUF-2696' do
-    it_behaves_like "expected result size", 'title', 'TPP', 11, 15
+    it_behaves_like "expected result size", 'title', 'TPP', 12, 25
     it_behaves_like "expected result size", 'title', 'TPP', 6, 10, lang_limit
     it_behaves_like "matches in vern short titles first", 'title', 'TPP', /TPP/, 6, lang_limit
     it_behaves_like "matches in vern titles first", 'title', 'TPP', /TPP/, 7, lang_limit
