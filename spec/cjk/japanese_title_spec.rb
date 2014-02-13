@@ -82,7 +82,7 @@ describe "Japanese Title searches", :japanese => true do
     it_behaves_like "best matches first", 'title', 'ちょうちん屋', '10181601', 1   # in 245a
   end
   context "manga/comics", :jira => ['VUF-2734', 'VUF-2735'] do
-    it_behaves_like "both scripts get expected result size", 'title', 'hiragana', 'まんが', 'katakana', 'マンガ', 210, 290      
+    it_behaves_like "both scripts get expected result size", 'title', 'hiragana', 'まんが', 'katakana', 'マンガ', 250, 350      
     it_behaves_like "matches in vern short titles first", 'title', 'まんが', /まんが|マンガ/, 100
     it_behaves_like "matches in vern titles", 'title', 'まんが', /まんが/, 20 # hiragana script is in results
     it_behaves_like "matches in vern titles", 'title', 'マンガ', /マンガ/, 20 # katagana script is in results
@@ -137,7 +137,7 @@ describe "Japanese Title searches", :japanese => true do
     it_behaves_like "matches in vern short titles first", 'title', '調查', /^(調查|調査)[^[[:alnum:]]]*$/, 1 # trad
     it_behaves_like "matches in vern short titles first", 'title', '調査', /^(調查|調査)[^[[:alnum:]]]*$/, 1 # mod
     context "w lang limit" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', ' 調查', 'modern', '調査', 4450, 4700, lang_limit
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', ' 調查', 'modern', '調査', 4600, 4800, lang_limit
       it_behaves_like "matches in vern short titles first", 'title', '調查', /(調查|調査)/, 100, lang_limit   # trad
       it_behaves_like "matches in vern short titles first", 'title', '調査', /(調查|調査)/, 100, lang_limit  # modern
       # exact title match
