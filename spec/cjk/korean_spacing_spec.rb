@@ -150,7 +150,7 @@ describe "Korean spacing", :korean => true do
 
   context "Korean economy" do
     shared_examples_for "good results for 한국경제" do | query |
-      it_behaves_like "expected result size", 'everything', query, 600, 700
+      it_behaves_like "expected result size", 'everything', query, 650, 750
       # no spaces, exact 245a
       it_behaves_like 'best matches first', 'everything', query, '6812133', 7
       # spaces, exact 245a
