@@ -8,7 +8,7 @@ describe "Chinese Everything", :chinese => true do
     it_behaves_like "matches in vern short titles first", 'everything', '中國經濟政策', /^中國經濟政策$/, 1
     it_behaves_like "matches in vern short titles first", 'everything', '中國經濟政策', /(中國經濟政策|中国经济政策|中国経済政策史)/, 7
     context "with spaces" do
-      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '中國 經濟 政策', 'simplified', '中国 经济 政策', 225, 275
+      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '中國 經濟 政策', 'simplified', '中国 经济 政策', 250, 300
       it_behaves_like "matches in vern short titles first", 'everything', '中國 經濟 政策', /^中國經濟政策$/, 1
       it_behaves_like "matches in vern short titles first", 'everything', '中國 經濟 政策', /(中國經濟政策|中国经济政策|中国経済政策史)/, 7
     end
