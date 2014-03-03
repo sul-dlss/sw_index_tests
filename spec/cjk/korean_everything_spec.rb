@@ -53,7 +53,7 @@ describe "Korean Everything", :korean => true do
                         ]
     bigrams_in_245_wrong_order = ['9759439']
     context "사회변동 (no spaces)" do
-      it_behaves_like 'good results for query', 'everything', '사회변동', 50, 60, chars_together_in_245, 30, 'rows'=>50
+      it_behaves_like 'good results for query', 'everything', '사회변동', 55, 65, chars_together_in_245, 30, 'rows'=>50
       it_behaves_like 'best matches first', 'everything', '사회변동', bigrams_in_245_not_together, 55, 'rows'=>55
       it_behaves_like 'best matches first', 'everything', '사회변동', bigrams_in_245b, 55, 'rows'=>55
       it_behaves_like 'best matches first', 'everything', '사회변동', bigrams_in_245_wrong_order, 60, 'rows'=>60
