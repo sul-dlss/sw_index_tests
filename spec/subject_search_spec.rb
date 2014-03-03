@@ -191,7 +191,7 @@ describe "Subject Search" do
   context "subject with apostrophe" do
     it "stanford artists' books collection", :jira => 'SW-867' do
       resp = solr_resp_doc_ids_only(subject_search_args '"stanford artists\' books collection"')
-      resp.should include('7138432')
+      resp.should include('7513019')
     end
   end
   
