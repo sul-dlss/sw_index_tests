@@ -252,7 +252,7 @@ describe "Korean spacing", :korean => true do
   end # world inside korea
   context "Society of North Korea" do
     shared_examples_for "good results for 북한의 사회" do | query |
-      it_behaves_like "good results for query", 'everything', query, 75, 85, ['9250730', '7158417'], 2
+      it_behaves_like "good results for query", 'everything', query, 80, 120, ['9250730', '7158417'], 2
     end
     context "북한의 사회 (normal spacing)" do
       it_behaves_like "good results for 북한의 사회", '북한의 사회'
@@ -297,7 +297,7 @@ describe "Korean spacing", :korean => true do
 
   context "History of South Korea" do
     shared_examples_for "good results for 한국의 역사" do | query |
-      it_behaves_like "expected result size", 'everything', query, 490, 550
+      it_behaves_like "expected result size", 'everything', query, 500, 600
     end
     context "한국의 역사 (normal spacing)" do
       it_behaves_like "good results for 한국의 역사", '한국의 역사'
