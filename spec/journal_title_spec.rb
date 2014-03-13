@@ -687,16 +687,13 @@ describe "journal/newspaper titles" do
 
     it_behaves_like "great results for journal/newspaper", "financial times" do
       journal = []
-      news = ['8201635', # online, frankfurt, 0174-7363
-              '3350107', # law, 0884-6782
+      news = ['3350107', # law, 0884-6782
               '10040357', # biz, 0884-6782
               '4100964', # green, 0884-6782
               '2874107', # sal newark, uganda
 #              '10040358', # biz, 'THE financial times'
               ]
-      other = ['3292883', # hoover
-              ]
-      let(:all_formats) { journal + news + other }
+      let(:all_formats) { journal + news }
       let(:journal_only) { journal }
       let(:newspaper_only) { news }
     end
