@@ -27,12 +27,13 @@ describe "Stopwords such as 'the' 'a' 'or' should now work" do
   it "'the one'", :jira => 'SW-613' do
     resp = solr_resp_doc_ids_only({'q'=>'the one'}) 
     expected = ['4805489', # video
+                '10413330', # on order as of 2014-03
                 '9171509', # book, sal
                 '9583074', # book, music
                 '6826825', # book, green
                 # '9694740', # recording via aspresolver.com
                 ]
-    resp.should include(expected).in_first(5).results
+    resp.should include(expected).in_first(6).results
     resp.should_not include("2860701").in_first(4) # "One"
   end
 
