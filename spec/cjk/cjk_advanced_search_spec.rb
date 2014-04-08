@@ -28,7 +28,7 @@ describe "CJK Advanced Search" do
       end
     end
     
-    context "Publisher: Mineruva Shobō  ミネルヴァ 書房" do
+    context "Publisher: Mineruba Shobō  ミネルヴァ 書房" do
       before(:all) do
         @resp = cjk_adv_solr_resp({'q'=>"#{cjk_pub_info_query('ミネルヴァ 書房')}"}.merge(solr_args))
       end
@@ -43,7 +43,7 @@ describe "CJK Advanced Search" do
         @resp.should include(exact_matches).in_first(exact_matches.size).documents
       end
       it "matches without spaces present" do
-        no_space_exact_matches = ['10352409', '10330858']  # 2 out of many
+        no_space_exact_matches = ['10365584', '10291986']  # 2 out of many
         @resp.should include(no_space_exact_matches).in_first(20).documents
       end
     end
