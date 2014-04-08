@@ -49,9 +49,9 @@ describe "Author-Title Search" do
   end
 
   it "Beethoven symphony number 3", :jira => ['VUF-571', 'SW-387'] do
-    q = '"Beethoven, Ludwig van, 1770-1827. Symphonies, no. 3, op. 55, E♭ major"; arr.'
+    q = '"Beethoven, Ludwig van, 1770-1827. Symphonies, no. 3, op. 55, E♭ major"; arranged'
     resp = solr_response(author_title_search_args(q).merge!({'fl'=>'id,author_person_display', 'facet'=>false}))
-    resp.should have_at_least(10).documents
+    resp.should have_at_least(8).documents
     resp.should include('282546')
     resp.should have_at_most(20).documents
     resp.should include("author_person_display" => /Beethoven/i).in_each_of_first(3).documents
