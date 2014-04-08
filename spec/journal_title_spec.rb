@@ -447,7 +447,6 @@ describe "journal/newspaper titles" do
       journal = ['9857186', # bar assoc dc, online, 0196-1578
                   '4144519', # bar assoc dc, law
                   '441812', # mecca, green
-                  '478138', # kansas, branner
                   '9696658', # cleveland, heinonline
                   '9705114', # oklahoma, heinonline
                   '495155', # canada, edu
@@ -456,10 +455,9 @@ describe "journal/newspaper titles" do
                   '667361', # metal polishers, green mfilm
                   '667316', # metal polishers, green mfilm
                   '354858', # burma, sal3
-                  '437735', # kansas, branner
                   '2941201', # tech horiz, educ, 0192-592x
                 ]
-      news = []
+      news = ['10354148']
       book = ['1186556', # dana, green
               '1293085', # 1721, green mfilm
               '4374587', # columbus, green
