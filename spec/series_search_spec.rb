@@ -28,16 +28,19 @@ describe "Series Search" do
   end
   
   context "Cahiers series", :jira => 'VUF-1031' do
+    before(:all) do
+      @exp_ids = ['9249698', '7597710', '10192127']
+    end
     it "series search, phrase" do
       resp = solr_resp_doc_ids_only(series_search_args '"Cahiers series"')
-      resp.should have_at_least(5).results
-      resp.should include(['9249698', '7597710', '9852112'])
+      resp.should have_at_least(30).results
+      resp.should include(@exp_ids)
       resp.should have_at_most(60).results
     end
     it "everything search, phrase" do
       resp = solr_resp_ids_from_query '"Cahiers series"'
-      resp.should have_at_least(5).results
-      resp.should include(['9249698', '7597710', '9852112'])
+      resp.should have_at_least(30).results
+      resp.should include(@exp_ids)
     end
   end
 
