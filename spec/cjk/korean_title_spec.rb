@@ -15,10 +15,10 @@ describe "Korean Titles", :korean => true do
       # 6317537: title plus (almost)  Hanʼguk hyŏndae munhak pipʻyŏngsa.  韓國現代文學批評史
       it_behaves_like 'best matches first', 'title', query, ['6317536', '6317537'], 7, lang_limit
       # 8802461: almost title  Han'guk hyŏndae yŏsŏng munhaksa  韓國 現代 女性 文學史 (History of Korean women’s contemporary literature) 
-      it_behaves_like 'best matches first', 'title', query, '8802461', 7, lang_limit
+      it_behaves_like 'best matches first', 'title', query, '8802461', 8, lang_limit
       # 7595639: title with all but last char  Hanʼguk hyŏndae munhak yŏnpʻyo and  with publisher name 文學思想史
       # 9220810: title with all but last char  Han'guk hyŏndae munhak kwa sidae chŏngsin
-      it_behaves_like 'best matches first', 'title', '韓國現代文學史', ['7595639', '9220810'], 7, lang_limit
+      it_behaves_like 'best matches first', 'title', '韓國現代文學史', ['7595639', '9220810'], 8, lang_limit
       # FIXME:  should this be true?
       # 7596241: 246 in variant Chinese characters, 韓國現代文學大事典. There is no 史 (meaning history)
       #it_behaves_like 'best matches first', 'title', '韓國現代文學史', '7596241', 10, lang_limit
