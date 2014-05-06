@@ -163,17 +163,17 @@ describe "Chinese Title", :chinese => true do
       it_behaves_like "matches in vern short titles first", 'title', query, /^三(國|国|囯)演(義|义)[^[[:alpha:]]]*$/, 13
     end
     context "no spaces" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '三國演義', 'simplified', '三国演义', 83, 90
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '三國演義', 'simplified', '三国演义', 83, 95
       it_behaves_like "great results for Three Kingdoms", '三國演義'
       it_behaves_like "great results for Three Kingdoms", '三国演义'
     end
     context "middle space" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '三國 演義', 'simplified', '三国 演义', 83, 90
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '三國 演義', 'simplified', '三国 演义', 83, 95
       it_behaves_like "great results for Three Kingdoms", '三國 演義'
       it_behaves_like "great results for Three Kingdoms", '三国 演义'
     end
     context "first space" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '三 國演義', 'simplified', '三 国演义', 83, 90
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '三 國演義', 'simplified', '三 国演义', 83, 95
       it_behaves_like "great results for Three Kingdoms", '三 國演義'
       it_behaves_like "great results for Three Kingdoms", '三 国演义'
     end

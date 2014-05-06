@@ -444,8 +444,7 @@ describe "journal/newspaper titles" do
   
   context "the journal" do
     it_behaves_like "great results for journal/newspaper", "The journal" do
-      journal = ['9857186', # bar assoc dc, online, 0196-1578
-                  '4144519', # bar assoc dc, law
+      journal = [ '4144519', # bar assoc dc, law
                   '441812', # mecca, green
                   '9696658', # cleveland, heinonline
                   '9705114', # oklahoma, heinonline
