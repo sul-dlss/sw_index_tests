@@ -120,14 +120,14 @@ describe "Subject Search" do
       resp = solr_response(subject_search_args('C programming').merge({'fl'=>'id,topic_display', 'facet' => false}))
       resp.should have_at_least(1100).results
       resp.should have_at_most(2000).results
-      resp.should include("topic_display" => /C \(?programming/i).in_each_of_first(18).documents
+      resp.should include("topic_display" => /C \(?programming/i).in_each_of_first(17).documents
       resp.should include('4617632')
     end
     it "as phrase" do
       resp = solr_response(subject_search_args('"C programming"').merge({'fl'=>'id,topic_display', 'facet' => false}))
       resp.should have_at_least(500).results
       resp.should have_at_most(1200).results
-      resp.should include("topic_display" => /C \(?programming/i).in_each_of_first(18).documents
+      resp.should include("topic_display" => /C \(?programming/i).in_each_of_first(17).documents
       resp.should include('4617632') # 16th in production as of 2013-07-01
       resp.should have_fewer_results_than(solr_resp_doc_ids_only(subject_search_args 'C programming'))
     end
