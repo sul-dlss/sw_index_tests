@@ -13,7 +13,7 @@ describe "Series Search" do
   it "Lecture notes in statistics (Springer-Verlag)", :jira => 'VUF-1221' do
     resp = solr_resp_doc_ids_only(series_search_args 'Lecture notes in statistics (Springer-Verlag)')
     resp.should have_at_least(175).results
-    resp.should have_at_most(225).results
+    resp.should have_at_most(300).results
   end
   
   it "Japanese journal of applied physics" do
