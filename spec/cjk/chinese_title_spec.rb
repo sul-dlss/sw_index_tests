@@ -265,7 +265,7 @@ describe "Chinese Title", :chinese => true do
       resp.should include(["4222208", # woman (simp) 245a, 490a, 830a; marriage 245a (1 char between) 
                           "4401219", #  woman 245a; marriage 245a   (3 chars between)
                           "4178814", # woman 245a; marriage 245a  (out of order w char between)
-                          ]).in_first(4).results
+                          ]).in_first(5).results
     end
     it "includes docs with both words in 245b" do
       # 7808424 - woman 245b, 246a; marriage 245b, 246a  (1 char between)
