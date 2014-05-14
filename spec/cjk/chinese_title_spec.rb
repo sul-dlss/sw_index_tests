@@ -265,7 +265,7 @@ describe "Chinese Title", :chinese => true do
       resp.should include(["4222208", # woman (simp) 245a, 490a, 830a; marriage 245a (1 char between) 
                           "4401219", #  woman 245a; marriage 245a   (3 chars between)
                           "4178814", # woman 245a; marriage 245a  (out of order w char between)
-                          ]).in_first(4).results
+                          ]).in_first(5).results
     end
     it "includes docs with both words in 245b" do
       # 7808424 - woman 245b, 246a; marriage 245b, 246a  (1 char between)
@@ -325,8 +325,8 @@ describe "Chinese Title", :chinese => true do
       end
       it "ranks higher docs with one word in 245a and the other in 245b" do
         #  9229845 - woman 245b, 246a; marriage 245a 
-        expect(trad_resp).to  include("9229845").in_first(4).results
-        expect(simp_resp).to  include("9229845").in_first(4).results
+        expect(trad_resp).to  include("9229845").in_first(5).results
+        expect(simp_resp).to  include("9229845").in_first(5).results
       end
     end
     context "with space" do
