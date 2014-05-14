@@ -325,8 +325,8 @@ describe "Chinese Title", :chinese => true do
       end
       it "ranks higher docs with one word in 245a and the other in 245b" do
         #  9229845 - woman 245b, 246a; marriage 245a 
-        expect(trad_resp).to  include("9229845").in_first(4).results
-        expect(simp_resp).to  include("9229845").in_first(4).results
+        expect(trad_resp).to  include("9229845").in_first(5).results
+        expect(simp_resp).to  include("9229845").in_first(5).results
       end
     end
     context "with space" do
