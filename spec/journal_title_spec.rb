@@ -611,10 +611,10 @@ describe "journal/newspaper titles" do
   
   context "Science" do
     it_behaves_like "title query, format journal", "Science" do
-      journal = ['10263891', # online, lane/medical
-                  '394654', # 0036-8075, green
+      journal = [ '394654', # 0036-8075, green
                   '3195846', # 0036-8075, biology
                   '433334', # bimonthly, 0193-4511
+                  '6704180', # SAL1&2 (on-campus shelving)
                 ]
       let(:exp_ids) { journal }
     end
