@@ -355,7 +355,7 @@ describe "Korean spacing", :korean => true do
     end
     context "Right to speak in the Choson dynasty period" do
       shared_examples_for "good results for 鮮時代의 言權" do | query |
-        it_behaves_like "good results for query", 'everything', query, 1, 30, '6633303', 1
+        it_behaves_like "good results for query", 'everything', query, 1, 35, '6633303', 1
       end
       context "鮮時代의 言權 (normal spacing)" do
         it_behaves_like "good results for 鮮時代의 言權", '鮮時代의 言權'
