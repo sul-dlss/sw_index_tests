@@ -112,7 +112,7 @@ describe "Japanese Title searches", :japanese => true do
     it_behaves_like "good results for query", 'title', '近世仮名遣い論の研究', 1, 1, '7926218', 1
   end
   context "sports  スポーツ (katakana)", :jira => 'VUF-2738' do
-    it_behaves_like "expected result size", 'title', 'スポーツ', 34, 50
+    it_behaves_like "expected result size", 'title', 'スポーツ', 34, 60
     it_behaves_like "matches in vern short titles first", 'title', 'スポーツ', /スポーツ/, 20
   end
   context "Study of Buddhism", :jira => ['VUF-2732', 'VUF-2733'] do
