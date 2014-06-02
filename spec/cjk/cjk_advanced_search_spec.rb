@@ -55,7 +55,7 @@ describe "CJK Advanced Search" do
       it "num expected" do
         # there are 14 exact matches as of 2013-10-25; these are the only ones found w/o cjk search fields
         @resp.should have_at_least(15).documents
-        @resp.should have_at_most(16).documents # 17 match everything search
+        @resp.should have_at_most(17).documents # 20 match everything search
       end
       it "whitespace exact matches first" do
         exact_matches = ['9392905', '9350464']
