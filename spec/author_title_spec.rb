@@ -70,7 +70,7 @@ describe "Author-Title Search" do
     q = '"Beethoven, Ludwig van, 1770-1827. Fidelio (1814)"'
     resp = solr_response(author_title_search_args(q).merge!({'fl'=>'id,author_person_display,title_245a_display', 'facet'=>false}))
     resp.should have_at_least(150).documents
-    resp.should have_at_most(200).documents
+    resp.should have_at_most(210).documents
     resp.should include("author_person_display" => /Beethoven/i).in_each_of_first(20).documents
     resp.should include("title_245a_display" => /fidelio/i).in_each_of_first(2).documents
   end
