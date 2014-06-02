@@ -593,7 +593,7 @@ describe "journal/newspaper titles" do
 
     it "as title search with format journal" do
       resp = solr_response(title_search_args('nature').merge({'fq' => 'format:"Journal/Periodical"', 'fl'=>'id,title_display', 'facet'=>false}))
-      resp.should have_at_most(1200).documents
+      resp.should have_at_most(1300).documents
       resp.should include({'title_display' => /^Nature \[print\/digital\]\./}).in_first(5)
       resp.should include({'title_display' => /^Nature; international journal of science/}).in_first(5)
     end
