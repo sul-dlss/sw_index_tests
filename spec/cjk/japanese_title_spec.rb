@@ -21,9 +21,9 @@ describe "Japanese Title searches", :japanese => true do
     it_behaves_like "matches in vern short titles first", 'title', '仏教', /^(佛|仏)(教|敎).*$/, 7 # title starts w match
     context "w lang limit" do
       # trad
-      it_behaves_like "result size and vern short title matches first", 'title', '佛教', 900, 1200, /(佛|仏)(教|敎)/, 100, lang_limit
+      it_behaves_like "result size and vern short title matches first", 'title', '佛教', 900, 1210, /(佛|仏)(教|敎)/, 100, lang_limit
       # modern
-      it_behaves_like "result size and vern short title matches first", 'title', '仏教', 900, 1200, /(佛|仏)(教|敎)/, 100, lang_limit
+      it_behaves_like "result size and vern short title matches first", 'title', '仏教', 900, 1210, /(佛|仏)(教|敎)/, 100, lang_limit
     end
   end
   context "editorial" do
