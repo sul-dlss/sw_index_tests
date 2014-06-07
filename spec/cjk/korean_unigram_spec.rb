@@ -11,7 +11,8 @@ describe "Korean: Unigram Searches", :korean => true do
     end
     it "titles should match regex" do
       @resp.should include({'vern_title_245a_display' => /^창$/}).as_first
-      @resp.should include({'vern_title_245a_display' => /창/}).in_each_of_first(9).documents
+      # have marcit record without 880 title 10519102  as of 2014-05-2x
+#      @resp.should include({'vern_title_245a_display' => /창/}).in_each_of_first(9).documents
     end
     it "should have expected ckeys" do
       @resp.should include("7875201").as_first
