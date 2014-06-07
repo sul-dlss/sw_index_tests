@@ -38,10 +38,10 @@ describe "Default Request Handler" do
   it "like titles should appear together in result", :jira => 'VUF-93' do
     resp = solr_resp_ids_from_query 'wanderlust'
     resp.should include(['6974167', '5757985', '1630776', '4364566', '4406971']).in_first(10)
-    pending "need include().within().of() in rspec-solr"
-    resp.should include('6974167').within(2).of('5757985')
-    resp.should include('5757985').within(2).of('1630776')
-    resp.should include('4364566').within(1).of('4406971')
+#    FIXME: need include().within().of() in rspec-solr
+#    resp.should include('6974167').within(2).of('5757985')
+#    resp.should include('5757985').within(2).of('1630776')
+#    resp.should include('4364566').within(1).of('4406971')
   end
 
   it "single result expected: 'jill kerr conway' " do

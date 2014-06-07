@@ -8,8 +8,8 @@ describe "Title Search" do
     resp.should include(["365562", "491322", "491323", "7519522", "7519487", "787934"]).in_first(8).results
     resp = solr_resp_doc_ids_only(title_search_args('japanese journal of applied physics').merge({:fq => 'format:"Journal/Periodical"'}))
     resp.should include(["7519522", "365562", "491322", "491323"]).in_first(5).results
-    pending "need include_at_least in rspec-solr"
-    resp.should include_at_least(4).of(["7519522", "365562", "491322", "491323", "7519487"]).in_first(5).results
+#    pending "need include_at_least in rspec-solr"
+#    resp.should include_at_least(4).of(["7519522", "365562", "491322", "491323", "7519487"]).in_first(5).results
   end
   
   it "780t, 758t included in title search: japanese journal of applied physics PAPERS", :jira => ['VUF-89', 'SW-441'] do

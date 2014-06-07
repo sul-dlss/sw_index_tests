@@ -255,6 +255,7 @@ describe "boolean operators" do
           @indochine.should_not include(indochina_results)
         end
       end
+=begin      
       context "sanitation ethiopia OR addis" do
         pending "to be implemented"
       end
@@ -268,7 +269,7 @@ describe "boolean operators" do
       #   JOEL-PETER WITKIN: ENFER OU CIEL/HEAVEN OR HELL.
       #   WITKIN: ENFER OU CIEL/HEAVEN OR HELL.
       #   WITKIN: HEAVEN OR HELL.
-      
+=end      
     end # actual user queries
     
     it "lesbian OR gay videos", :jira => ['VUF-300', 'VUF-301', 'VUF-311'] do
