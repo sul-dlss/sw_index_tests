@@ -147,10 +147,12 @@ describe "journal/newspaper titles" do
                       #  9211530   245 a| The Beat (The Nation)
                     ]
       book = ['2613193', # fed doc on floods
-              '9296914', # mulford, online - galenet
-              '7170814', # mulford, online - galenet
+              '10549995', # 1868, online - galenet
               '7815517', # lingeman  245 |a The Nation : b| guide to the Nation / c| by Richard Lingeman ; introduction by Victor Navasky and Katrina Vanden Heuvel ; original drawings by Ed Koren. 
               '2098094', # mulford 
+              # Pushed down below 22 
+              #'9296914', # mulford, online - galenet
+              #'7170814', # mulford, online - galenet
               ]
       let(:all_formats) { news + journal + format_other + book }
     end  
