@@ -45,7 +45,7 @@ describe "Korean spacing", :korean => true do
     end # title searches
     context "keyword searches" do
       context "한미동맹" do
-        it_behaves_like 'good results for query', 'everything', '한미동맹', 1, 25, '8375648', 5
+        it_behaves_like 'good results for query', 'everything', '한미동맹', 1, 25, '8375648', 10
       end
       context "한미 동맹" do
         # FIXME:  8375648 is not in these results!
