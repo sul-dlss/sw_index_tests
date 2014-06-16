@@ -99,12 +99,12 @@ describe "Series Search" do
   context "Royal Institution Library of Science", :jira => 'VUF-1685' do
     it "series search, phrase" do
       resp = solr_resp_doc_ids_only(series_search_args '"Royal Institution Library of Science."')
-      resp.should include(['1728162', '1391145', '605249', '691907', '691908'])
+      resp.should include(['1728162', '1391145', '691907', '691908'])
       resp.should have_at_most(10).results
     end
     it "everything search, phrase" do
       resp = solr_resp_ids_from_query '"Royal Institution Library of Science."'
-      resp.should include(['1728162', '1391145', '605249', '691907', '691908'])
+      resp.should include(['1728162', '1391145', '691907', '691908'])
       resp.should have_at_most(10).results
     end
     it "add Bragg (an editor)" do
