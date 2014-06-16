@@ -391,6 +391,7 @@ describe "journal/newspaper titles" do
   context "the star" do
     it_behaves_like "great results for journal/newspaper", "The star" do
       journal = ['461027', # uganda, sal
+                 '10553130', # Carville, online
                 ]
       news = ['9861955', # tinley park, online
               '4259079', # guernsey, hoover
@@ -398,7 +399,6 @@ describe "journal/newspaper titles" do
               '423194', # johannesburg, sal newark
                 ]
       book = ['4287908', # johannesburg, sal1
-              '2273164', # song collection, spec
               ]
       other = ['8928527', # marcit
                '8161058', # marcit
