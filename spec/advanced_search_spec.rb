@@ -116,7 +116,7 @@ describe "advanced search" do
       it "subject NOT congresses and keyword" do
         resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('NOT congresses')} AND #{description_query('IEEE xplore')}"}.merge(solr_args))
         resp.should have_at_least(1200).results
-        resp.should have_at_most(1425).results
+        resp.should have_at_most(1450).results
       end
     end
 
