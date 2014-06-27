@@ -96,7 +96,7 @@ describe "journal/newspaper titles" do
       @green_micro = '464445'
       @biz = '10039114'
       @law = '3448713'
-      @orig = [@green_micro, @green_current, @law]
+      @orig = [@green_micro, @green_current, @biz]
     end
 
     it "as everything search" do
