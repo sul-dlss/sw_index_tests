@@ -4,7 +4,7 @@ require 'spec_helper'
 describe "Chinese Unigrams", :chinese => true do
   
   context "Gone with the Wind", :jira => 'VUF-2789' do
-    it_behaves_like "result size and vern short title matches first", 'title', '飘', 120, 130, /(飘|飄)/, 2
+    it_behaves_like "result size and vern short title matches first", 'title', '飘', 120, 140, /(飘|飄)/, 2
     it_behaves_like "best matches first", 'title', '飘', '6701323', 5 # book
     it_behaves_like "best matches first", 'title', '飘', '7737681', 5 # video
   end
