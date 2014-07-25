@@ -21,9 +21,9 @@ describe "Japanese Title searches", :japanese => true do
     it_behaves_like "matches in vern short titles first", 'title', '仏教', /^(佛|仏)(教|敎).*$/, 7 # title starts w match
     context "w lang limit" do
       # trad
-      it_behaves_like "result size and vern short title matches first", 'title', '佛教', 900, 1210, /(佛|仏)(教|敎)/, 100, lang_limit
+      it_behaves_like "result size and vern short title matches first", 'title', '佛教', 900, 1230, /(佛|仏)(教|敎)/, 100, lang_limit
       # modern
-      it_behaves_like "result size and vern short title matches first", 'title', '仏教', 900, 1210, /(佛|仏)(教|敎)/, 100, lang_limit
+      it_behaves_like "result size and vern short title matches first", 'title', '仏教', 900, 1230, /(佛|仏)(教|敎)/, 100, lang_limit
     end
   end
   context "editorial" do
@@ -118,7 +118,7 @@ describe "Japanese Title searches", :japanese => true do
   context "Study of Buddhism", :jira => ['VUF-2732', 'VUF-2733'] do
     # First char of traditional doesn't translate to first char of modern with ICU traditional->simplified
     # (see also japanese han variants for plain buddhism)
-    it_behaves_like "both scripts get expected result size", 'title', 'traditional', '佛教學', 'modern', '仏教学', 275, 575
+    it_behaves_like "both scripts get expected result size", 'title', 'traditional', '佛教學', 'modern', '仏教学', 275, 585
     it_behaves_like "both scripts get expected result size", 'title', 'traditional', '佛教學', 'modern', '仏教学', 150, 225, lang_limit
     it_behaves_like "matches in vern short titles first", 'title', '佛教學', /(佛|仏)(教|敎)(學|学)/, 15, lang_limit # trad
     it_behaves_like "matches in vern short titles first", 'title', '仏教学', /(佛|仏)(教|敎)(學|学)/, 15, lang_limit # modern
