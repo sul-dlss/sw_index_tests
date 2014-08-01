@@ -100,7 +100,7 @@ describe "Japanese Everything Searches", :japanese => true do
   end
 
   context "seven wonders 七不思議", :jira => 'VUF-2710' do
-    it_behaves_like "result size and vern short title matches first", 'everything', '七不思議', 3, 3, /七不思議/, 1
+    it_behaves_like "result size and vern short title matches first", 'everything', '七不思議', 4, 4, /七不思議/, 1
   end
 
   context "seven wonders of sassafras springs  ササフラス・スプリングスの七不思議", :jira => 'VUF-2709' do
