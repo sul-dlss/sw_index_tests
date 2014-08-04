@@ -274,7 +274,7 @@ describe "Korean spacing", :korean => true do
   end # New writings ...
   context "Contemporary North Korean literature" do
     shared_examples_for "good results for 북한의 현대문학" do | query |
-      it_behaves_like "good results for query", 'everything', query, 4, 260, '6827379', 1
+      it_behaves_like "good results for query", 'everything', query, 4, 270, '6827379', 1
     end
     context "북한의 현대문학 (normal spacing)" do
       it_behaves_like "good results for 북한의 현대문학", '북한의 현대문학'
