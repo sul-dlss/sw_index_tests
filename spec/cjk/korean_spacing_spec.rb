@@ -333,7 +333,7 @@ describe "Korean spacing", :korean => true do
     end
     context "Beauty of Korea" do
       shared_examples_for "good results for 韓國의 美" do | query |
-        it_behaves_like "good results for query", 'everything', query, 30, 45, '6665111', 1
+        it_behaves_like "good results for query", 'everything', query, 30, 55, '6665111', 1
       end
       context "韓國의 美  (normal spacing)" do
         it_behaves_like "good results for 韓國의 美", '韓國의 美'
