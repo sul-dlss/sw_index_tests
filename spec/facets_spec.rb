@@ -15,8 +15,8 @@ describe "facet values and queries" do
       resp.should have_at_least(40).documents
     end
 
-    it "top level call number - LC" do
-      resp = solr_resp_doc_ids_only({'q'=>'caterpillar', 'fq'=>'callnum_top_facet:"M - Music"'})
+    it "call number" do
+      resp = solr_resp_doc_ids_only({'q'=>'caterpillar', 'fq'=>'callnum_facet_hsim:"LC Classification|M - Music"'})
       resp.should include(["294924", "5637322"])
     end
 
