@@ -77,7 +77,7 @@ describe "advanced search" do
         resp.should have_at_most(2000).results
       end
       it "keyword chicano" do
-        resp = solr_resp_doc_ids_only({'q'=>"#{description_query('chicano')}"}.merge(solr_args))
+        resp = solr_resp_doc_ids_only({'q'=>"chicano"}.merge(solr_args))
         resp.should have_at_least(2300).results
         resp.should have_at_most(3000).results
       end
@@ -107,14 +107,14 @@ describe "advanced search" do
         resp.should have_at_least(200000).results
       end
       it "keyword" do
-        resp = solr_resp_doc_ids_only({'q'=>"#{description_query('IEEE xplore')}"}.merge(solr_args))
+        resp = solr_resp_doc_ids_only({'q'=>"IEEE xplore"}.merge(solr_args))
         resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query("IEEE Xplore"))
         resp.should have_at_least(8500).results
         resp.should have_at_most(8700).results
-        resp.should have_fewer_results_than(solr_resp_doc_ids_only({'q'=>"#{description_query('IEEE OR xplore')}"}.merge(solr_args)))
+        resp.should have_fewer_results_than(solr_resp_doc_ids_only({'q'=>"IEEE OR xplore"}.merge(solr_args)))
       end
       it "subject NOT congresses and keyword" do
-        resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('NOT congresses')} AND #{description_query('IEEE xplore')}"}.merge(solr_args))
+        resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('NOT congresses')} AND IEEE xplore"}.merge(solr_args))
         resp.should have_at_least(1200).results
         resp.should have_at_most(1550).results
       end
@@ -137,13 +137,13 @@ describe "advanced search" do
         @sub_phrase.should have_fewer_results_than @sub_no_phrase
       end
       it "keyword" do
-        resp = solr_resp_doc_ids_only({'q'=>"#{description_query('Socialization')}"}.merge(solr_args))
+        resp = solr_resp_doc_ids_only({'q'=>"Socialization"}.merge(solr_args))
 #        resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query("Socialization"))
         resp.should have_at_least(400000).results
         resp.should have_at_most(500000).results
       end
       it "subject (not a phrase) and keyword" do
-        resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('home schooling')} AND #{description_query('Socialization')}"}.merge(solr_args))
+        resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('home schooling')} AND Socialization"}.merge(solr_args))
         resp.should have_fewer_results_than(@sub_no_phrase)
         resp.should have_at_least(75).results
         resp.should have_at_most(150).results
@@ -258,13 +258,13 @@ describe "advanced search" do
         @author_resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(author_search_args('campana')))
       end
       it "keyword" do
-        resp = solr_resp_doc_ids_only({'q'=>"#{description_query('storia e letteratura')}"}.merge(solr_args))
+        resp = solr_resp_doc_ids_only({'q'=>"storia e letteratura"}.merge(solr_args))
         resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query("storia e letteratura"))
         resp.should have_at_least(1500).results
         resp.should have_at_most(2000).results
       end
       it "author and keyword" do
-        resp = solr_resp_doc_ids_only({'q'=>"#{author_query('campana')} AND #{description_query('storia e letteratura')}"}.merge(solr_args))
+        resp = solr_resp_doc_ids_only({'q'=>"#{author_query('campana')} AND storia e letteratura"}.merge(solr_args))
         resp.should have_fewer_results_than(@author_resp)
         resp.should have_at_most(10).results
       end
@@ -304,7 +304,8 @@ describe "advanced search" do
     end
   end
   
-  context "summary/ToC" do
+  # summary/ToC is no more - see INDEX-111;  this is left here for historical purposes
+  context "summary/ToC", :fixme => true do
     it "robert morris", :jira => "VUF-912" do
       resp = solr_resp_doc_ids_only({'q'=>"#{summary_query('Robert Morris')}"}.merge(solr_args))
       resp.should include('2834765')
@@ -335,12 +336,12 @@ describe "advanced search" do
       end
       it "pub info 2010" do
         resp = solr_resp_doc_ids_only({'q'=>"#{pub_info_query('2010')}"}.merge(solr_args))
-        resp.should have_at_least(136700).results
+        resp.should have_at_least(136200).results
         resp.should have_at_most(137000).results
       end
       it "pub info 2011" do
         resp = solr_resp_doc_ids_only({'q'=>"#{pub_info_query('2011')}"}.merge(solr_args))
-        resp.should have_at_least(125000).results
+        resp.should have_at_least(124000).results
         resp.should have_at_most(125500).results
       end
       it "subject and pub info 2010" do
@@ -398,7 +399,7 @@ describe "advanced search" do
       end
       it "before topics selected" do
         resp = solr_resp_doc_ids_only({'fq' => 'format:("Video"), language:("English"), building_facet:("Green")', 'q'=>'collection:*'}.merge(solr_args))
-        resp.should have_at_least(35200).results
+        resp.should have_at_least(35000).results
         resp.should have_at_most(35300).results
       end
       it "add topic feature films" do
@@ -422,12 +423,6 @@ describe "advanced search" do
   end
   def subject_query terms
     '_query_:"{!edismax qf=$qf_subject pf=$pf_subject pf3=$pf3_subject pf2=$pf2_subject}' + terms + '"'
-  end
-  def description_query terms
-    '_query_:"{!edismax qf=$qf_description pf=$pf_description pf3=$pf3_description pf2=$pf2_description}' + terms + '"'
-  end
-  def summary_query terms
-    '_query_:"{!edismax qf=$qf_summary pf=$pf_summary pf3=$pf3_summary pf2=$pf2_summary}' + terms + '"'
   end
   def pub_info_query terms
     '_query_:"{!edismax qf=$qf_pub_info pf=$pf_pub_info pf3=$pf3_pub_info pf2=$pf2_pub_info}' + terms + '"'
