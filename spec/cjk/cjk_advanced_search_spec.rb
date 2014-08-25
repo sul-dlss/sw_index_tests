@@ -81,7 +81,8 @@ describe "CJK Advanced Search" do
     end    
   end # Publication Info
   
-  context "Summary/ToC" do
+  # summary/ToC is no more - see INDEX-111;  this is left here for historical purposes
+  context "Summary/ToC", :fixme => true do
     context "ToC: Haiku futabashū  俳句二葉集" do
       before(:all) do
         @resp = cjk_adv_solr_resp({'q'=>"#{cjk_summary_query('俳句二葉集')}"}.merge(solr_args))
@@ -118,12 +119,12 @@ describe "CJK Advanced Search" do
   
   context "Description (catchall only)" do
     it "Ningxia Border Region ( 陝甘寧邊區) num expected" do
-      resp = cjk_adv_solr_resp({'q'=>"#{cjk_description_query('陝甘寧邊區')}"}.merge(solr_args))
+      resp = cjk_adv_solr_resp({'q'=>"#{cjk_everything_query('陝甘寧邊區')}"}.merge(solr_args))
       resp.should have_at_least(150).documents # 63 match whitespace (non-CJK aware search)
       resp.should have_at_most(250).documents
     end
     it "Tsu (津):  num expected" do
-      resp = cjk_adv_solr_resp({'q'=>"#{cjk_description_query('津')}"}.merge(solr_args))
+      resp = cjk_adv_solr_resp({'q'=>"#{cjk_everything_query('津')}"}.merge(solr_args))
       resp.should have_at_least(30).documents # matches 22 wo cjk search fields
       resp.should have_at_most(8000).documents 
     end
@@ -188,12 +189,12 @@ describe "CJK Advanced Search" do
     context "keyword + place" do
       context "Ningxia Border Region (陝甘寧邊區), place Yan'an (延安)" do
         it "AND" do
-          resp = cjk_adv_solr_resp({'q'=>"#{cjk_description_query('陝甘寧邊區')} AND #{cjk_pub_info_query('延安')}"}.merge(solr_args))
+          resp = cjk_adv_solr_resp({'q'=>"#{cjk_everything_query('陝甘寧邊區')} AND #{cjk_pub_info_query('延安')}"}.merge(solr_args))
           resp.should have_at_least(30).documents # 25 with non-CJK aware fields
           resp.should have_at_most(40).documents
         end
         it "OR" do
-          resp = cjk_adv_solr_resp({'q'=>"#{cjk_description_query('陝甘寧邊區')} OR #{cjk_pub_info_query('延安')}"}.merge(solr_args))
+          resp = cjk_adv_solr_resp({'q'=>"#{cjk_everything_query('陝甘寧邊區')} OR #{cjk_pub_info_query('延安')}"}.merge(solr_args))
           resp.should have_at_least(375).documents # 329 with non-CJK aware fields
           resp.should have_at_most(500).documents
         end
@@ -222,6 +223,9 @@ private
     end
   end
   
+  def cjk_everything_query terms
+    '_query_:"{!edismax qf=$qf_cjk pf=$pf_cjk pf3=$pf3_cjk pf2=$pf2_cjk}' + terms + '"'
+  end
   def cjk_title_query terms
     '_query_:"{!edismax qf=$qf_title_cjk pf=$pf_title_cjk pf3=$pf3_title_cjk pf2=$pf2_title_cjk}' + terms + '"'
   end
@@ -230,12 +234,6 @@ private
   end
   def cjk_subject_query terms
     '_query_:"{!edismax qf=$qf_subject_cjk pf=$pf_subject_cjk pf3=$pf3_subject_cjk pf2=$pf2_subject_cjk}' + terms + '"'
-  end
-  def cjk_description_query terms
-    '_query_:"{!edismax qf=$qf_description_cjk pf=$pf_description_cjk pf3=$pf3_description_cjk pf2=$pf2_description_cjk}' + terms + '"'
-  end
-  def cjk_summary_query terms
-    '_query_:"{!edismax qf=$qf_summary_cjk pf=$pf_summary_cjk pf3=$pf3_summary_cjk pf2=$pf2_summary_cjk}' + terms + '"'
   end
   def cjk_pub_info_query(terms)
     '_query_:"{!edismax qf=$qf_pub_info_cjk pf=$pf_pub_info_cjk pf3=$pf3_pub_info_cjk pf2=$pf2_pub_info_cjk}' + terms + '"'
