@@ -308,7 +308,7 @@ describe "advanced search" do
     it "robert morris", :jira => "VUF-912" do
       resp = solr_resp_doc_ids_only({'q'=>"#{summary_query('Robert Morris')}"}.merge(solr_args))
       resp.should include('2834765')
-      resp.should have_at_most(675).results
+      resp.should have_at_most(700).results
     end
   end
   
