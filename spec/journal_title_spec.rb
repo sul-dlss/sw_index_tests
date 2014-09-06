@@ -601,7 +601,7 @@ describe "journal/newspaper titles" do
     end
 
     it_behaves_like "great results for format journal", "Nature" do
-      journal = ['10263656', # london 0028-0836, lane/medical
+      journal = ['10595973', # london 0028-0836, lane/medical
                   '3195844', # london 0028-0836, biology
                   '8829478', # london, spec
                   '466281', # directory of biologicals
