@@ -45,7 +45,7 @@ describe "Chinese Everything", :chinese => true do
 
   context "history research", :jira => 'VUF-2771' do
     context "no spaces" do
-      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '歷史研究', 'simplified', '历史研究', 5220, 5530
+      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '歷史研究', 'simplified', '历史研究', 5220, 5540
     end
     context "with space" do
       it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '歷史研究', 'simplified', '历史研究', 5200, 5725
