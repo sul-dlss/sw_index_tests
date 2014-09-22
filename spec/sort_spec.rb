@@ -11,12 +11,12 @@ describe "sorting results" do
       docs_match_current_year resp
     end
 
-    it "with facet format:Book; default sort should be by pub date desc then title asc" do
+    it "with facet format_main_ssim:Book; default sort should be by pub date desc then title asc" do
 # TODO:  temporary fix until display year is better determined and coded
 #      resp = solr_response({'fq'=>'format:Book', 'fl'=>'id,pub_date', 'facet'=>false})
 #      year = Time.new.year
 #      resp.should include("pub_date" => /(#{year}|#{year + 1}|#{year + 2})/).in_each_of_first(20).documents
-      resp = solr_response({'fq'=>'format:Book', 'fl'=>'id,pub_date,imprint_display,title_245a_display', 'facet'=>false, 'rows'=>25})
+      resp = solr_response({'fq'=>'format_main_ssim:Book', 'fl'=>'id,pub_date,imprint_display,title_245a_display', 'facet'=>false, 'rows'=>30})
       docs_match_current_year resp
       # _The Bible on Silent Film_ (imprint 2013/ pub_date (008) as 2015) before _The Borders of Race in Colonial South Africa_ (imprint 2013/ pub_date as 2015)
       resp.should include('10343020').before('10343019')
@@ -40,11 +40,11 @@ describe "sorting results" do
   
   context "pub dates should not be 0000 or 9999" do
     it "should not have earliest pub date of 0000" do
-      resp = solr_response({'fq'=>'format:Book', 'fl'=>'id,pub_date', 'sort'=>'pub_date asc', 'facet'=>false})
+      resp = solr_response({'fq'=>'format_main_ssim:Book', 'fl'=>'id,pub_date', 'sort'=>'pub_date asc', 'facet'=>false})
       resp.should_not include('pub_date' => /0000/)
     end
     it "should not have latest pub date of 9999" do
-      resp = solr_response({'fq'=>'format:Book', 'fl'=>'id,pub_date', 'sort'=>'pub_date desc', 'facet'=>false})
+      resp = solr_response({'fq'=>'format_main_ssim:Book', 'fl'=>'id,pub_date', 'sort'=>'pub_date desc', 'facet'=>false})
       resp.should_not include('pub_date' => /9999/)
     end
   end
