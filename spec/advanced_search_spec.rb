@@ -109,8 +109,8 @@ describe "advanced search" do
       it "keyword" do
         resp = solr_resp_doc_ids_only({'q'=>"IEEE xplore"}.merge(solr_args))
         resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query("IEEE Xplore"))
-        resp.should have_at_least(8700).results
-        resp.should have_at_most(8900).results
+        resp.should have_at_least(8800).results
+        resp.should have_at_most(9000).results
         resp.should have_fewer_results_than(solr_resp_doc_ids_only({'q'=>"IEEE OR xplore"}.merge(solr_args)))
       end
       it "subject NOT congresses and keyword" do
@@ -337,12 +337,12 @@ describe "advanced search" do
       it "pub info 2010" do
         resp = solr_resp_doc_ids_only({'q'=>"#{pub_info_query('2010')}"}.merge(solr_args))
         resp.should have_at_least(136250).results
-        resp.should have_at_most(137050).results
+        resp.should have_at_most(137250).results
       end
       it "pub info 2011" do
         resp = solr_resp_doc_ids_only({'q'=>"#{pub_info_query('2011')}"}.merge(solr_args))
         resp.should have_at_least(124800).results
-        resp.should have_at_most(125900).results
+        resp.should have_at_most(126500).results
       end
       it "subject and pub info 2010" do
         resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('soviet union and historiography')} AND #{pub_info_query('2010')}"}.merge(solr_args))

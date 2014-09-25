@@ -137,7 +137,7 @@ describe "Chinese Han variants", :chinese => true do
   context "硏 784F (variant) => 研 7814 (std trad)" do
     # FIXME:  these do not give the same numbers of results.
     #it_behaves_like "both scripts get expected result size", 'title', 'variant', '硏究', 'std trad', '研究', 14750, 15250, {'fq'=>'language:Japanese'}
-    it_behaves_like "expected result size", 'title', '硏究', 14750, 15250, {'fq'=>'language:Japanese'}  # variant
+    it_behaves_like "expected result size", 'title', '硏究', 14750, 15750, {'fq'=>'language:Japanese'}  # variant
     it_behaves_like "expected result size", 'title', '研究', 14750, 15260, {'fq'=>'language:Japanese'}  # std trad
   end
 
