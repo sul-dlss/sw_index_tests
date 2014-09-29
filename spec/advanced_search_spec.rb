@@ -336,8 +336,8 @@ describe "advanced search" do
       end
       it "pub info 2010" do
         resp = solr_resp_doc_ids_only({'q'=>"#{pub_info_query('2010')}"}.merge(solr_args))
-        resp.should have_at_least(136250).results
-        resp.should have_at_most(137250).results
+        resp.should have_at_least(136500).results
+        resp.should have_at_most(137500).results
       end
       it "pub info 2011" do
         resp = solr_resp_doc_ids_only({'q'=>"#{pub_info_query('2011')}"}.merge(solr_args))
@@ -400,7 +400,7 @@ describe "advanced search" do
       it "before topics selected" do
         resp = solr_resp_doc_ids_only({'fq' => 'format:("Video"), language:("English"), building_facet:("Green")', 'q'=>'collection:*'}.merge(solr_args))
         resp.should have_at_least(35000).results
-        resp.should have_at_most(35350).results
+        resp.should have_at_most(35500).results
       end
       it "add topic feature films" do
         resp = solr_resp_doc_ids_only({'fq' => 'format:("Video"), language:("English"), building_facet:("Green"), topic_facet:("Feature films")', 'q'=>'collection:*'}.merge(solr_args))

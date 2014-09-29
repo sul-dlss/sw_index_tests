@@ -25,7 +25,7 @@ describe "mm threshold setting for dismax (6 as of 2012/08)" do
     
     it "6 terms should all matter: shanghai social life customs 20th century", :jira => 'VUF-1129' do
       resp = solr_resp_doc_ids_only({'q'=>'shanghai social life customs 20th century'})
-      resp.should have_at_most(30).documents
+      resp.should have_at_most(40).documents
       resp.should have_fewer_documents_than(solr_resp_doc_ids_only({'q'=>'shanghai social life customs century'}))
     end
   end
