@@ -377,7 +377,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
         it "a flat world - title search" do
           resp = solr_response(title_search_args('a flat world').merge!({'fl'=>'id,title_display', 'facet'=>false}))
           resp.should include("title_display" => /a flat world/).in_each_of_first(5).documents
-          resp.should have_at_most(65).documents
+          resp.should have_at_most(75).documents
         end
         it "a bent flat (qs = 1)" do
           resp = solr_resp_ids_from_query('a bent flat')

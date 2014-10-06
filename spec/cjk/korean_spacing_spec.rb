@@ -322,7 +322,7 @@ describe "Korean spacing", :korean => true do
   context "hangul + hancha" do
     context "Analysis of Korean economy" do
       shared_examples_for "good results for 韓國經濟의 分析" do | query |
-        it_behaves_like "good results for query", 'everything', query, 5, 90, '6647380', 1
+        it_behaves_like "good results for query", 'everything', query, 5, 100, '6647380', 1
       end
       context "韓國經濟의 分析  (normal spacing)" do
         it_behaves_like "good results for 韓國經濟의 分析", '韓國經濟의 分析 '

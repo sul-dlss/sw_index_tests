@@ -72,7 +72,7 @@ describe "Korean Titles", :korean => true do
       it_behaves_like "good title results for 한국 근대사", '한국 근대사'
     end
     context '"한국 근대사" (phrase)' do
-      it_behaves_like "expected result size", 'title', '"한국 근대사"', 40, 50
+      it_behaves_like "expected result size", 'title', '"한국 근대사"', 40, 60
       it_behaves_like "good title results for 한국 근대사", '"한국 근대사"'
     end
   end # Hangul: Korean modern history   VUF-2722
