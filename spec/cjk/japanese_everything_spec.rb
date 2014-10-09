@@ -40,7 +40,7 @@ describe "Japanese Everything Searches", :japanese => true do
   end
 
   context "Japan China thought", :jira => 'VUF-2737' do
-    it_behaves_like "expected result size", 'everything', '日本  中国  思想', 65, 70
+    it_behaves_like "expected result size", 'everything', '日本  中国  思想', 65, 80
     context "w lang limit" do
       it_behaves_like "expected result size", 'everything', '日本  中国  思想', 32, 40, lang_limit
     end

@@ -50,7 +50,7 @@ describe "Chinese Han variants", :chinese => true do
       it_behaves_like "matches in vern short titles first", query_type, query, /^歷史(硏|研)究$/, 2
     end
     context "no spaces" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '歷史研究', 'simplified', '历史研究', 562, 1510
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '歷史研究', 'simplified', '历史研究', 562, 1550
       it_behaves_like "great matches for history research", 'title', '歷史研究'
       it_behaves_like "great matches for history research", 'title', '历史研究'
     end

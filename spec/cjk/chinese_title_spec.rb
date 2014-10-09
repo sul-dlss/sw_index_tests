@@ -54,7 +54,7 @@ describe "Chinese Title", :chinese => true do
   context "history research", :jira => 'VUF-2771' do
     # see also chinese_han_variants spec, as the 3rd character isn't matching what's in the record
     context "no spaces" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '歷史研究', 'simplified', '历史研究', 1300, 1510
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '歷史研究', 'simplified', '历史研究', 1300, 1550
     end
     context "with space" do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '歷史 研究', 'simplified', '历史 研究', 1775, 2000
