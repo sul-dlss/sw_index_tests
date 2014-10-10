@@ -111,7 +111,7 @@ describe "Default Request Handler" do
     resp = solr_resp_ids_titles_from_query 'Lectures on the Calculus of Variations and Optimal Control Theory'
     resp.should include('560042').as_first
     resp.should_not include("title_245a_display" => /Shape optimization and optimal design/i)
-    resp.should have_at_most(160).results
+    resp.should have_at_most(200).results
   end
 
   it "death and taxes", :jira => 'SW-721' do
