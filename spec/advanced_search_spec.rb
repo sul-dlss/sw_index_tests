@@ -342,7 +342,7 @@ describe "advanced search" do
       it "pub info 2011" do
         resp = solr_resp_doc_ids_only({'q'=>"#{pub_info_query('2011')}"}.merge(solr_args))
         resp.should have_at_least(124900).results
-        resp.should have_at_most(126600).results
+        resp.should have_at_most(126650).results
       end
       it "subject and pub info 2010" do
         resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('soviet union and historiography')} AND #{pub_info_query('2010')}"}.merge(solr_args))
