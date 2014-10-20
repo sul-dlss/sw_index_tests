@@ -4,7 +4,7 @@ require 'spec_helper'
 describe "Chinese Everything", :chinese => true do
 
   context "china economic policy", :jira => 'SW-100' do
-    it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '中國經濟政策', 'simplified', '中国经济政策', 250, 325
+    it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '中國經濟政策', 'simplified', '中国经济政策', 250, 350
     it_behaves_like "matches in vern short titles first", 'everything', '中國經濟政策', /^中國經濟政策$/, 1
     it_behaves_like "matches in vern short titles first", 'everything', '中國經濟政策', /(中國經濟政策|中国经济政策|中国経済政策史)/, 7
     context "with spaces" do
@@ -51,7 +51,7 @@ describe "Chinese Everything", :chinese => true do
       it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '歷史研究', 'simplified', '历史研究', 5200, 5725
     end
     context "as phrase" do
-      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '"歷史研究"', 'simplified', '"历史研究"', 400, 725
+      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '"歷史研究"', 'simplified', '"历史研究"', 400, 750
     end
   end
 
