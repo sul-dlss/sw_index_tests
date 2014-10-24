@@ -10,7 +10,7 @@ describe "Japanese Kanji variants", :japanese => true do
       # First char of traditional doesn't translate to first char of modern with ICU traditional->simplified 
       # (traditional and simplified are the same;  modern is different)
       # second char also has variant:   敎 654E (variant) => 教 6559 (std trad)
-      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '佛教', 'modern', '仏教', 2200, 3200
+      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '佛教', 'modern', '仏教', 2200, 3300
       it_behaves_like "matches in vern short titles first", 'everything', '佛教', /(佛|仏)(教|敎)/, 100  # trad
       it_behaves_like "matches in vern short titles first", 'everything', '仏教', /(佛|仏)(教|敎)/, 100  # modern
       exact_245a = ['6854317', '4162614', '6276328', '10243029', '10243045', '10243039']
