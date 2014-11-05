@@ -73,7 +73,7 @@ describe "Japanese Title searches", :japanese => true do
     # 9th result is without the first 2 chars
   end
   context "lantern", :jira => 'VUF-2703' do
-    it_behaves_like "expected result size", 'title', 'ちょうちん', 1, 5
+    it_behaves_like "expected result size", 'title', 'ちょうちん', 1, 10
     it_behaves_like "best matches first", 'title', 'ちょうちん', '10181601', 2   # in 245a
     it_behaves_like "matches in vern titles", 'title', 'ちょうちん', /ちょう/, 2 # sub-term
   end
