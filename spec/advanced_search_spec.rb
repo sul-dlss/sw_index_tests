@@ -400,12 +400,12 @@ describe "advanced search" do
       it "before topics selected" do
         resp = solr_resp_doc_ids_only({'fq' => 'format:("Video"), language:("English"), building_facet:("Green")', 'q'=>'collection:*'}.merge(solr_args))
         resp.should have_at_least(35000).results
-        resp.should have_at_most(35550).results
+        resp.should have_at_most(35600).results
       end
       it "add topic feature films" do
         resp = solr_resp_doc_ids_only({'fq' => 'format:("Video"), language:("English"), building_facet:("Green"), topic_facet:("Feature films")', 'q'=>'collection:*'}.merge(solr_args))
-        resp.should have_at_least(17500).results
-        resp.should have_at_most(18200).results
+        resp.should have_at_least(17600).results
+        resp.should have_at_most(18300).results
       end
       it "add topic science fiction" do
         resp = solr_resp_doc_ids_only({'fq' => 'format:("Video"), language:("English"), building_facet:("Green"), topic_facet:("Feature films"), topic_facet:("Science fiction films")', 'q'=>'collection:*'}.merge(solr_args))

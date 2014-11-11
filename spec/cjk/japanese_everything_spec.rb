@@ -117,7 +117,7 @@ describe "Japanese Everything Searches", :japanese => true do
   end
 
   context "TPP", :jira => 'VUF-2694' do
-    it_behaves_like "result size and vern short title matches first", 'everything', 'TPP', 75, 100, /TPP/, 6
+    it_behaves_like "result size and vern short title matches first", 'everything', 'TPP', 100, 125, /TPP/, 6
     context "w lang limit" do
       it_behaves_like "result size and vern short title matches first", 'everything', 'TPP', 8, 12, /TPP/, 6, lang_limit
     end
