@@ -94,7 +94,7 @@ describe "Korean spacing", :korean => true do
       context "꿈꾸는 자 가 창조한다" do
         # it has additional results
         # it_behaves_like "good results for 꿈꾸는 자가 창조한다", 'everything', '꿈꾸는 자 가 창조한다'
-        it_behaves_like 'good results for query', 'everything', '꿈꾸는 자 가 창조한다', 1, 10, '7378874', 1
+        it_behaves_like 'good results for query', 'everything', '꿈꾸는 자 가 창조한다', 1, 20, '7378874', 1
       end
       context "꿈꾸는 자가 창조 한다" do
         it_behaves_like "good results for 꿈꾸는 자가 창조한다", 'everything', '꿈꾸는 자가 창조 한다'
