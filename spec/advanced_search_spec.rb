@@ -336,13 +336,13 @@ describe "advanced search" do
       end
       it "pub info 2010" do
         resp = solr_resp_doc_ids_only({'q'=>"#{pub_info_query('2010')}"}.merge(solr_args))
-        resp.should have_at_least(136750).results
-        resp.should have_at_most(137750).results
+        resp.should have_at_least(136800).results
+        resp.should have_at_most(137800).results
       end
       it "pub info 2011" do
         resp = solr_resp_doc_ids_only({'q'=>"#{pub_info_query('2011')}"}.merge(solr_args))
-        resp.should have_at_least(126600).results
-        resp.should have_at_most(127600).results
+        resp.should have_at_least(126650).results
+        resp.should have_at_most(127650).results
       end
       it "subject and pub info 2010" do
         resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('soviet union and historiography')} AND #{pub_info_query('2010')}"}.merge(solr_args))
