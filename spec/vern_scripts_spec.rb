@@ -8,7 +8,7 @@ describe "Non-Latin, Non-CJK scripts" do
     it "Hebrew (עברית)" do
       resp = solr_resp_ids_from_query 'עברית'
       resp.should have_at_least(850).results
-      resp.should include("3370152").in_first(3)
+      resp.should include("3370152").in_first(5)
       resp.should have_fewer_results_than(solr_resp_ids_from_query 'ivrit')
     end
     
