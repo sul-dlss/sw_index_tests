@@ -29,7 +29,7 @@ describe "Series Search" do
   
   context "Cahiers series", :jira => 'VUF-1031' do
     before(:all) do
-      @exp_ids = ['9249698', '7597710', '10192127']
+      @exp_ids = ['8787894', '7597710', '10192127']
     end
     it "series search, phrase" do
       resp = solr_resp_doc_ids_only(series_search_args '"Cahiers series"')

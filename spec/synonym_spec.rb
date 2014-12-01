@@ -134,7 +134,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
       it "professional C#" do
         resp = solr_response({'q'=>'professional C#', 'fl'=>'id,title_245a_display', 'facet'=>false})
         resp.should include("title_245a_display" => /C(#|♯)/).in_each_of_first(20).documents
-        resp.should have_at_most(250).documents
+        resp.should have_at_most(300).documents
         resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query "professional C♯")
         resp.should_not have_the_same_number_of_results_as(solr_resp_ids_from_query "professional C")
       end

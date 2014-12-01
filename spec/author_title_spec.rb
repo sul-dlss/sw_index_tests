@@ -87,7 +87,7 @@ describe "Author-Title Search" do
   it "Beethoven piano sonata no 14", :jira => 'VUF-155' do
     q = '"beethoven ludwig van 1770-1827 sonatas piano no. 14"' # op. 27, no. 2, C♯ minor;
     resp = solr_response(author_title_search_args(q).merge!({'fl'=>'id,author_person_display,title_245a_display', 'facet'=>false}))
-    resp.should have_at_most(200).documents
+    resp.should have_at_most(250).documents
     resp.should include("author_person_display" => /Beethoven/i).in_each_of_first(6).documents
   end
   

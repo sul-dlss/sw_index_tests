@@ -75,8 +75,8 @@ describe "CJK Advanced Search" do
       end
       it "Place: 津  (no Tsu term): num expected" do
         resp = cjk_adv_solr_resp({'q'=>"#{cjk_pub_info_query('津')}"}.merge(solr_args))
-        resp.should have_at_least(30).documents # matches 19 wo cjk search fields
-        resp.should have_at_most(3500).documents # 6560 match everything search
+        resp.should have_at_least(50).documents # matches 19 wo cjk search fields
+        resp.should have_at_most(3550).documents # 6560 match everything search
       end
     end    
   end # Publication Info
