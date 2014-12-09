@@ -120,7 +120,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
       it "C++ programming" do
         resp = solr_response({'q'=>"C++ programming", 'fl'=>'id,title_245a_display', 'facet'=>false})
         resp.should include("title_245a_display" => /C\+\+ programming/i).in_each_of_first(20).documents
-        resp.should have_at_most(850).documents
+        resp.should have_at_most(900).documents
         resp.should_not have_the_same_number_of_results_as(solr_resp_ids_from_query "C computer program")
       end
       it "C programming", :jira => 'VUF-1993' do
