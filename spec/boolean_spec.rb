@@ -140,14 +140,6 @@ describe "boolean operators" do
       #   WHY SOME THINGS SHOULD NOT BE FOR SALE
     end
     
-    context "wb4 NOT shakespeare" do
-      it_behaves_like "NOT negates following term", 'wb4 NOT shakespeare', "2228164", "1989093", 20
-      it "has an appropriate number of results" do
-        resp = solr_resp_ids_from_query 'wb4 NOT shakespeare'
-        resp.should have_at_least(7000).documents
-      end
-    end
-    
     context "twain NOT sawyer" do
       before(:all) do
         @resp = solr_resp_ids_from_query 'twain NOT sawyer'
