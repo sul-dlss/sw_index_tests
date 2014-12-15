@@ -18,9 +18,9 @@ describe "Japanese Kanji variants", :japanese => true do
       it_behaves_like "matches in vern short titles first", 'title', '仏教', /^(佛|仏)(教|敎).*$/, 7 # title starts w match
       context "w lang limit" do
         # trad
-        it_behaves_like "result size and vern short title matches first", 'everything', '佛教', 1000, 1355, /(佛|仏)(教|敎)/, 100, lang_limit
+        it_behaves_like "result size and vern short title matches first", 'everything', '佛教', 1000, 1400, /(佛|仏)(教|敎)/, 100, lang_limit
         # modern
-        it_behaves_like "result size and vern short title matches first", 'everything', '仏教', 1000, 1355, /(佛|仏)(教|敎)/, 100, lang_limit
+        it_behaves_like "result size and vern short title matches first", 'everything', '仏教', 1000, 1400, /(佛|仏)(教|敎)/, 100, lang_limit
       end
     end # buddhism
 
@@ -34,8 +34,8 @@ describe "Japanese Kanji variants", :japanese => true do
       # Second char of traditional doesn't translate to second char of modern with ICU traditional->simplified 
       # FIXME:  these do not give the same numbers of results.
       #it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '江戶', 'modern', '江戸', 1900, 2000
-      it_behaves_like "expected result size", 'everything', '江戶', 1970, 2010  # trad
-      it_behaves_like "expected result size", 'everything', '江戸', 1970, 2010  # modern
+      it_behaves_like "expected result size", 'everything', '江戶', 1980, 2020  # trad
+      it_behaves_like "expected result size", 'everything', '江戸', 1980, 2020  # modern
 
       it_behaves_like "matches in vern short titles first", 'everything', '江戶', /(江戶|江戸)/, 100  # trad
       it_behaves_like "matches in vern short titles first", 'everything', '江戸', /(江戶|江戸)/, 100  # modern
