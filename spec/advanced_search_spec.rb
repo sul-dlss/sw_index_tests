@@ -336,8 +336,8 @@ describe "advanced search" do
       end
       it "pub info 2010" do
         resp = solr_resp_doc_ids_only({'q'=>"#{pub_info_query('2010')}"}.merge(solr_args))
-        resp.should have_at_least(137000).results
-        resp.should have_at_most(138000).results
+        resp.should have_at_least(137500).results
+        resp.should have_at_most(138500).results
       end
       it "pub info 2011" do
         resp = solr_resp_doc_ids_only({'q'=>"#{pub_info_query('2011')}"}.merge(solr_args))
