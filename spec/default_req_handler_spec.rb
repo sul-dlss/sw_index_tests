@@ -150,7 +150,7 @@ describe "Default Request Handler" do
     it "humanities 21st century america english" do
       # 70
       resp = solr_resp_ids_from_query('humanities 21st century america english')
-      resp.should have_at_most(25).results
+      resp.should have_at_most(30).results
     end
   end
   
