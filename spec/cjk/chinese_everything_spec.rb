@@ -26,7 +26,7 @@ describe "Chinese Everything", :chinese => true do
 
   context "Chu Anping", :jira => 'VUF-2689' do
     # see also chinese_han_variants spec, as there are two traditional forms of the second character
-    it_behaves_like "good results for query", 'everything', '储安平', 22, 30, ['6710188', '6342768', '6638798'], 25, 'rows' => 25
+    it_behaves_like "good results for query", 'everything', '储安平', 22, 30, ['6710188', '6342768', '6638798'], 30, 'rows' => 30
   end
 
   context "Full Song notes" do
