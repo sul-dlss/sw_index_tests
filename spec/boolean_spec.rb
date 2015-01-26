@@ -38,7 +38,7 @@ describe "boolean operators" do
       resp.should have(1).document
       resp.should include("5958831")
       resp = solr_resp_ids_from_query 'eckert sea turtles'
-      resp.should have(1).document
+      resp.should have(2).document
       resp.should include("5958831")
     end
     
