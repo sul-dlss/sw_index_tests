@@ -10,7 +10,7 @@ describe "Chinese Unigrams", :chinese => true do
   end
 
   context "home" do
-    it_behaves_like 'result size and vern short title matches first', 'title', '家', 18000, 20000, /^家[^[[:alnum:]]]*$/, 20
+    it_behaves_like 'result size and vern short title matches first', 'title', '家', 18000, 20500, /^家[^[[:alnum:]]]*$/, 20
     it_behaves_like 'best matches first', 'title', '家', '4172748', 12
   end
 

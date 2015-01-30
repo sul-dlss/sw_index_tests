@@ -405,7 +405,7 @@ describe "advanced search" do
       it "add topic feature films" do
         resp = solr_resp_doc_ids_only({'fq' => 'format:("Video"), language:("English"), building_facet:("Green"), topic_facet:("Feature films")', 'q'=>'collection:*'}.merge(solr_args))
         resp.should have_at_least(17700).results
-        resp.should have_at_most(18400).results
+        resp.should have_at_most(18500).results
       end
       it "add topic science fiction" do
         resp = solr_resp_doc_ids_only({'fq' => 'format:("Video"), language:("English"), building_facet:("Green"), topic_facet:("Feature films"), topic_facet:("Science fiction films")', 'q'=>'collection:*'}.merge(solr_args))
