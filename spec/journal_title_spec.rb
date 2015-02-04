@@ -279,7 +279,7 @@ describe "journal/newspaper titles" do
               '2917057', # lenin, sal
               '2916831', # lenin, hoover
               '61414', # lenin, sal
-              '7170267', # wilson, galegroup
+              '10538898', # kropotkin, Nineteenth Century Collections Online
               ]
       other = ['389364', # hoover
               ]
