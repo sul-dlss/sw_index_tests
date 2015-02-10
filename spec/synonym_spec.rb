@@ -263,7 +263,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
         it "a short sharp (qs = 1)" do
           resp = solr_resp_ids_from_query('a short sharp')
           resp.should include('3965729').as_first.document # A short, sharp shock / Kim Stanley Robinson.
-          resp.should have_at_most(875).documents
+          resp.should have_at_most(900).documents
         end
         it "B sharp - title" do
           resp = solr_resp_doc_ids_only(title_search_args('b sharp'))

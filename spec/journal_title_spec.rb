@@ -561,7 +561,7 @@ describe "journal/newspaper titles" do
         @resp.should include("7716332").in_first(3) # database
       end
       it "everything search should include the Lane/Medical record" do
-        @resp.should include("10673520").in_first(5) # medical/lane
+        @resp.should include("10673520").in_first(10) # medical/lane
       end
     end   
     
@@ -577,7 +577,7 @@ describe "journal/newspaper titles" do
         @tresp.should include("7716332").in_first(2)
       end
       it "title search should include the Lane/Medical record" do
-        @tresp.should include("10673520").in_first(2)
+        @tresp.should include("10673520").in_first(5)
       end 
     end
   end # ScienceDirect

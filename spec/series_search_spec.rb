@@ -130,7 +130,7 @@ describe "Series Search" do
     end
     it "everything search, phrase" do
       resp = solr_resp_ids_from_query  '"Studies in Modern Poetry"'
-      resp.should have_at_least(10).results
+      resp.should have_at_least(15).results
       resp.should include(['5709847', '4075051', '3865171', '9758706', '7146913'])
     end
   end
