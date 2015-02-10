@@ -109,8 +109,8 @@ describe "advanced search" do
       it "keyword" do
         resp = solr_resp_doc_ids_only({'q'=>"IEEE xplore"}.merge(solr_args))
         resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query("IEEE Xplore"))
-        resp.should have_at_least(9000).results
-        resp.should have_at_most(9200).results
+        resp.should have_at_least(9100).results
+        resp.should have_at_most(9300).results
         resp.should have_fewer_results_than(solr_resp_doc_ids_only({'q'=>"IEEE OR xplore"}.merge(solr_args)))
       end
       it "subject NOT congresses and keyword" do
@@ -399,8 +399,8 @@ describe "advanced search" do
       end
       it "before topics selected" do
         resp = solr_resp_doc_ids_only({'fq' => 'format:("Video"), language:("English"), building_facet:("Green")', 'q'=>'collection:*'}.merge(solr_args))
-        resp.should have_at_least(35400).results
-        resp.should have_at_most(35900).results
+        resp.should have_at_least(35500).results
+        resp.should have_at_most(36000).results
       end
       it "add topic feature films" do
         resp = solr_resp_doc_ids_only({'fq' => 'format:("Video"), language:("English"), building_facet:("Green"), topic_facet:("Feature films")', 'q'=>'collection:*'}.merge(solr_args))
