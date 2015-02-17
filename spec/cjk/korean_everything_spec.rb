@@ -28,9 +28,9 @@ describe "Korean Everything", :korean => true do
                               '7850201',
                               '7756289',
                               '8919867',
-                              '8298201',
+                              '10360622',
                               '7518224',
-                              '9268135',
+                              '10573505',
                               #'7158313',  # longer 245, longer record so it doesn't rank as high?
                               ]
     bigrams_in_245_not_together = ['10103424',
@@ -45,7 +45,7 @@ describe "Korean Everything", :korean => true do
                                     '7519786',
                                     '6724346',
                                     '6648636',
-                                    '6633289',
+                                    '10103424',
                                     '7101450', # in 245a, but far apart
                                     ]
     bigrams_in_245b = ['8802538', # in 245b, consecutive
