@@ -68,7 +68,7 @@ describe "Korean Titles", :korean => true do
       it_behaves_like 'does not find irrelevant results', 'title', query, ['6718961', '6686526'], 'rows' => 45
     end
     context "한국 근대사 (space, not a phrase)" do
-      it_behaves_like "expected result size", 'title', '한국 근대사', 200, 250
+      it_behaves_like "expected result size", 'title', '한국 근대사', 200, 275
       it_behaves_like "good title results for 한국 근대사", '한국 근대사'
     end
     context '"한국 근대사" (phrase)' do
