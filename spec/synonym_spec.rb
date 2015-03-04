@@ -120,7 +120,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
       it "C++ programming" do
         resp = solr_response({'q'=>"C++ programming", 'fl'=>'id,title_245a_display', 'facet'=>false})
         resp.should include("title_245a_display" => /C\+\+ programming/i).in_each_of_first(20).documents
-        resp.should have_at_most(900).documents
+        resp.should have_at_most(1000).documents
         resp.should_not have_the_same_number_of_results_as(solr_resp_ids_from_query "C computer program")
       end
       it "C programming", :jira => 'VUF-1993' do
@@ -177,7 +177,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
       it "c# minor" do
         resp = solr_response({'q' => 'c# minor', 'fl'=>'id,title_display', 'facet'=>false})
         resp.should include("title_display" => /c(#|♯|\-sharp| sharp) minor/i).in_each_of_first(20).documents
-        resp.should have_at_most(2000).documents
+        resp.should have_at_most(2500).documents
         resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('C♯ minor'))
         resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('C-sharp minor'))
         # would also match  c ... minor ... sharp
@@ -263,7 +263,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
         it "a short sharp (qs = 1)" do
           resp = solr_resp_ids_from_query('a short sharp')
           resp.should include('3965729').as_first.document # A short, sharp shock / Kim Stanley Robinson.
-          resp.should have_at_most(900).documents
+          resp.should have_at_most(1000).documents
         end
         it "B sharp - title" do
           resp = solr_resp_doc_ids_only(title_search_args('b sharp'))
