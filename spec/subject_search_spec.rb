@@ -63,7 +63,7 @@ describe "Subject Search" do
       resp.should include('8834110')
     end
     it "home and school" do
-      resp = solr_resp_doc_ids_only(subject_search_args '"home and school"')
+      resp = solr_resp_doc_ids_only(subject_search_args('"home and school"').merge({'rows'=>100}))
       resp.should have_at_least(425).results
       resp.should have_at_most(550).results
       resp.should include('337849')
