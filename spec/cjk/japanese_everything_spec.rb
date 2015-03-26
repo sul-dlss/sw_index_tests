@@ -54,7 +54,7 @@ describe "Japanese Everything Searches", :japanese => true do
     it_behaves_like "expected result size", 'everything', '地域社会', 490, 575
     it_behaves_like "matches in vern short titles first", 'everything', '地域社会', /^地域社会$/, 1  # exact title match
     context "w lang limit" do
-      it_behaves_like "expected result size", 'everything', '地域社会', 430, 460, lang_limit
+      it_behaves_like "expected result size", 'everything', '地域社会', 430, 470, lang_limit
     end
     context "phrase" do
       it_behaves_like "expected result size", 'everything', '"地域社会"', 266, 300

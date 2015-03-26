@@ -102,7 +102,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
       it "everything search" do
         resp = solr_response({'q'=>"C++", 'fl'=>'id,title_245a_display', 'facet'=>false})
         resp.should include("title_245a_display" => /C\+\+/).in_each_of_first(20).documents
-        resp.should have_at_most(1000).documents
+        resp.should have_at_most(1100).documents
         resp.should_not have_the_same_number_of_results_as(solr_resp_ids_from_query "C")
       end
       it "professional C++" do

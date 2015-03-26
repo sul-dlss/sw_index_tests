@@ -16,10 +16,10 @@ describe "sorting results" do
 #      resp = solr_response({'fq'=>'format:Book', 'fl'=>'id,pub_date', 'facet'=>false})
 #      year = Time.new.year
 #      resp.should include("pub_date" => /(#{year}|#{year + 1}|#{year + 2})/).in_each_of_first(20).documents
-      resp = solr_response({'fq'=>'format_main_ssim:Book', 'fl'=>'id,pub_date,imprint_display,title_245a_display', 'facet'=>false, 'rows'=>1000})
+      resp = solr_response({'fq'=>'format_main_ssim:Book', 'fl'=>'id,pub_date,imprint_display,title_245a_display', 'facet'=>false, 'rows'=>20})
       docs_match_current_year resp
-      # _The Bible on Silent Film_ (imprint 2013/ pub_date (008) as 2015) before _The Borders of Race in Colonial South Africa_ (imprint 2013/ pub_date as 2015)
-      resp.should include('10343020').before('10343019')
+      # _Dermatopathology_ (imprint 2016/ pub_date (008) as 2016) before _The five disciplines of intelligence collection_ (imprint 2016/ pub_date as 2016)
+      resp.should include('10768560').before('10766632')
     end
     
     it "with facet access:Online; default sort should be by pub date desc then title asc" do

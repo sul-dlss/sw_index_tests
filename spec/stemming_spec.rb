@@ -34,7 +34,7 @@ describe "Stemming of English words" do
     end
     
     it "Austen also gives Austenland, Austen's" do
-      resp = solr_resp_doc_ids_only({'q'=>'Austen', 'sort'=>'title_sort asc, pub_date_sort desc', 'rows'=>100})
+      resp = solr_resp_doc_ids_only({'q'=>'Austen', 'sort'=>'title_sort asc, pub_date_sort desc', 'rows'=>200})
       # 3393754  "Austen"
       # 6865948  "Austenland"
       # 5847283  "Austen's"

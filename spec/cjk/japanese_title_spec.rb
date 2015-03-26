@@ -21,9 +21,9 @@ describe "Japanese Title searches", :japanese => true do
     it_behaves_like "matches in vern short titles first", 'title', '仏教', /^(佛|仏)(教|敎).*$/, 7 # title starts w match
     context "w lang limit" do
       # trad
-      it_behaves_like "result size and vern short title matches first", 'title', '佛教', 900, 1230, /(佛|仏)(教|敎)/, 100, lang_limit
+      it_behaves_like "result size and vern short title matches first", 'title', '佛教', 900, 1250, /(佛|仏)(教|敎)/, 100, lang_limit
       # modern
-      it_behaves_like "result size and vern short title matches first", 'title', '仏教', 900, 1230, /(佛|仏)(教|敎)/, 100, lang_limit
+      it_behaves_like "result size and vern short title matches first", 'title', '仏教', 900, 1250, /(佛|仏)(教|敎)/, 100, lang_limit
     end
   end
   context "editorial" do
@@ -68,7 +68,7 @@ describe "Japanese Title searches", :japanese => true do
     it_behaves_like "best matches first", 'title', 'ユニークな', '4198351', 2  # middle of 245a
   end
   context "japanese art works ref encyclopedia", :jira => 'VUF-2698' do
-    it_behaves_like "expected result size", 'title', '日本美術作品レファレンス事典', 8, 12
+    it_behaves_like "expected result size", 'title', '日本美術作品レファレンス事典', 8, 15
     it_behaves_like "matches in vern short titles first", 'title', '日本美術作品レファレンス事典', /^日本美術作品レファレンス事典[[:punct:]]*$/, 8
     # 9th result is without the first 2 chars
   end

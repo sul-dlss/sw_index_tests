@@ -5,7 +5,7 @@ describe "Default Request Handler" do
   it "q of 'Buddhism' should get 8,500-10,700 results", :jira => 'VUF-160' do
     resp = solr_resp_ids_from_query 'Buddhism'
     resp.should have_at_least(10000).documents
-    resp.should have_at_most(11100).documents
+    resp.should have_at_most(11200).documents
   end
   
   it "q of 'String quartets Parts' and variants should be plausible", :jira => 'VUF-390' do
@@ -111,7 +111,7 @@ describe "Default Request Handler" do
     resp = solr_resp_ids_titles_from_query 'Lectures on the Calculus of Variations and Optimal Control Theory'
     resp.should include('560042').as_first
     resp.should_not include("title_245a_display" => /Shape optimization and optimal design/i)
-    resp.should have_at_most(250).results
+    resp.should have_at_most(300).results
   end
 
   it "death and taxes", :jira => 'SW-721' do
@@ -150,7 +150,7 @@ describe "Default Request Handler" do
     it "humanities 21st century america english" do
       # 70
       resp = solr_resp_ids_from_query('humanities 21st century america english')
-      resp.should have_at_most(30).results
+      resp.should have_at_most(40).results
     end
   end
   
