@@ -36,7 +36,7 @@ describe "Japanese Everything Searches", :japanese => true do
   end
 
   context "Imperial" do
-    it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '帝國', 'modern', '帝国', 1475, 1525, lang_limit
+    it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '帝國', 'modern', '帝国', 1475, 1575, lang_limit
   end
 
   context "Japan China thought", :jira => 'VUF-2737' do
