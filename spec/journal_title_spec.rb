@@ -539,7 +539,6 @@ describe "journal/newspaper titles" do
                 ]
       news = ['486902', # green, terman, 0193-2241 
               '486903', # also database, microform, 0099-9660
-              '9257840', # online, 1092-0935 
               '6654532', # proquest
               '10041833', # biz, 0193-2241
               ]
