@@ -5,7 +5,7 @@ describe "Default Request Handler" do
   it "q of 'Buddhism' should get 8,500-10,700 results", :jira => 'VUF-160' do
     resp = solr_resp_ids_from_query 'Buddhism'
     resp.should have_at_least(10000).documents
-    resp.should have_at_most(11200).documents
+    resp.should have_at_most(11300).documents
   end
   
   it "q of 'String quartets Parts' and variants should be plausible", :jira => 'VUF-390' do
