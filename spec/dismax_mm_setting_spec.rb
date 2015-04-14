@@ -16,7 +16,7 @@ describe "mm threshold setting for dismax (6 as of 2012/08)" do
 
     it "5 terms should all matter: royal institution library of science", :jira => 'VUF-1685' do
       resp = solr_resp_doc_ids_only({'q'=>'royal institution library of science'})
-      resp.should have_at_most(100).documents
+      resp.should have_at_most(200).documents
       resp2 = solr_resp_doc_ids_only({'q'=>'royal institution library of science bragg'})
       resp2.should have_documents
       resp.should have_more_results_than(resp2)
