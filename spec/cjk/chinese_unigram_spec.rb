@@ -37,7 +37,7 @@ describe "Chinese Unigrams", :chinese => true do
                       '6829978', # 65 juan  v1-4  EAL chinese coll
                       '10102192', # v96-97  sal1&2
                       '8656532', # ser2 v15  sal1&2
-                      '6435401' # v1-16  harvard-yenching coll, sal1&2
+                      '8448620' # Zhongguo shi xue ming zhu xuan. EAL chinese coll
                       ]
       korean_245a = ['8303152', # Samgukchi / Na Kwan-jung chiŭm  author Luo, Guanzhong  (245a, first 3 chars of 240a, 700t)
                       '10156316' # Samgukchi by  Yi Mun-yŏl p'yŏngyŏk  (245a, part of 246a, 500a, 700t)

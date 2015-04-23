@@ -34,7 +34,7 @@ describe "sorting results" do
     resp["response"]["docs"].each { |doc| 
       imprint = doc['imprint_display'] ? doc['imprint_display'].join : ""
       date = doc['pub_date'] ? doc['pub_date'] : ""
-      expect((imprint.match(year_regex_str) if imprint) || date.match(year_regex_str)).not_to be_nil, "expected current publication year for #{doc["id"]}" 
+      expect((imprint.match(year_regex_str) if imprint) || date.match('century') || date.match(year_regex_str)).not_to be_nil, "expected current publication year for #{doc["id"]}"
     }
    end
   
