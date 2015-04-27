@@ -194,7 +194,7 @@ describe "Diacritics" do
   end
   
   it "Greek ῆ" do
-    resp = solr_resp_doc_ids_only({'q'=>'τῆς'})
+    resp = solr_resp_doc_ids_only({'q'=>'τῆς', 'rows'=>'23'})
     resp.should include("7719950")
     resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'της'}))
   end

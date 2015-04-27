@@ -33,7 +33,7 @@ describe "Stopwords such as 'the' 'a' 'or' should now work" do
                 '6826825', # book, green
                 # '9694740', # recording via aspresolver.com
                 ]
-    resp.should include(expected).in_first(6).results
+    resp.should include(expected).in_first(10).results
     resp.should_not include("2860701").in_first(4) # "One"
   end
 

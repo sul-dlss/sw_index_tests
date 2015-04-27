@@ -211,7 +211,7 @@ describe "Korean spacing", :korean => true do
     context "전환기의 한국경제  (normal spacing)" do
       it_behaves_like "good results for 전환기의 한국경제", '전환기의 한국경제'
       it_behaves_like "best matches first", 'everything', '전환기의 한국경제', '7774509', 2  # 245b
-      it_behaves_like "best matches first", 'everything', '전환기의 한국경제', '9724831', 3 # almost 245b
+      it_behaves_like "best matches first", 'everything', '전환기의 한국경제', '9724831', 5 # almost 245b
     end
     context "전환기 의 한국 경제 (spacing in catalog)" do
       it_behaves_like "good results for 전환기의 한국경제", '전환기 의 한국 경제'
@@ -355,7 +355,7 @@ describe "Korean spacing", :korean => true do
     end
     context "Right to speak in the Choson dynasty period" do
       shared_examples_for "good results for 鮮時代의 言權" do | query |
-        it_behaves_like "good results for query", 'everything', query, 1, 35, '6633303', 1
+        it_behaves_like "good results for query", 'everything', query, 1, 40, '6633303', 1
       end
       context "鮮時代의 言權 (normal spacing)" do
         it_behaves_like "good results for 鮮時代의 言權", '鮮時代의 言權'

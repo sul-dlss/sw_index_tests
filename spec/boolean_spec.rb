@@ -273,8 +273,8 @@ describe "boolean operators" do
     context "street art and graffiti", :jira => 'VUF-1013' do
       it '((street art) OR graffiti) AND aspects' do
         resp = solr_resp_doc_ids_only(subject_search_args '((street art) OR graffiti) AND aspects')
-        resp.should have_at_least(100).results
-        resp.should have_at_most(3500).results
+        resp.should have_at_least(3000).results
+        resp.should have_at_most(3600).results
       end
       it '("street art" OR graffiti) AND aspects' do
         resp = solr_resp_doc_ids_only(subject_search_args '("street art" OR graffiti) AND aspects')

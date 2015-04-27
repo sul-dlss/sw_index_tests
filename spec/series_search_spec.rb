@@ -6,8 +6,8 @@ describe "Series Search" do
   
   it "lecture notes in computer science" do
     resp = solr_resp_doc_ids_only(series_search_args 'lecture notes in computer science')
-    resp.should have_at_least(7000).results
-    resp.should have_at_most(8500).results
+    resp.should have_at_least(7500).results
+    resp.should have_at_most(9000).results
   end
   
   it "Lecture notes in statistics (Springer-Verlag)", :jira => 'VUF-1221' do
@@ -115,7 +115,7 @@ describe "Series Search" do
     end
     it "add physical sciences" do
       resp = solr_resp_ids_from_query 'Royal Institution Library of Science physical sciences'
-      resp.should include(['691907', '691908']).in_first(2)
+      resp.should include(['691907', '691908']).in_first(5)
       # past mm threshold
       #resp.should have_at_most(10).results
     end
