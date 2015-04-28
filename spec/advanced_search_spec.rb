@@ -275,8 +275,8 @@ describe "advanced search" do
     it "digestive organs" do
       resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('digestive organs')}"}.merge(solr_args))
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args 'digestive organs'))
-      resp.should have_at_least(325).results
-      resp.should have_at_most(400).results
+      resp.should have_at_least(350).results
+      resp.should have_at_most(450).results
     end
     it "digestive organs NOT disease" do
       resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('digestive organs')} AND NOT #{subject_query('disease')}"}.merge(solr_args))
@@ -291,16 +291,16 @@ describe "advanced search" do
       # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a NOT
       # https://issues.apache.org/jira/browse/SOLR-2649
 #      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args 'digestive organs NOT disease NOT cancer'))
-      resp.should have_at_least(90).results
-      resp.should have_at_most(110).results
+      resp.should have_at_least(100).results
+      resp.should have_at_most(150).results
     end
     it "with parens" do
       resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('digestive organs')} AND NOT #{subject_query('(disease OR cancer)')}"}.merge(solr_args))
       # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a NOT
       # https://issues.apache.org/jira/browse/SOLR-2649
 #      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args 'digestive organs NOT (disease OR cancer)'))
-      resp.should have_at_least(90).results
-      resp.should have_at_most(110).results
+      resp.should have_at_least(100).results
+      resp.should have_at_most(150).results
     end
   end
   
