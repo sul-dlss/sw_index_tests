@@ -184,8 +184,8 @@ describe "advanced search" do
       end
       it "title" do
         resp = solr_resp_doc_ids_only({'q'=>"#{title_query('the history man')}"}.merge(solr_args))
-        resp.should have_at_least(1200).results
-        resp.should have_at_most(1300).results
+        resp.should have_at_least(1300).results
+        resp.should have_at_most(1400).results
       end
       it "author and title" do
         resp = solr_resp_doc_ids_only({'q'=>"#{author_query('malcolm bradbury')} AND #{title_query('the history man')}"}.merge(solr_args))
