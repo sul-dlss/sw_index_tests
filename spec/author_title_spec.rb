@@ -15,8 +15,8 @@ describe "Author-Title Search" do
   it "Beethoven violin concerto", :jira => 'SW-778' do
     q = '"Beethoven, Ludwig van, 1770-1827. Concertos, violin, orchestra, op. 61, D major"'
     resp = solr_response(author_title_search_args(q).merge!({'fl'=>'id,author_person_display', 'facet'=>false}))
-    resp.should have_at_least(150).documents
-    resp.should have_at_most(200).documents
+    resp.should have_at_least(200).documents
+    resp.should have_at_most(250).documents
     resp.should include("author_person_display" => /Beethoven/i).in_each_of_first(5).documents
     resp.should_not include("author_person_display" => /Stowell/i).in_each_of_first(20).documents
   end
@@ -53,7 +53,7 @@ describe "Author-Title Search" do
     resp = solr_response(author_title_search_args(q).merge!({'fl'=>'id,author_person_display', 'facet'=>false}))
     resp.should have_at_least(8).documents
     resp.should include('282546')
-    resp.should have_at_most(20).documents
+    resp.should have_at_most(25).documents
     resp.should include("author_person_display" => /Beethoven/i).in_each_of_first(3).documents
   end
   
@@ -88,7 +88,8 @@ describe "Author-Title Search" do
     q = '"beethoven ludwig van 1770-1827 sonatas piano no. 14"' # op. 27, no. 2, C♯ minor;
     resp = solr_response(author_title_search_args(q).merge!({'fl'=>'id,author_person_display,title_245a_display', 'facet'=>false}))
     resp.should have_at_most(250).documents
-    resp.should include("author_person_display" => /Beethoven/i).in_each_of_first(6).documents
+    resp.should include('10791173')
+#    resp.should include("author_person_display" => /Beethoven/i).in_each_of_first(6).documents
   end
   
   context "Shakespeare, William, 1564-1616. All's well that ends well.", :jira => ['SW-138', 'SW-476'] do

@@ -67,7 +67,7 @@ describe "Author Search" do
     resp = solr_resp_doc_ids_only(author_search_args('"Wender, Paul A., "').merge({:rows => 150}))
     resp.should have_at_least(75).documents
     resp.should have_at_most(125).documents
-    paul_h_docs = ["9242084", "781472", "10830886", "7323029", "750072", "7706164"]
+    paul_h_docs = ["9242084", "781472", "10830886", "750072", "7706164"]
     paul_h_docs.each { |doc_id| resp.should_not include(doc_id) }
     resp = solr_resp_doc_ids_only(author_search_args '"Wender, Paul H., "')
     resp.should have_at_most(10).documents

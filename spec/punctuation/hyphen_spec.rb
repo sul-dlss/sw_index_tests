@@ -303,7 +303,7 @@ describe "hyphen in queries" do
   end
 
   context "'Color-blindness; its dangers and its detection'", :jira => 'SW-94' do
-    it_behaves_like "hyphens without spaces imply phrase", "Color-blindness; its dangers and its detection", ["10603445", "2323785"], 2
+    it_behaves_like "hyphens without spaces imply phrase", "Color-blindness; its dangers and its detection", ["10858119", "2323785"], 2
   end
   context "'Color-blindness [print/digital]; its dangers and its detection'", :jira => 'SW-94' do
     # because over mm threshold, no hyphen has diff number of hits than hyphen with spaces
@@ -335,7 +335,7 @@ describe "hyphen in queries" do
       @tresp_whole_phrase_no_hyphen = solr_resp_doc_ids_only(title_search_args(q_as_phrase_no_hyphen))
     end
     it "should have great results for query" do
-      exp_ids = ["10603445", "2323785"]
+      exp_ids = ["10858119", "2323785"]
       first_x = 2
       @resp.should include(exp_ids).in_first(first_x).documents
       @presp.should include(exp_ids).in_first(first_x).documents
@@ -343,8 +343,8 @@ describe "hyphen in queries" do
       @ptresp.should include(exp_ids).in_first(first_x).documents
       # 2323785 is NOT present for the entire query as a phrase search;
       #  we don't include 245h in title_245_search, and 245h contains "[print/digital]"  
-      @resp_whole_phrase.should include("10603445").in_first(first_x).documents
-      @resp_whole_phrase_no_hyphen.should include("10603445").in_first(first_x).documents
+      @resp_whole_phrase.should include("10858119").in_first(first_x).documents
+      @resp_whole_phrase_no_hyphen.should include("10858119").in_first(first_x).documents
     end
     it "should treat hyphen as phrase search for surrounding terms in everything searches" do
       @resp.should have_the_same_number_of_documents_as(@presp)
