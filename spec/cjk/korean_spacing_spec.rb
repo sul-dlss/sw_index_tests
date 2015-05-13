@@ -5,7 +5,7 @@ describe "Korean spacing", :korean => true do
   
   context "Korea-U.S. alliance relations in the 21st century", :jira => 'VUF-2747' do
     shared_examples_for "good title results for 21세기의  한미동맹관계" do | query |
-      it_behaves_like 'good results for query', 'title', query, 1, 6, '8375648', 1
+      it_behaves_like 'good results for query', 'title', query, 1, 10, '8375648', 1
       it_behaves_like 'best matches first', 'title', query, '8567659', 3
     end
     shared_examples_for "good single result for 21세기의  한미동맹관계" do | query |
@@ -206,7 +206,7 @@ describe "Korean spacing", :korean => true do
 
   context "Korean economy at the turning point" do
     shared_examples_for "good results for 전환기의 한국경제" do | query |
-      it_behaves_like "good results for query", 'everything', query, 3, 600, '7132960', 1
+      it_behaves_like "good results for query", 'everything', query, 3, 610, '7132960', 1
     end
     context "전환기의 한국경제  (normal spacing)" do
       it_behaves_like "good results for 전환기의 한국경제", '전환기의 한국경제'

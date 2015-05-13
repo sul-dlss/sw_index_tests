@@ -214,8 +214,9 @@ describe "journal/newspaper titles" do
                 '8088504', # markoe poem, book, newsbank
                 '8133607', # million men, book, american broadsides
                 '8278424', # mankind, newsbank
-                '8328773', # standish, book, newsbank
+#                '8328773', # standish, book, newsbank
                 '9294845', # standish, book, galegroup
+                '10544242', # Nineteenth Century, book, online
               ]
       let(:all_formats) { journal + news + addl }
       let(:journal_only) { journal }
