@@ -34,8 +34,8 @@ describe "Japanese Kanji variants", :japanese => true do
       # Second char of traditional doesn't translate to second char of modern with ICU traditional->simplified 
       # FIXME:  these do not give the same numbers of results.
       #it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '江戶', 'modern', '江戸', 1900, 2000
-      it_behaves_like "expected result size", 'everything', '江戶', 1980, 2050  # trad
-      it_behaves_like "expected result size", 'everything', '江戸', 1980, 2050  # modern
+      it_behaves_like "expected result size", 'everything', '江戶', 1980, 2150  # trad
+      it_behaves_like "expected result size", 'everything', '江戸', 1980, 2150  # modern
 
       it_behaves_like "matches in vern short titles first", 'everything', '江戶', /(江戶|江戸)/, 100  # trad
       it_behaves_like "matches in vern short titles first", 'everything', '江戸', /(江戶|江戸)/, 100  # modern
