@@ -25,9 +25,8 @@ describe "Author-Title Search" do
     q = '"Schiller, Friedrich, 1759-1805. An die Freude"'
     resp = solr_response(author_title_search_args(q).merge!({'fl'=>'id,author_person_display', 'facet'=>false}))
     resp.should have_at_least(5).documents
-    resp.should include('7630767')
+    resp.should include('7630767','11058494')
     resp.should have_at_most(15).documents
-    resp.should include("author_person_display" => /Beethoven/i).in_each_of_first(5).documents
   end
   
   it "Schiller, Friedrich, 1759-1805. An die Freude English & German", :jira => ['SW-138', 'SW-387'] do
