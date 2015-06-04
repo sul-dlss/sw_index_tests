@@ -41,7 +41,7 @@ describe "Korean Titles", :korean => true do
       # exact  영화 산업 or 영화산업 in middle of 245a
       it_behaves_like 'best matches first', 'title', query, ['7197421', '6971471', '9724759', '7001296', '7906632', '6827294', '9252364'], 9
       # both 2 char combos in title, but not together
-      it_behaves_like 'best matches first', 'title', query, ['9925013', '9563618'], 12
+      it_behaves_like 'best matches first', 'title', query, ['9925013', '9563618'], 20
     end
     context "영화산업 (no spaces)" do
       it_behaves_like "good title results for 영화산업", '영화산업'
@@ -49,7 +49,7 @@ describe "Korean Titles", :korean => true do
     context "영화  산업 (with spaces)" do
       it_behaves_like "good title results for 영화산업", '영화 산업'
       # (one 2 char combo in note field)
-      it_behaves_like 'best matches first', 'title', '영화 산업', '7793893', 15
+      it_behaves_like 'best matches first', 'title', '영화 산업', '7793893', 20
     end
   end # Hangul: film industry, VUF-2728
 
