@@ -132,7 +132,7 @@ describe "advanced search" do
       end
       it "subject as a phrase" do
         @sub_phrase.should have_at_least(500).results
-        @sub_phrase.should have_at_most(574).results
+        @sub_phrase.should have_at_most(600).results
         @sub_phrase.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args('"home schooling"')))
         @sub_phrase.should have_fewer_results_than @sub_no_phrase
       end
@@ -337,12 +337,12 @@ describe "advanced search" do
       it "pub info 2010" do
         resp = solr_resp_doc_ids_only({'q'=>"#{pub_info_query('2010')}"}.merge(solr_args))
         resp.should have_at_least(139100).results
-        resp.should have_at_most(140100).results
+        resp.should have_at_most(142000).results
       end
       it "pub info 2011" do
         resp = solr_resp_doc_ids_only({'q'=>"#{pub_info_query('2011')}"}.merge(solr_args))
         resp.should have_at_least(130000).results
-        resp.should have_at_most(132000).results
+        resp.should have_at_most(133500).results
       end
       it "subject and pub info 2010" do
         resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('soviet union and historiography')} AND #{pub_info_query('2010')}"}.merge(solr_args))

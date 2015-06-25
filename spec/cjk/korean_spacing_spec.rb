@@ -150,7 +150,7 @@ describe "Korean spacing", :korean => true do
 
   context "Korean economy" do
     shared_examples_for "good results for 한국경제" do | query |
-      it_behaves_like "expected result size", 'everything', query, 750, 900
+      it_behaves_like "expected result size", 'everything', query, 800, 1000
       # no spaces, exact 245a
       it_behaves_like 'best matches first', 'everything', query, '6812133', 7
       # spaces, exact 245a
@@ -206,7 +206,7 @@ describe "Korean spacing", :korean => true do
 
   context "Korean economy at the turning point" do
     shared_examples_for "good results for 전환기의 한국경제" do | query |
-      it_behaves_like "good results for query", 'everything', query, 3, 650, '7132960', 1
+      it_behaves_like "good results for query", 'everything', query, 3, 700, '7132960', 1
     end
     context "전환기의 한국경제  (normal spacing)" do
       it_behaves_like "good results for 전환기의 한국경제", '전환기의 한국경제'
@@ -322,7 +322,7 @@ describe "Korean spacing", :korean => true do
   context "hangul + hancha" do
     context "Analysis of Korean economy" do
       shared_examples_for "good results for 韓國經濟의 分析" do | query |
-        it_behaves_like "good results for query", 'everything', query, 5, 100, '6647380', 1
+        it_behaves_like "good results for query", 'everything', query, 5, 150, '6647380', 1
       end
       context "韓國經濟의 分析  (normal spacing)" do
         it_behaves_like "good results for 韓國經濟의 分析", '韓國經濟의 分析 '

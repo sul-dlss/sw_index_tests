@@ -43,7 +43,7 @@ describe "CJK Advanced Search" do
         @resp.should include(exact_matches).in_first(exact_matches.size).documents
       end
       it "matches without spaces present" do
-        no_space_exact_matches = ['10432984', '10667754']  # 2 out of many
+        no_space_exact_matches = ['11055996', '10947614']  # 2 out of many
         @resp.should include(no_space_exact_matches).in_first(20).documents
       end
     end
@@ -76,7 +76,7 @@ describe "CJK Advanced Search" do
       it "Place: 津  (no Tsu term): num expected" do
         resp = cjk_adv_solr_resp({'q'=>"#{cjk_pub_info_query('津')}"}.merge(solr_args))
         resp.should have_at_least(50).documents # matches 19 wo cjk search fields
-        resp.should have_at_most(3550).documents # 6560 match everything search
+        resp.should have_at_most(3650).documents # 6560 match everything search
       end
     end    
   end # Publication Info

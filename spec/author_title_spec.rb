@@ -52,7 +52,7 @@ describe "Author-Title Search" do
     resp = solr_response(author_title_search_args(q).merge!({'fl'=>'id,author_person_display', 'facet'=>false}))
     resp.should have_at_least(8).documents
     resp.should include('282546')
-    resp.should have_at_most(25).documents
+    resp.should have_at_most(30).documents
     resp.should include("author_person_display" => /Beethoven/i).in_each_of_first(3).documents
   end
   

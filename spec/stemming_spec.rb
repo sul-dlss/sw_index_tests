@@ -117,7 +117,7 @@ describe "Stemming of English words" do
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args 'knight'))
     end
     it "deeply should stem to same as deep" do
-      resp = solr_resp_ids_full_titles(title_search_args('deeply').merge({:rows => '100'}))
+      resp = solr_resp_ids_full_titles(title_search_args('deeply').merge({:rows => '200'}))
       resp.should include('title_full_display' => /deep /i)
       # not sure why this isn't true
       # resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args 'deep'))
