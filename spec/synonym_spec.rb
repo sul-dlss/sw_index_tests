@@ -102,7 +102,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
       it "everything search" do
         resp = solr_response({'q'=>"C++", 'fl'=>'id,title_245a_display', 'facet'=>false})
         resp.should include("title_245a_display" => /C\+\+/).in_each_of_first(20).documents
-        resp.should have_at_most(1100).documents
+        resp.should have_at_most(1500).documents
         resp.should_not have_the_same_number_of_results_as(solr_resp_ids_from_query "C")
       end
       it "professional C++" do
@@ -120,13 +120,13 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
       it "C++ programming" do
         resp = solr_response({'q'=>"C++ programming", 'fl'=>'id,title_245a_display', 'facet'=>false})
         resp.should include("title_245a_display" => /C\+\+ programming/i).in_each_of_first(20).documents
-        resp.should have_at_most(1000).documents
+        resp.should have_at_most(1100).documents
         resp.should_not have_the_same_number_of_results_as(solr_resp_ids_from_query "C computer program")
       end
       it "C programming", :jira => 'VUF-1993' do
         resp = solr_resp_doc_ids_only(subject_search_args('C programming'))
         resp.should have_at_least(1100).results
-        resp.should have_at_most(1350).results
+        resp.should have_at_most(1500).results
         resp.should include("4617632")
       end
     end
@@ -168,7 +168,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
       
       it "a#" do
         resp = solr_resp_ids_from_query('a#')
-        resp.should have_at_most(1250).documents  # should not include a   as well, only  a sharp
+        resp.should have_at_most(1400).documents  # should not include a   as well, only  a sharp
       end
       it "a# - title search" do
         resp = solr_resp_doc_ids_only(title_search_args('a#'))
@@ -186,7 +186,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
       it "d#" do
         resp = solr_resp_ids_from_query('d#')
         resp.should include('7941865').as_first  # Etude in D sharp minor
-        resp.should have_at_most(175).documents  # should not include d  as well, only  d sharp
+        resp.should have_at_most(200).documents  # should not include d  as well, only  d sharp
         # the following all have a short title (245a) of D
         resp.should_not include(['5988225', '9257569', '423004', '9095168', '9206662'])
       end
@@ -263,7 +263,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
         it "a short sharp (qs = 1)" do
           resp = solr_resp_ids_from_query('a short sharp')
           resp.should include('3965729').as_first.document # A short, sharp shock / Kim Stanley Robinson.
-          resp.should have_at_most(1000).documents
+          resp.should have_at_most(1200).documents
         end
         it "B sharp - title" do
           resp = solr_resp_doc_ids_only(title_search_args('b sharp'))
