@@ -291,16 +291,16 @@ describe "advanced search" do
       # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a NOT
       # https://issues.apache.org/jira/browse/SOLR-2649
 #      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args 'digestive organs NOT disease NOT cancer'))
-      resp.should have_at_least(100).results
-      resp.should have_at_most(150).results
+      resp.should have_at_least(150).results
+      resp.should have_at_most(250).results
     end
     it "with parens" do
       resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('digestive organs')} AND NOT #{subject_query('(disease OR cancer)')}"}.merge(solr_args))
       # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a NOT
       # https://issues.apache.org/jira/browse/SOLR-2649
 #      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args 'digestive organs NOT (disease OR cancer)'))
-      resp.should have_at_least(100).results
-      resp.should have_at_most(150).results
+      resp.should have_at_least(150).results
+      resp.should have_at_most(250).results
     end
   end
   
@@ -341,8 +341,8 @@ describe "advanced search" do
       end
       it "pub info 2011" do
         resp = solr_resp_doc_ids_only({'q'=>"#{pub_info_query('2011')}"}.merge(solr_args))
-        resp.should have_at_least(130000).results
-        resp.should have_at_most(136000).results
+        resp.should have_at_least(135000).results
+        resp.should have_at_most(140000).results
       end
       it "subject and pub info 2010" do
         resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('soviet union and historiography')} AND #{pub_info_query('2010')}"}.merge(solr_args))
