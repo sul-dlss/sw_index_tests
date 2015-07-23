@@ -19,7 +19,7 @@ describe "sorting results" do
       resp = solr_response({'fq'=>'format_main_ssim:Book', 'fl'=>'id,pub_date,imprint_display,title_245a_display', 'facet'=>false, 'rows'=>40})
       docs_match_current_year resp
       # _Dermatopathology_ (imprint 2016/ pub_date (008) as 2016) before _The five disciplines of intelligence collection_ (imprint 2016/ pub_date as 2016)
-      resp.should include('10768560').before('10766632')
+      resp.should include('11238182').before('10766632')
     end
     
     it "with facet access:Online; default sort should be by pub date desc then title asc" do
