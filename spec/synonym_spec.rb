@@ -120,7 +120,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
       it "C++ programming" do
         resp = solr_response({'q'=>"C++ programming", 'fl'=>'id,title_245a_display', 'facet'=>false})
         resp.should include("title_245a_display" => /C\+\+ programming/i).in_each_of_first(20).documents
-        resp.should have_at_most(1100).documents
+        resp.should have_at_most(1500).documents
         resp.should_not have_the_same_number_of_results_as(solr_resp_ids_from_query "C computer program")
       end
       it "C programming", :jira => 'VUF-1993' do
@@ -168,7 +168,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
       
       it "a#" do
         resp = solr_resp_ids_from_query('a#')
-        resp.should have_at_most(1400).documents  # should not include a   as well, only  a sharp
+        resp.should have_at_most(1600).documents  # should not include a   as well, only  a sharp
       end
       it "a# - title search" do
         resp = solr_resp_doc_ids_only(title_search_args('a#'))
@@ -376,7 +376,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
       context "should not reduce perceived precision for reasonable non-musical searches with x flat (space)" do
         it "a flat world - title search" do
           resp = solr_response(title_search_args('a flat world').merge!({'fl'=>'id,title_display', 'facet'=>false}))
-          resp.should include("title_display" => /a flat world/).in_each_of_first(5).documents
+          resp.should include("title_display" => /a flat world/i).in_each_of_first(5).documents
           resp.should have_at_most(80).documents
         end
         it "a bent flat (qs = 1)" do
