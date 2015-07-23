@@ -55,12 +55,12 @@ describe "Chinese Han variants", :chinese => true do
       it_behaves_like "great matches for history research", 'title', '历史研究'
     end
     context "with space" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '歷史 研究', 'simplified', '历史 研究', 1850, 2000
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '歷史 研究', 'simplified', '历史 研究', 2000, 2500
       it_behaves_like "best matches first", 'title', '歷史 研究', ['6433575', '9336336'], 3
       it_behaves_like "best matches first", 'title', '历史 研究', ['6433575', '9336336'], 3
     end
     context "as phrase" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '"歷史研究"', 'simplified', '"历史研究"', 200, 300
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '"歷史研究"', 'simplified', '"历史研究"', 300, 400
       it_behaves_like "great matches for history research", 'title', '"歷史研究"'
       it_behaves_like "great matches for history research", 'title', '"历史研究"'
     end

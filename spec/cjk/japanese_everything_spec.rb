@@ -47,7 +47,7 @@ describe "Japanese Everything Searches", :japanese => true do
   end
 
   context "kawaru no ka  変わるのか", :jira => 'VUF-2802' do
-    it_behaves_like "result size and vern title matches first", 'everything', '変わるのか', 30, 35, /変わるのか/, 4
+    it_behaves_like "result size and vern title matches first", 'everything', '変わるのか', 30, 40, /変わるのか/, 4
   end
 
   context '(local/regional society)', :jira => 'VUF-2717' do
@@ -117,7 +117,7 @@ describe "Japanese Everything Searches", :japanese => true do
   end
 
   context "TPP", :jira => 'VUF-2694' do
-    it_behaves_like "result size and vern short title matches first", 'everything', 'TPP', 100, 125, /TPP/, 6
+    it_behaves_like "result size and vern short title matches first", 'everything', 'TPP', 100, 200, /TPP/, 6
     context "w lang limit" do
       it_behaves_like "result size and vern short title matches first", 'everything', 'TPP', 8, 12, /TPP/, 6, lang_limit
     end

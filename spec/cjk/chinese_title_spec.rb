@@ -28,7 +28,7 @@ describe "Chinese Title", :chinese => true do
   end
 
   context "(dream of) Red Chamber, a famous Chinese novel", :jira => 'VUF-2773' do
-    it_behaves_like "both scripts get expected result size", 'title', 'traditional', '紅樓夢', 'simplified', '红楼梦', 500, 525
+    it_behaves_like "both scripts get expected result size", 'title', 'traditional', '紅樓夢', 'simplified', '红楼梦', 500, 600
     it_behaves_like "matches in vern short titles first", 'title', '紅樓夢', /^(紅樓夢|红楼梦|紅楼夢)[^[[:alpha:]]]*$/, 3
     it_behaves_like "matches in vern short titles first", 'title', '紅樓夢', /(紅樓夢|红楼梦|紅楼夢|红楼夢)/, 40
     it_behaves_like "matches in vern short titles first", 'title', '红楼梦', /^(紅樓夢|红楼梦|紅楼夢)[^[[:alpha:]]]*$/, 3
@@ -57,7 +57,7 @@ describe "Chinese Title", :chinese => true do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '歷史研究', 'simplified', '历史研究', 1300, 1600
     end
     context "with space" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '歷史 研究', 'simplified', '历史 研究', 1775, 2000
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '歷史 研究', 'simplified', '历史 研究', 2000, 2500
     end
     context "as phrase" do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '"歷史研究"', 'simplified', '"历史研究"', 250, 325

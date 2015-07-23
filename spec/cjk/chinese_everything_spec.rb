@@ -51,7 +51,7 @@ describe "Chinese Everything", :chinese => true do
       it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '歷史研究', 'simplified', '历史研究', 5500, 6000
     end
     context "as phrase" do
-      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '"歷史研究"', 'simplified', '"历史研究"', 400, 750
+      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '"歷史研究"', 'simplified', '"历史研究"', 500, 800
     end
   end
 

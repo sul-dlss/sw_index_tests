@@ -115,8 +115,8 @@ describe "advanced search" do
       end
       it "subject NOT congresses and keyword" do
         resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('NOT congresses')} AND IEEE xplore"}.merge(solr_args))
-        resp.should have_at_least(2000).results
-        resp.should have_at_most(3000).results
+        resp.should have_at_least(1900).results
+        resp.should have_at_most(2500).results
       end
     end
 
@@ -275,16 +275,16 @@ describe "advanced search" do
     it "digestive organs" do
       resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('digestive organs')}"}.merge(solr_args))
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args 'digestive organs'))
-      resp.should have_at_least(350).results
-      resp.should have_at_most(450).results
+      resp.should have_at_least(450).results
+      resp.should have_at_most(650).results
     end
     it "digestive organs NOT disease" do
       resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('digestive organs')} AND NOT #{subject_query('disease')}"}.merge(solr_args))
       # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a NOT
       # https://issues.apache.org/jira/browse/SOLR-2649
 #      resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args 'digestive organs NOT disease'))
-      resp.should have_at_least(100).results
-      resp.should have_at_most(200).results
+      resp.should have_at_least(200).results
+      resp.should have_at_most(400).results
     end
     it "digestive organs NOT disease NOT cancer" do
       resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('digestive organs')} AND NOT #{subject_query('disease')} AND NOT #{subject_query('cancer')}"}.merge(solr_args))
@@ -336,8 +336,8 @@ describe "advanced search" do
       end
       it "pub info 2010" do
         resp = solr_resp_doc_ids_only({'q'=>"#{pub_info_query('2010')}"}.merge(solr_args))
-        resp.should have_at_least(142000).results
-        resp.should have_at_most(145000).results
+        resp.should have_at_least(145000).results
+        resp.should have_at_most(150000).results
       end
       it "pub info 2011" do
         resp = solr_resp_doc_ids_only({'q'=>"#{pub_info_query('2011')}"}.merge(solr_args))
@@ -399,8 +399,8 @@ describe "advanced search" do
       end
       it "before topics selected" do
         resp = solr_resp_doc_ids_only({'fq' => 'format:("Video"), language:("English"), building_facet:("Green")', 'q'=>'collection:*'}.merge(solr_args))
-        resp.should have_at_least(36000).results
-        resp.should have_at_most(37000).results
+        resp.should have_at_least(37000).results
+        resp.should have_at_most(38000).results
       end
       it "add topic feature films" do
         resp = solr_resp_doc_ids_only({'fq' => 'format:("Video"), language:("English"), building_facet:("Green"), topic_facet:("Feature films")', 'q'=>'collection:*'}.merge(solr_args))

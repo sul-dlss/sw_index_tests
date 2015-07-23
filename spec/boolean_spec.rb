@@ -286,8 +286,8 @@ describe "boolean operators" do
     context "nested OR within NOT as subject", :jira => 'VUF-1387' do
       it "digestive organs" do
         resp = solr_resp_doc_ids_only(subject_search_args 'digestive organs')
-        resp.should have_at_least(350).results
-        resp.should have_at_most(450).results
+        resp.should have_at_least(500).results
+        resp.should have_at_most(600).results
       end
       it "digestive organs NOT disease", :fixme => true do
         # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a NOT

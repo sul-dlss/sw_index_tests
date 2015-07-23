@@ -25,7 +25,7 @@ describe "Japanese Kanji variants", :japanese => true do
     end # buddhism
 
     context "cherry blossoms", :jira => 'VUF-2781' do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '櫻', 'modern', '桜', 175, 200
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '櫻', 'modern', '桜', 175, 250
       it_behaves_like "matches in vern short titles first", 'everything', '櫻', /^桜$/, 2  # trad
       it_behaves_like "matches in vern short titles first", 'everything', '桜', /^桜$/, 2  # modern
     end
