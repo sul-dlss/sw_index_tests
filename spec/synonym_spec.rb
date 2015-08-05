@@ -1,4 +1,4 @@
-# encoding : utf-8 
+# encoding : utf-8
 require 'spec_helper'
 
 describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
@@ -40,17 +40,17 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
     context '"O.T." and "N.T." will change to "Old Testament" and "New Testament"', :fixme => true do
       # old testament => o.t.
       # new testament => n.t.
-      # 
+      #
       # From email of Kay Teel to gryphon-search on 2013-05-03
-      # "... in RDA the authorized headings for the books of the Bible no longer have the testament in the heading. 
-      # (That is, "Bible. N.T. Matthew" is now just "Bible. Matthew" not "Bible. New Testament. Matthew" 
+      # "... in RDA the authorized headings for the books of the Bible no longer have the testament in the heading.
+      # (That is, "Bible. N.T. Matthew" is now just "Bible. Matthew" not "Bible. New Testament. Matthew"
       #   --> fewer results for "new testament".)
-      # 
-      # "... We don't have any records (yet) that are just "Bible. New Testament" so I can't tell 
-      # if a search would/wouldn't find them. 
-      # 
-      # "But it looks like "bible n.t." retrieves "bible new testament" and I think that's what we wanted." 
-      
+      #
+      # "... We don't have any records (yet) that are just "Bible. New Testament" so I can't tell
+      # if a search would/wouldn't find them.
+      #
+      # "But it looks like "bible n.t." retrieves "bible new testament" and I think that's what we wanted."
+
       context '"bible n.t." retrieves "bible new testament" ' do
         it "everything search" do
           resp = solr_resp_ids_from_query('bible n.t.')
@@ -72,7 +72,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
           resp.should include('6063878') # no n.t. but  653: a| Bible a| New Testament
 #          resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args('bible new testament')))
           resp.should_not have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args('bible n. t.'))) # space
-        end        
+        end
       end
     end
     context '"violoncello" will change to "cello" ' do
@@ -96,7 +96,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
       end
     end
   end # RDA changes for authority headings
-  
+
   context "programming languages", :jira => 'SW-678' do
     context "C++" do
       it "everything search" do
@@ -160,12 +160,12 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
       end
     end
   end # programming languages
-  
+
   context "musical keys", :jira => 'SW-107' do
     context "sharp keys" do
       # a#, a♯, a-sharp => a sharp
       # number sign, musical sharp sign, hyphen, space
-      
+
       it "a#" do
         resp = solr_resp_ids_from_query('a#')
         resp.should have_at_most(1600).documents  # should not include a   as well, only  a sharp
@@ -208,8 +208,8 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
       it "f# major" do
         resp = solr_resp_ids_from_query('F# major')
         resp.should have_at_least(450).documents
-# :fixme        
-# FIXME:  these are okay in dismax, but not in edismax        
+# :fixme
+# FIXME:  these are okay in dismax, but not in edismax
 #        resp.should include('6284').in_first(6).results # Valse oubliee, no. 1, in F-sharp major  # 15 with exact-fix
 #        resp.should include('295938').in_first(6).results  # Etude, F# major. [Op. 36, no. 13].  # 16 with exact-fix
         resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('F♯ major'))
@@ -222,7 +222,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
         resp = solr_resp_ids_titles({'q' => 'F# major'})
         resp.should_not include({'title_245a_display' => /F major/i})
       end
-      
+
       context "phrase searching" do
         before(:all) do
           no_phrase_resp = solr_resp_ids_titles({'q' => 'F# major'})
@@ -246,9 +246,9 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
         it "middle token in phrase", :fixme => true do
           resp = solr_resp_ids_from_query '"nocturne in F# minor"'
           resp.should include(280328).in_first(3) # 'Nocturne in F# minor'
-        end      
+        end
       end
-      
+
       context "should not reduce precision for reasonable non-musical searches with x#" do
         # see above for programming languages C#, F#
       end
@@ -304,7 +304,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
 #        ♭_resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'defType'=>'lucene', 'q'=>"#{author_query} AND #{space_title_query}"}))
         # do a title search and facet on composer
       end
-      
+
       it "title search with composer facet" do
         facet_args = {'fq' => '{!raw f=author_person_facet}Bach, Carl Philipp Emanuel, 1714-1788'}
         resp_♭ = solr_resp_doc_ids_only(title_search_args('cello b♭').merge!(facet_args))
@@ -318,7 +318,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
         resp_space.should have_at_least(8).documents
         resp_space.should include('310505') # has cello b♭, but by J.S. Bach, not C.P.E. Bach
       end
-      
+
       it "author-title search (which is a phrase search) b♭" do
         prefix = "Bach, Carl Philipp Emanuel, 1714-1788. Concertos, cello, string orchestra, H. 436, "
         resp_♭ = solr_resp_doc_ids_only(author_title_search_args("\"#{prefix} B♭ major.\""))
@@ -332,12 +332,12 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
         resp_♭.should_not include('310505') # has cello b♭, but by J.S. Bach, not C.P.E. Bach
         resp_♭.should have_at_least(5).documents
       end
-      
+
       context "should not reduce perceived precision for reasonable non-musical searches with xb (lowercase b)" do
         # FIXME:  it's punctuation sensitive!
         it "ab oculis - title search" do
           resp = solr_response(title_search_args('ab oculis').merge!({'fl'=>'id,title_display', 'facet'=>false}))
-          resp.should include("title_display" => /ab oculis/i).in_each_of_first(20).documents
+          resp.should include("title_display" => /ab oculis/i).in_each_of_first(1).documents
           resp.should have_at_most(5).documents
         end
         it "bb. - title search" do
@@ -357,7 +357,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
           resp.should include("title_display" => /e. ?b. white/i).in_each_of_first(20).documents
           resp.should have_at_least(350).documents
         end
-        it "eb white", :fixme => true do 
+        it "eb white", :fixme => true do
           resp = solr_response({'q' => 'eb white', 'fl'=>'id,title_display', 'facet'=>false})
           resp.should include("title_display" => /e.? ?b.? white/i).in_each_of_first(10).documents
           resp.should have_at_least(10).documents
@@ -407,13 +407,13 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
 
   context "anchors" do
     context "both anchors (single word query or field value)" do
-      
+
     end
     context "left anchor only (beginning of query or field value)" do
-      
+
     end
     context "right anchor only(end of query or field value)" do
-      
+
     end
   end
 
