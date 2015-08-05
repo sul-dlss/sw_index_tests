@@ -53,13 +53,13 @@ describe "Korean Everything", :korean => true do
                         ]
     bigrams_in_245_wrong_order = ['9759439']
     context "사회변동 (no spaces)" do
-      it_behaves_like 'good results for query', 'everything', '사회변동', 55, 75, chars_together_in_245, 30, 'rows'=>50
+      it_behaves_like 'good results for query', 'everything', '사회변동', 55, 75, chars_together_in_245, 50, 'rows'=>70
       it_behaves_like 'best matches first', 'everything', '사회변동', bigrams_in_245_not_together, 65, 'rows'=>70
       it_behaves_like 'best matches first', 'everything', '사회변동', bigrams_in_245b, 75, 'rows'=>75
       it_behaves_like 'best matches first', 'everything', '사회변동', bigrams_in_245_wrong_order, 65, 'rows'=>70
     end
     context "phrase 사회변동 (no spaces)" do
-      it_behaves_like 'good results for query', 'everything', '"사회변동"', 25, 45, chars_together_in_245, 30, 'rows'=>40
+      it_behaves_like 'good results for query', 'everything', '"사회변동"', 25, 45, chars_together_in_245, 35, 'rows'=>45
     end
   end # Hangul: social change, VUF-2776
 

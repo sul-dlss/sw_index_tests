@@ -241,7 +241,7 @@ describe "Korean spacing", :korean => true do
   end # on the borderline
   context "World Inside Korea" do
     shared_examples_for "good results for 한국속의 세계" do | query |
-      it_behaves_like "good results for query", 'everything', query, 12, 550, '7906866', 1
+      it_behaves_like "good results for query", 'everything', query, 12, 600, '7906866', 1
     end
     context "한국속의 세계 (normal spacing)" do
       it_behaves_like "good results for 한국속의 세계", '한국속의 세계'
