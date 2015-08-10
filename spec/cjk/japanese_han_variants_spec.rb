@@ -96,7 +96,7 @@ describe "Japanese Kanji variants", :japanese => true do
 
     context "survey/investigation (kanji)", :jira => 'VUF-2727' do
       # second trad char isn't translated to modern by ICU trad-simp
-      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', ' 調查', 'modern', '調査', 7200, 12200
+      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', ' 調查', 'modern', '調査', 7200, 12500
       # exact title match
       it_behaves_like "matches in vern short titles first", 'everything', '調查', /^(調查|調査)[^[[:alnum:]]]*$/, 1
       it_behaves_like "matches in vern short titles first", 'everything', '調査', /^(調查|調査)[^[[:alnum:]]]*$/, 1

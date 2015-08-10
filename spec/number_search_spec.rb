@@ -4,9 +4,9 @@ describe "Number as Query String" do
   
   context "ISSN", :jira => 'VUF-169' do
     it "should work with or without the hyphen", :jira => 'VUF-404', :icu => true do
-      solr_resp_ids_from_query('1003-4730').should include(['6210309', '10515929']).in_first(2)
+      solr_resp_ids_from_query('1003-4730').should include(['6210309']).in_first(1)
       resp = solr_resp_ids_from_query '10034730'  # we now go this high in ckeys
-      resp.should include(['6210309', '10515929']).in_first(2)
+      resp.should include(['6210309']).in_first(1)
     end
     
     it "'The Nation' ISSN 0027-8378 should get perfect results with and without a hyphen", :icu => true do
