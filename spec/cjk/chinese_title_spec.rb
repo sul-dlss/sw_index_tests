@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 describe "Chinese Title", :chinese => true do
-  
+
   context "china economic policy", :jira => 'SW-100' do
     context "no spaces" do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '中國經濟政策', 'simplified', '中国经济政策', 75, 100
@@ -16,7 +16,7 @@ describe "Chinese Title", :chinese => true do
       it_behaves_like "matches in vern short titles first", 'title', '中國 經濟 政策', /(中國經濟政策|中国经济政策|中国経済政策史)/, 7
     end
   end
-  
+
   context "Chinese historical research, phrase", :jira => 'VUF-2775' do
     trad = '中國歷史研究'
     simp = '中国历史研究'
@@ -34,7 +34,7 @@ describe "Chinese Title", :chinese => true do
     it_behaves_like "matches in vern short titles first", 'title', '红楼梦', /^(紅樓夢|红楼梦|紅楼夢)[^[[:alpha:]]]*$/, 3
     it_behaves_like "matches in vern short titles first", 'title', '红楼梦', /(紅樓夢|红楼梦|紅楼夢|红楼夢)/, 40
   end
-  
+
   context "float (Gone with the Wind)" do
     # see chinese_unigram_spec
   end
@@ -50,7 +50,7 @@ describe "Chinese Title", :chinese => true do
       it_behaves_like "expected result size", 'title', ' 金 瓶 梅', 154, 175
     end
   end
-  
+
   context "history research", :jira => 'VUF-2771' do
     # see also chinese_han_variants spec, as the 3rd character isn't matching what's in the record
     context "no spaces" do
@@ -63,19 +63,19 @@ describe "Chinese Title", :chinese => true do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '"歷史研究"', 'simplified', '"历史研究"', 250, 325
     end
   end
-  
+
   context "national population survey", :jira => 'VUF-2745' do
     context "no spaces" do
       it_behaves_like "expected result size", 'title', '全国人口抽样调查', 7, 10
       it_behaves_like "matches in vern short titles first", 'title', '全国人口抽样调查', /全国.*人口抽样调查/, 5
       # FIXME:
       it_behaves_like "best matches first", 'title', '全国人口抽样调查', '10108596', 6  # actually not relevant -- checking that it's 6th here
-#      it_behaves_like "does not find irrelevant results", 'title', '全国人口抽样调查', '10108596'   
+#      it_behaves_like "does not find irrelevant results", 'title', '全国人口抽样调查', '10108596'
     end
     context "with space" do
       it_behaves_like "expected result size", 'title', '全国 人口抽样调查', 7, 10
       it_behaves_like "matches in vern short titles first", 'title', '全国人口抽样调查', /全国.*人口抽样调查/, 5
-      it_behaves_like "does not find irrelevant results", 'title', '全国 人口抽样调查', '10108596'   
+      it_behaves_like "does not find irrelevant results", 'title', '全国 人口抽样调查', '10108596'
     end
   end
 
@@ -255,28 +255,28 @@ describe "Chinese Title", :chinese => true do
       it_behaves_like "great search results for women marriage law" do
         let (:resp) { simp_resp }
       end
-    end    
+    end
   end # women marriage law
 
   shared_examples_for "great results for women marriage" do
     # woman:   traditional:  婦女    simplified:  妇女
     # marriage: 婚姻  (same for both)
     it "ranks highest docs with both words in 245a (though not adjacent)" do
-      resp.should include(["4222208", # woman (simp) 245a, 490a, 830a; marriage 245a (1 char between) 
+      resp.should include(["4222208", # woman (simp) 245a, 490a, 830a; marriage 245a (1 char between)
                           "4401219", #  woman 245a; marriage 245a   (3 chars between)
                           "4178814", # woman 245a; marriage 245a  (out of order w char between)
-                          ]).in_first(5).results
+                          ]).in_first(6).results
     end
     it "includes docs with both words in 245b" do
       # 7808424 - woman 245b, 246a; marriage 245b, 246a  (1 char between)
       resp.should include(["7808424"])
     end
     # Symph results from everything search 2012-11
-    #  妇女婚姻 no spaces    
+    #  妇女婚姻 no spaces
     #    SYMPH: 12  parsed to  妇女 same  婚姻   (same means same field)  2012-11
     #       9654720   woman 245a, 520a;  marriage 520a
     #       9229845   woman 245b, 246a;  marriage 245a
-    #       8716123   woman 245a;  marriage unlinked520a 
+    #       8716123   woman 245a;  marriage unlinked520a
     #       4401219   woman 245a;  marriage 245a
     #       4520813   woman 505a, 740a;  marriage 245a, 505a, 740a
     #       7808424   woman 245a, 246a;  marriage 245a, 246a
@@ -286,35 +286,35 @@ describe "Chinese Title", :chinese => true do
     #       6201069   woman (as  婦女) 505a;  marriage 505a
     #       6696574   woman (as  婦女) 110a;  marriage 245a
     #       6343505   woman (as  婦女) 245a;  marriage 505a
-    # 
+    #
     #  妇女 婚姻 space
     #   SYMPH: 20  parsed to  妇女 and  婚姻     2012-11
     #       9654720   woman 245a, 520a;  marriage 520a
     #       9229845   woman 245b, 246a;  marriage 245a
     #   NEW 8839221   woman 500a; marriage unlinked520a, 245a, 245a
-    #       8716123   woman 245a;  marriage unlinked520a 
+    #       8716123   woman 245a;  marriage unlinked520a
     #   NEW 8276633   woman 490a, 830a; marriage 245a
     #   NEW 8245869   woman (as 婦女) 490a, 830a; marriage 245a
-    #       4401219   woman 245a;  marriage 245a 
+    #       4401219   woman 245a;  marriage 245a
     #       4520813   woman 505a, 740a;  marriage 245a, 505a, 740a
     #       7808424   woman 245a, 246a;  marriage 245a, 246a
     #       4178814   woman 245a;  marriage 245a
     #       4222208   woman 245a, 490a, 830a;  marriage 245a
     #   NEW 4220723   woman 260b; marriage 245b
     #   NEW 4205664   woman 260b; marriage 245a
-    #       4207254   woman 245c, 260a, 710a;  marriage 245a, 245c, 710b 
+    #       4207254   woman 245c, 260a, 710a;  marriage 245a, 245c, 710b
     #       6201069   woman 505a (as  婦女);  marriage 505a
     #   NEW 6542987   woman (as 婦女) 260b, 710a; marriage 245a
     #       6696574   woman (as  婦女) 110a;  marriage 245a
     #   NEW 6543091   woman (as  婦女) 110a, 260b; marriage 245a
     #       6343505   woman (as  婦女) 245a;  marriage 505a
     #   NEW 6543322   woman (as  婦女) 245a, 260b, 500a; marriage 500a
-    
+
   end # shared examples  great results for women marriage (Han)
 
   context "women marriage" do
     context "no spaces" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '婦女婚姻', 'simplified', '妇女婚姻', 8, 12
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '婦女婚姻', 'simplified', '妇女婚姻', 8, 13
       trad_resp = cjk_query_resp_ids('title', '婦女婚姻')
       simp_resp = cjk_query_resp_ids('title', '妇女婚姻')
       it_behaves_like "great results for women marriage" do
@@ -324,9 +324,9 @@ describe "Chinese Title", :chinese => true do
         let (:resp) { simp_resp }
       end
       it "ranks higher docs with one word in 245a and the other in 245b" do
-        #  9229845 - woman 245b, 246a; marriage 245a 
-        expect(trad_resp).to  include("9229845").in_first(5).results
-        expect(simp_resp).to  include("9229845").in_first(5).results
+        #  9229845 - woman 245b, 246a; marriage 245a
+        expect(trad_resp).to  include("9229845").in_first(6).results
+        expect(simp_resp).to  include("9229845").in_first(6).results
       end
     end
     context "with space" do
@@ -340,7 +340,7 @@ describe "Chinese Title", :chinese => true do
         let (:resp) { simp_resp }
       end
       it "ranks higher docs with one word in 245a and the other in 245b" do
-        #  9229845 - woman 245b, 246a; marriage 245a 
+        #  9229845 - woman 245b, 246a; marriage 245a
         expect(trad_resp).to  include("9229845").in_first(4).results
         expect(simp_resp).to  include("9229845").in_first(4).results
       end
@@ -387,8 +387,8 @@ describe "Chinese Title", :chinese => true do
   context "Zhengzhou geography" do
     # see chinese_zhengzhou_geography_spec
   end
-  
+
   context "Zhongguo jin xian dai nü xing xue shu cong kan xu bian", :jira => 'VUF-2706' do
-    it_behaves_like "expected result size", 'title', ' 中國近現代女性學術叢刊續編', 5, 10    
+    it_behaves_like "expected result size", 'title', ' 中國近現代女性學術叢刊續編', 5, 10
   end
 end

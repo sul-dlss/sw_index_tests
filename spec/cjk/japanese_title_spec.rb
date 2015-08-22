@@ -10,7 +10,7 @@ describe "Japanese Title searches", :japanese => true do
     it_behaves_like "best matches first", 'title', 'ブロック化', '9855019', 1
   end
   context "buddhism", :jira => ['VUF-2724', 'VUF-2725'] do
-    # First char of traditional doesn't translate to first char of modern with ICU traditional->simplified 
+    # First char of traditional doesn't translate to first char of modern with ICU traditional->simplified
     # (traditional and simplified are the same;  modern is different)
     # (see also japanese han variants spec)
     it_behaves_like "both scripts get expected result size", 'title', 'traditional', '佛教', 'modern', '仏教', 2500, 2900
@@ -59,7 +59,7 @@ describe "Japanese Title searches", :japanese => true do
   context "historical records" do
     it_behaves_like "both scripts get expected result size", 'title', 'traditional', '古記錄', 'modern', '古記録', 120, 200
     it_behaves_like "both scripts get expected result size", 'title', 'traditional', '古記錄', 'modern', '古記録', 110, 126, lang_limit
-    it_behaves_like "matches in vern short titles first", 'title', '古記録', /古記錄|古記録/, 24, lang_limit  
+    it_behaves_like "matches in vern short titles first", 'title', '古記録', /古記錄|古記録/, 24, lang_limit
     it_behaves_like "matches in vern titles first", 'title', '古記録', /古記錄|古記録/, 26, lang_limit  # 4647977 at 27, which doesn't match 3 together
   end
   context "'humorous'  ユニークな", :jira => 'VUF-2753' do
@@ -82,7 +82,7 @@ describe "Japanese Title searches", :japanese => true do
     it_behaves_like "best matches first", 'title', 'ちょうちん屋', '10181601', 1   # in 245a
   end
   context "manga/comics", :jira => ['VUF-2734', 'VUF-2735'] do
-    it_behaves_like "both scripts get expected result size", 'title', 'hiragana', 'まんが', 'katakana', 'マンガ', 250, 350      
+    it_behaves_like "both scripts get expected result size", 'title', 'hiragana', 'まんが', 'katakana', 'マンガ', 250, 350
     it_behaves_like "matches in vern short titles first", 'title', 'まんが', /まんが|マンガ/, 100
     it_behaves_like "matches in vern titles", 'title', 'まんが', /まんが/, 20 # hiragana script is in results
     it_behaves_like "matches in vern titles", 'title', 'マンガ', /マンガ/, 20 # katagana script is in results
@@ -92,7 +92,7 @@ describe "Japanese Title searches", :japanese => true do
     it_behaves_like "matches in vern titles", 'title', '漫畫', /漫畫/, 20 # traditional script is in results
   end
   context "painting dictionary", :jira => 'VUF-2697' do
-    # FIXME:  first character of traditional doesn't translate to first char of 
+    # FIXME:  first character of traditional doesn't translate to first char of
     #  modern with ICU traditional->simplified    (see also japanese han variants)
     context "traditional" do
       it_behaves_like "good results for query", 'title', '繪畫辞典', 1, 1, '8448289', 1
@@ -132,7 +132,7 @@ describe "Japanese Title searches", :japanese => true do
   context "survey/investigation", :jira => 'VUF-2727' do
     # second trad char isn't translated to modern with ICU trad -> simp
     # (see also japanese han variants)
-    it_behaves_like "both scripts get expected result size", 'title', 'traditional', ' 調查', 'modern', '調査', 7000, 8000
+    it_behaves_like "both scripts get expected result size", 'title', 'traditional', ' 調查', 'modern', '調査', 7500, 8500
     # exact title match
     it_behaves_like "matches in vern short titles first", 'title', '調查', /^(調查|調査)[^[[:alnum:]]]*$/, 1 # trad
     it_behaves_like "matches in vern short titles first", 'title', '調査', /^(調查|調査)[^[[:alnum:]]]*$/, 1 # mod
