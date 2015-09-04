@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe "boolean operators" do
-  
+
   # TODO: more better tests for lowercase and?
   context "default operator:  AND" do
 
@@ -25,14 +25,14 @@ describe "boolean operators" do
         resp.should have_more_documents_than(solr_resp_doc_ids_only(author_search_args('leonard michaels')))
       end
     end
-    
+
     context "title search" do
       it "more search terms should get fewer results" do
         resp = solr_resp_doc_ids_only(title_search_args('turtles'))
         resp.should have_more_documents_than(solr_resp_doc_ids_only(title_search_args('sea turtles')))
       end
     end
-    
+
     it "across MARC fields (author and title)" do
       resp = solr_resp_ids_from_query 'gulko sea turtles'
       resp.should have(1).document
@@ -41,7 +41,7 @@ describe "boolean operators" do
       resp.should have(2).document
       resp.should include("5958831")
     end
-    
+
     context "5 terms with AND" do
       before(:all) do
         @resp = solr_resp_ids_from_query 'Catholic thought AND papal jewry policy'
@@ -54,7 +54,7 @@ describe "boolean operators" do
         @resp.should have_the_same_number_of_documents_as(solr_resp_ids_from_query 'Catholic thought and papal jewry policy')
       end
     end
-    
+
     context "history man by malcolm bradbury", :jira => 'SW-805' do
       # lowercase and is considered a query term
       it "history man and bradbury", :fixme => true do
@@ -81,7 +81,7 @@ describe "boolean operators" do
         resp = solr_resp_ids_from_query 'history man'
         resp.should include('1433520').in_first(3)
       end
-    end 
+    end
 
     it "lower case 'and' behaves like upper case AND", :jira => 'VUF-626' do
       resp = solr_resp_ids_from_query 'South Africa, Shakespeare AND post-colonial culture'
@@ -90,9 +90,9 @@ describe "boolean operators" do
       resp2.should include(["8505958", "4745861", "7837826", "7756621"])
       resp.should have_the_same_number_of_documents_as(resp2)
     end
-    
+
   end # context AND
-  
+
   # TODO: what about lowercase not?
 
   context "NOT operator" do
@@ -107,7 +107,7 @@ describe "boolean operators" do
       it "should not have unexpected results" do
         @resp.should_not include(un_exp_ids)
       end
-      it "query that includes term should match unexpected ids" do 
+      it "query that includes term should match unexpected ids" do
         # or we don't have good unexpected ids for the test
         resp_w_term = solr_resp_ids_from_query query.sub(' NOT ', ' ')
         resp_w_term.should include(un_exp_ids)
@@ -121,7 +121,7 @@ describe "boolean operators" do
         @resp.should have_the_same_number_of_documents_as(solr_resp_ids_from_query query.sub(' NOT ', ' -'))
       end
     end # shared examples for NOT in query
-    
+
     #  per Google Analytics mid-April - mid- May 2013
     context "actual user queries" do
       # the following is busted due to Solr edismax bug
@@ -139,7 +139,7 @@ describe "boolean operators" do
       #   THE BEAUTYFUL ONES ARE NOT YET BORN
       #   WHY SOME THINGS SHOULD NOT BE FOR SALE
     end
-    
+
     context "twain NOT sawyer" do
       before(:all) do
         @resp = solr_resp_ids_from_query 'twain NOT sawyer'
@@ -157,9 +157,9 @@ describe "boolean operators" do
       before(:all) do
         @resp = solr_resp_ids_from_query 'mark twain NOT "tom sawyer"'
       end
-      
+
       it "should have no results with 'tom sawyer' as a phrase" do
-        resp = solr_response({'q'=>'mark twain NOT "tom sawyer"', 'fl'=>'id,title_245a_display', 'facet'=>false}) 
+        resp = solr_response({'q'=>'mark twain NOT "tom sawyer"', 'fl'=>'id,title_245a_display', 'facet'=>false})
         @resp.should have_at_least(1400).documents
         resp.should_not include("title_245a_display" => /tom sawyer/i).in_each_of_first(20).documents
       end
@@ -208,11 +208,11 @@ describe "boolean operators" do
         resp = solr_resp_ids_from_query 'mark twain NOT tom sawyer' # 0 documents
         resp.should have_at_least(1400).documents
       end
-    end    
+    end
   end # context NOT
-   
+
   # TODO: what about lowercase or ?
-  
+
   context "OR" do
     #  per Google Analytics mid-April - mid- May 2013
     context "actual user queries" do
@@ -247,7 +247,7 @@ describe "boolean operators" do
           @indochine.should_not include(indochina_results)
         end
       end
-=begin      
+=begin
       context "sanitation ethiopia OR addis" do
         pending "to be implemented"
       end
@@ -261,20 +261,20 @@ describe "boolean operators" do
       #   JOEL-PETER WITKIN: ENFER OU CIEL/HEAVEN OR HELL.
       #   WITKIN: ENFER OU CIEL/HEAVEN OR HELL.
       #   WITKIN: HEAVEN OR HELL.
-=end      
+=end
     end # actual user queries
-    
+
     it "lesbian OR gay videos", :jira => ['VUF-300', 'VUF-301', 'VUF-311'] do
       resp = solr_resp_doc_ids_only({'q' => 'lesbian OR gay', 'fq'=>'format:Video'})
       resp.should have_at_least(800).results
       resp.should have_at_most(1300).results
     end
-    
+
     context "street art and graffiti", :jira => 'VUF-1013' do
       it '((street art) OR graffiti) AND aspects' do
         resp = solr_resp_doc_ids_only(subject_search_args '((street art) OR graffiti) AND aspects')
         resp.should have_at_least(3000).results
-        resp.should have_at_most(3600).results
+        resp.should have_at_most(3700).results
       end
       it '("street art" OR graffiti) AND aspects' do
         resp = solr_resp_doc_ids_only(subject_search_args '("street art" OR graffiti) AND aspects')
@@ -282,7 +282,7 @@ describe "boolean operators" do
         resp.should have_at_most(40).results
       end
     end
-    
+
     context "nested OR within NOT as subject", :jira => 'VUF-1387' do
       it "digestive organs" do
         resp = solr_resp_doc_ids_only(subject_search_args 'digestive organs')
@@ -312,5 +312,5 @@ describe "boolean operators" do
       end
     end # nested OR within NOT
   end # context OR
-  
+
 end

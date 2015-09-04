@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe "advanced search" do
-  
+
   context "title with boolean", :jira => 'SW-939' do
     context "color OR colour photography", :jira => 'SW-939' do
       before(:all) do
@@ -66,7 +66,7 @@ describe "advanced search" do
       end
     end
   end
-  
+
   context "subject and keyword" do
     context "subject street art OR graffiti", :jira => 'VUF-1013' do
       # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a OR
@@ -150,7 +150,7 @@ describe "advanced search" do
       end
     end
   end # subject and keyword
-  
+
   context "author" do
     context 'author phrase "Institute for Mathematical Studies in the Social Sciences"', :jira => 'VUF-1698' do
       before(:all) do
@@ -173,7 +173,7 @@ describe "advanced search" do
       end
     end
   end # author
-  
+
   context "author + title" do
     context "author title: history man by malcolm bradbury", :jira => 'SW-805' do
       it "author" do
@@ -193,7 +193,7 @@ describe "advanced search" do
         resp.should have_at_most(3).results
       end
     end
-    
+
     context "author Stalin title 'rechi OR sochineniia'", :jira => 'VUF-1381' do
       before(:all) do
         @author_resp = solr_resp_doc_ids_only({'q'=>"#{author_query('stalin')}"}.merge(solr_args))
@@ -245,7 +245,7 @@ describe "advanced search" do
       end
     end
   end # author + title
-  
+
   context "author + keyword" do
     context "author campana, keywords storia e letteratura", :jira => 'VUF-2468' do
       before(:all) do
@@ -270,7 +270,7 @@ describe "advanced search" do
       end
     end
   end # author + keyword
-  
+
   context "nested NOT in subject", :jira => 'VUF-1387' do
     it "digestive organs" do
       resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('digestive organs')}"}.merge(solr_args))
@@ -303,7 +303,7 @@ describe "advanced search" do
       resp.should have_at_most(250).results
     end
   end
-  
+
   # summary/ToC is no more - see INDEX-111;  this is left here for historical purposes
   context "summary/ToC", :fixme => true do
     it "robert morris", :jira => "VUF-912" do
@@ -312,7 +312,7 @@ describe "advanced search" do
       resp.should have_at_most(675).results
     end
   end
-  
+
   context "pub info" do
 
     it "publisher and place and year", :jira => 'SW-202' do
@@ -331,8 +331,8 @@ describe "advanced search" do
       it "subject without 'and'" do
         resp = solr_resp_doc_ids_only({'q'=>"#{subject_query('soviet union historiography')}"}.merge(solr_args))
         resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args 'soviet union historiography'))
-        resp.should have_at_least(875).results
-        resp.should have_at_most(950).results
+        resp.should have_at_least(900).results
+        resp.should have_at_most(1000).results
       end
       it "pub info 2010" do
         resp = solr_resp_doc_ids_only({'q'=>"#{pub_info_query('2010')}"}.merge(solr_args))
@@ -384,7 +384,7 @@ describe "advanced search" do
       end
     end # subject + pub info
   end # pub info
-    
+
   context "number search" do
     it "should allow barcode searches", :jira => 'SW-682' do
       resp = solr_resp_doc_ids_only({'q'=>"#{number_query('36105041286266')}"}.merge(solr_args))
@@ -392,7 +392,7 @@ describe "advanced search" do
       resp.should have_at_most(3).results
     end
   end
-  
+
   context "facets" do
     context "format video, location green, language english", :jira => 'VUF-2460' do
       before(:all) do
@@ -414,7 +414,7 @@ describe "advanced search" do
       end
     end
   end
-  
+
   def title_query terms
     '_query_:"{!edismax qf=$qf_title pf=$pf_title pf3=$pf3_title pf2=$pf2_title}' + terms + '"'
   end

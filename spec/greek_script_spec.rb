@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 describe "Greek script" do
-  
+
   context "alpha A α" do
     it "α in και" do
       resp = solr_response({'q'=>"και", 'fl'=>'id,vern_title_245a_display', 'facet'=>false})
@@ -36,13 +36,13 @@ describe "Greek script" do
     it "Η as a word" do
       resp = solr_response({'q'=>"Η", 'fl'=>'id,vern_title_full_display', 'facet'=>false})
       resp.should have_at_least(8).documents
-      resp.should include("vern_title_full_display" => /\bΗ\b/i).in_each_of_first(8).documents
+      resp.should include("vern_title_full_display" => /\bΗ\b/i).in_each_of_first(3).documents
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'η'}))
     end
     it "η in τη" do
       resp = solr_response({'q'=>"τη", 'fl'=>'id,vern_title_full_display', 'facet'=>false})
       resp.should have_at_least(2).documents
-      resp.should include("vern_title_full_display" => /\bτη\b/i).in_each_of_first(2).documents
+      resp.should include("vern_title_full_display" => /\bτη\b/i).in_each_of_first(1).documents
       resp.should include("7881455", "7881464")
       resp.should have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'τΗ'}))
     end
@@ -115,21 +115,21 @@ describe "Greek script" do
 #  context "chi Χ χ" do
 #  context "psi Ψ ψ" do
 #  context "omega Ω ω" do
-  
-  
+
+
   it "επιμελεια" do
     resp = solr_resp_doc_ids_only({'q'=>'επιμελεια'})
     resp.should include(["8774108", "7822463", "7739251", "7739278", "7901590", "8923317"])
   end
-  
+
   it "εκδοσης" do
     resp = solr_resp_doc_ids_only({'q'=>'εκδοσης'})
     resp.should include(["7822463", "7739278"])
   end
-    
+
   it "Βυζαντιο" do
     resp = solr_resp_doc_ids_only({'q'=>'Βυζαντιο'})
     resp.should include(["7822463", "7881455",  "7902361"])
   end
-    
+
 end

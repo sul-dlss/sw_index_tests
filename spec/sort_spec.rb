@@ -18,26 +18,26 @@ describe "sorting results" do
 #      resp.should include("pub_date" => /(#{year}|#{year + 1}|#{year + 2})/).in_each_of_first(20).documents
       resp = solr_response({'fq'=>'format_main_ssim:Book', 'fl'=>'id,pub_date,imprint_display,title_245a_display', 'facet'=>false, 'rows'=>60})
       docs_match_current_year resp
-      # _Dermatopathology_ (imprint 2016/ pub_date (008) as 2016) before _The five disciplines of intelligence collection_ (imprint 2016/ pub_date as 2016)
-      resp.should include('11238182').before('10766632')
+      # _The collaborative analysis of student learning_ (imprint 2016/ pub_date (008) as 2016) before _Communicating advice_ (imprint 2016/ pub_date as 2016)
+      resp.should include('11233943').before('11392459')
     end
-    
+
     it "with facet access:Online; default sort should be by pub date desc then title asc" do
       resp = solr_response({'fq'=>'access_facet:Online', 'fl'=>'id,pub_date', 'facet'=>false})
       resp.should_not include('7342') # Solidarité, 1902
-    end    
+    end
   end # empty query
-  
+
   def docs_match_current_year resp
     year = Time.new.year
     year_regex_str = "#{year}|#{year + 1}|#{year + 2}"
-    resp["response"]["docs"].each { |doc| 
+    resp["response"]["docs"].each { |doc|
       imprint = doc['imprint_display'] ? doc['imprint_display'].join : ""
       date = doc['pub_date'] ? doc['pub_date'] : ""
       expect((imprint.match(year_regex_str) if imprint) || date.match('century') || date.match(year_regex_str)).not_to be_nil, "expected current publication year for #{doc["id"]}"
     }
    end
-  
+
   context "pub dates should not be 0000 or 9999" do
     it "should not have earliest pub date of 0000" do
       resp = solr_response({'fq'=>'format_main_ssim:Book', 'fl'=>'id,pub_date', 'sort'=>'pub_date asc', 'facet'=>false})
@@ -50,7 +50,7 @@ describe "sorting results" do
   end
 
 =begin
-  # these are TODO  
+  # these are TODO
   Scenario: Spaces should be significant
   Scenario: Case / Capitalization should have no effect on sorting
   Scenario: Punctuation should not affect sorting
@@ -58,7 +58,7 @@ describe "sorting results" do
   # super scripts;  what about $, %, etc.
 
   Scenario: Letters with and without diacritics should be interfiled
-    # TODO:  diacritics in first character;  subsequent characters  
+    # TODO:  diacritics in first character;  subsequent characters
   Scenario: Polish L should sort properly
   Scenario: Znaks, hard and soft, should be ignored for sorting
     # More information needed about znaks: is this a character?  a diacritic?  Should any occurrence be ignored?
@@ -77,7 +77,7 @@ describe "sorting results" do
   Scenario: Korean - something about spaces vs. no space (?)
   Scenario: Hebrew alif and ayn should be ignored for sorting
     # TODO:  as first character only, or as any character?
-    # TODO:  transliteration vs. hebrew script ... 
+    # TODO:  transliteration vs. hebrew script ...
 
 
   Scenario: Combination of non-filing characters and diacritics in first character should sort properly.

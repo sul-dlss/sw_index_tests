@@ -3,30 +3,30 @@
 require 'spec_helper'
 
 describe "Series Search" do
-  
+
   it "lecture notes in computer science" do
     resp = solr_resp_doc_ids_only(series_search_args 'lecture notes in computer science')
     resp.should have_at_least(7500).results
     resp.should have_at_most(9000).results
   end
-  
+
   it "Lecture notes in statistics (Springer-Verlag)", :jira => 'VUF-1221' do
     resp = solr_resp_doc_ids_only(series_search_args 'Lecture notes in statistics (Springer-Verlag)')
     resp.should have_at_least(175).results
     resp.should have_at_most(300).results
   end
-  
+
   it "Japanese journal of applied physics" do
     resp = solr_resp_doc_ids_only(series_search_args 'Japanese journal of applied physics')
     resp.should have_at_least(15).results
     resp.should have_at_most(30).results
   end
-  
+
   it "Grundlagen der Medienkommunikation", :jira => 'VUF-511' do
     resp = solr_resp_doc_ids_only(series_search_args 'Grundlagen der Medienkommunikation')
     resp.should have_at_least(9).documents
   end
-  
+
   context "Cahiers series", :jira => 'VUF-1031' do
     before(:all) do
       @exp_ids = ['8787894', '9503087', '10192127']
@@ -35,7 +35,7 @@ describe "Series Search" do
       resp = solr_resp_doc_ids_only(series_search_args '"Cahiers series"')
       resp.should have_at_least(30).results
       resp.should include(@exp_ids)
-      resp.should have_at_most(60).results
+      resp.should have_at_most(70).results
     end
     it "everything search, phrase" do
       resp = solr_resp_ids_from_query '"Cahiers series"'
@@ -64,7 +64,7 @@ describe "Series Search" do
       resp.should have_at_most(125).results
     end
   end
-  
+
   context "Macmillan series in applied computer science", :jira => 'VUF-170' do
     it "series search, phrase" do
       resp = solr_resp_doc_ids_only(series_search_args '"Macmillan series in applied computer science."')
@@ -82,7 +82,7 @@ describe "Series Search" do
       resp.should have_at_most(125).results
     end
   end
-  
+
   context "New Cambridge History of Islam", :jira => 'SW-830' do
     it "series search, phrase" do
       resp = solr_resp_doc_ids_only(series_search_args '"New Cambridge History of Islam"')
@@ -95,7 +95,7 @@ describe "Series Search" do
       resp.should have_at_most(15).results
     end
   end
-  
+
   context "Royal Institution Library of Science", :jira => 'VUF-1685' do
     it "series search, phrase" do
       resp = solr_resp_doc_ids_only(series_search_args '"Royal Institution Library of Science."')
@@ -134,7 +134,7 @@ describe "Series Search" do
       resp.should include(['5709847', '4075051', '3865171', '10338326', '7146913'])
     end
   end
-  
+
   context "inclusion of series publication number", :jira => 'VUF-925' do
     it "series search, 490 field" do
       resp = solr_resp_doc_ids_only(series_search_args 'its proceedings 31')

@@ -4,11 +4,11 @@ require 'spec_helper'
 describe "CJK Advanced Search" do
   # in a non-CJK aware world, the only matches are ones where the whitespace matches.
   # in a CJK-aware world, matches also include word boundaries that aren't denoted by whitespace
-  # in a CJK-aware advanced search, we should get matches that are only in the desired fields 
+  # in a CJK-aware advanced search, we should get matches that are only in the desired fields
   #   AND the matches shouldn't require whitespace for word boundaries
-  
+
   # NOTE:  title, author, subject and series  CJK qf and pf are tested elsewhere
-  
+
   context "Publication Info" do
     context "Publisher: Akatsuki Shobō  曉書房" do
       before(:all) do
@@ -27,7 +27,7 @@ describe "CJK Advanced Search" do
         @resp.should include('6668315').in_first(20).documents
       end
     end
-    
+
     context "Publisher: Mineruba Shobō  ミネルヴァ 書房" do
       before(:all) do
         @resp = cjk_adv_solr_resp({'q'=>"#{cjk_pub_info_query('ミネルヴァ 書房')}"}.merge(solr_args))
@@ -43,11 +43,11 @@ describe "CJK Advanced Search" do
         @resp.should include(exact_matches).in_first(exact_matches.size).documents
       end
       it "matches without spaces present" do
-        no_space_exact_matches = ['11063470', '11081863']  # 2 out of many
+        no_space_exact_matches = ['11063470', '11383336']  # 2 out of many
         @resp.should include(no_space_exact_matches).in_first(20).documents
       end
     end
-    
+
     context "Place:  Okinawa-ken Ginowan-shi  沖縄県宜野湾市" do
       before(:all) do
         @resp = cjk_adv_solr_resp({'q'=>"#{cjk_pub_info_query('沖縄県宜野湾市')}"}.merge(solr_args))
@@ -66,7 +66,7 @@ describe "CJK Advanced Search" do
         @resp.should include(inexact_matches).in_first(20).documents
       end
     end
-    
+
     context "Unigram" do
       it "Place: Tsu (津):  num expected" do
         resp = cjk_adv_solr_resp({'q'=>"#{cjk_pub_info_query('tsu 津')}"}.merge(solr_args))
@@ -78,9 +78,9 @@ describe "CJK Advanced Search" do
         resp.should have_at_least(50).documents # matches 19 wo cjk search fields
         resp.should have_at_most(3650).documents # 6560 match everything search
       end
-    end    
+    end
   end # Publication Info
-  
+
   # summary/ToC is no more - see INDEX-111;  this is left here for historical purposes
   context "Summary/ToC", :fixme => true do
     context "ToC: Haiku futabashū  俳句二葉集" do
@@ -97,7 +97,7 @@ describe "CJK Advanced Search" do
         @resp.should include(exact_matches).in_first(exact_matches.size).documents
       end
       it "matches without spaces present" do
-        no_space_exact_matches = ['6305856', '6626759'] 
+        no_space_exact_matches = ['6305856', '6626759']
         @resp.should include(no_space_exact_matches).in_first(5).documents
       end
     end
@@ -105,7 +105,7 @@ describe "CJK Advanced Search" do
       before(:all) do
         @resp = cjk_adv_solr_resp({'q'=>"#{cjk_summary_query('陝甘寧邊區')}"}.merge(solr_args))
       end
-      no_space_exact_matches = ['6326387', '6328507', '8795876', '9134891', '6514338', '6723694', '6723782', '6298281'] 
+      no_space_exact_matches = ['6326387', '6328507', '8795876', '9134891', '6514338', '6723694', '6723782', '6298281']
       it "num expected" do
         # there are 0 exact matches as of 2013-10-29; these are the only ones found w/o cjk search fields
         @resp.should have_at_least(no_space_exact_matches.size).documents
@@ -116,7 +116,7 @@ describe "CJK Advanced Search" do
       end
     end
   end
-  
+
   context "Description (catchall only)" do
     it "Ningxia Border Region ( 陝甘寧邊區) num expected" do
       resp = cjk_adv_solr_resp({'q'=>"#{cjk_everything_query('陝甘寧邊區')}"}.merge(solr_args))
@@ -126,10 +126,10 @@ describe "CJK Advanced Search" do
     it "Tsu (津):  num expected" do
       resp = cjk_adv_solr_resp({'q'=>"#{cjk_everything_query('津')}"}.merge(solr_args))
       resp.should have_at_least(30).documents # matches 22 wo cjk search fields
-      resp.should have_at_most(8000).documents 
+      resp.should have_at_most(8000).documents
     end
   end
-  
+
   context "combining fields" do
     context "title + author" do
       context "title Nihon seishin seisei shiron (日本精神生成史論), author Shigeo Suzuki (鈴木重雄)" do
@@ -201,14 +201,14 @@ describe "CJK Advanced Search" do
       end
     end
   end
-  
-  
-private  
-  
+
+
+private
+
   # send a GET request to the indicated Solr request handler with the indicated Solr parameters
   # @param solr_params [Hash] the key/value pairs to be sent to Solr as HTTP parameters
-  # @param req_handler [String] the pathname of the desired Solr request handler (defaults to 'select') 
-  # @return [RSpecSolr::SolrResponseHash] object for rspec-solr testing the Solr response 
+  # @param req_handler [String] the pathname of the desired Solr request handler (defaults to 'select')
+  # @return [RSpecSolr::SolrResponseHash] object for rspec-solr testing the Solr response
   def cjk_adv_solr_resp(solr_params, req_handler='select')
     q_val = solr_params['q']
     if num_cjk_uni(q_val) == 0
@@ -218,11 +218,11 @@ private
         qf_pf_args = $1
         terms = $2
       end
-      RSpecSolr::SolrResponseHash.new(solr_conn.send_and_receive(req_handler, {:method => :get, 
+      RSpecSolr::SolrResponseHash.new(solr_conn.send_and_receive(req_handler, {:method => :get,
         :params => solr_params.merge(solr_args).merge(cjk_mm_qs_params(terms ? terms : q_val))}))
     end
   end
-  
+
   def cjk_everything_query terms
     '_query_:"{!edismax qf=$qf_cjk pf=$pf_cjk pf3=$pf3_cjk pf2=$pf2_cjk}' + terms + '"'
   end
