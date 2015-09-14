@@ -5,8 +5,8 @@ describe "Chinese Han variants", :chinese => true do
 
   context "Guangxu (pinyin input method vs our data)", :jira => ['VUF-2757', 'VUF-2751'] do
     # The Unicode code point of the "with dot" version (緖) is U+7DD6. And the code point for the "without dot" version (緒) is U+7DD2
-    # In the Unicode standard, it is the "without dot" version (U+7DD2) that is linked to the simplified form (U+7EEA). The "with dot" version is not. 
-    # We have more records with the "with dot" version than the "without dot" version. 
+    # In the Unicode standard, it is the "without dot" version (U+7DD2) that is linked to the simplified form (U+7EEA). The "with dot" version is not.
+    # We have more records with the "with dot" version than the "without dot" version.
     #   added  7DD6 -> 7DD2 mapping
     it_behaves_like "both scripts get expected result size", 'everything', 'with dot', '光緖', 'without dot', '光緒', 5000, 6000
     it_behaves_like "both scripts get expected result size", 'everything', 'traditional (with dot)', '光緖', 'simplified', '光绪', 5000, 6000
@@ -21,9 +21,9 @@ describe "Chinese Han variants", :chinese => true do
       it_behaves_like "expected result size", 'everything', '光绪', 5000, 6000
     end
   end
-  
+
   context "Hiroshi", :jira => 'VUF-2760' do
-    #  廣甯縣 
+    #  廣甯縣
     # desire:  first and second chars 廣寧   become  广宁
     # first char  廣 (U+5EE3) => becomes  广 (U+5E7F)
     # added variant  甯 752F => standard trad 寧 5BE7, which does map to   宁 (U+5B81)
@@ -40,7 +40,7 @@ describe "Chinese Han variants", :chinese => true do
     it_behaves_like "great matches for Hiroshi", trad
     it_behaves_like "great matches for Hiroshi", simp
   end
-  
+
   context "history research" do
     # the 3rd character
     #  历史硏究   硏  U+784F   in the records   6433575, 9336336
@@ -50,7 +50,7 @@ describe "Chinese Han variants", :chinese => true do
       it_behaves_like "matches in vern short titles first", query_type, query, /^歷史(硏|研)究$/, 2
     end
     context "no spaces" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '歷史研究', 'simplified', '历史研究', 562, 1600
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '歷史研究', 'simplified', '历史研究', 562, 1700
       it_behaves_like "great matches for history research", 'title', '歷史研究'
       it_behaves_like "great matches for history research", 'title', '历史研究'
     end
@@ -65,7 +65,7 @@ describe "Chinese Han variants", :chinese => true do
       it_behaves_like "great matches for history research", 'title', '"历史研究"'
     end
   end
-  
+
   context "International Politics Quarterly", :jira => 'VUF-2691' do
     # the fifth character is different:  the traditional character is not xlated to the simple one
     #   correct mapping of 緖 784F (variant) => 研 7814 (std trad)
@@ -77,7 +77,7 @@ describe "Chinese Han variants", :chinese => true do
     it_behaves_like "best matches first", 'title', '國際政治硏究', '7106961', 2
     it_behaves_like "best matches first", 'title', '国际政治研究', '7106961', 2
   end
-  
+
   context "xi ju yan jiu", :jira => 'VUF-2798' do
     # 1st char:   戲 (U+6232)  which can be  戯 (U+622F), 戱 (U+6231) or 戏 (U+620F)
     #  added  戯 6231 (variant) => 戲 6232 (std trad)
@@ -95,7 +95,7 @@ describe "Chinese Han variants", :chinese => true do
     desired_results = ['10160893', '9589465', '9646016']
     qtrad = '嶽州府志'
     qsimp = '岳州府志'
-    it_behaves_like "both scripts get expected result size", 'title', 'traditional', qtrad, 'simplified', qsimp, 3, 10 
+    it_behaves_like "both scripts get expected result size", 'title', 'traditional', qtrad, 'simplified', qsimp, 3, 10
     it_behaves_like "best matches first", 'title', qtrad, desired_results, 6
     it_behaves_like "best matches first", 'title', qsimp, desired_results, 6
   end
@@ -111,17 +111,17 @@ describe "Chinese Han variants", :chinese => true do
   end
 
   context "嶽 5DBD (std trad) => 岳 5CB3 (simp)" do
-    it_behaves_like "both scripts get expected result size", 'title', 'traditional', '富嶽', 'simplified', '富岳', 3, 10 
+    it_behaves_like "both scripts get expected result size", 'title', 'traditional', '富嶽', 'simplified', '富岳', 3, 10
   end
 
   context "囯 56EF (variant) => 國 570B (std trad)" do
-    it_behaves_like "both scripts get expected result size", 'title', 'variant', '国家の', 'std trad', '國家の', 800, 900 
+    it_behaves_like "both scripts get expected result size", 'title', 'variant', '国家の', 'std trad', '國家の', 800, 900
   end
-  
+
   context "戯 6231 (variant) => 戲 6232 (std trad)" do
-    it_behaves_like "both scripts get expected result size", 'everything', 'variant', '戯作文学', 'std trad', '戏作文学', 5, 12 
+    it_behaves_like "both scripts get expected result size", 'everything', 'variant', '戯作文学', 'std trad', '戏作文学', 5, 12
   end
-  
+
   context "敎 654E (variant) => 教 6559 (std trad)" do
     # FIXME:  these do not give the same numbers of results.
     #it_behaves_like "both scripts get expected result size", 'title', 'variant', '敎育', 'std trad', '教育', 3000, 3500, {'fq'=>'language:Japanese'}
@@ -129,7 +129,7 @@ describe "Chinese Han variants", :chinese => true do
     it_behaves_like "expected result size", 'title', '教育', 3000, 3600, {'fq'=>'language:Japanese'}  # std trad
 
   end
-  
+
   context "甯 752F (variant) => 寧 5BE7 (std trad)" do
     it_behaves_like "both scripts get expected result size", 'title', 'variant', '丁甯語の', 'std trad', '丁寧語の', 1, 5
   end
