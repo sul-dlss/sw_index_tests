@@ -399,17 +399,36 @@ describe "advanced search" do
       end
       it "before topics selected" do
         resp = solr_resp_doc_ids_only({'fq' => 'format:("Video"), language:("English"), building_facet:("Green")', 'q'=>'collection:*'}.merge(solr_args))
-        resp.should have_at_least(37000).results
-        resp.should have_at_most(38000).results
+        resp.should have_at_least(1000).results
+        resp.should have_at_most(3000).results
       end
       it "add topic feature films" do
         resp = solr_resp_doc_ids_only({'fq' => 'format:("Video"), language:("English"), building_facet:("Green"), topic_facet:("Feature films")', 'q'=>'collection:*'}.merge(solr_args))
-        resp.should have_at_least(18500).results
-        resp.should have_at_most(19500).results
+        resp.should have_at_least(500).results
+        resp.should have_at_most(1000).results
       end
       it "add topic science fiction" do
         resp = solr_resp_doc_ids_only({'fq' => 'format:("Video"), language:("English"), building_facet:("Green"), topic_facet:("Feature films"), topic_facet:("Science fiction films")', 'q'=>'collection:*'}.merge(solr_args))
-        resp.should have_at_least(525).results
+        resp.should have_at_least(40).results
+        resp.should have_at_most(60).results
+      end
+    end
+    context "format video, location Media Microtext, language english" do
+      before(:all) do
+      end
+      it "before topics selected" do
+        resp = solr_resp_doc_ids_only({'fq' => 'format:("Video"), language:("English"), building_facet:("Media & Microtext Center")', 'q'=>'collection:*'}.merge(solr_args))
+        resp.should have_at_least(30000).results
+        resp.should have_at_most(40000).results
+      end
+      it "add topic feature films" do
+        resp = solr_resp_doc_ids_only({'fq' => 'format:("Video"), language:("English"), building_facet:("Media & Microtext Center"), topic_facet:("Feature films")', 'q'=>'collection:*'}.merge(solr_args))
+        resp.should have_at_least(10000).results
+        resp.should have_at_most(20000).results
+      end
+      it "add topic science fiction" do
+        resp = solr_resp_doc_ids_only({'fq' => 'format:("Video"), language:("English"), building_facet:("Media & Microtext Center"), topic_facet:("Feature films"), topic_facet:("Science fiction films")', 'q'=>'collection:*'}.merge(solr_args))
+        resp.should have_at_least(500).results
         resp.should have_at_most(650).results
       end
     end
