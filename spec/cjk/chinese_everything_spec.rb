@@ -8,19 +8,19 @@ describe "Chinese Everything", :chinese => true do
     it_behaves_like "matches in vern short titles first", 'everything', '中國經濟政策', /^中國經濟政策$/, 1
     it_behaves_like "matches in vern short titles first", 'everything', '中國經濟政策', /(中國經濟政策|中国经济政策|中国経済政策史)/, 7
     context "with spaces" do
-      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '中國 經濟 政策', 'simplified', '中国 经济 政策', 250, 300
+      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '中國 經濟 政策', 'simplified', '中国 经济 政策', 250, 350
       it_behaves_like "matches in vern short titles first", 'everything', '中國 經濟 政策', /^中國經濟政策$/, 1
       it_behaves_like "matches in vern short titles first", 'everything', '中國 經濟 政策', /(中國經濟政策|中国经济政策|中国経済政策史)/, 7
     end
   end
-  
+
   context "contemporary china economic study", :jira => 'VUF-2767' do
     trad = '當代中國經濟研究'
     simp = '当代中国经济研究'
     it_behaves_like "both scripts get expected result size", 'everything', 'traditional', trad, 'simplified', simp, 12, 140
     it_behaves_like "best matches first", 'everything', simp, '4188269', 4
-    it_behaves_like "best matches first", 'everything', simp, 
-            ['4164852', '4188269', '10153644', '8225832', '4335450', '4185340', 
+    it_behaves_like "best matches first", 'everything', simp,
+            ['4164852', '4188269', '10153644', '8225832', '4335450', '4185340',
               '10097344', '6319540', '4167881', '4166036', '6370106'], 15
   end
 
@@ -30,7 +30,7 @@ describe "Chinese Everything", :chinese => true do
   end
 
   context "Full Song notes" do
-    # more details: email on gryph-search week of 8/13/(2012?  2011?) w subject chinese search test - question 1 
+    # more details: email on gryph-search week of 8/13/(2012?  2011?) w subject chinese search test - question 1
     shared_examples_for "great results for Full Song notes" do | query |
       it_behaves_like "expected result size", 'everything', query, 6, 28
       it_behaves_like "best matches first", 'everything', query, '5701106', 6  # record has  全宋筆记
@@ -62,7 +62,7 @@ describe "Chinese Everything", :chinese => true do
     it_behaves_like "result size and vern short title matches first", 'everything', '南洋群島', 50, 60, /南洋群島/, 15
     it_behaves_like "good results for query", 'everything', '椰風蕉雨話南洋', 1, 1, '5564542', 1
   end
-  
+
   context "old fiction" do
     # old (simp)  旧   (trad)  舊
     # fiction (simp)  小说   (trad)  小說
@@ -145,7 +145,7 @@ describe "Chinese Everything", :chinese => true do
     it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '婦女婚姻', 'simplified', '妇女婚姻', 25, 40
     it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '婦女 婚姻', 'simplified', '妇女 婚姻', 25, 40
   end
-  
+
   context "women marriage law" do
     shared_examples_for "great search results for women marriage law" do
       # woman:   traditional:  婦女    simplified:  妇女
@@ -201,7 +201,7 @@ describe "Chinese Everything", :chinese => true do
       it_behaves_like "great search results for women marriage law" do
         let (:resp) { simp_resp }
       end
-    end    
+    end
   end # women marriage law
 
 end
