@@ -40,7 +40,7 @@ describe 'Japanese Kanji variants', japanese: true do
       it_behaves_like 'matches in vern short titles first', 'everything', '江戸', /(江戶|江戸)/, 100  # modern
       # exact match
       it_behaves_like 'matches in vern short titles first', 'everything', '江戶', /^(江戶|江戸)[^[[:alnum:]]]*$/, 2  # trad
-      it_behaves_like 'matches in vern short titles first', 'everything', '江戸', /^(江戶|江戸)[^[[:alnum:]]]*$/, 2  # modern
+      it_behaves_like 'matches in vern short titles first', 'everything', '江戸', /^(江戶|江戸)[^[[:alnum:]]]*$/, 1  # modern
       # starts w
       it_behaves_like 'matches in vern short titles first', 'everything', '江戶', /^(江戶|江戸)/, 12  # trad
       it_behaves_like 'matches in vern short titles first', 'everything', '江戸', /^(江戶|江戸)/, 12  # modern

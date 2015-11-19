@@ -81,7 +81,7 @@ describe 'Japanese Title searches', japanese: true do
     it_behaves_like 'best matches first', 'title', 'ちょうちん屋', '10181601', 1 # in 245a
   end
   context 'manga/comics', jira: ['VUF-2734', 'VUF-2735'] do
-    it_behaves_like 'both scripts get expected result size', 'title', 'hiragana', 'まんが', 'katakana', 'マンガ', 250, 350
+    it_behaves_like 'both scripts get expected result size', 'title', 'hiragana', 'まんが', 'katakana', 'マンガ', 250, 450
     it_behaves_like 'matches in vern short titles first', 'title', 'まんが', /まんが|マンガ/, 100
     it_behaves_like 'matches in vern titles', 'title', 'まんが', /まんが/, 20 # hiragana script is in results
     it_behaves_like 'matches in vern titles', 'title', 'マンガ', /マンガ/, 20 # katagana script is in results
@@ -152,7 +152,7 @@ describe 'Japanese Title searches', japanese: true do
     end
     context 'kanji', jira: ['VUF-2705', 'VUF-2742', 'VUF-2740'] do
       # Japanese do not use 语 (2nd char as simplified chinese) but rather 語 (trad char)
-      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '物語', 'chinese simp', '物语', 2450, 2550
+      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '物語', 'chinese simp', '物语', 2450, 2650
       it_behaves_like 'matches in vern titles first', 'title', '物語', /物語/, 13 # 14 is 4223454 which has it in 240a
       it_behaves_like 'matches in vern titles first', 'title', '物語', /物語/, 100, lang_limit
     end

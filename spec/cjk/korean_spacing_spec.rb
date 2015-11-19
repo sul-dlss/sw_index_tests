@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 describe "Korean spacing", :korean => true do
-  
+
   context "Korea-U.S. alliance relations in the 21st century", :jira => 'VUF-2747' do
     shared_examples_for "good title results for 21세기의  한미동맹관계" do | query |
       it_behaves_like 'good results for query', 'title', query, 1, 10, '8375648', 1
@@ -10,7 +10,7 @@ describe "Korean spacing", :korean => true do
     end
     shared_examples_for "good single result for 21세기의  한미동맹관계" do | query |
       it_behaves_like 'good results for query', 'title', "\"#{query}\"", 1, 1, '8375648', 1
-    end    
+    end
     context "title searches" do
       context '21세기의  한미동맹관계  (most likely spacing by Koreans)' do
         it_behaves_like "good title results for 21세기의  한미동맹관계", '21세기의  한미동맹관계'
@@ -126,7 +126,7 @@ describe "Korean spacing", :korean => true do
       it_behaves_like "good results for 강물이될때까지", '강물 이 될 때 까지'
     end
   end # until the river  VUF-2744
-  
+
 
   context "Korean Home Bank  한국주택은행" do
     shared_examples_for "good results for 한국주택은행" do | query |
@@ -297,7 +297,7 @@ describe "Korean spacing", :korean => true do
 
   context "History of South Korea" do
     shared_examples_for "good results for 한국의 역사" do | query |
-      it_behaves_like "expected result size", 'everything', query, 500, 650
+      it_behaves_like "expected result size", 'everything', query, 500, 750
     end
     context "한국의 역사 (normal spacing)" do
       it_behaves_like "good results for 한국의 역사", '한국의 역사'

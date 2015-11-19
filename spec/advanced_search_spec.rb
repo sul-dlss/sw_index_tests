@@ -132,7 +132,7 @@ describe 'advanced search' do
       it 'subject as a phrase' do
         @sub_phrase.should have_at_least(500).results
         @sub_phrase.should have_at_most(600).results
-        @sub_phrase.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args("home schooling")))
+        @sub_phrase.should have_fewer_results_than(solr_resp_doc_ids_only(subject_search_args("home schooling")))
         @sub_phrase.should have_fewer_results_than @sub_no_phrase
       end
       it 'keyword' do
@@ -259,8 +259,8 @@ describe 'advanced search' do
       it 'keyword' do
         resp = solr_resp_doc_ids_only({ 'q' => 'storia e letteratura' }.merge(solr_args))
         resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('storia e letteratura'))
-        resp.should have_at_least(1500).results
-        resp.should have_at_most(2000).results
+        resp.should have_at_least(1600).results
+        resp.should have_at_most(2100).results
       end
       it 'author and keyword' do
         resp = solr_resp_doc_ids_only({ 'q' => "#{author_query('campana')} AND storia e letteratura" }.merge(solr_args))

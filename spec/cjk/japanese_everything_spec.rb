@@ -28,7 +28,7 @@ describe 'Japanese Everything Searches', japanese: true do
     it_behaves_like 'matches in vern short titles first', 'everything', '江戸', /(江戶|江戸)/, 100, lang_limit # modern
     # exact match
     it_behaves_like 'matches in vern short titles first', 'everything', '江戶', /^(江戶|江戸)[^[[:alnum:]]]*$/, 2, lang_limit  # trad
-    it_behaves_like 'matches in vern short titles first', 'everything', '江戸', /^(江戶|江戸)[^[[:alnum:]]]*$/, 2, lang_limit  # modern
+    it_behaves_like 'matches in vern short titles first', 'everything', '江戸', /^(江戶|江戸)[^[[:alnum:]]]*$/, 1, lang_limit  # modern
     # starts w
     it_behaves_like 'matches in vern short titles first', 'everything', '江戶', /^(江戶|江戸)/, 12, lang_limit  # trad
     it_behaves_like 'matches in vern short titles first', 'everything', '江戸', /^(江戶|江戸)/, 12, lang_limit  # modern
@@ -83,7 +83,7 @@ describe 'Japanese Everything Searches', japanese: true do
       # note: first char is a modern japanese variant
       it_behaves_like 'result size and vern short title matches first', 'everything', '満洲', 2000, 2500, /(満|滿|满)(洲|州)/, 100
       context 'w lang limit' do
-        it_behaves_like 'result size and vern short title matches first', 'everything', '満洲', 1775, 2200, /(満|滿|满)(洲|州)/, 100, lang_limit
+        it_behaves_like 'result size and vern short title matches first', 'everything', '満洲', 1775, 2300, /(満|滿|满)(洲|州)/, 100, lang_limit
       end
     end
   end

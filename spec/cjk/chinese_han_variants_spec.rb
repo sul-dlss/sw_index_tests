@@ -114,7 +114,7 @@ describe 'Chinese Han variants', chinese: true do
   end
 
   context '囯 56EF (variant) => 國 570B (std trad)' do
-    it_behaves_like 'both scripts get expected result size', 'title', 'variant', '国家の', 'std trad', '國家の', 800, 900
+    it_behaves_like 'both scripts get expected result size', 'title', 'variant', '国家の', 'std trad', '國家の', 900, 1000
   end
 
   context '戯 6231 (variant) => 戲 6232 (std trad)' do

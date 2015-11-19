@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "journal/newspaper titles" do
 
 # -------   shared example groups --------
-  
+
   shared_examples_for 'great search results' do | solr_params |
     it "exact title matches should be first" do
       orig_query_str = solr_params['q'].split('}').last
@@ -11,13 +11,13 @@ describe "journal/newspaper titles" do
       resp.should include({'title_245a_display' => /^#{orig_query_str}\W*$/i}).in_each_of_first(exp_ids.size)
       resp.should include(exp_ids).in_first(exp_ids.size + 2) # a little slop built in
     end
-  end   
+  end
 
   shared_examples_for 'everything query, no format specified' do | title, solr_params |
     my_params = {'q'=>title}
     my_params.merge!(solr_params) if solr_params
-    it_behaves_like "great search results", my_params 
-  end   
+    it_behaves_like "great search results", my_params
+  end
   shared_examples_for 'everything query, format journal' do | title, solr_params |
     my_params = {'q'=>title, 'fq'=>'format:Journal/Periodical'}
     my_params.merge!(solr_params) if solr_params
@@ -30,10 +30,10 @@ describe "journal/newspaper titles" do
   end
 
   shared_examples_for 'title query, no format specified' do | title, solr_params |
-    my_params = title_search_args(title) 
+    my_params = title_search_args(title)
     my_params.merge!(solr_params) if solr_params
     it_behaves_like "great search results", my_params
-  end   
+  end
   shared_examples_for 'title query, format journal' do | title, solr_params |
     my_params = title_search_args(title).merge({'fq'=>'format:Journal/Periodical'})
     my_params.merge!(solr_params) if solr_params
@@ -44,7 +44,7 @@ describe "journal/newspaper titles" do
     my_params.merge!(solr_params) if solr_params
     it_behaves_like "great search results", my_params
   end
-  
+
   shared_examples_for 'great results for format journal' do | title, solr_params |
     it_behaves_like "everything query, format journal", title, solr_params do
       let(:exp_ids) {journal_only}
@@ -53,7 +53,7 @@ describe "journal/newspaper titles" do
       let(:exp_ids) {journal_only}
     end
   end
-  
+
   shared_examples_for 'great results for format newspaper' do | title, solr_params |
     it_behaves_like "everything query, format newspaper", title, solr_params do
       let(:exp_ids) {newspaper_only}
@@ -90,7 +90,7 @@ describe "journal/newspaper titles" do
 # -------   actual tests --------
 
   context "The Nation" do
-# -- OLD tests    
+# -- OLD tests
     before(:all) do
       @green_current = '497417'
       @green_micro = '464445'
@@ -126,7 +126,7 @@ describe "journal/newspaper titles" do
               ]
       let(:newspaper_only) { news }
       journal = [ '497417', # green current
-                  '464445', # green micro 
+                  '464445', # green micro
                   '10039114', # biz
                   '3448713', # law
                   '405604', # gambia
@@ -135,8 +135,8 @@ describe "journal/newspaper titles" do
                   '454276', # sierra leone
                   # problematic
                   #  9131572  245  a| Finances of the nation h| [electronic resource]
-                  #  7689978  245 a| The Nation's hospitals h| [print]. 
-                  #  6743421  245 a| State of the nation. 
+                  #  7689978  245 a| The Nation's hospitals h| [print].
+                  #  6743421  245 a| State of the nation.
                 ]
       let(:journal_only) { journal }
       format_other = [ '393626', # burma
@@ -148,17 +148,17 @@ describe "journal/newspaper titles" do
                     ]
       book = ['2613193', # fed doc on floods
               '10549995', # 1868, online - galenet
-              '7815517', # lingeman  245 |a The Nation : b| guide to the Nation / c| by Richard Lingeman ; introduction by Victor Navasky and Katrina Vanden Heuvel ; original drawings by Ed Koren. 
-              '2098094', # mulford 
-              # Pushed down below 22 
+              '7815517', # lingeman  245 |a The Nation : b| guide to the Nation / c| by Richard Lingeman ; introduction by Victor Navasky and Katrina Vanden Heuvel ; original drawings by Ed Koren.
+              '2098094', # mulford
+              # Pushed down below 22
               #'9296914', # mulford, online - galenet
               #'7170814', # mulford, online - galenet
               ]
       let(:all_formats) { news + journal + format_other + book }
-    end  
+    end
     it "has good results with or without a trailing period" do
       journals = [ '497417', # green current
-                  '464445', # green micro 
+                  '464445', # green micro
                   '10039114', # biz
                   '3448713', # law
                   '405604', # gambia
@@ -177,9 +177,9 @@ describe "journal/newspaper titles" do
   context "The Times" do
     it_behaves_like "great results for journal/newspaper", "The Times", {'rows' => 64 } do
       journal = []
-      news = ['8376802', # richmond, online, 1941-2959 
-              '425948', # london, green, 
-              '425951', # london, database, green, 0140-0460 
+      news = ['8376802', # richmond, online, 1941-2959
+              '425948', # london, green,
+              '425951', # london, database, green, 0140-0460
               '395098', # malawi
               '414857', # london, hoover
               ]
@@ -251,7 +251,7 @@ describe "journal/newspaper titles" do
       let(:journal_only) { journal }
     end
   end # the Guardian
-  
+
   context "the state" do
     it_behaves_like "great results for journal/newspaper", "the state", {"rows"=>"50"} do
       journal = ['8211682', # charlotte 0038-9994
@@ -329,7 +329,7 @@ describe "journal/newspaper titles" do
       let(:newspaper_only) { news }
     end
   end
-  
+
   context "The Chronicle" do
     it_behaves_like "great results for journal/newspaper", "The Chronicle" do
       journal = ['10044333', # biz sal3 0732-2038
@@ -354,8 +354,8 @@ describe "journal/newspaper titles" do
       let(:journal_only) { journal }
       let(:newspaper_only) { news }
     end
-  end 
-  
+  end
+
   context "the week" do
     it_behaves_like "great results for format journal", "the week" do
       journal = ['391183', # nottingham, hoover
@@ -388,7 +388,7 @@ describe "journal/newspaper titles" do
       let(:newspaper_only) { news }
     end
   end
-  
+
   context "the star" do
     it_behaves_like "great results for journal/newspaper", "The star" do
       journal = ['461027', # uganda, sal
@@ -444,7 +444,7 @@ describe "journal/newspaper titles" do
       let(:newspaper_only) { news }
     end
   end
-  
+
   context "the journal" do
     it_behaves_like "great results for journal/newspaper", "The journal" do
       journal = [ '4144519', # bar assoc dc, law
@@ -471,7 +471,7 @@ describe "journal/newspaper titles" do
       let(:newspaper_only) { news }
     end
   end
-  
+
   context "the atlantic" do
     it_behaves_like "great results for journal/newspaper", "The atlantic" do
       journal = ['454930', # boston, sal, 0276-9077
@@ -535,10 +535,10 @@ describe "journal/newspaper titles" do
     end
 
     it_behaves_like "great results for journal/newspaper", "the wall street journal" do
-      journal = ['3352414', # law, 0193-2241 
+      journal = ['3352414', # law, 0193-2241
                   '400114', # index, sal3, 0099-9660
                 ]
-      news = ['486902', # green, terman, 0193-2241 
+      news = ['486902', # green, terman, 0193-2241
               '486903', # also database, microform, 0099-9660
               '6654532', # proquest
               '10041833', # biz, 0193-2241
@@ -563,25 +563,25 @@ describe "journal/newspaper titles" do
       it "everything search should include the Lane/Medical record" do
         @resp.should include("10673520").in_first(10) # medical/lane
       end
-    end   
-    
+    end
+
     it_behaves_like "great ScienceDirect results", 'Science Direct'
 
     context "ScienceDirect (one word)" do
       it_behaves_like "great ScienceDirect results", 'ScienceDirect'
 
       before(:all) do
-        @tresp = solr_resp_doc_ids_only(title_search_args 'ScienceDirect')        
+        @tresp = solr_resp_doc_ids_only(title_search_args 'ScienceDirect')
       end
       it "title search should include the database record" do
         @tresp.should include("7716332").in_first(2)
       end
       it "title search should include the Lane/Medical record" do
         @tresp.should include("10673520").in_first(5)
-      end 
+      end
     end
   end # ScienceDirect
-  
+
   context "Nature" do
     it "as everything search", :jira => 'VUF-1515' do
       resp = solr_response({'q' => 'nature', 'fl'=>'id,title_display', 'facet'=>false})
@@ -610,7 +610,7 @@ describe "journal/newspaper titles" do
       let(:journal_only) { journal }
     end
   end
-  
+
   context "Science" do
     it_behaves_like "title query, format journal", "Science" do
       journal = [ '394654', # 0036-8075, green
@@ -623,14 +623,14 @@ describe "journal/newspaper titles" do
   end
   context "Ethics" do
     it_behaves_like "title query, format journal", "Ethics" do
-      journal = ['9567083', # 0014-1704, online, lane/medical
+      journal = ['11478922', # 0014-1704, online, jstor
                   '497326', # 0014-1704, green
-#                  '8205688', # 1677-2954, brazil, online  Ethic@ 
+#                  '8205688', # 1677-2954, brazil, online  Ethic@
                 ]
       let(:exp_ids) { journal }
     end
   end
-  
+
   context "The New York Times", :jira => ['SW-585', 'VUF-1926', 'VUF-1715', 'VUF-833'] do
     it "should get ckey 495710 above fold" do
       resp = solr_resp_ids_titles(title_search_args 'THE new york times')
@@ -698,5 +698,5 @@ describe "journal/newspaper titles" do
     end
   end # financial times
 
-  
+
 end
