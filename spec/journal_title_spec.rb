@@ -319,7 +319,7 @@ describe "journal/newspaper titles" do
       news = ['4655100', # texan
               ]
       addl = ['8169876', # 2044-6071, marcit brief record, type 'Other' as of 2013-06-06
-              '6559601', # movie
+              '10474493', # federal document
               '5711017', # movie
               '8146603', # online image but format 'Book'
               '388668', # philippines, format 'Other'
@@ -595,7 +595,7 @@ describe "journal/newspaper titles" do
 
     it "as title search with format journal" do
       resp = solr_response(title_search_args('nature').merge({'fq' => 'format:"Journal/Periodical"', 'fl'=>'id,title_display', 'facet'=>false}))
-      resp.should have_at_most(1300).documents
+      resp.should have_at_most(1400).documents
       resp.should include({'title_display' => /^Nature \[print\/digital\]\./}).in_first(5)
       resp.should include({'title_display' => /^Nature; international journal of science/}).in_first(5)
     end

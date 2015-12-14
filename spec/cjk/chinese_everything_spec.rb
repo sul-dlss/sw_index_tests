@@ -16,7 +16,7 @@ describe 'Chinese Everything', chinese: true do
   context 'contemporary china economic study', jira: 'VUF-2767' do
     trad = '當代中國經濟研究'
     simp = '当代中国经济研究'
-    it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', trad, 'simplified', simp, 12, 140
+    it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', trad, 'simplified', simp, 12, 160
     it_behaves_like 'best matches first', 'everything', simp, '4188269', 4
     it_behaves_like 'best matches first', 'everything', simp,
                     %w(4164852 4188269 10153644 8225832 4335450 4185340

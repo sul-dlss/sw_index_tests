@@ -65,8 +65,8 @@ describe 'Japanese Kanji variants', japanese: true do
       # "慶応義塾大学(Keio Gijuku University)" + "Search everything" retrieves 146 hits (all relevant). "慶應義塾大学" retrieves 262 hits (all relevant).
       # FIXME:  these do not give the same numbers of results.  Even with lang_limit.  But they are both analyzed to the same char string  2013-10-14
       #      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '慶應義塾大学', 'modern', '慶応義塾大学', 375, 450
-      it_behaves_like 'expected result size', 'everything', '慶應義塾大学', 375, 450  # trad
-      it_behaves_like 'expected result size', 'everything', '慶応義塾大学', 375, 450  # modern
+      it_behaves_like 'expected result size', 'everything', '慶應義塾大学', 375, 500  # trad
+      it_behaves_like 'expected result size', 'everything', '慶応義塾大学', 375, 500  # modern
     end
 
     context 'Mahayana Buddhism', jira: 'VUF-2761' do

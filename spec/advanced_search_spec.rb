@@ -125,8 +125,8 @@ describe 'advanced search' do
         @sub_phrase = solr_resp_doc_ids_only({ 'q' => "#{subject_query('\"home schooling\"')}" }.merge(solr_args))
       end
       it 'subject not as a phrase' do
-        @sub_no_phrase.should have_at_least(575).results
-        @sub_no_phrase.should have_at_most(650).results
+        @sub_no_phrase.should have_at_least(600).results
+        @sub_no_phrase.should have_at_most(750).results
         @sub_no_phrase.should have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args('home schooling')))
       end
       it 'subject as a phrase' do
@@ -397,18 +397,13 @@ describe 'advanced search' do
       end
       it 'before topics selected' do
         resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Green")', 'q' => 'collection:*' }.merge(solr_args))
-        resp.should have_at_least(200).results
-        resp.should have_at_most(1000).results
+        resp.should have_at_least(100).results
+        resp.should have_at_most(200).results
       end
       it 'add topic feature films' do
         resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Green"), topic_facet:("Feature films")', 'q' => 'collection:*' }.merge(solr_args))
-        resp.should have_at_least(50).results
-        resp.should have_at_most(1000).results
-      end
-      it 'add topic science fiction' do
-        resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Green"), topic_facet:("Feature films"), topic_facet:("Science fiction films")', 'q' => 'collection:*' }.merge(solr_args))
-        resp.should have_at_least(1).results
-        resp.should have_at_most(60).results
+        resp.should have_at_least(10).results
+        resp.should have_at_most(50).results
       end
     end
     context 'format video, location Media Microtext, language english' do
