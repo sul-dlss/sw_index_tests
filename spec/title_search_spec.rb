@@ -98,11 +98,11 @@ describe "Title Search" do
   context "Studies in History and Philosophy of Science", :jira => 'VUF-2003' do
     it "title search without the, phrase" do
       resp = solr_resp_doc_ids_only(title_search_args '"Studies in History and Philosophy of Science"')
-      resp.should include('9902567').as_first  # _Studies in history and philosophy of science [digital]._
+      resp.should include('11537743').as_first  # _Studies in history and philosophy of science [digital]._
     end
     it "title search without the, not phrase" do
       resp = solr_resp_doc_ids_only(title_search_args 'Studies in History and Philosophy of Science')
-      resp.should include('9902567').as_first  # _Studies in history and philosophy of science [digital]._
+      resp.should include('11537743').as_first  # _Studies in history and philosophy of science [digital]._
     end
     it "title search with the, phrase" do
       resp = solr_resp_ids_titles(title_search_args '"Studies in the History and Philosophy of Science"')

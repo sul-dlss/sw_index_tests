@@ -322,7 +322,7 @@ describe "journal/newspaper titles" do
               '10474493', # federal document
               '5711017', # movie
               '8146603', # online image but format 'Book'
-              '388668', # philippines, format 'Other'
+              '10476010', # federal document
               ]
       let(:all_formats) { journal + news + addl }
       let(:journal_only) { journal }
@@ -601,7 +601,7 @@ describe "journal/newspaper titles" do
     end
 
     it_behaves_like "great results for format journal", "Nature" do
-      journal = ['10595973', # london 0028-0836, lane/medical
+      journal = ['11534561', # london 0028-0836, lane/medical
                   '3195844', # london 0028-0836, biology
                   '8829478', # london, spec
                   '466281', # directory of biologicals
@@ -623,7 +623,7 @@ describe "journal/newspaper titles" do
   end
   context "Ethics" do
     it_behaves_like "title query, format journal", "Ethics" do
-      journal = ['11478922', # 0014-1704, online, jstor
+      journal = ['11536614', # 0014-1704, online, jstor
                   '497326', # 0014-1704, green
 #                  '8205688', # 1677-2954, brazil, online  Ethic@
                 ]

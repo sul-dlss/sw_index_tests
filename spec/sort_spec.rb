@@ -29,7 +29,7 @@ describe 'sorting results' do
 
   def docs_match_current_year(resp)
     year = Time.new.year
-    year_regex_str = "#{year}|#{year + 1}|#{year + 2}"
+    year_regex_str = "#{year}|#{year + 1}|#{year + 2}|#{year + 3}|#{year + 4}|#{year + 5}|#{year + 6}|#{year + 7}|#{year + 8}|#{year + 9}|#{year + 10}"
     resp['response']['docs'].each do |doc|
       imprint = doc['imprint_display'] ? doc['imprint_display'].join : ''
       date = doc['pub_date'] ? doc['pub_date'] : ''

@@ -50,7 +50,7 @@ describe 'Japanese Everything Searches', japanese: true do
   end
 
   context '(local/regional society)', jira: 'VUF-2717' do
-    it_behaves_like 'expected result size', 'everything', '地域社会', 490, 600
+    it_behaves_like 'expected result size', 'everything', '地域社会', 490, 610
     it_behaves_like 'matches in vern short titles first', 'everything', '地域社会', /^地域社会$/, 1 # exact title match
     context 'w lang limit' do
       it_behaves_like 'expected result size', 'everything', '地域社会', 450, 500, lang_limit

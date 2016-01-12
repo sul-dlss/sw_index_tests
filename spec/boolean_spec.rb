@@ -263,7 +263,7 @@ describe 'boolean operators' do
       it '((street art) OR graffiti) AND aspects' do
         resp = solr_resp_doc_ids_only(subject_search_args '((street art) OR graffiti) AND aspects')
         resp.should have_at_least(3000).results
-        resp.should have_at_most(3700).results
+        resp.should have_at_most(3800).results
       end
       it '("street art" OR graffiti) AND aspects' do
         resp = solr_resp_doc_ids_only(subject_search_args '("street art" OR graffiti) AND aspects')
