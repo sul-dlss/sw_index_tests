@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 describe "Korean author", :korean => true do
-  
+
   context "Ŭn, Hŭi-gyŏng  은희경", :jira => 'VUF-2729' do
     #  "top 15 results are all relevant for searches both with and without whitespace between author’s last and first name."
     relevant = ['9628681',
@@ -78,12 +78,12 @@ describe "Korean author", :korean => true do
 
   context "Han, Yŏng-u  한영우" do
     shared_examples_for "good author results for 한영우" do | query |
-      it_behaves_like "expected result size", 'author', query, 29, 35      
+      it_behaves_like "expected result size", 'author', query, 29, 40     
       #  7142656:   김영우 (different last name), and the character "한" appears in the "contributor" field, "한국 교육사 학회."
       it_behaves_like 'does not find irrelevant results', 'author', query, '7142656', 'rows' => 30
       it "author matches regex" do
         resp = solr_response({'q'=>cjk_q_arg('author', query), 'fl'=>'id,vern_author_person_display', 'facet'=>false, 'rows' => 30})
-        resp.should include({'vern_author_person_display' => /한[[:space:]]*영우/}).in_each_of_first(25)
+        expect(resp).to include({'vern_author_person_display' => /한[[:space:]]*영우/}).in_each_of_first(25)
       end
     end
     shared_examples_for "good everything results for 한영우" do | query |

@@ -8,8 +8,8 @@ describe "journal/newspaper titles" do
     it "exact title matches should be first" do
       orig_query_str = solr_params['q'].split('}').last
       resp = solr_resp_ids_titles(solr_params)
-      resp.should include({'title_245a_display' => /^#{orig_query_str}\W*$/i}).in_each_of_first(exp_ids.size)
-      resp.should include(exp_ids).in_first(exp_ids.size + 2) # a little slop built in
+      expect(resp).to include({'title_245a_display' => /^#{orig_query_str}\W*$/i}).in_each_of_first(exp_ids.size)
+      expect(resp).to include(exp_ids).in_first(exp_ids.size + 2) # a little slop built in
     end
   end
 
@@ -101,21 +101,21 @@ describe "journal/newspaper titles" do
 
     it "as everything search" do
       resp = solr_resp_ids_from_query 'The Nation'
-      resp.should include(@orig).in_first(4)
+      expect(resp).to include(@orig).in_first(4)
     end
 
     it "as title search" do
       resp = solr_resp_ids_titles(title_search_args "The Nation")
-      resp.should include({'title_245a_display' => /^The Nation$/i}).in_each_of_first(7)
-      resp.should include(@orig).in_first(4)
+      expect(resp).to include({'title_245a_display' => /^The Nation$/i}).in_each_of_first(7)
+      expect(resp).to include(@orig).in_first(4)
     end
 
     it "as title search with format journal" do
       resp = solr_resp_ids_titles(title_search_args('The Nation').merge({'fq' => 'format:Journal/Periodical'}))
-      resp.should include({'title_245a_display' => /^The Nation$/i}).in_each_of_first(7)
-      resp.should include(@law).in_first(4)
-      resp.should include([@law, @green_current]).in_first(5)
-      resp.should include(@orig).in_first(7)
+      expect(resp).to include({'title_245a_display' => /^The Nation$/i}).in_each_of_first(7)
+      expect(resp).to include(@law).in_first(4)
+      expect(resp).to include([@law, @green_current]).in_first(5)
+      expect(resp).to include(@orig).in_first(7)
     end
 # -- end OLD tests
 
@@ -168,14 +168,14 @@ describe "journal/newspaper titles" do
                 ]
       resp = solr_resp_ids_titles(title_search_args('The Nation.').merge({'fq' => 'format:Journal/Periodical'}))
       resp_wo = solr_resp_ids_titles(title_search_args('The Nation').merge({'fq' => 'format:Journal/Periodical'}))
-      resp.should have_the_same_number_of_results_as(resp_wo)
-      resp.should include({'title_245a_display' => /^the nation\W*$/i}).in_each_of_first(journals.size)
-      resp.should include(journals).in_first(journals.size + 2) # a little slop built in
+      expect(resp).to have_the_same_number_of_results_as(resp_wo)
+      expect(resp).to include({'title_245a_display' => /^the nation\W*$/i}).in_each_of_first(journals.size)
+      expect(resp).to include(journals).in_first(journals.size + 2) # a little slop built in
     end
   end # the Nation
 
   context "The Times" do
-    it_behaves_like "great results for journal/newspaper", "The Times", {'rows' => 64 } do
+    it_behaves_like "great results for journal/newspaper", "The Times", {'rows' => 100 } do
       journal = []
       news = ['8376802', # richmond, online, 1941-2959
               '425948', # london, green,
@@ -224,7 +224,7 @@ describe "journal/newspaper titles" do
     end
     it "'Times of London' - common words ... as a phrase  (it's actually a newspaper ...)" do
       resp = solr_resp_doc_ids_only(title_search_args('"Times of London"').merge({'fq' => 'format:Newspaper'}))
-      resp.should include(['425948', '425951']).in_first(3)
+      expect(resp).to include(['425948', '8376802']).in_first(3)
     end
   end # the Times
 
@@ -529,9 +529,9 @@ describe "journal/newspaper titles" do
   context "the wall street journal", :jira => ['SW-585','VUF-1715'] do
     it "should get ckey 486902 above fold" do
       resp = solr_resp_ids_titles(title_search_args 'wall street journal')
-      resp.should include('486902').in_first(4)
+      expect(resp).to include('486902').in_first(4)
       resp = solr_resp_ids_titles(title_search_args 'the wall street journal')
-      resp.should include('486902').in_first(4)
+      expect(resp).to include('486902').in_first(4)
     end
 
     it_behaves_like "great results for journal/newspaper", "the wall street journal" do
@@ -558,10 +558,10 @@ describe "journal/newspaper titles" do
         @resp = solr_resp_ids_from_query query
       end
       it "everything search should include the database record" do
-        @resp.should include("7716332").in_first(3) # database
+        expect(@resp).to include("7716332").in_first(3) # database
       end
       it "everything search should include the Lane/Medical record" do
-        @resp.should include("10673520").in_first(10) # medical/lane
+        expect(@resp).to include("10673520").in_first(10) # medical/lane
       end
     end
 
@@ -574,10 +574,10 @@ describe "journal/newspaper titles" do
         @tresp = solr_resp_doc_ids_only(title_search_args 'ScienceDirect')
       end
       it "title search should include the database record" do
-        @tresp.should include("7716332").in_first(2)
+        expect(@tresp).to include("7716332").in_first(2)
       end
       it "title search should include the Lane/Medical record" do
-        @tresp.should include("10673520").in_first(5)
+        expect(@tresp).to include("10673520").in_first(5)
       end
     end
   end # ScienceDirect
@@ -585,19 +585,19 @@ describe "journal/newspaper titles" do
   context "Nature" do
     it "as everything search", :jira => 'VUF-1515' do
       resp = solr_response({'q' => 'nature', 'fl'=>'id,title_display', 'facet'=>false})
-      resp.should include({'title_display' => /^Nature \[print\/digital\]\./}).in_first(3)
+      expect(resp).to include({'title_display' => /^Nature \[print\/digital\]\./}).in_first(3)
     end
 
     it "as title search" do
       resp = solr_response(title_search_args('nature').merge({'fl'=>'id,title_display', 'facet'=>false}))
-      resp.should include({'title_display' => /^Nature \[print\/digital\]\./}).in_first(3)
+      expect(resp).to include({'title_display' => /^Nature \[print\/digital\]\./}).in_first(3)
     end
 
     it "as title search with format journal" do
       resp = solr_response(title_search_args('nature').merge({'fq' => 'format:"Journal/Periodical"', 'fl'=>'id,title_display', 'facet'=>false}))
-      resp.should have_at_most(1400).documents
-      resp.should include({'title_display' => /^Nature \[print\/digital\]\./}).in_first(5)
-      resp.should include({'title_display' => /^Nature; international journal of science/}).in_first(5)
+      expect(resp.size).to be <= 1400
+      expect(resp).to include({'title_display' => /^Nature \[print\/digital\]\./}).in_first(5)
+      expect(resp).to include({'title_display' => /^Nature; international journal of science/}).in_first(5)
     end
 
     it_behaves_like "great results for format journal", "Nature" do
@@ -634,12 +634,12 @@ describe "journal/newspaper titles" do
   context "The New York Times", :jira => ['SW-585', 'VUF-1926', 'VUF-1715', 'VUF-833'] do
     it "should get ckey 495710 above fold" do
       resp = solr_resp_ids_titles(title_search_args 'THE new york times')
-      resp.should include('495710').in_first(3)
+      expect(resp).to include('495710').in_first(3)
     end
     it "should get ckey 495710 above fold without 'the'", :fixme => true do
       # note:  this only works when 'the' is included, due to title_245a_exact matching in edismax (and our data)
       resp = solr_resp_ids_titles(title_search_args 'new york times')
-      resp.should include('495710').in_first(3)
+      expect(resp).to include('495710').in_first(3)
     end
 
     # note:  it would be megaspiffy if we didn't need "the" in front ... but to match exact search, we do.
@@ -679,9 +679,9 @@ describe "journal/newspaper titles" do
     it "should get ckey 4100964 above fold" do
       # would prefer higher than 4 ...
       resp = solr_resp_ids_titles(title_search_args 'Financial Times')
-      resp.should include('4100964').in_first(4)
+      expect(resp).to include('4100964').in_first(4)
       resp = solr_resp_ids_titles(title_search_args 'Financial Times')
-      resp.should include('4100964').in_first(4)
+      expect(resp).to include('4100964').in_first(4)
     end
 
     it_behaves_like "great results for journal/newspaper", "financial times" do

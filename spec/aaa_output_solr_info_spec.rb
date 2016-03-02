@@ -4,7 +4,7 @@ require 'spec_helper'
 describe "Output Solr Information from #{@@solr.uri}" do
   
   it "schema.xml retrieved from #{@@solr.uri}:\n#{solr_schema}", :fixme => 'true' do
-    solr_schema.should_not be_nil
+    expect(solr_schema).not_to be_nil
   end
 
 =begin  

@@ -5,7 +5,7 @@ describe "Index Contents" do
   shared_examples_for 'collection has all its items' do | coll_val, min_num_exp |
     it "collection filter query should return enough results" do
       resp = solr_resp_doc_ids_only({'fq'=>"collection:#{coll_val}", 'rows'=>'0'})
-      resp.should have_at_least(min_num_exp).documents
+      expect(resp.size).to be >= min_num_exp
     end
   end
   

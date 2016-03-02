@@ -58,7 +58,7 @@ describe "Korean Titles", :korean => true do
     shared_examples_for "good title results for 한국 근대사" do | query |
       it "titles match regex" do
         resp = solr_response({'q'=>cjk_q_arg('title', query), 'fl'=>'id,vern_title_display', 'facet'=>false} )
-        resp.should include({'vern_title_display' => /한국[[:space:]]*근대[[:space:]]*사/i}).in_each_of_first(20)
+        expect(resp).to include({'vern_title_display' => /한국[[:space:]]*근대[[:space:]]*사/i}).in_each_of_first(20)
       end
       # 세계 속 한국 근대사 (Korean modern history in the world)
       # 고쳐 쓴 한국 근대사 (Revised Korean modern history)

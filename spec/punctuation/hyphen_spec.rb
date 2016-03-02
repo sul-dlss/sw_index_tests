@@ -29,26 +29,26 @@ describe "hyphen in queries" do
       @tresp_whole_phrase_no_hyphen = solr_resp_doc_ids_only(title_search_args(q_as_phrase_no_hyphen))
     end
     it "should have great results for query" do
-      @resp.should include(exp_ids).in_first(first_x).documents
-      @presp.should include(exp_ids).in_first(first_x).documents
-      @tresp.should include(exp_ids).in_first(first_x).documents
-      @ptresp.should include(exp_ids).in_first(first_x).documents
-      @resp_whole_phrase.should include(exp_ids).in_first(first_x).documents
-      @resp_whole_phrase_no_hyphen.should include(exp_ids).in_first(first_x).documents
-      @tresp_whole_phrase.should include(exp_ids).in_first(first_x).documents
-      @tresp_whole_phrase_no_hyphen.should include(exp_ids).in_first(first_x).documents
+      expect(@resp).to include(exp_ids).in_first(first_x).documents
+      expect(@presp).to include(exp_ids).in_first(first_x).documents
+      expect(@tresp).to include(exp_ids).in_first(first_x).documents
+      expect(@ptresp).to include(exp_ids).in_first(first_x).documents
+      expect(@resp_whole_phrase).to include(exp_ids).in_first(first_x).documents
+      expect(@resp_whole_phrase_no_hyphen).to include(exp_ids).in_first(first_x).documents
+      expect(@tresp_whole_phrase).to include(exp_ids).in_first(first_x).documents
+      expect(@tresp_whole_phrase_no_hyphen).to include(exp_ids).in_first(first_x).documents
     end
     it "should treat hyphen as phrase search for surrounding terms in everything searches" do
-      @resp.should have_the_same_number_of_documents_as(@presp)
+      expect(@resp).to have_the_same_number_of_documents_as(@presp)
     end
     it "should treat hyphen as phrase search for surrounding terms in title searches" do
-      @tresp.should have_the_same_number_of_documents_as(@ptresp)
+      expect(@tresp).to have_the_same_number_of_documents_as(@ptresp)
     end
     it "phrase search for entire query should ignore hyphen" do
-      @resp_whole_phrase.should have_the_same_number_of_documents_as(@resp_whole_phrase_no_hyphen)
+      expect(@resp_whole_phrase).to have_the_same_number_of_documents_as(@resp_whole_phrase_no_hyphen)
     end
     it "title phrase search for entire query should ignore hyphen" do
-      @tresp_whole_phrase.should have_the_same_number_of_documents_as(@tresp_whole_phrase_no_hyphen)
+      expect(@tresp_whole_phrase).to have_the_same_number_of_documents_as(@tresp_whole_phrase_no_hyphen)
     end
   end # shared examples for no surrounding spaces
 
@@ -67,26 +67,26 @@ describe "hyphen in queries" do
       @tresp_whole_phrase_no_hyphen = solr_resp_doc_ids_only(title_search_args(q_as_phrase_no_hyphen))
     end
     it "should have great results for query" do
-      @resp.should include(exp_ids).in_first(first_x).documents
-      @resp_no_hyphen.should include(exp_ids).in_first(first_x).documents
-      @tresp.should include(exp_ids).in_first(first_x).documents
-      @tresp_no_hyphen.should include(exp_ids).in_first(first_x).documents
-      @resp_whole_phrase.should include(exp_ids).in_first(first_x).documents
-      @resp_whole_phrase_no_hyphen.should include(exp_ids).in_first(first_x).documents
-      @tresp_whole_phrase.should include(exp_ids).in_first(first_x).documents
-      @tresp_whole_phrase_no_hyphen.should include(exp_ids).in_first(first_x).documents
+      expect(@resp).to include(exp_ids).in_first(first_x).documents
+      expect(@resp_no_hyphen).to include(exp_ids).in_first(first_x).documents
+      expect(@tresp).to include(exp_ids).in_first(first_x).documents
+      expect(@tresp_no_hyphen).to include(exp_ids).in_first(first_x).documents
+      expect(@resp_whole_phrase).to include(exp_ids).in_first(first_x).documents
+      expect(@resp_whole_phrase_no_hyphen).to include(exp_ids).in_first(first_x).documents
+      expect(@tresp_whole_phrase).to include(exp_ids).in_first(first_x).documents
+      expect(@tresp_whole_phrase_no_hyphen).to include(exp_ids).in_first(first_x).documents
     end
     it "should ignore hyphen in everything searches" do
-      @resp.should have_the_same_number_of_documents_as(@resp_no_hyphen)
+      expect(@resp).to have_the_same_number_of_documents_as(@resp_no_hyphen)
     end
     it "should ignore hyphen in title searches" do
-      @tresp.should have_the_same_number_of_documents_as(@tresp_no_hyphen)
+      expect(@tresp).to have_the_same_number_of_documents_as(@tresp_no_hyphen)
     end
     it "phrase search for entire query should ignore hyphen" do
-      @resp_whole_phrase.should have_the_same_number_of_documents_as(@resp_whole_phrase_no_hyphen)
+      expect(@resp_whole_phrase).to have_the_same_number_of_documents_as(@resp_whole_phrase_no_hyphen)
     end
     it "title phrase search for entire query should ignore hyphen" do
-      @tresp_whole_phrase.should have_the_same_number_of_documents_as(@tresp_whole_phrase_no_hyphen)
+      expect(@tresp_whole_phrase).to have_the_same_number_of_documents_as(@tresp_whole_phrase_no_hyphen)
     end
   end # shared examples hyphen ignored
 
@@ -117,45 +117,45 @@ describe "hyphen in queries" do
     end
 
     it "should have great results for query (treat hyphen as NOT)" do
-      @resp.should include(exp_ids) if exp_ids
-      @resp.should_not include(unexp_ids)
-      @resp_not.should include(exp_ids) if exp_ids
-      @resp_not.should_not include(unexp_ids)
-      @tresp.should include(exp_ids) if exp_ids
-      @tresp.should_not include(unexp_ids)
-      @tresp_not.should include(exp_ids) if exp_ids
-      @tresp_not.should_not include(unexp_ids)
+      expect(@resp).to include(exp_ids) if exp_ids
+      expect(@resp).not_to include(unexp_ids)
+      expect(@resp_not).to include(exp_ids) if exp_ids
+      expect(@resp_not).not_to include(unexp_ids)
+      expect(@tresp).to include(exp_ids) if exp_ids
+      expect(@tresp).not_to include(unexp_ids)
+      expect(@tresp_not).to include(exp_ids) if exp_ids
+      expect(@tresp_not).not_to include(unexp_ids)
     end
     it "should have great results for query as phrase (ignore hyphen)" do
       # ignore hyphen in phrase - expect all terms
-      @resp_whole_phrase.should include(unexp_ids)
-      @resp_whole_phrase.should_not include(exp_ids) if exp_ids
-      @resp_whole_phrase_no_hyphen.should include(unexp_ids)
-      @resp_whole_phrase_no_hyphen.should_not include(exp_ids) if exp_ids
-      @tresp_whole_phrase.should include(unexp_ids)
-      @tresp_whole_phrase.should_not include(exp_ids) if exp_ids
-      @tresp_whole_phrase_no_hyphen.should include(unexp_ids)
-      @tresp_whole_phrase_no_hyphen.should_not include(exp_ids) if exp_ids
+      expect(@resp_whole_phrase).to include(unexp_ids)
+      expect(@resp_whole_phrase).not_to include(exp_ids) if exp_ids
+      expect(@resp_whole_phrase_no_hyphen).to include(unexp_ids)
+      expect(@resp_whole_phrase_no_hyphen).not_to include(exp_ids) if exp_ids
+      expect(@tresp_whole_phrase).to include(unexp_ids)
+      expect(@tresp_whole_phrase).not_to include(exp_ids) if exp_ids
+      expect(@tresp_whole_phrase_no_hyphen).to include(unexp_ids)
+      expect(@tresp_whole_phrase_no_hyphen).not_to include(exp_ids) if exp_ids
     end
     # the following is busted due to Solr edismax bug
     # https://issues.apache.org/jira/browse/SOLR-2649
     it "should treat hyphen as NOT in everything searches", :fixme => true do
-      @resp.should have_the_same_number_of_documents_as(@resp_not)
+      expect(@resp).to have_the_same_number_of_documents_as(@resp_not)
       # the below isn't true for edismax b/c mm is basically set to 0  https://issues.apache.org/jira/browse/SOLR-2649
-      @resp.should have_fewer_results_than(solr_resp_ids_from_query(@q_no_term))
+      expect(@resp).to have_fewer_results_than(solr_resp_ids_from_query(@q_no_term))
     end
     # the following is busted due to Solr edismax bug
     # https://issues.apache.org/jira/browse/SOLR-2649
     it "should treat hyphen as NOT in title searches", :fixme => true do
-      @tresp.should have_the_same_number_of_documents_as(@tresp_not)
+      expect(@tresp).to have_the_same_number_of_documents_as(@tresp_not)
       # the below isn't true for edismax b/c mm is basically set to 0  https://issues.apache.org/jira/browse/SOLR-2649
-      @tresp.should have_fewer_results_than(solr_resp_doc_ids_only(title_search_args(@q_no_term)))
+      expect(@tresp).to have_fewer_results_than(solr_resp_doc_ids_only(title_search_args(@q_no_term)))
     end
     it "phrase search for entire query should ignore hyphen" do
-      @resp_whole_phrase.should have_the_same_number_of_documents_as(@resp_whole_phrase_no_hyphen)
+      expect(@resp_whole_phrase).to have_the_same_number_of_documents_as(@resp_whole_phrase_no_hyphen)
     end
     it "title phrase search for entire query should ignore hyphen" do
-      @tresp_whole_phrase.should have_the_same_number_of_documents_as(@tresp_whole_phrase_no_hyphen)
+      expect(@tresp_whole_phrase).to have_the_same_number_of_documents_as(@tresp_whole_phrase_no_hyphen)
     end
   end # shared examples for space before but not after
 
@@ -183,9 +183,9 @@ describe "hyphen in queries" do
     # not useful to search as title ...
     resp = solr_resp_ids_from_query('0256-1115')
     presp = solr_resp_ids_from_query('"0256 1115"')
-    resp.should include("4108257").as_first
-    presp.should include('4108257').as_first
-    resp.should have_the_same_number_of_documents_as(presp)
+    expect(resp).to include("4108257").as_first
+    expect(presp).to include('4108257').as_first
+    expect(resp).to have_the_same_number_of_documents_as(presp)
   end
 
   context "'Deutsch-Sudwestafrikanische Zeitung'", :jira => 'VUF-803' do
@@ -245,19 +245,19 @@ describe "hyphen in queries" do
 #    it_behaves_like "hyphens with space before but not after are treated as NOT, but ignored in phrase", "South Africa, Shakespeare and post -colonial culture", "2993586", "9740889"
     it "hyphen: post-colonial" do
       resp = solr_resp_ids_from_query 'South Africa, Shakespeare post-colonial culture'
-      resp.should have_documents
+      expect(resp).to have_documents
     end
     it "no hyphen: postcolonial" do
       resp = solr_resp_ids_from_query 'South Africa, Shakespeare postcolonial culture'
-      resp.should have_documents
+      expect(resp).to have_documents
     end
     it "space instead of hyphen: post colonial" do
       resp = solr_resp_ids_from_query 'South Africa, Shakespeare post colonial culture'
-      resp.should have_documents
+      expect(resp).to have_documents
     end
     it 'phrase instead of hyphen: "post colonial"' do
       resp = solr_resp_ids_from_query 'South Africa, Shakespeare "post colonial" culture'
-      resp.should have_documents
+      expect(resp).to have_documents
     end
   end
 
@@ -337,69 +337,69 @@ describe "hyphen in queries" do
     it "should have great results for query" do
       exp_ids = ["10858119", "2323785"]
       first_x = 2
-      @resp.should include(exp_ids).in_first(first_x).documents
-      @presp.should include(exp_ids).in_first(first_x).documents
-      @tresp.should include(exp_ids).in_first(first_x).documents
-      @ptresp.should include(exp_ids).in_first(first_x).documents
+      expect(@resp).to include(exp_ids).in_first(first_x).documents
+      expect(@presp).to include(exp_ids).in_first(first_x).documents
+      expect(@tresp).to include(exp_ids).in_first(first_x).documents
+      expect(@ptresp).to include(exp_ids).in_first(first_x).documents
       # 2323785 is NOT present for the entire query as a phrase search;
       #  we don't include 245h in title_245_search, and 245h contains "[print/digital]"
-      @resp_whole_phrase.should include("10858119").in_first(first_x).documents
-      @resp_whole_phrase_no_hyphen.should include("10858119").in_first(first_x).documents
+      expect(@resp_whole_phrase).to include("10858119").in_first(first_x).documents
+      expect(@resp_whole_phrase_no_hyphen).to include("10858119").in_first(first_x).documents
     end
     it "should treat hyphen as phrase search for surrounding terms in everything searches" do
-      @resp.should have_the_same_number_of_documents_as(@presp)
+      expect(@resp).to have_the_same_number_of_documents_as(@presp)
     end
     it "should treat hyphen as phrase search for surrounding terms in title searches" do
-      @tresp.should have_the_same_number_of_documents_as(@ptresp)
+      expect(@tresp).to have_the_same_number_of_documents_as(@ptresp)
     end
     it "phrase search for entire query should ignore hyphen" do
-      @resp_whole_phrase.should have_the_same_number_of_documents_as(@resp_whole_phrase_no_hyphen)
+      expect(@resp_whole_phrase).to have_the_same_number_of_documents_as(@resp_whole_phrase_no_hyphen)
     end
     it "title phrase search for entire query should ignore hyphen" do
-      @tresp_whole_phrase.should have_the_same_number_of_documents_as(@tresp_whole_phrase_no_hyphen)
+      expect(@tresp_whole_phrase).to have_the_same_number_of_documents_as(@tresp_whole_phrase_no_hyphen)
     end
   end # context "'Color-blindness [print/digital]; its dangers and its detection'"
 
   context "multiple hyphens 'probabilities for use in stop-or-go sampling'" do
     it "should treat multiple hyphens like a phrase" do
       resp = solr_resp_ids_from_query('probabilities for use in stop-or-go sampling')
-      resp.should include(["2146380", "3336158"]).in_first(2).documents
+      expect(resp).to include(["2146380", "3336158"]).in_first(2).documents
       presp = solr_resp_ids_from_query('probabilities for use in "stop or go" sampling')
-      presp.should include(["2146380", "3336158"]).in_first(2).documents
-      resp.should have_the_same_number_of_documents_as(presp)
+      expect(presp).to include(["2146380", "3336158"]).in_first(2).documents
+      expect(resp).to have_the_same_number_of_documents_as(presp)
       tresp = solr_resp_doc_ids_only(title_search_args 'probabilities for use in stop-or-go sampling')
-      tresp.should include(["2146380", "3336158"]).in_first(2).documents
+      expect(tresp).to include(["2146380", "3336158"]).in_first(2).documents
       tpresp = solr_resp_doc_ids_only(title_search_args 'probabilities for use in "stop or go" sampling')
-      tpresp.should include(["2146380", "3336158"]).in_first(2).documents
-      tresp.should have_the_same_number_of_documents_as(tpresp)
+      expect(tpresp).to include(["2146380", "3336158"]).in_first(2).documents
+      expect(tresp).to have_the_same_number_of_documents_as(tpresp)
     end
   end
 
   context "used to prohibit a clause" do
     it 'should work with quotes' do
       resp = solr_resp_ids_from_query('mark twain -"tom sawyer"')
-      resp.should have_at_least(1400).documents
-      resp.should have_the_same_number_of_documents_as(solr_resp_ids_from_query('mark twain NOT "tom sawyer"'))
+      expect(resp.size).to be >= 1400
+      expect(resp).to have_the_same_number_of_documents_as(solr_resp_ids_from_query('mark twain NOT "tom sawyer"'))
     end
     it "should work with parens", :jira => 'VUF-379' do
       resp = solr_resp_ids_from_query('mark twain -(tom sawyer)')
-      resp.should have_at_least(1400).documents
-      resp.should have_the_same_number_of_documents_as(solr_resp_ids_from_query('mark twain NOT (tom sawyer)'))
+      expect(resp.size).to be >= 1400
+      expect(resp).to have_the_same_number_of_documents_as(solr_resp_ids_from_query('mark twain NOT (tom sawyer)'))
     end
   end
 
   context "hyphenated phrase in quotes \"Color-blind\" racism" do
     it "should ignore the hyphen" do
       resp = solr_resp_ids_from_query('"Color-blind" racism')
-      resp.should include("3499287").in_first(4)
+      expect(resp).to include("3499287").in_first(4)
       resp_no_hyphen = solr_resp_ids_from_query('"Color blind" racism')
-      resp_no_hyphen.should include("3499287").in_first(4)
-      resp.should have_the_same_number_of_documents_as(resp_no_hyphen)
+      expect(resp_no_hyphen).to include("3499287").in_first(4)
+      expect(resp).to have_the_same_number_of_documents_as(resp_no_hyphen)
       tresp = solr_resp_doc_ids_only(title_search_args '"Color-blind" racism')
-      tresp.should include("3499287").as_first
+      expect(tresp).to include("3499287").as_first
       tresp_no_hyphen = solr_resp_doc_ids_only(title_search_args '"Color blind" racism')
-      tresp_no_hyphen.should include("3499287").as_first
-      tresp.should have_the_same_number_of_documents_as(tresp_no_hyphen)
+      expect(tresp_no_hyphen).to include("3499287").as_first
+      expect(tresp).to have_the_same_number_of_documents_as(tresp_no_hyphen)
     end
   end
 

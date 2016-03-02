@@ -6,7 +6,7 @@ describe 'sorting results' do
       # TODO:  temporary fix until display year is better determined and coded
       #      resp = solr_response({'fl'=>'id,pub_date', 'facet'=>false})
       resp = solr_response('fl' => 'id,pub_date,imprint_display', 'facet' => false)
-      resp.should_not include('1') # should not be in document id order
+      expect(resp).not_to include('1') # should not be in document id order
       docs_match_current_year resp
     end
 
@@ -18,18 +18,18 @@ describe 'sorting results' do
       resp = solr_response('fq' => 'format_main_ssim:Book', 'fl' => 'id,pub_date,imprint_display,title_245a_display', 'facet' => false, 'rows' => 400)
       docs_match_current_year resp
       # _The collaborative analysis of student learning_ (imprint 2016/ pub_date (008) as 2016) before _Communicating advice_ (imprint 2016/ pub_date as 2016)
-      resp.should include('11233943').before('11369561')
+      expect(resp).to include('11233943').before('11369561')
     end
 
     it 'with facet access:Online; default sort should be by pub date desc then title asc' do
       resp = solr_response('fq' => 'access_facet:Online', 'fl' => 'id,pub_date', 'facet' => false)
-      resp.should_not include('7342') # Solidarité, 1902
+      expect(resp).not_to include('7342') # Solidarité, 1902
     end
   end # empty query
 
   def docs_match_current_year(resp)
     year = Time.new.year
-    year_regex_str = "#{year}|#{year + 1}|#{year + 2}|#{year + 3}|#{year + 4}|#{year + 5}|#{year + 6}|#{year + 7}|#{year + 8}|#{year + 9}|#{year + 10}"
+    year_regex_str = "|#{year - 1}|#{year - 2}|#{year - 3}|#{year - 4}|#{year - 5}|#{year}|#{year + 1}|#{year + 2}|#{year + 3}|#{year + 4}|#{year + 5}|#{year + 6}|#{year + 7}|#{year + 8}|#{year + 9}|#{year + 10}"
     resp['response']['docs'].each do |doc|
       imprint = doc['imprint_display'] ? doc['imprint_display'].join : ''
       date = doc['pub_date'] ? doc['pub_date'] : ''
@@ -40,11 +40,11 @@ describe 'sorting results' do
   context 'pub dates should not be 0000 or 9999' do
     it 'should not have earliest pub date of 0000' do
       resp = solr_response('fq' => 'format_main_ssim:Book', 'fl' => 'id,pub_date', 'sort' => 'pub_date asc', 'facet' => false)
-      resp.should_not include('pub_date' => /0000/)
+      expect(resp).not_to include('pub_date' => /0000/)
     end
     it 'should not have latest pub date of 9999' do
       resp = solr_response('fq' => 'format_main_ssim:Book', 'fl' => 'id,pub_date', 'sort' => 'pub_date desc', 'facet' => false)
-      resp.should_not include('pub_date' => /9999/)
+      expect(resp).not_to include('pub_date' => /9999/)
     end
   end
 

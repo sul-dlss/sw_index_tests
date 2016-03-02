@@ -20,9 +20,9 @@ describe 'Japanese Title searches', japanese: true do
     it_behaves_like 'matches in vern short titles first', 'title', '仏教', /^(佛|仏)(教|敎).*$/, 7 # title starts w match
     context 'w lang limit' do
       # trad
-      it_behaves_like 'result size and vern short title matches first', 'title', '佛教', 1000, 1300, /(佛|仏)(教|敎)/, 100, lang_limit
+      it_behaves_like 'result size and vern short title matches first', 'title', '佛教', 1000, 1350, /(佛|仏)(教|敎)/, 100, lang_limit
       # modern
-      it_behaves_like 'result size and vern short title matches first', 'title', '仏教', 1000, 1300, /(佛|仏)(教|敎)/, 100, lang_limit
+      it_behaves_like 'result size and vern short title matches first', 'title', '仏教', 1000, 1350, /(佛|仏)(教|敎)/, 100, lang_limit
     end
   end
   context 'editorial' do
@@ -33,7 +33,7 @@ describe 'Japanese Title searches', japanese: true do
     # no 説 (modern) in results
     resp = cjk_query_resp_ids('title', '論説', lang_limit)
     it 'should not sort series titles matches before main titles' do
-      resp.should_not include('6808627')
+      expect(resp).not_to include('6808627')
     end
   end
   context 'February 26 Incident', jira: 'VUF-2755' do
@@ -131,7 +131,7 @@ describe 'Japanese Title searches', japanese: true do
   context 'survey/investigation', jira: 'VUF-2727' do
     # second trad char isn't translated to modern with ICU trad -> simp
     # (see also japanese han variants)
-    it_behaves_like 'both scripts get expected result size', 'title', 'traditional', ' 調查', 'modern', '調査', 7500, 8500
+    it_behaves_like 'both scripts get expected result size', 'title', 'traditional', ' 調查', 'modern', '調査', 7500, 8600
     # exact title match
     it_behaves_like 'matches in vern short titles first', 'title', '調查', /^(調查|調査)[^[[:alnum:]]]*$/, 1 # trad
     it_behaves_like 'matches in vern short titles first', 'title', '調査', /^(調查|調査)[^[[:alnum:]]]*$/, 1 # mod
