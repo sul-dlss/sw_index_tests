@@ -103,9 +103,9 @@ describe 'Chinese Han variants', chinese: true do
     it '囯 vs  国' do
       # added  囯 56EF (variant) => 國 570B (std trad)
       resp = solr_resp_doc_ids_only('q' => '民囯时期社会调查丛编') # A (囯) is second char  # 1 in prod: 8593449, 2 in soc as of 2012-11
-      resp.should have_at_least(3).documents
-      resp.should include(%w(8593449 6553207))
-      resp.should include('8940619') # has title 民国时期社会调查丛编 - B (国) is second char  # 1 in prod: 8940619, 1 in soc as of 2012-11
+      expect(resp.size).to be >= 3
+      expect(resp).to include(%w(8593449 6553207))
+      expect(resp).to include('8940619') # has title 民国时期社会调查丛编 - B (国) is second char  # 1 in prod: 8940619, 1 in soc as of 2012-11
     end
   end
 

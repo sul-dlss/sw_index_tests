@@ -9,22 +9,22 @@ describe "ampersands in queries" do
     let(:tresp) { solr_resp_doc_ids_only(title_search_args(q_with_amp)) }
     let(:ptresp) { solr_resp_doc_ids_only(title_search_args("\"#{q_with_amp}\"")) }
     it "should have great results for query" do
-      resp.should include(exp_ids).in_first(first_x).documents
-      presp.should include(exp_ids).in_first(first_x).documents
-      tresp.should include(exp_ids).in_first(first_x).documents
-      ptresp.should include(exp_ids).in_first(first_x).documents
+      expect(resp).to include(exp_ids).in_first(first_x).documents
+      expect(presp).to include(exp_ids).in_first(first_x).documents
+      expect(tresp).to include(exp_ids).in_first(first_x).documents
+      expect(ptresp).to include(exp_ids).in_first(first_x).documents
     end
     it "should ignore ampersand in everything searches" do
-      resp.should have_the_same_number_of_documents_as(solr_resp_ids_from_query(q_no_amp))
+      expect(resp).to have_the_same_number_of_documents_as(solr_resp_ids_from_query(q_no_amp))
     end
     it "should ignore ampersand in everything phrase searches" do
-      presp.should have_the_same_number_of_documents_as(solr_resp_ids_from_query("\"#{q_no_amp}\""))
+      expect(presp).to have_the_same_number_of_documents_as(solr_resp_ids_from_query("\"#{q_no_amp}\""))
     end
     it "should ignore ampersand in title searches" do
-      tresp.should have_the_same_number_of_documents_as(solr_resp_doc_ids_only(title_search_args(q_no_amp)))
+      expect(tresp).to have_the_same_number_of_documents_as(solr_resp_doc_ids_only(title_search_args(q_no_amp)))
     end
     it "should ignore ampersand in title phrase searches" do
-      ptresp.should have_the_same_number_of_documents_as(solr_resp_doc_ids_only(title_search_args("\"#{q_no_amp}\"")))
+      expect(ptresp).to have_the_same_number_of_documents_as(solr_resp_doc_ids_only(title_search_args("\"#{q_no_amp}\"")))
     end
   end
 

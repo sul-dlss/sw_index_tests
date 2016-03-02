@@ -21,8 +21,8 @@ describe 'Japanese Everything Searches', japanese: true do
     # (see also japanese_han_variants_spec)
     # FIXME:  these do not give the same numbers of results.
     # it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '江戶', 'modern', '江戸', 1900, 2000, lang_limit
-    it_behaves_like 'expected result size', 'everything', '江戶', 1975, 2075, lang_limit  # trad
-    it_behaves_like 'expected result size', 'everything', '江戸', 1975, 2075, lang_limit  # modern
+    it_behaves_like 'expected result size', 'everything', '江戶', 1975, 2250, lang_limit  # trad
+    it_behaves_like 'expected result size', 'everything', '江戸', 1975, 2250, lang_limit  # modern
 
     it_behaves_like 'matches in vern short titles first', 'everything', '江戶', /(江戶|江戸)/, 100, lang_limit # trad
     it_behaves_like 'matches in vern short titles first', 'everything', '江戸', /(江戶|江戸)/, 100, lang_limit # modern
@@ -118,7 +118,7 @@ describe 'Japanese Everything Searches', japanese: true do
   context 'TPP', jira: 'VUF-2694' do
     it_behaves_like 'result size and vern short title matches first', 'everything', 'TPP', 100, 200, /TPP/, 6
     context 'w lang limit' do
-      it_behaves_like 'result size and vern short title matches first', 'everything', 'TPP', 8, 12, /TPP/, 6, lang_limit
+      it_behaves_like 'result size and vern short title matches first', 'everything', 'TPP', 8, 15, /TPP/, 6, lang_limit
     end
   end
 end

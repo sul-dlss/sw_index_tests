@@ -16,15 +16,15 @@ describe 'CJK Advanced Search' do
       end
       it 'num expected' do
         # there are only 2 exact matches as of 2013-10-25; these are the only ones found w/o cjk search fields
-        @resp.should have_at_least(3).documents
-        @resp.should have_at_most(10).documents # 41 match everything search
+        expect(@resp.size).to be >= 3
+        expect(@resp.size).to be <= 10 # 41 match everything search
       end
       it 'whitespace exact matches first' do
         exact_matches = %w(6321193 6355327)
-        @resp.should include(exact_matches).in_first(exact_matches.size + 2).documents
+        expect(@resp).to include(exact_matches).in_first(exact_matches.size + 2).documents
       end
       it 'matches without spaces present' do
-        @resp.should include('6668315').in_first(20).documents
+        expect(@resp).to include('6668315').in_first(20).documents
       end
     end
 
@@ -34,17 +34,17 @@ describe 'CJK Advanced Search' do
       end
       it 'num expected' do
         # there are only 6 exact matches as of 2013-10-25; these are the only ones found w/o cjk search fields
-        @resp.should have_at_least(800).documents
+        expect(@resp.size).to be >= 800
         everything_num = cjk_query_resp_ids('everything', 'ミネルヴァ 書房').size
-        @resp.should have_at_most(everything_num - 1).documents
+        expect(@resp.size).to be <= everything_num - 1
       end
       it 'whitespace exact matches first' do
         exact_matches = %w(4196577 4203788 4199853 4198109 4203994 4197487)
-        @resp.should include(exact_matches).in_first(exact_matches.size).documents
+        expect(@resp).to include(exact_matches).in_first(exact_matches.size).documents
       end
       it 'matches without spaces present' do
         no_space_exact_matches = %w(11063470 11383336) # 2 out of many
-        @resp.should include(no_space_exact_matches).in_first(20).documents
+        expect(@resp).to include(no_space_exact_matches).in_first(20).documents
       end
     end
 
@@ -54,29 +54,29 @@ describe 'CJK Advanced Search' do
       end
       it 'num expected' do
         # there are 14 exact matches as of 2013-10-25; these are the only ones found w/o cjk search fields
-        @resp.should have_at_least(15).documents
-        @resp.should have_at_most(17).documents # 20 match everything search
+        expect(@resp.size).to be >= 15
+        expect(@resp.size).to be <= 17 # 20 match everything search
       end
       it 'whitespace exact matches first' do
         exact_matches = %w(9392905 9350464)
-        @resp.should include(exact_matches).in_first(exact_matches.size).documents
+        expect(@resp).to include(exact_matches).in_first(exact_matches.size).documents
       end
       it 'matches without spaces present' do
         inexact_matches = '8630944'
-        @resp.should include(inexact_matches).in_first(20).documents
+        expect(@resp).to include(inexact_matches).in_first(20).documents
       end
     end
 
     context 'Unigram' do
       it 'Place: Tsu (津):  num expected' do
         resp = cjk_adv_solr_resp({ 'q' => "#{cjk_pub_info_query('tsu 津')}" }.merge(solr_args))
-        resp.should have_at_least(30).documents # matches 19 wo cjk search fields
-        resp.should have_at_most(50).documents # 55 match everything search
+        expect(resp.size).to be >= 30 # matches 19 wo cjk search fields
+        expect(resp.size).to be <= 50 # 55 match everything search
       end
       it 'Place: 津  (no Tsu term): num expected' do
         resp = cjk_adv_solr_resp({ 'q' => "#{cjk_pub_info_query('津')}" }.merge(solr_args))
-        resp.should have_at_least(50).documents # matches 19 wo cjk search fields
-        resp.should have_at_most(3650).documents # 6560 match everything search
+        expect(resp.size).to be >= 50 # matches 19 wo cjk search fields
+        expect(resp.size).to be <= 4000 # 6560 match everything search
       end
     end
   end # Publication Info
@@ -89,16 +89,16 @@ describe 'CJK Advanced Search' do
       end
       it 'num expected' do
         # there is only 1 exact match as of 2013-10-25; these are the only ones found w/o cjk search fields
-        @resp.should have_at_least(1).documents
-        @resp.should have_at_most(5).documents # 3 match everything search
+        expect(@resp.size).to be >= 1
+        expect(@resp.size).to be <= 5 # 3 match everything search
       end
       it 'whitespace exact matches first' do
         exact_matches = ['6626123']
-        @resp.should include(exact_matches).in_first(exact_matches.size).documents
+        expect(@resp).to include(exact_matches).in_first(exact_matches.size).documents
       end
       it 'matches without spaces present' do
         no_space_exact_matches = %w(6305856 6626759)
-        @resp.should include(no_space_exact_matches).in_first(5).documents
+        expect(@resp).to include(no_space_exact_matches).in_first(5).documents
       end
     end
     context 'Ningxia Border Region  陝甘寧邊區' do
@@ -108,11 +108,11 @@ describe 'CJK Advanced Search' do
       no_space_exact_matches = %w(6326387 6328507 8795876 9134891 6514338 6723694 6723782 6298281)
       it 'num expected' do
         # there are 0 exact matches as of 2013-10-29; these are the only ones found w/o cjk search fields
-        @resp.should have_at_least(no_space_exact_matches.size).documents
-        @resp.should have_at_most(20).documents # 180 match everything search
+        expect(@resp.size).to be >= no_space_exact_matches.size
+        expect(@resp.size).to be <= 20 # 180 match everything search
       end
       it 'matches without spaces present' do
-        @resp.should include(no_space_exact_matches).in_first(10).documents
+        expect(@resp).to include(no_space_exact_matches).in_first(10).documents
       end
     end
   end
@@ -120,13 +120,13 @@ describe 'CJK Advanced Search' do
   context 'Description (catchall only)' do
     it 'Ningxia Border Region ( 陝甘寧邊區) num expected' do
       resp = cjk_adv_solr_resp({ 'q' => "#{cjk_everything_query('陝甘寧邊區')}" }.merge(solr_args))
-      resp.should have_at_least(150).documents # 63 match whitespace (non-CJK aware search)
-      resp.should have_at_most(250).documents
+      expect(resp.size).to be >= 150 # 63 match whitespace (non-CJK aware search)
+      expect(resp.size).to be <= 250
     end
     it 'Tsu (津):  num expected' do
       resp = cjk_adv_solr_resp({ 'q' => "#{cjk_everything_query('津')}" }.merge(solr_args))
-      resp.should have_at_least(30).documents # matches 22 wo cjk search fields
-      resp.should have_at_most(8000).documents
+      expect(resp.size).to be >= 30 # matches 22 wo cjk search fields
+      expect(resp.size).to be <= 8000
     end
   end
 
@@ -135,25 +135,25 @@ describe 'CJK Advanced Search' do
       context 'title Nihon seishin seisei shiron (日本精神生成史論), author Shigeo Suzuki (鈴木重雄)' do
         it 'AND' do
           resp = cjk_adv_solr_resp({ 'q' => "#{cjk_title_query('日本精神生成史論')} AND #{cjk_author_query('鈴木重雄')}" }.merge(solr_args))
-          resp.should have_at_least(1).documents # 1 with non-CJK aware fields
-          resp.should have_at_most(5).documents
+          expect(resp.size).to be >= 1 # 1 with non-CJK aware fields
+          expect(resp.size).to be <= 5
         end
         it 'OR' do
           resp = cjk_adv_solr_resp({ 'q' => "#{cjk_title_query('日本精神生成史論')} OR #{cjk_author_query('鈴木重雄')}" }.merge(solr_args))
-          resp.should have_at_least(5).documents # 4 with non-CJK aware fields
-          resp.should have_at_most(20).documents
+          expect(resp.size).to be >= 5 # 4 with non-CJK aware fields
+          expect(resp.size).to be <= 20
         end
       end
       context 'title Ji cu zhan shu (基礎戰術), author Mao, Zedong (毛澤東)' do
         it 'AND' do
           resp = cjk_adv_solr_resp({ 'q' => "#{cjk_title_query('基礎戰術')} AND #{cjk_author_query('毛澤東')}" }.merge(solr_args))
-          resp.should have_at_least(2).documents # 2 with non-CJK aware fields
-          resp.should have_at_most(5).documents
+          expect(resp.size).to be >= 2 # 2 with non-CJK aware fields
+          expect(resp.size).to be <= 5
         end
         it 'OR' do
           resp = cjk_adv_solr_resp({ 'q' => "#{cjk_title_query('基礎戰術')} OR #{cjk_author_query('毛澤東')}" }.merge(solr_args))
-          resp.should have_at_least(350).documents # 316 with non-CJK aware fields
-          resp.should have_at_most(550).documents
+          expect(resp.size).to be >= 350 # 316 with non-CJK aware fields
+          expect(resp.size).to be <= 550
         end
       end
     end # title + author
@@ -162,27 +162,27 @@ describe 'CJK Advanced Search' do
         expected = %w(9617331 5175639 4822276)
         it 'AND' do
           resp = cjk_adv_solr_resp({ 'q' => "#{cjk_title_query('日報')} AND #{cjk_pub_info_query('濟南')}" }.merge(solr_args))
-          resp.should have_at_least(5).documents # none with non-CJK aware fields
-          resp.should have_at_most(15).documents
-          resp.should include(expected)
+          expect(resp.size).to be >= 5 # none with non-CJK aware fields
+          expect(resp.size).to be <= 15
+          expect(resp).to include(expected)
         end
         it 'OR' do
           resp = cjk_adv_solr_resp({ 'q' => "#{cjk_title_query('日報')} OR #{cjk_pub_info_query('濟南')}" }.merge(solr_args))
-          resp.should have_at_least(5000).documents # almost 5000 with non-CJK aware fields
-          resp.should have_at_most(10_000).documents
-          resp.should include(expected)
+          expect(resp.size).to be >= 5000 # almost 5000 with non-CJK aware fields
+          expect(resp.size).to be <= 10_000
+          expect(resp).to include(expected)
         end
       end
       context 'unigram title Float (飄), place Shanghai (上海)' do
         it 'AND' do
           resp = cjk_adv_solr_resp({ 'q' => "#{cjk_title_query('飄')} AND #{cjk_pub_info_query('上海')}" }.merge(solr_args))
-          resp.should have_at_least(10).documents # 1 with non-CJK aware fields
-          resp.should have_at_most(20).documents
+          expect(resp.size).to be >= 10 # 1 with non-CJK aware fields
+          expect(resp.size).to be <= 20
         end
         it 'OR' do
           resp = cjk_adv_solr_resp({ 'q' => "#{cjk_title_query('飄')} OR #{cjk_pub_info_query('上海')}" }.merge(solr_args))
-          resp.should have_at_least(40_000).documents # over 36000 with non-CJK aware fields
-          resp.should have_at_most(45_000).documents
+          expect(resp.size).to be >= 40_000 # over 36000 with non-CJK aware fields
+          expect(resp.size).to be <= 45_000
         end
       end
     end # title + pub info
@@ -190,13 +190,13 @@ describe 'CJK Advanced Search' do
       context "Ningxia Border Region (陝甘寧邊區), place Yan'an (延安)" do
         it 'AND' do
           resp = cjk_adv_solr_resp({ 'q' => "#{cjk_everything_query('陝甘寧邊區')} AND #{cjk_pub_info_query('延安')}" }.merge(solr_args))
-          resp.should have_at_least(30).documents # 25 with non-CJK aware fields
-          resp.should have_at_most(40).documents
+          expect(resp.size).to be >= 30 # 25 with non-CJK aware fields
+          expect(resp.size).to be <= 40
         end
         it 'OR' do
           resp = cjk_adv_solr_resp({ 'q' => "#{cjk_everything_query('陝甘寧邊區')} OR #{cjk_pub_info_query('延安')}" }.merge(solr_args))
-          resp.should have_at_least(375).documents # 329 with non-CJK aware fields
-          resp.should have_at_most(500).documents
+          expect(resp.size).to be >= 375 # 329 with non-CJK aware fields
+          expect(resp.size).to be <= 500
         end
       end
     end
