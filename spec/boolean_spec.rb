@@ -256,7 +256,7 @@ describe 'boolean operators' do
     it 'lesbian OR gay videos', jira: ['VUF-300', 'VUF-301', 'VUF-311'] do
       resp = solr_resp_doc_ids_only('q' => 'lesbian OR gay', 'fq' => 'format:Video')
       expect(resp.size).to be >= 1000
-      expect(resp.size).to be <= 1500
+      expect(resp.size).to be <= 1750
     end
 
     context 'street art and graffiti', jira: 'VUF-1013' do

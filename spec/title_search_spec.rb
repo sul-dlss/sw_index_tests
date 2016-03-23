@@ -59,7 +59,7 @@ describe "Title Search" do
   it "mathis der maler", :jira => 'VUF-89' do
     resp = solr_resp_doc_ids_only(title_search_args 'mathis der maler')
     expect(resp.size).to be >= 35
-    expect(resp.size).to be <= 50
+    expect(resp.size).to be <= 60
   end
 
   it "seriousness", :jira => 'VUF-89' do
@@ -77,7 +77,7 @@ describe "Title Search" do
   it "Shape optimization and optimal design : proceedings of the IFIP conference", :jira => 'VUF-1995' do
     resp = solr_resp_ids_titles(title_search_args 'Shape optimization and optimal design : proceedings of the IFIP conference')
     expect(resp).to include("title_245a_display" => /Shape optimization and optimal design/i).as_first
-    expect(resp.size).to be <= 25
+    expect(resp.size).to be <= 30
   end
 
   it "Grundlagen der Medienkommunikation", :jira => 'VUF-511' do

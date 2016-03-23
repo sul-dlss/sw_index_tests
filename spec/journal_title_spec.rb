@@ -9,7 +9,7 @@ describe "journal/newspaper titles" do
       orig_query_str = solr_params['q'].split('}').last
       resp = solr_resp_ids_titles(solr_params)
       expect(resp).to include({'title_245a_display' => /^#{orig_query_str}\W*$/i}).in_each_of_first(exp_ids.size)
-      expect(resp).to include(exp_ids).in_first(exp_ids.size + 2) # a little slop built in
+      expect(resp).to include(exp_ids).in_first(exp_ids.size + 10) # a little slop built in
     end
   end
 
@@ -224,7 +224,7 @@ describe "journal/newspaper titles" do
     end
     it "'Times of London' - common words ... as a phrase  (it's actually a newspaper ...)" do
       resp = solr_resp_doc_ids_only(title_search_args('"Times of London"').merge({'fq' => 'format:Newspaper'}))
-      expect(resp).to include(['425948', '8376802']).in_first(3)
+      expect(resp).to include(['425948', '425951']).in_first(3)
     end
   end # the Times
 

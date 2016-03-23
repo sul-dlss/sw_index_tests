@@ -335,12 +335,12 @@ describe 'advanced search' do
       it 'pub info 2010' do
         resp = solr_resp_doc_ids_only({ 'q' => "#{pub_info_query('2010')}" }.merge(solr_args))
         expect(resp.size).to be >= 145_000
-        expect(resp.size).to be <= 150_000
+        expect(resp.size).to be <= 155_000
       end
       it 'pub info 2011' do
         resp = solr_resp_doc_ids_only({ 'q' => "#{pub_info_query('2011')}" }.merge(solr_args))
         expect(resp.size).to be >= 137_000
-        expect(resp.size).to be <= 143_000
+        expect(resp.size).to be <= 145_000
       end
       it 'subject and pub info 2010' do
         resp = solr_resp_doc_ids_only({ 'q' => "#{subject_query('soviet union and historiography')} AND #{pub_info_query('2010')}" }.merge(solr_args))
@@ -422,7 +422,7 @@ describe 'advanced search' do
       it 'add topic science fiction' do
         resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Media & Microtext Center"), topic_facet:("Feature films"), topic_facet:("Science fiction films")', 'q' => 'collection:*' }.merge(solr_args))
         expect(resp.size).to be >= 500
-        expect(resp.size).to be <= 650
+        expect(resp.size).to be <= 700
       end
     end
   end
