@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 describe "Korean Titles", :korean => true do
-  
+
   lang_limit = {'fq'=>'language:Korean'}
 
   context "Hancha: History of Korean contemporary literature", :jira => 'VUF-2741' do
@@ -14,7 +14,7 @@ describe "Korean Titles", :korean => true do
       # 6317536: title plus (almost)   Hanʼguk hyŏndae munhak pipʻyŏngsa.  韓國現代文學批評史
       # 6317537: title plus (almost)  Hanʼguk hyŏndae munhak pipʻyŏngsa.  韓國現代文學批評史
       it_behaves_like 'best matches first', 'title', query, ['6317536', '6317537'], 7, lang_limit
-      # 8802461: almost title  Han'guk hyŏndae yŏsŏng munhaksa  韓國 現代 女性 文學史 (History of Korean women’s contemporary literature) 
+      # 8802461: almost title  Han'guk hyŏndae yŏsŏng munhaksa  韓國 現代 女性 文學史 (History of Korean women’s contemporary literature)
       it_behaves_like 'best matches first', 'title', query, '8802461', 8, lang_limit
       # 7595639: title with all but last char  Hanʼguk hyŏndae munhak yŏnpʻyo and  with publisher name 文學思想史
       # 9220810: title with all but last char  Han'guk hyŏndae munhak kwa sidae chŏngsin
@@ -63,12 +63,12 @@ describe "Korean Titles", :korean => true do
       # 세계 속 한국 근대사 (Korean modern history in the world)
       # 고쳐 쓴 한국 근대사 (Revised Korean modern history)
       # 한국 근현대사 강의 (lecture on Korean modern and contemporary history)  includes the subject but not exactly top relevant topic.
-    
+
       # “한국 근대 의 사회 복지” (ckey: 6718961) and “통계로 본 한국 근현대사” (ckey: 6686526)
       it_behaves_like 'does not find irrelevant results', 'title', query, ['6718961', '6686526'], 'rows' => 45
     end
     context "한국 근대사 (space, not a phrase)" do
-      it_behaves_like "expected result size", 'title', '한국 근대사', 200, 275
+      it_behaves_like "expected result size", 'title', '한국 근대사', 200, 325
       it_behaves_like "good title results for 한국 근대사", '한국 근대사'
     end
     context '"한국 근대사" (phrase)' do

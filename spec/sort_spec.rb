@@ -17,8 +17,8 @@ describe 'sorting results' do
       #      resp.should include("pub_date" => /(#{year}|#{year + 1}|#{year + 2})/).in_each_of_first(20).documents
       resp = solr_response('fq' => 'format_main_ssim:Book', 'fl' => 'id,pub_date,imprint_display,title_245a_display', 'facet' => false, 'rows' => 400)
       docs_match_current_year resp
-      # _The collaborative analysis of student learning_ (imprint 2016/ pub_date (008) as 2016) before _Communicating advice_ (imprint 2016/ pub_date as 2016)
-      expect(resp).to include('11233943').before('11369561')
+      # _Optics_ (pub_date (008) as 2017) before _Adult swim_ (pub_date as 2016)
+      expect(resp).to include('11588747').before('11622716')
     end
 
     it 'with facet access:Online; default sort should be by pub date desc then title asc' do

@@ -17,8 +17,8 @@ describe "Japanese Unigrams", :japanese => true do
   end
 
   context "Zen" do
-    it_behaves_like "result size and vern short title matches first", 'title', '禅', 900, 1100, /禅/, 4
-    it_behaves_like "both scripts get expected result size", 'title', 'traditional', '禪', 'modern', '禅', 900, 1100
+    it_behaves_like "result size and vern short title matches first", 'title', '禅', 900, 1200, /禅/, 4
+    it_behaves_like "both scripts get expected result size", 'title', 'traditional', '禪', 'modern', '禅', 900, 1200
     it_behaves_like "both scripts get expected result size", 'title', 'traditional', '禪', 'modern', '禅', 425, 525, lang_limit
     # 4193363 - modern;  6667691 - trad
     it_behaves_like "best matches first", 'title', '禅', ['4193363', '6667691'], 6, lang_limit
