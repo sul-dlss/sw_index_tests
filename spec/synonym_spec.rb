@@ -176,7 +176,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
       end
       it "c# minor" do
         resp = solr_response({'q' => 'c# minor', 'fl'=>'id,title_display', 'facet'=>false})
-        expect(resp).to include("title_display" => /c(#|♯|\-sharp| sharp) minor/i).in_each_of_first(20).documents
+        expect(resp).to include("title_display" => /c(#|♯|\-sharp| sharp) minor/i).in_each_of_first(15).documents
         expect(resp.size).to be <= 2500
         expect(resp).to have_the_same_number_of_results_as(solr_resp_ids_from_query('C♯ minor'))
         expect(resp).to have_the_same_number_of_results_as(solr_resp_ids_from_query('C-sharp minor'))
@@ -186,7 +186,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
       it "d#" do
         resp = solr_resp_ids_from_query('d#')
         expect(resp).to include('7941865').as_first  # Etude in D sharp minor
-        expect(resp.size).to be <= 200  # should not include d  as well, only  d sharp
+        expect(resp.size).to be <= 250  # should not include d  as well, only  d sharp
         # the following all have a short title (245a) of D
         expect(resp).not_to include(['5988225', '9257569', '423004', '9095168', '9206662'])
       end

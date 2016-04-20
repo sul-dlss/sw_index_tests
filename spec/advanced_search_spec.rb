@@ -398,12 +398,12 @@ describe 'advanced search' do
       it 'before topics selected' do
         resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Green")', 'q' => 'collection:*' }.merge(solr_args))
         expect(resp.size).to be >= 150
-        expect(resp.size).to be <= 350
+        expect(resp.size).to be <= 450
       end
       it 'add topic feature films' do
         resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Green"), topic_facet:("Feature films")', 'q' => 'collection:*' }.merge(solr_args))
-        expect(resp.size).to be >= 25
-        expect(resp.size).to be <= 125
+        expect(resp.size).to be >= 100
+        expect(resp.size).to be <= 200
       end
     end
     context 'format video, location Media Microtext, language english' do

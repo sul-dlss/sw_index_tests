@@ -406,7 +406,6 @@ describe "journal/newspaper titles" do
                '8227544', # marcit
                '8227545', # marcit
                '9208881', # marcit, al bawaba, other
-               '9213757', # marcit, smalltownpaper, other
                '5960691', # video
                '389374', # hoover, other
                '287788', # music score
