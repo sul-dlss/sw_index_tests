@@ -45,7 +45,7 @@ describe 'Japanese Title searches', japanese: true do
     #  6360442 seems to confuse "に (= Japanese kana, romanized as 'ni') which appears after "十六名 (jurokumei)" with "ニ (= number 2 in Kanji)"
   end
   context 'grandpa  おじいさん (hiragana)', jira: 'VUF-2715' do
-    it_behaves_like 'both scripts get expected result size', 'title', 'hiragana', 'おじいさん', 'katagana', 'オジいサン', 10, 20
+    it_behaves_like 'both scripts get expected result size', 'title', 'hiragana', 'おじいさん', 'katagana', 'オジいサン', 10, 25
     it_behaves_like 'matches in vern short titles first', 'title', 'おじいさん', /おじいさん|オジいサン/, 2
     it_behaves_like 'matches in vern titles first', 'title', 'おじいさん', /おじいさん|オジいサン/, 2
     it_behaves_like 'matches in vern titles', 'title', 'おじいさん', /おじいさん/, 11 # hiragana script is in results

@@ -262,8 +262,8 @@ describe 'boolean operators' do
     context 'street art and graffiti', jira: 'VUF-1013' do
       it '((street art) OR graffiti) AND aspects' do
         resp = solr_resp_doc_ids_only(subject_search_args '((street art) OR graffiti) AND aspects')
-        expect(resp.size).to be >= 3000
-        expect(resp.size).to be <= 3800
+        expect(resp.size).to be >= 3100
+        expect(resp.size).to be <= 3900
       end
       it '("street art" OR graffiti) AND aspects' do
         resp = solr_resp_doc_ids_only(subject_search_args '("street art" OR graffiti) AND aspects')
