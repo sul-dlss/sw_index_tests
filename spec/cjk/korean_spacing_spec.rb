@@ -170,7 +170,7 @@ describe "Korean spacing", :korean => true do
       it_behaves_like "good results for query", 'everything', query, 1, 1, '9323348', 1
     end
     shared_examples_for "good results for 한국  경제의  미래와  생존  전략" do | query |
-      it_behaves_like "good results for query", 'everything', query, 1, 5, '9323348', 1
+      it_behaves_like "good results for query", 'everything', query, 1, 10, '9323348', 1
     end
     context "한국경제의미래와생존전략 (no spaces)" do
       it_behaves_like "good results for 한국경제의미래와생존전략", '한국경제의미래와생존전략'
@@ -333,7 +333,7 @@ describe "Korean spacing", :korean => true do
     end
     context "Beauty of Korea" do
       shared_examples_for "good results for 韓國의 美" do | query |
-        it_behaves_like "good results for query", 'everything', query, 30, 55, '6665111', 1
+        it_behaves_like "good results for query", 'everything', query, 30, 60, '6665111', 1
       end
       context "韓國의 美  (normal spacing)" do
         it_behaves_like "good results for 韓國의 美", '韓國의 美'
