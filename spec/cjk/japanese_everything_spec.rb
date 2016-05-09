@@ -94,7 +94,7 @@ describe 'Japanese Everything Searches', japanese: true do
     it_behaves_like 'result size and vern short title matches first', 'everything', '日外', 500, 2500, /日外/, 35
   end
   context "publisher's name starting with 'outside of Japan'", jira: 'VUF-2699' do
-    it_behaves_like 'expected result size', 'everything', '日外アソシエーツ', 500, 650
+    it_behaves_like 'expected result size', 'everything', '日外アソシエーツ', 600, 750
     it_behaves_like 'matches in vern corp authors first', 'everything', '日外アソシエーツ', /日外アソシエーツ/, 2
   end
 
