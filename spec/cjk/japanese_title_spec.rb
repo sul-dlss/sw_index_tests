@@ -131,7 +131,7 @@ describe 'Japanese Title searches', japanese: true do
   context 'survey/investigation', jira: 'VUF-2727' do
     # second trad char isn't translated to modern with ICU trad -> simp
     # (see also japanese han variants)
-    it_behaves_like 'both scripts get expected result size', 'title', 'traditional', ' 調查', 'modern', '調査', 7500, 8600
+    it_behaves_like 'both scripts get expected result size', 'title', 'traditional', ' 調查', 'modern', '調査', 7500, 8700
     # exact title match
     it_behaves_like 'matches in vern short titles first', 'title', '調查', /^(調查|調査)[^[[:alnum:]]]*$/, 1 # trad
     it_behaves_like 'matches in vern short titles first', 'title', '調査', /^(調查|調査)[^[[:alnum:]]]*$/, 1 # mod
