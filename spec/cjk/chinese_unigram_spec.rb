@@ -43,15 +43,15 @@ describe 'Chinese Unigrams', chinese: true do
                     ]
       japanese_245a = ['9146942', # has variant 2nd char 囯 56EF
                       ]
-      it_behaves_like 'good results for query', 'title', '三國誌', 170, 200, chinese_245a, 25, 'rows' => 25
+      it_behaves_like 'good results for query', 'title', '三國誌', 170, 250, chinese_245a, 25, 'rows' => 25
       it_behaves_like 'good results for query', 'title', '三國 誌', 170, 200, chinese_245a, 25, 'rows' => 25
-      it_behaves_like 'result size and vern short title matches first', 'title', '三國誌', 170, 200, /三(國|国|囯)(誌|志)/, 30, 'rows' => 50
+      it_behaves_like 'result size and vern short title matches first', 'title', '三國誌', 170, 250, /三(國|国|囯)(誌|志)/, 30, 'rows' => 50
       it_behaves_like 'result size and vern short title matches first', 'title', '三国 志', 170, 200, /三(國|国|囯)(誌|志)/, 25, 'rows' => 50
       it_behaves_like 'best matches first', 'title', '三國誌', korean_245a, 20
       it_behaves_like 'best matches first', 'title', '三國 誌', korean_245a, 20
       it_behaves_like 'best matches first', 'title', '三國誌', japanese_245a, 20
       it_behaves_like 'best matches first', 'title', '三國 誌', japanese_245a, 20
-      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '三國誌', 'simplified', '三国志', 170, 200
+      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '三國誌', 'simplified', '三国志', 170, 250
     end
   end
 end
