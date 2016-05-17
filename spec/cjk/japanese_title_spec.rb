@@ -12,7 +12,7 @@ describe 'Japanese Title searches', japanese: true do
     # First char of traditional doesn't translate to first char of modern with ICU traditional->simplified
     # (traditional and simplified are the same;  modern is different)
     # (see also japanese han variants spec)
-    it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '佛教', 'modern', '仏教', 2500, 3000
+    it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '佛教', 'modern', '仏教', 3000, 3500
     it_behaves_like 'matches in vern short titles first', 'title', '佛教', /(佛|仏)(教|敎)/, 100  # trad
     it_behaves_like 'matches in vern short titles first', 'title', '仏教', /(佛|仏)(教|敎)/, 100  # modern
     exact_245a = %w(6854317 4162614 6276328 10243029 10243045 10243039)
