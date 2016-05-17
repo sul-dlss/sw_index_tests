@@ -253,7 +253,7 @@ describe 'advanced search' do
       it 'author' do
         expect(@author_resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only({ 'q' => "#{author_query('campana')}" }.merge(solr_args)))
         expect(@author_resp.size).to be >= 175
-        expect(@author_resp.size).to be <= 225
+        expect(@author_resp.size).to be <= 250
         expect(@author_resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only(author_search_args('campana')))
       end
       it 'keyword' do
@@ -416,8 +416,8 @@ describe 'advanced search' do
       end
       it 'add topic feature films' do
         resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Media & Microtext Center"), topic_facet:("Feature films")', 'q' => 'collection:*' }.merge(solr_args))
-        expect(resp.size).to be >= 10_000
-        expect(resp.size).to be <= 20_000
+        expect(resp.size).to be >= 10_500
+        expect(resp.size).to be <= 20_500
       end
       it 'add topic science fiction' do
         resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Media & Microtext Center"), topic_facet:("Feature films"), topic_facet:("Science fiction films")', 'q' => 'collection:*' }.merge(solr_args))

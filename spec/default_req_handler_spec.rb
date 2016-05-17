@@ -4,7 +4,7 @@ describe 'Default Request Handler' do
   it "q of 'Buddhism' should get 11,000 - 12,000 results", jira: 'VUF-160' do
     resp = solr_resp_ids_from_query 'Buddhism'
     expect(resp.size).to be >= 11_000
-    expect(resp.size).to be <= 12_000
+    expect(resp.size).to be <= 12_100
   end
 
   it "q of 'String quartets Parts' and variants should be plausible", jira: 'VUF-390' do

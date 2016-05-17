@@ -55,7 +55,7 @@ describe 'CJK Advanced Search' do
       it 'num expected' do
         # there are 14 exact matches as of 2013-10-25; these are the only ones found w/o cjk search fields
         expect(@resp.size).to be >= 15
-        expect(@resp.size).to be <= 17 # 20 match everything search
+        expect(@resp.size).to be <= 19 # 20 match everything search
       end
       it 'whitespace exact matches first' do
         exact_matches = %w(9392905 9350464)
