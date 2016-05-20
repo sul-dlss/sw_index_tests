@@ -118,7 +118,7 @@ describe 'Japanese Title searches', japanese: true do
     # First char of traditional doesn't translate to first char of modern with ICU traditional->simplified
     # (see also japanese han variants for plain buddhism)
     it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '佛教學', 'modern', '仏教学', 350, 650
-    it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '佛教學', 'modern', '仏教学', 175, 250, lang_limit
+    it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '佛教學', 'modern', '仏教学', 200, 300, lang_limit
     it_behaves_like 'matches in vern short titles first', 'title', '佛教學', /(佛|仏)(教|敎)(學|学)/, 15, lang_limit # trad
     it_behaves_like 'matches in vern short titles first', 'title', '仏教学', /(佛|仏)(教|敎)(學|学)/, 15, lang_limit # modern
     it_behaves_like 'matches in vern short titles first', 'title', '佛教學', /(佛|仏)(教|敎)(學|学)/, 15 # trad
