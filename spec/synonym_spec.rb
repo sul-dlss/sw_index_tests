@@ -107,7 +107,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
       end
       it "professional C++" do
         resp = solr_resp_ids_from_query('professional C++')
-        expect(resp).to include(['9612289', '9240287', '7534583', '7819695', '9801531']).in_first(10).results
+        expect(resp).to include(['9612289', '9240287', '7534583', '8257317', '9801531']).in_first(10).results
         expect(resp.size).to be <= 150
         expect(resp).not_to have_the_same_number_of_results_as(solr_resp_ids_from_query "professional C")
       end
@@ -119,7 +119,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
       end
       it "C++ programming" do
         resp = solr_response({'q'=>"C++ programming", 'fl'=>'id,title_245a_display', 'facet'=>false})
-        expect(resp).to include("title_245a_display" => /C\+\+ programming/i).in_each_of_first(20).documents
+        expect(resp).to include("title_245a_display" => /C\+\+ programming/i).in_each_of_first(15).documents
         expect(resp.size).to be <= 1500
         expect(resp).not_to have_the_same_number_of_results_as(solr_resp_ids_from_query "C computer program")
       end
