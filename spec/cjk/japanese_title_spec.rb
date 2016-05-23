@@ -5,7 +5,7 @@ describe 'Japanese Title searches', japanese: true do
   lang_limit = { 'fq' => 'language:Japanese' }
 
   context 'blocking ブロック化 (katakana-kanji mix)', jira: 'VUF-2695' do
-    it_behaves_like 'expected result size', 'title', 'ブロック化', 12, 15
+    it_behaves_like 'expected result size', 'title', 'ブロック化', 15, 20
     it_behaves_like 'best matches first', 'title', 'ブロック化', '9855019', 1
   end
   context 'buddhism', jira: ['VUF-2724', 'VUF-2725'] do
