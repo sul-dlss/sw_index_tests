@@ -188,7 +188,7 @@ describe "Korean spacing", :korean => true do
 
   context "As I listened" do
     shared_examples_for "good results for 귀를 기울이면" do | query |
-      it_behaves_like "expected result size", 'everything', query, 1, 20
+      it_behaves_like "expected result size", 'everything', query, 1, 30
     end
     context "귀를 기울이면 (normal spacing)" do
       it_behaves_like "good results for 귀를 기울이면", '경계에서'
@@ -206,7 +206,7 @@ describe "Korean spacing", :korean => true do
 
   context "Korean economy at the turning point" do
     shared_examples_for "good results for 전환기의 한국경제" do | query |
-      it_behaves_like "good results for query", 'everything', query, 3, 720, '7132960', 1
+      it_behaves_like "good results for query", 'everything', query, 3, 800, '7132960', 1
     end
     context "전환기의 한국경제  (normal spacing)" do
       it_behaves_like "good results for 전환기의 한국경제", '전환기의 한국경제'
@@ -230,7 +230,7 @@ describe "Korean spacing", :korean => true do
   end # Korea today
   context "on the borderline" do
     shared_examples_for "good results for 경계에서" do | query |
-      it_behaves_like "good results for query", 'everything', query, 7, 20, '8838252', 1
+      it_behaves_like "good results for query", 'everything', query, 7, 30, '8838252', 1
     end
     context "경계에서 (normal spacing)" do
       it_behaves_like "good results for 경계에서", '경계에서'
@@ -274,7 +274,7 @@ describe "Korean spacing", :korean => true do
   end # New writings ...
   context "Contemporary North Korean literature" do
     shared_examples_for "good results for 북한의 현대문학" do | query |
-      it_behaves_like "good results for query", 'everything', query, 4, 350, '6827379', 1
+      it_behaves_like "good results for query", 'everything', query, 4, 400, '6827379', 1
     end
     context "북한의 현대문학 (normal spacing)" do
       it_behaves_like "good results for 북한의 현대문학", '북한의 현대문학'

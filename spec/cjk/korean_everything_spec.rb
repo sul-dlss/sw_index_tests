@@ -56,7 +56,7 @@ describe "Korean Everything", :korean => true do
       it_behaves_like 'good results for query', 'everything', '사회변동', 55, 100, chars_together_in_245, 50, 'rows'=>70
       it_behaves_like 'best matches first', 'everything', '사회변동', bigrams_in_245_not_together, 65, 'rows'=>70
       it_behaves_like 'best matches first', 'everything', '사회변동', bigrams_in_245b, 75, 'rows'=>75
-      it_behaves_like 'best matches first', 'everything', '사회변동', bigrams_in_245_wrong_order, 65, 'rows'=>70
+      it_behaves_like 'best matches first', 'everything', '사회변동', bigrams_in_245_wrong_order, 80, 'rows'=>85
     end
     context "phrase 사회변동 (no spaces)" do
       it_behaves_like 'good results for query', 'everything', '"사회변동"', 25, 45, chars_together_in_245, 35, 'rows'=>45

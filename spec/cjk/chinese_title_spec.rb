@@ -148,7 +148,7 @@ describe "Chinese Title", :chinese => true do
       it_behaves_like "great results for Quan Song bi ji", '全宋 筆記'
     end
     context "two spaces" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '全 宋 笔记', 'simplified', '全 宋 筆記', 6, 12
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '全 宋 笔记', 'simplified', '全 宋 筆記', 6, 15
       it_behaves_like "great results for Quan Song bi ji", '全 宋 笔记'
       it_behaves_like "great results for Quan Song bi ji", '全 宋 筆記'
     end

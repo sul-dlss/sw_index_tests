@@ -4,9 +4,9 @@ describe "Number as Query String" do
 
   context "ISSN", :jira => 'VUF-169' do
     it "should work with or without the hyphen", :jira => 'VUF-404', :icu => true do
-      expect(solr_resp_ids_from_query('1003-4730')).to include(['11493163']).in_first(1)
+      expect(solr_resp_ids_from_query('1003-4730')).to include(['6210309']).in_first(1)
       resp = solr_resp_ids_from_query '10034730'  # we now go this high in ckeys
-      expect(resp).to include(['11493163']).in_first(1)
+      expect(resp).to include(['6210309']).in_first(1)
     end
 
     it "'The Nation' ISSN 0027-8378 should get perfect results with and without a hyphen", :icu => true do

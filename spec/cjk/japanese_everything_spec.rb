@@ -35,7 +35,7 @@ describe 'Japanese Everything Searches', japanese: true do
   end
 
   context 'Imperial' do
-    it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '帝國', 'modern', '帝国', 1475, 1575, lang_limit
+    it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '帝國', 'modern', '帝国', 1475, 1650, lang_limit
   end
 
   context 'Japan China thought', jira: 'VUF-2737' do
@@ -118,7 +118,7 @@ describe 'Japanese Everything Searches', japanese: true do
   context 'TPP', jira: 'VUF-2694' do
     it_behaves_like 'result size and vern short title matches first', 'everything', 'TPP', 100, 200, /TPP/, 6
     context 'w lang limit' do
-      it_behaves_like 'result size and vern short title matches first', 'everything', 'TPP', 8, 15, /TPP/, 6, lang_limit
+      it_behaves_like 'result size and vern short title matches first', 'everything', 'TPP', 25, 50, /TPP/, 6, lang_limit
     end
   end
 end

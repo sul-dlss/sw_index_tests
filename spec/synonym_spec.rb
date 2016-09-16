@@ -168,7 +168,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
 
       it "a#" do
         resp = solr_resp_ids_from_query('a#')
-        expect(resp.size).to be <= 1600  # should not include a   as well, only  a sharp
+        expect(resp.size).to be <= 1700  # should not include a   as well, only  a sharp
       end
       it "a# - title search" do
         resp = solr_resp_doc_ids_only(title_search_args('a#'))
@@ -177,7 +177,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
       it "c# minor" do
         resp = solr_response({'q' => 'c# minor', 'fl'=>'id,title_display', 'facet'=>false})
         expect(resp).to include("title_display" => /c(#|♯|\-sharp| sharp) minor/i).in_each_of_first(10).documents
-        expect(resp.size).to be <= 2500
+        expect(resp.size).to be <= 3000
         expect(resp).to have_the_same_number_of_results_as(solr_resp_ids_from_query('C♯ minor'))
         expect(resp).to have_the_same_number_of_results_as(solr_resp_ids_from_query('C-sharp minor'))
         # would also match  c ... minor ... sharp
@@ -263,12 +263,12 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
         it "a short sharp (qs = 1)" do
           resp = solr_resp_ids_from_query('a short sharp')
           expect(resp).to include('3965729').as_first.document # A short, sharp shock / Kim Stanley Robinson.
-          expect(resp.size).to be <= 1200
+          expect(resp.size).to be <= 1300
         end
         it "B sharp - title" do
           resp = solr_resp_doc_ids_only(title_search_args('b sharp'))
           expect(resp).to include('8156248').as_first # Geo B. Sharp
-          expect(resp.size).to be <= 950
+          expect(resp.size).to be <= 1_000
         end
         it "paul f sharp", :fixme => true do
           # from solr logs - doesn't work because it's paul frederic sharp
@@ -316,7 +316,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
         expect(resp_♭).to have_fewer_results_than(resp_space)
         expect(resp_♭.size).to be >= 5
         expect(resp_space.size).to be >= 8
-        expect(resp_space).to include('310505') # has cello b♭, but by J.S. Bach, not C.P.E. Bach
+        expect(resp_space).to include('6685895') # has cello b♭, but by J.S. Bach, not C.P.E. Bach
       end
 
       it "author-title search (which is a phrase search) b♭" do

@@ -224,9 +224,9 @@ describe 'Subject Search' do
       expect(resp).to include('3755800')
       expect(resp.size).to be <= 5
     end
-    it 'PAIS International subjects', jira: 'SW-644' do
+    it 'PAIS Index', jira: 'SW-644' do
       resp = solr_resp_doc_ids_only('q' => 'political science', fq: 'format:Database')
-      expect(resp).to include('600922')
+      expect(resp).to include('11696645')
     end
   end
 

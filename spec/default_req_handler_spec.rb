@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe 'Default Request Handler' do
-  it "q of 'Buddhism' should get 11,000 - 12,000 results", jira: 'VUF-160' do
+  it "q of 'Buddhism' should get 12,000 - 13,000 results", jira: 'VUF-160' do
     resp = solr_resp_ids_from_query 'Buddhism'
-    expect(resp.size).to be >= 11_000
-    expect(resp.size).to be <= 12_100
+    expect(resp.size).to be >= 12_000
+    expect(resp.size).to be <= 13_000
   end
 
   it "q of 'String quartets Parts' and variants should be plausible", jira: 'VUF-390' do
@@ -125,7 +125,7 @@ describe 'Default Request Handler' do
 
   it 'united states code', jira: 'VUF-2060' do
     resp = solr_resp_ids_titles_from_query 'united states code'
-    expect(resp).to include('5599841').as_first
+    expect(resp).to include('8221765').as_first
     expect(resp).to include('title_245a_display' => /^united states code$/i).in_each_of_first(4)
     expect(resp).to include('2852709').in_first(4)
   end
