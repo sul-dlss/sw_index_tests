@@ -15,7 +15,7 @@ describe 'sorting results' do
       #      resp = solr_response({'fq'=>'format:Book', 'fl'=>'id,pub_date', 'facet'=>false})
       #      year = Time.new.year
       #      resp.should include("pub_date" => /(#{year}|#{year + 1}|#{year + 2})/).in_each_of_first(20).documents
-      resp = solr_response('fq' => 'format_main_ssim:Book', 'fl' => 'id,pub_date,imprint_display,title_245a_display', 'facet' => false, 'rows' => 1000)
+      resp = solr_response('fq' => 'format_main_ssim:Book', 'fl' => 'id,pub_date,imprint_display,title_245a_display', 'facet' => false, 'rows' => 1100)
       docs_match_current_year resp
       # _Optics_ (pub_date (008) as 2017) before _An Act to Amend the_ (pub_date as 2016)
       expect(resp).to include('11588747').before('11822448')
