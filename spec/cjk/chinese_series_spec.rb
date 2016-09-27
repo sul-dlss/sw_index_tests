@@ -4,7 +4,7 @@ require 'spec_helper'
 describe "Chinese Series", :chinese => true do
 
   context "contemporary literary criticism", :jira => 'VUF-2768' do
-    it_behaves_like "expected result size", 'series', '当代文学批评', 5, 10
+    it_behaves_like "expected result size", 'series', '当代文学批评', 5, 15
     it_behaves_like "best matches first", 'series', '当代文学批评', ['4470843', '10216694', '9853238', '9652358', '10139659', '8931473'], 10
     context "phrase" do
       it_behaves_like "expected result size", 'series', '"当代文学批评"', 0, 0  # it is not the exact name of a series
