@@ -9,7 +9,7 @@ describe 'Japanese Kanji variants', japanese: true do
       # First char of traditional doesn't translate to first char of modern with ICU traditional->simplified
       # (traditional and simplified are the same;  modern is different)
       # second char also has variant:   敎 654E (variant) => 教 6559 (std trad)
-      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '佛教', 'modern', '仏教', 2200, 3500
+      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '佛教', 'modern', '仏教', 3000, 4000
       it_behaves_like 'matches in vern short titles first', 'everything', '佛教', /(佛|仏)(教|敎)/, 100  # trad
       it_behaves_like 'matches in vern short titles first', 'everything', '仏教', /(佛|仏)(教|敎)/, 100  # modern
       # exact_245a = %w(6854317 4162614 6276328 10243029 10243045 10243039)
@@ -17,9 +17,9 @@ describe 'Japanese Kanji variants', japanese: true do
       it_behaves_like 'matches in vern short titles first', 'title', '仏教', /^(佛|仏)(教|敎).*$/, 7 # title starts w match
       context 'w lang limit' do
         # trad
-        it_behaves_like 'result size and vern short title matches first', 'everything', '佛教', 1200, 1500, /(佛|仏)(教|敎)/, 100, lang_limit
+        it_behaves_like 'result size and vern short title matches first', 'everything', '佛教', 1200, 1600, /(佛|仏)(教|敎)/, 100, lang_limit
         # modern
-        it_behaves_like 'result size and vern short title matches first', 'everything', '仏教', 1200, 1500, /(佛|仏)(教|敎)/, 100, lang_limit
+        it_behaves_like 'result size and vern short title matches first', 'everything', '仏教', 1200, 1600, /(佛|仏)(教|敎)/, 100, lang_limit
       end
     end # buddhism
 
@@ -83,7 +83,7 @@ describe 'Japanese Kanji variants', japanese: true do
     context 'the origin', jira: 'VUF-2782' do
       # first char doesn't translate the same (modern != simplified)
       # both retrieve 24 results, but they do not retrieve the SAME results
-      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '緣起', 'modern', '縁起', 48, 60, lang_limit
+      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '緣起', 'modern', '縁起', 50, 65, lang_limit
     end
 
     context 'painting dictionary', jira: 'VUF-2697' do

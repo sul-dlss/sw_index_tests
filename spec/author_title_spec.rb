@@ -59,8 +59,8 @@ describe "Author-Title Search" do
   it "Beethoven fidelio", :jira => ['SW-387', 'SW-138'] do
     q = '"Beethoven, Ludwig van, 1770-1827. Fidelio"'
     resp = solr_response(author_title_search_args(q).merge!({'fl'=>'id,author_person_display,title_245a_display', 'facet'=>false}))
-    expect(resp.size).to be >= 200
-    expect(resp.size).to be <= 350
+    expect(resp.size).to be >= 300
+    expect(resp.size).to be <= 400
     expect(resp).to include("author_person_display" => /Beethoven/i).in_each_of_first(20).documents
     expect(resp).to include("title_245a_display" => /fidelio/i).in_each_of_first(5).documents
   end

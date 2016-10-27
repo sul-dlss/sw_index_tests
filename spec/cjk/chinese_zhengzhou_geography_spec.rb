@@ -22,7 +22,7 @@ describe "Chinese: 郑州 (zhengzhou - a place in China)  地理 (geography)", :
         expect(resp.size).to be <= 2
       end
     end
-    
+
     context "trad  鄭州地理 (no space)" do
       before(:all) do
         @resp = solr_resp_doc_ids_only(title_search_args('鄭州地理'))
@@ -76,7 +76,7 @@ describe "Chinese: 郑州 (zhengzhou - a place in China)  地理 (geography)", :
       # 518541  geography in 260b, 710b;   can't find zhengzhou
       # 119747:  zhengzhou trad  鄭州  in 245a;  can't find geography
       it "should get a reasonable number of results" do
-        expect(resp.size).to be >= 8 
+        expect(resp.size).to be >= 8
         expect(resp.size).to be <= 20
       end
       it "should rank highest the documents with both words in 245a" do
@@ -87,13 +87,13 @@ describe "Chinese: 郑州 (zhengzhou - a place in China)  地理 (geography)", :
       end
       # there are a LOT more of these --> socrates finds 1953 of them.
       it "should rank high the documents with one word in 245a" do
-        expect(resp).to include("4203541").in_first(9).results  # geography in 245a 490a, 830a;  郑州 (zhengzhou) in 260a
+        expect(resp).to include("4203541").in_first(10).results  # geography in 245a 490a, 830a;  郑州 (zhengzhou) in 260a
         #  geography in 245a; zhengzhou in 260a
-        expect(resp).to include("5809974").in_first(9).results # zhengzhou 260a; geography 245a
-        expect(resp).to include("10111516").in_first(9).results # zhengzhou (simp) 260a;  geography 245a
-        expect(resp).to include("4197620").in_first(9).results # zhengzhou 260a, geography 245a
-        expect(resp).to include("4808042").in_first(9).results # zhengzhou 260a, geography 245a
-        expect(resp).to include("6704074").in_first(9).results # zhengzhou 260a, geography 245a
+        expect(resp).to include("5809974").in_first(10).results # zhengzhou 260a; geography 245a
+        expect(resp).to include("10111516").in_first(10).results # zhengzhou (simp) 260a;  geography 245a
+        expect(resp).to include("4197620").in_first(10).results # zhengzhou 260a, geography 245a
+        expect(resp).to include("4808042").in_first(10).results # zhengzhou 260a, geography 245a
+        expect(resp).to include("6704074").in_first(10).results # zhengzhou 260a, geography 245a
       end
       it "should rank less high the documents with both words present but not in 245" do
         expect(resp).to include("7833848") # zhengzhou 260a, geography 490a
@@ -144,7 +144,7 @@ describe "Chinese: 郑州 (zhengzhou - a place in China)  地理 (geography)", :
       it_behaves_like "great search results for 郑州地理" do
         let (:resp) { @resp }
       end
-    end   
+    end
   end # context everything search
 
 end

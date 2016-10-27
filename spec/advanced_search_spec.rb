@@ -108,8 +108,8 @@ describe 'advanced search' do
       it 'keyword' do
         resp = solr_resp_doc_ids_only({ 'q' => 'IEEE xplore' }.merge(solr_args))
         expect(resp).to have_the_same_number_of_results_as(solr_resp_ids_from_query('IEEE Xplore'))
-        expect(resp.size).to be >= 10_000
-        expect(resp.size).to be <= 11_500
+        expect(resp.size).to be >= 11_000
+        expect(resp.size).to be <= 12_500
         expect(resp).to have_fewer_results_than(solr_resp_doc_ids_only({ 'q' => 'IEEE OR xplore' }.merge(solr_args)))
       end
       it 'subject NOT congresses and keyword' do
@@ -138,8 +138,8 @@ describe 'advanced search' do
       it 'keyword' do
         resp = solr_resp_doc_ids_only({ 'q' => 'Socialization' }.merge(solr_args))
         # resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('Socialization'))
-        expect(resp.size).to be >= 400_000
-        expect(resp.size).to be <= 510_000
+        expect(resp.size).to be >= 475_000
+        expect(resp.size).to be <= 525_000
       end
       it 'subject (not a phrase) and keyword' do
         resp = solr_resp_doc_ids_only({ 'q' => "#{subject_query('home schooling')} AND Socialization" }.merge(solr_args))
@@ -339,8 +339,8 @@ describe 'advanced search' do
       end
       it 'pub info 2011' do
         resp = solr_resp_doc_ids_only({ 'q' => "#{pub_info_query('2011')}" }.merge(solr_args))
-        expect(resp.size).to be >= 137_000
-        expect(resp.size).to be <= 145_000
+        expect(resp.size).to be >= 140_000
+        expect(resp.size).to be <= 200_000
       end
       it 'subject and pub info 2010' do
         resp = solr_resp_doc_ids_only({ 'q' => "#{subject_query('soviet union and historiography')} AND #{pub_info_query('2010')}" }.merge(solr_args))
@@ -402,8 +402,8 @@ describe 'advanced search' do
       end
       it 'add topic feature films' do
         resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Green"), topic_facet:("Feature films")', 'q' => 'collection:*' }.merge(solr_args))
-        expect(resp.size).to be >= 100
-        expect(resp.size).to be <= 200
+        expect(resp.size).to be >= 50
+        expect(resp.size).to be <= 100
       end
     end
     context 'format video, location Media Microtext, language english' do
