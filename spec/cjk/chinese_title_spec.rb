@@ -68,8 +68,8 @@ describe "Chinese Title", :chinese => true do
     context "no spaces" do
       it_behaves_like "expected result size", 'title', '全国人口抽样调查', 7, 10
       it_behaves_like "matches in vern short titles first", 'title', '全国人口抽样调查', /全国.*人口抽样调查/, 5
-      # FIXME:
-      it_behaves_like "best matches first", 'title', '全国人口抽样调查', '10108596', 6  # actually not relevant -- checking that it's 6th here
+      # Ckey 10108596 is no longer exported because it is not on order and should be removed from Symphony. sad 2016-11-08
+      # it_behaves_like "best matches first", 'title', '全国人口抽样调查', '10108596', 6  # actually not relevant -- checking that it's 6th here
 #      it_behaves_like "does not find irrelevant results", 'title', '全国人口抽样调查', '10108596'
     end
     context "with space" do
