@@ -23,7 +23,7 @@ describe "Diacritics" do
     end
     it "ü (Turkish)", :jira => 'SW-497' do
       resp = solr_response({'q'=>"Türkiye'de üniversite", 'fl'=>'id,title_245a_display', 'facet'=>false})
-      expect(resp.size).to be >= 8
+      expect(resp.size).to be >= 7
       expect(resp).to include("title_245a_display" => /T[üu]rkiye'de [üu]niversite/i).in_each_of_first(2).documents
       expect(resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"Turkiye'de universite"}))
     end
