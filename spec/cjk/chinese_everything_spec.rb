@@ -55,7 +55,7 @@ describe 'Chinese Everything', chinese: true do
   end
 
   context 'Nanyang or Nanʼyō', jira: 'SW-100' do
-    it_behaves_like 'result size and vern short title matches first', 'everything', '南洋', 750, 825, /南洋/, 100
+    it_behaves_like 'result size and vern short title matches first', 'everything', '南洋', 750, 830, /南洋/, 100
     it_behaves_like 'matches in vern titles', 'everything', '南洋', /南洋群島/, 20
     # Nan'yō Guntō
     it_behaves_like 'result size and vern short title matches first', 'everything', '南洋群島', 50, 60, /南洋群島/, 15
