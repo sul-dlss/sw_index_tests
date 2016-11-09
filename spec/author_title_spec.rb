@@ -16,7 +16,7 @@ describe "Author-Title Search" do
     q = '"Beethoven, Ludwig van, 1770-1827. Concertos, violin, orchestra, op. 61, D major"'
     resp = solr_response(author_title_search_args(q).merge!({'fl'=>'id,author_person_display', 'facet'=>false}))
     expect(resp.size).to be >= 200
-    expect(resp.size).to be <= 250
+    expect(resp.size).to be <= 275
     expect(resp).to include("author_person_display" => /Beethoven/i).in_each_of_first(5).documents
     expect(resp).not_to include("author_person_display" => /Stowell/i).in_each_of_first(20).documents
   end
