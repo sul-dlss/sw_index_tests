@@ -402,7 +402,7 @@ describe 'advanced search' do
       end
       it 'add topic feature films' do
         resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Green"), topic_facet:("Feature films")', 'q' => 'collection:*' }.merge(solr_args))
-        expect(resp.size).to be >= 50
+        expect(resp.size).to be >= 25
         expect(resp.size).to be <= 100
       end
     end
@@ -417,7 +417,7 @@ describe 'advanced search' do
       it 'add topic feature films' do
         resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Media & Microtext Center"), topic_facet:("Feature films")', 'q' => 'collection:*' }.merge(solr_args))
         expect(resp.size).to be >= 10_500
-        expect(resp.size).to be <= 20_500
+        expect(resp.size).to be <= 21_000
       end
       it 'add topic science fiction' do
         resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Media & Microtext Center"), topic_facet:("Feature films"), topic_facet:("Science fiction films")', 'q' => 'collection:*' }.merge(solr_args))

@@ -16,7 +16,7 @@ describe "Author-Title Search" do
     q = '"Beethoven, Ludwig van, 1770-1827. Concertos, violin, orchestra, op. 61, D major"'
     resp = solr_response(author_title_search_args(q).merge!({'fl'=>'id,author_person_display', 'facet'=>false}))
     expect(resp.size).to be >= 200
-    expect(resp.size).to be <= 250
+    expect(resp.size).to be <= 275
     expect(resp).to include("author_person_display" => /Beethoven/i).in_each_of_first(5).documents
     expect(resp).not_to include("author_person_display" => /Stowell/i).in_each_of_first(20).documents
   end
@@ -69,7 +69,7 @@ describe "Author-Title Search" do
     q = '"Beethoven, Ludwig van, 1770-1827. Fidelio (1814)"'
     resp = solr_response(author_title_search_args(q).merge!({'fl'=>'id,author_person_display,title_245a_display', 'facet'=>false}))
     expect(resp.size).to be >= 150
-    expect(resp.size).to be <= 250
+    expect(resp.size).to be <= 275
     expect(resp).to include("author_person_display" => /Beethoven/i).in_each_of_first(20).documents
     expect(resp).to include("title_245a_display" => /fidelio/i).in_each_of_first(2).documents
   end
@@ -86,7 +86,7 @@ describe "Author-Title Search" do
   it "Beethoven piano sonata no 14", :jira => 'VUF-155' do
     q = '"beethoven ludwig van 1770-1827 sonatas piano no. 14"' # op. 27, no. 2, C♯ minor;
     resp = solr_response(author_title_search_args(q).merge!({'fl'=>'id,author_person_display,title_245a_display', 'facet'=>false}))
-    expect(resp.size).to be <= 300
+    expect(resp.size).to be <= 350
     expect(resp).to include('10791173')
 #    resp.should include("author_person_display" => /Beethoven/i).in_each_of_first(6).documents
   end
