@@ -314,7 +314,7 @@ describe "Chinese Title", :chinese => true do
 
   context "women marriage" do
     context "no spaces" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '婦女婚姻', 'simplified', '妇女婚姻', 8, 13
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '婦女婚姻', 'simplified', '妇女婚姻', 8, 14
       trad_resp = cjk_query_resp_ids('title', '婦女婚姻')
       simp_resp = cjk_query_resp_ids('title', '妇女婚姻')
       it_behaves_like "great results for women marriage" do
@@ -324,7 +324,7 @@ describe "Chinese Title", :chinese => true do
         let (:resp) { simp_resp }
       end
       it "ranks higher docs with one word in 245a and the other in 245b" do
-        #  9229845 - woman 245b, 246a; marriage 245a
+        #  9229845 - woman 245ab, 246a; marriage 245a
         expect(trad_resp).to  include("9229845").in_first(6).results
         expect(simp_resp).to  include("9229845").in_first(6).results
       end
@@ -353,7 +353,7 @@ describe "Chinese Title", :chinese => true do
 
   context "women AND marriage" do
     context "no spaces" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '婦女與婚姻', 'simplified', '妇女与婚姻', 7, 10
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '婦女與婚姻', 'simplified', '妇女与婚姻', 7, 11
       trad_resp = cjk_query_resp_ids('title', '婦女與婚姻')
       simp_resp = cjk_query_resp_ids('title', '妇女与婚姻')
       it_behaves_like "great results for women marriage" do
@@ -364,7 +364,7 @@ describe "Chinese Title", :chinese => true do
       end
     end
     context "with spaces" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '婦女 與 婚姻', 'simplified', '妇女 与 婚姻', 7, 10
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '婦女 與 婚姻', 'simplified', '妇女 与 婚姻', 7, 11
       trad_resp = cjk_query_resp_ids('title', '婦女 與 婚姻')
       simp_resp = cjk_query_resp_ids('title', '妇女 与 婚姻')
       it_behaves_like "great results for women marriage" do

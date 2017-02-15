@@ -7,7 +7,7 @@ describe "Series Search" do
   it "lecture notes in computer science" do
     resp = solr_resp_doc_ids_only(series_search_args 'lecture notes in computer science')
     expect(resp.size).to be >= 7500
-    expect(resp.size).to be <= 9500
+    expect(resp.size).to be <= 9700
   end
 
   it "Lecture notes in statistics (Springer-Verlag)", :jira => 'VUF-1221' do
