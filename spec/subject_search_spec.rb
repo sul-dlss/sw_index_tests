@@ -53,8 +53,8 @@ describe 'Subject Search' do
 
   it 'Rock music 1951-1960', jira: 'VUF-388' do
     resp = solr_resp_doc_ids_only(subject_search_args 'Rock music 1951-1960')
-    expect(resp.size).to be >= 20
-    expect(resp.size).to be <= 35
+    expect(resp.size).to be >= 30
+    expect(resp.size).to be <= 40
   end
 
   context 'Hmong asia(N) people', jira: 'VUF-1245' do
