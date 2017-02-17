@@ -259,13 +259,14 @@ describe "Chinese Title", :chinese => true do
   end # women marriage law
 
   shared_examples_for "great results for women marriage" do
+    # FIXME : need better test record for one word in 245a and the other in 245b; 4222208 now has woman in both 245ab
     # woman:   traditional:  婦女    simplified:  妇女
     # marriage: 婚姻  (same for both)
     it "ranks highest docs with both words in 245a (though not adjacent)" do
       expect(resp).to include(["4222208", # woman (simp) 245a, 490a, 830a; marriage 245a (1 char between)
                           "4401219", #  woman 245a; marriage 245a   (3 chars between)
                           "4178814", # woman 245a; marriage 245a  (out of order w char between)
-                          ]).in_first(6).results
+                          ]).in_first(10).results
     end
     it "includes docs with both words in 245b" do
       # 7808424 - woman 245b, 246a; marriage 245b, 246a  (1 char between)
@@ -324,9 +325,12 @@ describe "Chinese Title", :chinese => true do
         let (:resp) { simp_resp }
       end
       it "ranks higher docs with one word in 245a and the other in 245b" do
-        #  9229845 - woman 245ab, 246a; marriage 245a
-        expect(trad_resp).to  include("9229845").in_first(6).results
-        expect(simp_resp).to  include("9229845").in_first(6).results
+        #  9229845 - woman (nü) 245ab, 246a; marriage (hūnyīn) 245a
+        expect(trad_resp).to include("9229845").in_first(10).results
+        expect(simp_resp).to include("9229845").in_first(10).results
+        #  7808424 - woman 245b; marriage 245b
+        expect(trad_resp).to include("9229845").before("7808424")
+        expect(simp_resp).to include("9229845").before("7808424")
       end
     end
     context "with space" do
@@ -340,9 +344,9 @@ describe "Chinese Title", :chinese => true do
         let (:resp) { simp_resp }
       end
       it "ranks higher docs with one word in 245a and the other in 245b" do
-        #  9229845 - woman 245b, 246a; marriage 245a
-        expect(trad_resp).to  include("9229845").in_first(4).results
-        expect(simp_resp).to  include("9229845").in_first(4).results
+        #  9229845 - woman 245ab, 246a; marriage 245a
+        expect(trad_resp).to  include("9229845").in_first(5).results
+        expect(simp_resp).to  include("9229845").in_first(5).results
       end
       it "includes additional relevant docs" do
         expect(trad_resp).to include(['4520813', '6696574', '9956874',  '9665009', '8722338'])

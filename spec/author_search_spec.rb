@@ -270,7 +270,8 @@ describe "Author Search" do
       expect(resp.size).to be <= 5
     end
     # this test fails with mm setting 8; jira ticket SW-1698
-    # solr returns 3 relevant documents with select?search_field=search_author&q=Bibliothèque+nationale+de+France.+Manuscript.+Musique+226.&fl=id
+    # 710 |k and |n need to be parsed into the author-title index
+    # FIXME : StanfordIndexer.java line 951
     it "non-phrase search", :fixme => true do
       resp = solr_resp_doc_ids_only(author_search_args('Bibliothèque nationale de France. Manuscript. Musique 226. '))
       expect(resp).to include(['278333', '6288243'])

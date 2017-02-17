@@ -58,9 +58,16 @@ describe 'Default Request Handler' do
     expect(resp).to have_the_same_number_of_results_as(solr_resp_ids_from_query('k conway jill'))
   end
 
-  # mm setting at 8 makes this test fail
-  it 'history of the jews by paul johnson', jira: 'VUF-510', fixme: true do
+  # gryphon-search acknowledges this change in expected results with new mm setting 2/16/2017
+  it 'history of the jews by paul johnson', jira: 'VUF-510' do
     resp = solr_resp_ids_from_query 'history of the jews by paul johnson'
+    expect(resp).to include("1665541").in_first(3).results
+    # mm setting 8 makes "by" in 920 field significant for matching documents
+    expect(resp).not_to include("3141358")
+  end
+
+  it 'history of the jews paul johnson', jira: 'VUF-510' do
+    resp = solr_resp_ids_from_query 'history of the jews paul johnson'
     expect(resp).to include(%w(1665541 3141358)).in_first(3).results
   end
 
@@ -213,5 +220,12 @@ describe 'Default Request Handler' do
     expect(resp.size).to be >= 1600
     expect(resp).to include('title_245a_display' => /^history of cartography$/i).in_each_of_first(4).documents
     expect(resp).to include('title_245a_display' => /^(the )?history of cartography$/i).in_each_of_first(5).documents
+  end
+
+  # long search string from Winter 2016 logs for testing mm=8
+  it 'the jews of arab lands in modern times' do
+    resp = solr_resp_ids_full_titles_from_query 'the jews of arab lands in modern times'
+    expect(resp.size).to be <= 100
+    expect(resp).to include('title_full_display' => /the jews of arab lands/i).in_each_of_first(2).documents
   end
 end
