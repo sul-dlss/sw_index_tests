@@ -335,12 +335,15 @@ describe "hyphen in queries" do
       @tresp_whole_phrase_no_hyphen = solr_resp_doc_ids_only(title_search_args(q_as_phrase_no_hyphen))
     end
     it "should have great results for query" do
+      # with mm=8, 245h "[print/digital]" becomes important for matching documents
       exp_ids = ["10858119", "2323785"]
       first_x = 2
-      expect(@resp).to include(exp_ids).in_first(first_x).documents
-      expect(@presp).to include(exp_ids).in_first(first_x).documents
-      expect(@tresp).to include(exp_ids).in_first(first_x).documents
-      expect(@ptresp).to include(exp_ids).in_first(first_x).documents
+      #  makes everything search include documents with 245h
+      expect(@resp).to include("10858119").in_first(first_x).documents
+      expect(@presp).to include("10858119").in_first(first_x).documents
+      #  makes title search return 0 documments
+      expect(@tresp).not_to include(exp_ids).in_first(first_x).documents
+      expect(@ptresp).not_to include(exp_ids).in_first(first_x).documents
       # 2323785 is NOT present for the entire query as a phrase search;
       #  we don't include 245h in title_245_search, and 245h contains "[print/digital]"
       expect(@resp_whole_phrase).to include("10858119").in_first(first_x).documents

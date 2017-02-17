@@ -131,7 +131,7 @@ describe 'advanced search' do
       end
       it 'subject as a phrase' do
         expect(@sub_phrase.size).to be >= 500
-        expect(@sub_phrase.size).to be <= 600
+        expect(@sub_phrase.size).to be <= 605
         expect(@sub_phrase).to have_fewer_results_than(solr_resp_doc_ids_only(subject_search_args("home schooling")))
         expect(@sub_phrase).to have_fewer_results_than @sub_no_phrase
       end
@@ -259,8 +259,8 @@ describe 'advanced search' do
       it 'keyword' do
         resp = solr_resp_doc_ids_only({ 'q' => 'storia e letteratura' }.merge(solr_args))
         expect(resp).to have_the_same_number_of_results_as(solr_resp_ids_from_query('storia e letteratura'))
-        expect(resp.size).to be >= 1600
-        expect(resp.size).to be <= 2100
+        expect(resp.size).to be >= 1860
+        expect(resp.size).to be <= 2110
       end
       it 'author and keyword' do
         resp = solr_resp_doc_ids_only({ 'q' => "#{author_query('campana')} AND storia e letteratura" }.merge(solr_args))

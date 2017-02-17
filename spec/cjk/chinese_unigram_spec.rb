@@ -14,8 +14,8 @@ describe 'Chinese Unigrams', chinese: true do
   end
 
   context 'Zen', jira: 'VUF-2790' do
-    it_behaves_like 'result size and vern short title matches first', 'title', '禪', 900, 1200, /(禪|禅)/, 50
-    it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '禪', 'simplified', '禅', 900, 1200
+    it_behaves_like 'result size and vern short title matches first', 'title', '禪', 900, 1205, /(禪|禅)/, 50
+    it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '禪', 'simplified', '禅', 900, 1205
     it_behaves_like 'best matches first', 'title', '禪', '6815304', 10
   end
 

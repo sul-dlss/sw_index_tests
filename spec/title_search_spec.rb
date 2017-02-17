@@ -53,13 +53,13 @@ describe "Title Search" do
   it "erlking", :jira => 'VUF-89' do
     resp = solr_resp_doc_ids_only(title_search_args 'erlking')
     expect(resp.size).to be >= 5
-    expect(resp.size).to be <= 15
+    expect(resp.size).to be <= 20
   end
 
   it "mathis der maler", :jira => 'VUF-89' do
     resp = solr_resp_doc_ids_only(title_search_args 'mathis der maler')
-    expect(resp.size).to be >= 35
-    expect(resp.size).to be <= 60
+    expect(resp.size).to be >= 40
+    expect(resp.size).to be <= 65
   end
 
   it "seriousness", :jira => 'VUF-89' do

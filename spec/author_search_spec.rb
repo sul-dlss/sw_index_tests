@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 describe "Author Search" do
-  
+
   context "Corporate author should be included in author search", :jira => 'VUF-633' do
     it "Anambra State, not a phrase" do
       resp = solr_resp_doc_ids_only(author_search_args 'Anambra State')
@@ -32,37 +32,37 @@ describe "Author Search" do
       resp = solr_resp_doc_ids_only(author_search_args 'tanganyika')
       expect(resp.size).to be >= 180
     end
-  end  
-  
+  end
+
   it "Thesis advisors (720 fields) should be included in author search", :jira => 'VUF-433' do
     resp = solr_response(author_search_args('Zare').merge({'fl'=>'id,format,author_person_display', 'fq'=>'format:Thesis', 'facet'=>false}))
     expect(resp.size).to be >= 100
     expect(resp).not_to include("author_person_display" => /\bZare\W/).in_each_of_first(20).documents
   end
-  
+
   it "added authors (700 fields) should be included in author search", :jira => 'VUF-255' do
     resp = solr_resp_doc_ids_only(author_search_args 'jane hannaway')
     expect(resp).to include("2503795")
     expect(resp.size).to be >= 8
   end
-  
+
   it "added authors (700 fields) : author search for jane austen should get video results", :jira => 'VUF-255' do
     resp = solr_response(author_search_args('jane austen').merge({'fl'=>'id,format,author_person_display', 'facet.field'=>'format'}))
     expect(resp.size).to be >= 275
     expect(resp).to have_facet_field("format").with_value("Video")
   end
-  
+
   it "unstemmed author names should precede stemmed variants", :jira => ['VUF-120', 'VUF-433'] do
     resp = solr_response(author_search_args('Zare').merge({'fl'=>'id,author_person_display', 'facet'=>false}))
     expect(resp).to include("author_person_display" => /\bZare\W/).in_each_of_first(3).documents
     expect(resp).not_to include("author_person_display" => /Zaring/).in_each_of_first(20).documents
   end
-  
+
   it "non-existent author 'jill kerr conway' should get 0 results" do
     resp = solr_resp_doc_ids_only(author_search_args 'jill kerr conway')
     expect(resp.size).to eq(0)
   end
-  
+
   it "Wender, Paul A. should not get results for Wender, Paul H", :jira => 'VUF-1398' do
     resp = solr_resp_doc_ids_only(author_search_args('"Wender, Paul A., "').merge({:rows => 150}))
     expect(resp.size).to be >= 75
@@ -73,13 +73,13 @@ describe "Author Search" do
     expect(resp.size).to be <= 10
     expect(resp).to include(paul_h_docs)
   end
-    
+
   it "period after initial shouldn't matter" do
     resp = solr_resp_doc_ids_only(author_search_args 'jill k. conway')
     expect(resp).to include('4735430')
     expect(resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only(author_search_args 'jill k conway'))
   end
-  
+
   it "author matches should appear before editor matches" do
     resp = solr_resp_doc_ids_only(author_search_args 'jill k. conway')
     # author before editor
@@ -93,7 +93,7 @@ describe "Author Search" do
     expect(resp).not_to include('3159425')
     expect(resp).not_to include('4529441')
   end
-  
+
   context "author name false drop across 2 700 fields" do
     context "deborah marshall", :jira => 'VUF-1185' do
       before(:all) do
@@ -131,10 +131,10 @@ describe "Author Search" do
         expect(resp.size).to be <= 10
         expect(resp).to include(@correct)
         expect(resp).not_to include(@false_drop)
-      end     
+      end
     end
   end
-  
+
   context "Vyacheslav Ivanov", :jira => ['VUF-2279', 'VUF-2280', 'VUF-2281'] do
     # there are at least three authors with last name Ivanov, first name Vyacheslav
     #  our official spelling of the desired one is Viacheslav
@@ -161,7 +161,7 @@ describe "Author Search" do
       expect(resp.size).to be <= 65
     end
   end
-  
+
   context "william dudley haywood <-> big bill haywood", :jira => 'VUF-2323' do
     it "author search big bill hayward" do
       resp = solr_resp_doc_ids_only(author_search_args 'big bill haywood')
@@ -195,7 +195,7 @@ describe "Author Search" do
       expect(resp.size).to be <= 50
     end
   end
-  
+
   context "ransch-trill, barbara", :jira => 'VUF-165' do
     it "with and without umlaut" do
       resp = solr_resp_doc_ids_only(author_search_args 'ränsch-trill, barbara')
@@ -208,7 +208,7 @@ describe "Author Search" do
       expect(resp).to include(['5455737', '2911735'])
     end
   end
-  
+
   context "johann david heinichen", :jira => 'VUF-1449' do
     it "author search" do
       resp = solr_resp_doc_ids_only(author_search_args('johann David Heinichen').merge({'fq' => 'format:Book'}))
@@ -227,14 +227,14 @@ describe "Author Search" do
       expect(resp).to include(['9858935', '3301463'])
     end
   end
-  
+
   it "mark applebaum", :jira => 'VUF-89' do
     resp = solr_resp_doc_ids_only(author_search_args 'mark applebaum')
     expect(resp.size).to be >= 85
     expect(resp.size).to be <= 150
     expect(resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only(author_search_args 'applebaum, mark'))
   end
-  
+
   context "name as author, not subject", :jira => 'VUF-1007' do
     it "jackson pollock" do
       resp = solr_resp_doc_ids_only(author_search_args('jackson pollock').merge({'rows'=>60}))
@@ -262,14 +262,17 @@ describe "Author Search" do
       expect(resp).not_to include(['4786630', '4298910']) # name as subject (but not as author)
     end
   end
-  
+
   context "contributor 710 with |k manuscript", :jira => ['SW-579', 'VUF-1684'] do
     it "phrase search", :fixme => true do
       resp = solr_resp_doc_ids_only(author_search_args('"Bibliothèque nationale de France. Manuscript. Musique 226. "'))
       expect(resp).to include(['278333', '6288243'])
       expect(resp.size).to be <= 5
     end
-    it "non-phrase search" do
+    # this test fails with mm setting 8; jira ticket SW-1698
+    # 710 |k and |n need to be parsed into the author-title index
+    # FIXME : StanfordIndexer.java line 951
+    it "non-phrase search", :fixme => true do
       resp = solr_resp_doc_ids_only(author_search_args('Bibliothèque nationale de France. Manuscript. Musique 226. '))
       expect(resp).to include(['278333', '6288243'])
       expect(resp.size).to be <= 5
@@ -280,7 +283,7 @@ describe "Author Search" do
       expect(resp.size).to be <= 5
     end
   end
-  
+
   context "corporate author phrase search", :jira => 'VUF-1698' do
     it 'author "Institute for Mathematical Studies in the Social Sciences"' do
       resp = solr_resp_doc_ids_only(author_search_args('"Institute for Mathematical Studies in the Social Sciences"'))
@@ -288,7 +291,7 @@ describe "Author Search" do
       expect(resp.size).to be <= 900
     end
   end
-  
+
   context "Deutsch, Alfred", :jira => 'VUF-1481' do
     # FIXME: finds authors across fields - alfred in one field, deutsch in another
     it "author search" do
@@ -301,5 +304,5 @@ describe "Author Search" do
       expect(resp.size).to be <= 5
     end
   end
-  
+
 end

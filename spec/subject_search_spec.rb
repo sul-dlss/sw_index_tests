@@ -36,10 +36,25 @@ describe 'Subject Search' do
     end
   end
 
+  # subject search returns better results when mm is 8
+  context 'France Social Life and customs 20th century', jira: 'SW-1692' do
+    it 'not as phrase' do
+      resp = solr_resp_doc_ids_only(subject_search_args('France Social Life and customs 20th century'))
+      expect(resp.size).to be >= 400
+      expect(resp.size).to be <= 600
+      expect(resp).not_to include(%w(6064341 8837304 11755085 5793780)).in_first(20).documents
+      expect(resp).to include(%w(9730602 2731118 1710052))
+    end
+    it 'as phrase' do
+      resp = solr_resp_doc_ids_only(subject_search_args '"France Social Life and customs 20th century"')
+      expect(resp.size).to be <= 400
+    end
+  end
+
   it 'Rock music 1951-1960', jira: 'VUF-388' do
     resp = solr_resp_doc_ids_only(subject_search_args 'Rock music 1951-1960')
-    expect(resp.size).to be >= 20
-    expect(resp.size).to be <= 35
+    expect(resp.size).to be >= 30
+    expect(resp.size).to be <= 40
   end
 
   context 'Hmong asia(N) people', jira: 'VUF-1245' do
