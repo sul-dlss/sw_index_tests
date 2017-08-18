@@ -18,8 +18,8 @@ describe 'sorting results' do
       resp = solr_response('fq' => 'format_main_ssim:Book', 'fl' => 'id,pub_date,imprint_display,title_245a_display', 'facet' => false, 'rows' => 1500)
       docs_match_current_year resp
       # _Elementary statistics_ (pub_date (008) as 2018)
-      # before _Egypt and the contradictions of liberalism_ (pub_date (008) as 2017)
-      expect(resp).to include('11923776').before('11923655')
+      # before _100 anni : scultura a Milano, 1815-1915_ (pub_date (008) as 2017)
+      expect(resp).to include('11923776').before('12062765')
     end
 
     it 'with facet access:Online; default sort should be by pub date desc then title asc' do

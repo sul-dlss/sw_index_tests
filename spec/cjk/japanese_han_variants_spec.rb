@@ -17,9 +17,9 @@ describe 'Japanese Kanji variants', japanese: true do
       it_behaves_like 'matches in vern short titles first', 'title', '仏教', /^(佛|仏)(教|敎).*$/, 7 # title starts w match
       context 'w lang limit' do
         # trad
-        it_behaves_like 'result size and vern short title matches first', 'everything', '佛教', 1200, 1600, /(佛|仏)(教|敎)/, 100, lang_limit
+        it_behaves_like 'result size and vern short title matches first', 'everything', '佛教', 1300, 1700, /(佛|仏)(教|敎)/, 100, lang_limit
         # modern
-        it_behaves_like 'result size and vern short title matches first', 'everything', '仏教', 1200, 1600, /(佛|仏)(教|敎)/, 100, lang_limit
+        it_behaves_like 'result size and vern short title matches first', 'everything', '仏教', 1300, 1700, /(佛|仏)(教|敎)/, 100, lang_limit
       end
     end # buddhism
 
@@ -33,8 +33,8 @@ describe 'Japanese Kanji variants', japanese: true do
       # Second char of traditional doesn't translate to second char of modern with ICU traditional->simplified
       # FIXME:  these do not give the same numbers of results.
       # it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '江戶', 'modern', '江戸', 1900, 2000
-      it_behaves_like 'expected result size', 'everything', '江戶', 1980, 2160  # trad
-      it_behaves_like 'expected result size', 'everything', '江戸', 1980, 2160  # modern
+      it_behaves_like 'expected result size', 'everything', '江戶', 2000, 2190  # trad
+      it_behaves_like 'expected result size', 'everything', '江戸', 2000, 2190  # modern
 
       it_behaves_like 'matches in vern short titles first', 'everything', '江戶', /(江戶|江戸)/, 100  # trad
       it_behaves_like 'matches in vern short titles first', 'everything', '江戸', /(江戶|江戸)/, 100  # modern
@@ -65,7 +65,7 @@ describe 'Japanese Kanji variants', japanese: true do
       # "慶応義塾大学(Keio Gijuku University)" + "Search everything" retrieves 146 hits (all relevant). "慶應義塾大学" retrieves 262 hits (all relevant).
       # FIXME:  these do not give the same numbers of results.  Even with lang_limit.  But they are both analyzed to the same char string  2013-10-14
       #      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '慶應義塾大学', 'modern', '慶応義塾大学', 375, 450
-      it_behaves_like 'expected result size', 'everything', '慶應義塾大学', 375, 515  # trad
+      it_behaves_like 'expected result size', 'everything', '慶應義塾大学', 375, 550  # trad
       it_behaves_like 'expected result size', 'everything', '慶応義塾大学', 375, 515 # modern
     end
 

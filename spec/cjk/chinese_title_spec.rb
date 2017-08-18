@@ -54,7 +54,7 @@ describe "Chinese Title", :chinese => true do
   context "history research", :jira => 'VUF-2771' do
     # see also chinese_han_variants spec, as the 3rd character isn't matching what's in the record
     context "no spaces" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '歷史研究', 'simplified', '历史研究', 1300, 1800
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '歷史研究', 'simplified', '历史研究', 1300, 1850
     end
     context "with space" do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '歷史 研究', 'simplified', '历史 研究', 2000, 2500
@@ -163,12 +163,12 @@ describe "Chinese Title", :chinese => true do
       it_behaves_like "matches in vern short titles first", 'title', query, /^三(國|国|囯)演(義|义)[^[[:alpha:]]]*$/, 13
     end
     context "no spaces" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '三國演義', 'simplified', '三国演义', 83, 95
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '三國演義', 'simplified', '三国演义', 90, 100
       it_behaves_like "great results for Three Kingdoms", '三國演義'
       it_behaves_like "great results for Three Kingdoms", '三国演义'
     end
     context "middle space" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '三國 演義', 'simplified', '三国 演义', 83, 95
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '三國 演義', 'simplified', '三国 演义', 92, 102
       it_behaves_like "great results for Three Kingdoms", '三國 演義'
       it_behaves_like "great results for Three Kingdoms", '三国 演义'
     end
@@ -315,7 +315,7 @@ describe "Chinese Title", :chinese => true do
 
   context "women marriage" do
     context "no spaces" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '婦女婚姻', 'simplified', '妇女婚姻', 8, 14
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '婦女婚姻', 'simplified', '妇女婚姻', 12, 18
       trad_resp = cjk_query_resp_ids('title', '婦女婚姻')
       simp_resp = cjk_query_resp_ids('title', '妇女婚姻')
       it_behaves_like "great results for women marriage" do
@@ -334,7 +334,7 @@ describe "Chinese Title", :chinese => true do
       end
     end
     context "with space" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '婦女 婚姻', 'simplified', '妇女 婚姻', 8, 20
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '婦女 婚姻', 'simplified', '妇女 婚姻', 15, 25
       trad_resp = cjk_query_resp_ids('title', '婦女 婚姻')
       simp_resp = cjk_query_resp_ids('title', '妇女 婚姻')
       it_behaves_like "great results for women marriage" do

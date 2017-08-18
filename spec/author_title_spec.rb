@@ -15,8 +15,8 @@ describe "Author-Title Search" do
   it "Beethoven violin concerto", :jira => 'SW-778' do
     q = '"Beethoven, Ludwig van, 1770-1827. Concertos, violin, orchestra, op. 61, D major"'
     resp = solr_response(author_title_search_args(q).merge!({'fl'=>'id,author_person_display', 'facet'=>false}))
-    expect(resp.size).to be >= 200
-    expect(resp.size).to be <= 275
+    expect(resp.size).to be >= 270
+    expect(resp.size).to be <= 300
     expect(resp).to include("author_person_display" => /Beethoven/i).in_each_of_first(5).documents
     expect(resp).not_to include("author_person_display" => /Stowell/i).in_each_of_first(20).documents
   end
@@ -24,9 +24,9 @@ describe "Author-Title Search" do
   it "Schiller, Friedrich, 1759-1805. An die Freude", :jira => ['SW-138', 'SW-387'] do
     q = '"Schiller, Friedrich, 1759-1805. An die Freude"'
     resp = solr_response(author_title_search_args(q).merge!({'fl'=>'id,author_person_display', 'facet'=>false}))
-    expect(resp.size).to be >= 5
-    expect(resp).to include('7630767','11058494')
-    expect(resp.size).to be <= 15
+    expect(resp.size).to be >= 10
+    expect(resp).to include('7630767','10360578')
+    expect(resp.size).to be <= 20
   end
 
   it "Schiller, Friedrich, 1759-1805. An die Freude English & German", :jira => ['SW-138', 'SW-387'] do
@@ -59,8 +59,8 @@ describe "Author-Title Search" do
   it "Beethoven fidelio", :jira => ['SW-387', 'SW-138'] do
     q = '"Beethoven, Ludwig van, 1770-1827. Fidelio"'
     resp = solr_response(author_title_search_args(q).merge!({'fl'=>'id,author_person_display,title_245a_display', 'facet'=>false}))
-    expect(resp.size).to be >= 300
-    expect(resp.size).to be <= 415
+    expect(resp.size).to be >= 400
+    expect(resp.size).to be <= 455
     expect(resp).to include("author_person_display" => /Beethoven/i).in_each_of_first(20).documents
     expect(resp).to include("title_245a_display" => /fidelio/i).in_each_of_first(5).documents
   end
@@ -68,8 +68,8 @@ describe "Author-Title Search" do
   it "Beethoven fidelio 1814", :jira => 'VUF-938' do
     q = '"Beethoven, Ludwig van, 1770-1827. Fidelio (1814)"'
     resp = solr_response(author_title_search_args(q).merge!({'fl'=>'id,author_person_display,title_245a_display', 'facet'=>false}))
-    expect(resp.size).to be >= 150
-    expect(resp.size).to be <= 275
+    expect(resp.size).to be >= 250
+    expect(resp.size).to be <= 295
     expect(resp).to include("author_person_display" => /Beethoven/i).in_each_of_first(20).documents
     expect(resp).to include("title_245a_display" => /fidelio/i).in_each_of_first(2).documents
   end

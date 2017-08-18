@@ -43,7 +43,7 @@ describe 'CJK Advanced Search' do
         expect(@resp).to include(exact_matches).in_first(exact_matches.size).documents
       end
       it 'matches without spaces present' do
-        no_space_exact_matches = %w(4196577 11383336) # 2 out of many
+        no_space_exact_matches = %w(4196577 12085500) # 2 out of many
         expect(@resp).to include(no_space_exact_matches).in_first(20).documents
       end
     end
@@ -196,7 +196,7 @@ describe 'CJK Advanced Search' do
         it 'OR' do
           resp = cjk_adv_solr_resp({ 'q' => "#{cjk_everything_query('陝甘寧邊區')} OR #{cjk_pub_info_query('延安')}" }.merge(solr_args))
           expect(resp.size).to be >= 375 # 329 with non-CJK aware fields
-          expect(resp.size).to be <= 500
+          expect(resp.size).to be <= 525
         end
       end
     end

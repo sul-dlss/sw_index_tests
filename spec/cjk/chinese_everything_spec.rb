@@ -16,11 +16,11 @@ describe 'Chinese Everything', chinese: true do
   context 'contemporary china economic study', jira: 'VUF-2767' do
     trad = '當代中國經濟研究'
     simp = '当代中国经济研究'
-    it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', trad, 'simplified', simp, 12, 160
+    it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', trad, 'simplified', simp, 12, 170
     it_behaves_like 'best matches first', 'everything', simp, '4188269', 4
     it_behaves_like 'best matches first', 'everything', simp,
                     %w(4164852 4188269 10153644 8225832 4335450 4185340
-                       10097344 6319540 4167881 4166036 6370106), 15
+                       10097344 6319540 4167881 4166036 6370106), 18
   end
 
   context 'Chu Anping', jira: 'VUF-2689' do
@@ -44,18 +44,18 @@ describe 'Chinese Everything', chinese: true do
 
   context 'history research', jira: 'VUF-2771' do
     context 'no spaces' do
-      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '歷史研究', 'simplified', '历史研究', 6000, 7000
+      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '歷史研究', 'simplified', '历史研究', 7000, 7300
     end
     context 'with space' do
-      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '歷史研究', 'simplified', '历史研究', 6000, 7000
+      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '歷史研究', 'simplified', '历史研究', 7000, 7300
     end
     context 'as phrase' do
-      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '"歷史研究"', 'simplified', '"历史研究"', 500, 800
+      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '"歷史研究"', 'simplified', '"历史研究"', 600, 900
     end
   end
 
   context 'Nanyang or Nanʼyō', jira: 'SW-100' do
-    it_behaves_like 'result size and vern short title matches first', 'everything', '南洋', 750, 835, /南洋/, 100
+    it_behaves_like 'result size and vern short title matches first', 'everything', '南洋', 750, 850, /南洋/, 100
     it_behaves_like 'matches in vern titles', 'everything', '南洋', /南洋群島/, 20
     # Nan'yō Guntō
     it_behaves_like 'result size and vern short title matches first', 'everything', '南洋群島', 50, 60, /南洋群島/, 15
@@ -78,8 +78,8 @@ describe 'Chinese Everything', chinese: true do
     end # shared examples  great search results for old fiction (Han)
     context 'no spaces' do
       it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '舊小說', 'simplified', '旧小说', 30, 70
-      trad_resp = cjk_query_resp_ids('everything', '舊小說', 'rows' => 35)
-      simp_resp = cjk_query_resp_ids('everything', '旧小说', 'rows' => 35)
+      trad_resp = cjk_query_resp_ids('everything', '舊小說', 'rows' => 40)
+      simp_resp = cjk_query_resp_ids('everything', '旧小说', 'rows' => 40)
       it_behaves_like 'great everything search results for old fiction' do
         let(:resp) { trad_resp }
       end
@@ -141,8 +141,8 @@ describe 'Chinese Everything', chinese: true do
   context 'women marriage', jira: 'SW-100' do
     #  ' 婚姻法 (marriage law) in sirsi dict, but 婚姻 (marriage) is what we wanted'
     #   because sirsi dictionary approach does length-first matching
-    it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '婦女婚姻', 'simplified', '妇女婚姻', 25, 40
-    it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '婦女 婚姻', 'simplified', '妇女 婚姻', 25, 40
+    it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '婦女婚姻', 'simplified', '妇女婚姻', 25, 55
+    it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '婦女 婚姻', 'simplified', '妇女 婚姻', 25, 55
   end
 
   context 'women marriage law' do
@@ -169,7 +169,7 @@ describe 'Chinese Everything', chinese: true do
       end
     end
     context 'no spaces' do
-      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '婦女婚姻法', 'simplified', '妇女婚姻法', 10, 15
+      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '婦女婚姻法', 'simplified', '妇女婚姻法', 15, 20
       trad_resp = cjk_query_resp_ids('everything', '婦女婚姻法')
       simp_resp = cjk_query_resp_ids('everything', '妇女婚姻法')
       it_behaves_like 'great search results for women marriage law' do

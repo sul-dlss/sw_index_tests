@@ -108,8 +108,8 @@ describe 'advanced search' do
       it 'keyword' do
         resp = solr_resp_doc_ids_only({ 'q' => 'IEEE xplore' }.merge(solr_args))
         expect(resp).to have_the_same_number_of_results_as(solr_resp_ids_from_query('IEEE Xplore'))
-        expect(resp.size).to be >= 11_000
-        expect(resp.size).to be <= 12_500
+        expect(resp.size).to be >= 12_500
+        expect(resp.size).to be <= 13_700
         expect(resp).to have_fewer_results_than(solr_resp_doc_ids_only({ 'q' => 'IEEE OR xplore' }.merge(solr_args)))
       end
       it 'subject NOT congresses and keyword' do
@@ -131,15 +131,15 @@ describe 'advanced search' do
       end
       it 'subject as a phrase' do
         expect(@sub_phrase.size).to be >= 500
-        expect(@sub_phrase.size).to be <= 605
+        expect(@sub_phrase.size).to be <= 615
         expect(@sub_phrase).to have_fewer_results_than(solr_resp_doc_ids_only(subject_search_args("home schooling")))
         expect(@sub_phrase).to have_fewer_results_than @sub_no_phrase
       end
-      it 'keyword' do
+      it 'keyword', fixme: true do
         resp = solr_resp_doc_ids_only({ 'q' => 'Socialization' }.merge(solr_args))
-        # resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('Socialization'))
-        expect(resp.size).to be >= 475_000
-        expect(resp.size).to be <= 525_000
+        expect(resp).to have_the_same_number_of_results_as(solr_resp_ids_from_query('Socialization'))
+        expect(resp.size).to be >= 525_000
+        expect(resp.size).to be <= 555_000
       end
       it 'subject (not a phrase) and keyword' do
         resp = solr_resp_doc_ids_only({ 'q' => "#{subject_query('home schooling')} AND Socialization" }.merge(solr_args))
@@ -183,8 +183,8 @@ describe 'advanced search' do
       end
       it 'title' do
         resp = solr_resp_doc_ids_only({ 'q' => "#{title_query('the history man')}" }.merge(solr_args))
-        expect(resp.size).to be >= 1300
-        expect(resp.size).to be <= 1400
+        expect(resp.size).to be >= 1320
+        expect(resp.size).to be <= 1420
       end
       it 'author and title' do
         resp = solr_resp_doc_ids_only({ 'q' => "#{author_query('malcolm bradbury')} AND #{title_query('the history man')}" }.merge(solr_args))
@@ -259,8 +259,8 @@ describe 'advanced search' do
       it 'keyword' do
         resp = solr_resp_doc_ids_only({ 'q' => 'storia e letteratura' }.merge(solr_args))
         expect(resp).to have_the_same_number_of_results_as(solr_resp_ids_from_query('storia e letteratura'))
-        expect(resp.size).to be >= 1860
-        expect(resp.size).to be <= 2110
+        expect(resp.size).to be >= 1950
+        expect(resp.size).to be <= 2200
       end
       it 'author and keyword' do
         resp = solr_resp_doc_ids_only({ 'q' => "#{author_query('campana')} AND storia e letteratura" }.merge(solr_args))
@@ -402,8 +402,14 @@ describe 'advanced search' do
       end
       it 'add topic feature films' do
         resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Green"), topic_facet:("Feature films")', 'q' => 'collection:*' }.merge(solr_args))
-        expect(resp.size).to be >= 25
-        expect(resp.size).to be <= 100
+        # 655a was taken out of topic facet, hence smaller number of records expected.
+        expect(resp.size).to be >= 15
+        expect(resp.size).to be <= 50
+      end
+      it 'add genre feature films' do
+        resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Green"), genre_ssim:("Feature films")', 'q' => 'collection:*' }.merge(solr_args))
+        expect(resp.size).to be >= 5
+        expect(resp.size).to be <= 15
       end
     end
     context 'format video, location Media Microtext, language english' do
@@ -416,13 +422,24 @@ describe 'advanced search' do
       end
       it 'add topic feature films' do
         resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Media & Microtext Center"), topic_facet:("Feature films")', 'q' => 'collection:*' }.merge(solr_args))
-        expect(resp.size).to be >= 10_500
-        expect(resp.size).to be <= 21_000
+        # 655a was taken out of topic facet, hence smaller number of records expected.
+        expect(resp.size).to be >= 9_300
+        expect(resp.size).to be <= 10_500
       end
       it 'add topic science fiction' do
         resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Media & Microtext Center"), topic_facet:("Feature films"), topic_facet:("Science fiction films")', 'q' => 'collection:*' }.merge(solr_args))
-        expect(resp.size).to be >= 500
-        expect(resp.size).to be <= 700
+        expect(resp.size).to be >= 200
+        expect(resp.size).to be <= 300
+      end
+      it 'use genre feature films' do
+        resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Media & Microtext Center"), genre_ssim:("Feature films")', 'q' => 'collection:*' }.merge(solr_args))
+        expect(resp.size).to be >= 12_100
+        expect(resp.size).to be <= 14_100
+      end
+      it 'add genre science fiction' do
+        resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Media & Microtext Center"), genre_ssim:("Feature films"), genre_ssim:("Science fiction films")', 'q' => 'collection:*' }.merge(solr_args))
+        expect(resp.size).to be >= 400
+        expect(resp.size).to be <= 500
       end
     end
   end
