@@ -148,9 +148,9 @@ describe "journal/newspaper titles" do
                     ]
       book = ['2613193', # fed doc on floods
               '10549995', # 1868, online - galenet
-              '7815517', # lingeman  245 |a The Nation : b| guide to the Nation / c| by Richard Lingeman ; introduction by Victor Navasky and Katrina Vanden Heuvel ; original drawings by Ed Koren.
-              '2098094', # mulford
-              # Pushed down below 22
+              # Pushed down below 20
+              # '7815517', # lingeman  245 |a The Nation : b| guide to the Nation / c| by Richard Lingeman ; introduction by Victor Navasky and Katrina Vanden Heuvel ; original drawings by Ed Koren.
+              # '2098094', # mulford
               #'9296914', # mulford, online - galenet
               #'7170814', # mulford, online - galenet
               ]
@@ -400,6 +400,7 @@ describe "journal/newspaper titles" do
               '423194', # johannesburg, sal newark
                 ]
       book = ['4287908', # johannesburg, sal1
+              '11931578', # london, sal3
               ]
       other = ['8928527', # marcit
                '8161058', # marcit
@@ -409,8 +410,10 @@ describe "journal/newspaper titles" do
                '5960691', # video
                '389374', # hoover, other
                '287788', # music score
-               '8392304', # recording
-               '287667', # music score
+               '10354180', # marcit
+              #  pushed down results
+              # '8392304', # recording
+              #  '287667', # music score
                 ]
       let(:all_formats) { journal + news + book + other }
       let(:journal_only) { journal }
