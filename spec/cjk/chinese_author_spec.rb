@@ -49,8 +49,8 @@ describe "Chinese Author", :chinese => true do
     it_behaves_like "matches in vern person authors first", 'author', '邵東方', /^(邵東方|邵东方)[^[[:alpha:]]]*$/, 6
   end
 
-  context "Zhang, Ailing", :jira => 'SW-207', fixme: true do
-    it_behaves_like "both scripts get expected result size", 'author', 'traditional', '張愛玲', 'simplified', '张爱玲', 75, 90
+  context "Zhang, Ailing", :jira => 'SW-207' do
+    it_behaves_like "both scripts get expected result size", 'author', 'traditional', '張愛玲', 'simplified', '张爱玲', 65, 90
     it_behaves_like "matches in vern person authors first", 'author', '張愛玲', /^(張愛玲|张爱玲)[^[[:alpha:]]]*$/, 50
   end
 
