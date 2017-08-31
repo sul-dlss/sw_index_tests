@@ -226,7 +226,6 @@ describe 'boolean operators' do
         it 'should have results that match first term but not second term' do
           # titles 'Indochine'
           indochine_results = %w(383033 430603 1921469 3083716 3065221 2134301 10316540)
-          # 4312384 withdrawn
           expect(@indochine).to include(indochine_results)
           expect(@indochine_or_indochina).to include(indochine_results)
           expect(@indochina).not_to include(indochine_results)

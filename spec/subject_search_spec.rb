@@ -230,7 +230,6 @@ describe 'Subject Search' do
     it 'geology', jira: 'VUF-1740' do
       resp = solr_resp_doc_ids_only(subject_search_args('geology').merge(fq: 'format:Database'))
       expect(resp.size).to be >= 10
-      # ckey 3982587 withdrawn
       expect(resp).to include('4246894')
       expect(resp.size).to be <= 30
     end

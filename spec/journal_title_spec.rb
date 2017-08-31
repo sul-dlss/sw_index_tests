@@ -460,8 +460,12 @@ describe "journal/newspaper titles" do
                   '667316', # metal polishers, green mfilm
                   '354858', # burma, sal3
                   '2941201', # tech horiz, educ, 0192-592x
+                  '11699410', # Seychelles, sal3
+                  '10553544', # marcit
                 ]
-      news = ['10354148']
+      news = ['10354148',
+              '11939504', # marcit
+              ]
       book = ['1186556', # dana, green
               '1293085', # 1721, green mfilm
               '4374587', # columbus, green
@@ -484,9 +488,7 @@ describe "journal/newspaper titles" do
       book = ['4104255', # butel, green, ebrary
               '128007', #outhwaite, green
               ]
-      other = ['9209068', # marcit, online
-                ]
-      let(:all_formats) { journal + news + book + other }
+      let(:all_formats) { journal + news + book }
       let(:journal_only) { journal }
       let(:newspaper_only) { news }
     end
