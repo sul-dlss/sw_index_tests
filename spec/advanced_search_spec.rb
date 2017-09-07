@@ -130,7 +130,7 @@ describe 'advanced search' do
         expect(@sub_no_phrase).to have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args('home schooling')))
       end
       it 'subject as a phrase' do
-        expect(@sub_phrase.size).to be >= 500
+        expect(@sub_phrase.size).to be >= 550
         expect(@sub_phrase.size).to be <= 615
         expect(@sub_phrase).to have_fewer_results_than(solr_resp_doc_ids_only(subject_search_args("home schooling")))
         expect(@sub_phrase).to have_fewer_results_than @sub_no_phrase
@@ -402,7 +402,6 @@ describe 'advanced search' do
       end
       it 'add topic feature films' do
         resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Green"), topic_facet:("Feature films")', 'q' => 'collection:*' }.merge(solr_args))
-        # 655a was taken out of topic facet, hence smaller number of records expected.
         expect(resp.size).to be >= 15
         expect(resp.size).to be <= 50
       end
@@ -422,7 +421,6 @@ describe 'advanced search' do
       end
       it 'add topic feature films' do
         resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Media & Microtext Center"), topic_facet:("Feature films")', 'q' => 'collection:*' }.merge(solr_args))
-        # 655a was taken out of topic facet, hence smaller number of records expected.
         expect(resp.size).to be >= 9_300
         expect(resp.size).to be <= 10_500
       end
