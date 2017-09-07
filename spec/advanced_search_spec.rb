@@ -135,9 +135,9 @@ describe 'advanced search' do
         expect(@sub_phrase).to have_fewer_results_than(solr_resp_doc_ids_only(subject_search_args("home schooling")))
         expect(@sub_phrase).to have_fewer_results_than @sub_no_phrase
       end
-      it 'keyword', fixme: true do
+      it 'keyword' do
         resp = solr_resp_doc_ids_only({ 'q' => 'Socialization' }.merge(solr_args))
-        expect(resp).to have_the_same_number_of_results_as(solr_resp_ids_from_query('Socialization'))
+        expect(resp).to have_fewer_results_than(solr_resp_ids_from_query('Socialization'))
         expect(resp.size).to be >= 525_000
         expect(resp.size).to be <= 555_000
       end
