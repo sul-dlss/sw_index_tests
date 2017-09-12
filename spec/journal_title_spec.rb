@@ -291,7 +291,7 @@ describe "journal/newspaper titles" do
   end # the state
 
   context "the world" do
-    it_behaves_like "great results for format journal", "The world" do
+    it_behaves_like "great results for format journal", "The world", :fixme => true do
       journal = ['2131497', # st marks 0043-8154, green
                   '4514062', # fitz-adam, spec
                   '4443623', # south africa, hoover
@@ -448,7 +448,7 @@ describe "journal/newspaper titles" do
   end
 
   context "the journal" do
-    it_behaves_like "great results for journal/newspaper", "The journal" do
+    it_behaves_like "great results for journal/newspaper", "The journal", :fixme => true do
       journal = [ '4144519', # bar assoc dc, law
                   '441812', # mecca, green
                   '9696658', # cleveland, heinonline
