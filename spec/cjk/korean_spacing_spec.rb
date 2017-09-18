@@ -49,13 +49,8 @@ describe "Korean spacing", :korean => true do
       end
       context "한미 동맹" do
         # FIXME:  8375648 is not in these results!
-<<<<<<< HEAD
-        # it_behaves_like 'good results for query', 'everything', '한미 동맹', 1, 25, '8375648', 20
-        it_behaves_like "expected result size", 'everything', '한미 동맹', 1, 25
-=======
         it_behaves_like 'good results for query', 'everything', '한미 동맹', 1, 30, '8375648', 30
         it_behaves_like "expected result size", 'everything', '한미 동맹', 1, 30
->>>>>>> da6ffb4... korean_spacing: fixme added to failing test due to comma in data.
       end
     end
   end   # Korea-U.S. alliance relations in the 21st century  VUF-2747
@@ -107,8 +102,8 @@ describe "Korean spacing", :korean => true do
       context "꿈꾸는 자가 창 조한다 (but Korean writing would not give space between 창 and 조 )" do
         it_behaves_like "good results for 꿈꾸는 자가 창조한다", 'everything', '꿈꾸는 자가 창 조한다'
       end
-      context "꿈꾸는 자가 창조한 다 (but Korean writing would not give space between 한 and 다)" do
-        it_behaves_like "good results for 꿈꾸는 자가 창조한다", 'everything', '꿈꾸는 자가 창조한 다'
+      context "꿈꾸는 자가 창조한 다 (but Korean writing would not give space between 한 and 다)", fixme: true do
+        it_behaves_like 'good results for query', 'everything', '꿈꾸는 자가 창조한 다', 1, 2, '7378874', 1
       end
     end
   end # Kkum kkunŭn cha ka chʻangjo handa  VUF-2700
@@ -200,11 +195,11 @@ describe "Korean spacing", :korean => true do
     end
     context "귀 를 기울이면 (spacing in catalog)" do
       it_behaves_like "good results for 귀를 기울이면", '귀 를 기울이면'
-      it_behaves_like "best matches first", 'everything', '귀 를 기울이면', '9439991', 1
+      it_behaves_like "best matches first", 'everything', '귀 를 기울이면', '9439991', 2
     end
     context "귀를기울이면 (no spaces)" do
       it_behaves_like "good results for 귀를 기울이면", '귀를기울이면'
-      it_behaves_like "best matches first", 'everything', '귀를기울이면', '9439991', 1
+      it_behaves_like "best matches first", 'everything', '귀를기울이면', '9439991', 2
     end
   end # As I listened
 
@@ -268,7 +263,7 @@ describe "Korean spacing", :korean => true do
   end # Society of North Korea
   context "New writings on understanding of contemporary North Korea" do
     shared_examples_for "good results for 새로 쓴 현대북한의 이해" do | query |
-      it_behaves_like "good results for query", 'everything', query, 1, 1, '7755546', 1
+      it_behaves_like "good results for query", 'everything', query, 1, 2, '7755546', 1
     end
     context "새로 쓴 현대북한의 이해  (normal spacing)" do
       it_behaves_like "good results for 새로 쓴 현대북한의 이해", '새로 쓴 현대북한의 이해'
