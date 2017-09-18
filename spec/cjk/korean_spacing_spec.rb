@@ -49,8 +49,13 @@ describe "Korean spacing", :korean => true do
       end
       context "한미 동맹" do
         # FIXME:  8375648 is not in these results!
+<<<<<<< HEAD
         # it_behaves_like 'good results for query', 'everything', '한미 동맹', 1, 25, '8375648', 20
         it_behaves_like "expected result size", 'everything', '한미 동맹', 1, 25
+=======
+        it_behaves_like 'good results for query', 'everything', '한미 동맹', 1, 30, '8375648', 30
+        it_behaves_like "expected result size", 'everything', '한미 동맹', 1, 30
+>>>>>>> da6ffb4... korean_spacing: fixme added to failing test due to comma in data.
       end
     end
   end   # Korea-U.S. alliance relations in the 21st century  VUF-2747
