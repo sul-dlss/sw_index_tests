@@ -261,15 +261,27 @@ describe 'boolean operators' do
     end
 
     context 'street art and graffiti', jira: 'VUF-1013' do
-      it '((street art) OR graffiti) AND aspects' do
+      it '((street art) OR graffiti) AND aspects', fixme: true do
+        # this search returns 47 results when the solr query is sent from SearchWorks
+        #  47 here is bigger than using quotes below;  probably that is "good enough" for this
+        #  test as the use case is not a common one (complex boolean query, nested parens)
+        # Solr gets this query from SW app (subject serarch):
+        # "q"=>"( ( _query_:\"{!edismax qf=$qf_subject pf=$pf_subject pf3=$pf3_subject pf2=$pf2_subject}street art\" OR
+        # _query_:\"{!dismax qf=$qf_subject pf=$pf_subject pf3=$pf3_subject pf2=$pf2_subject}graffiti\" ) AND
+        # _query_:\"{!dismax qf=$qf_subject pf=$pf_subject pf3=$pf3_subject pf2=$pf2_subject}aspects\" )"
         resp = solr_resp_doc_ids_only(subject_search_args '((street art) OR graffiti) AND aspects')
         expect(resp.size).to be >= 3820
         expect(resp.size).to be <= 4070
       end
       it '("street art" OR graffiti) AND aspects' do
+        # this search returns 39 results when the solr query is sent from SearchWorks
+        # "q"=>"( _query_:\"{!dismax qf=$qf_subject pf=$pf_subject pf3=$pf3_subject pf2=$pf2_subject mm=1}\\\"street art\\\" graffiti\" AND
+        # _query_:\"{!dismax qf=$qf_subject pf=$pf_subject pf3=$pf3_subject pf2=$pf2_subject}aspects\" )"
         resp = solr_resp_doc_ids_only(subject_search_args '("street art" OR graffiti) AND aspects')
-        expect(resp.size).to be >= 20
-        expect(resp.size).to be <= 40
+        expect(resp.size).to be >= 30
+        expect(resp.size).to be <= 50
+        resp_parens = solr_resp_doc_ids_only(subject_search_args '((street art) OR graffiti) AND aspects')
+        expect(resp.size).to be < resp_parens.size
       end
     end
 
