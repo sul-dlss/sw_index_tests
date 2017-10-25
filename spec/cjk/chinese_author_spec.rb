@@ -8,7 +8,7 @@ describe "Chinese Author", :chinese => true do
     it_behaves_like "matches in vern person authors first", 'author', '董橋', /(董橋|董桥)/, 40
     it_behaves_like "matches in vern person authors first", 'author', '董桥', /(董橋|董桥)/, 40
   end
-  
+
   context "(Fang, Baochuan)" do
     it_behaves_like "both scripts get expected result size", 'author', 'traditional', '方寶川', 'simplified', '方宝川', 7, 15
     trad = ['9388854', # 700a, 245c
@@ -32,7 +32,7 @@ describe "Chinese Author", :chinese => true do
     it_behaves_like "matches in vern person authors first", 'author', '梁鸿', /(梁鴻|梁鸿)/, 7
     it_behaves_like "matches in vern person authors first", 'author', '梁鸿', /^(梁鴻|梁鸿)[^[[:alpha:]]]*$/, 3
     context "phrase" do
-      it_behaves_like "both scripts get expected result size", 'author', 'traditional', '"梁鴻"', 'simplified', '"梁鸿"', 8, 15
+      it_behaves_like "both scripts get expected result size", 'author', 'traditional', '"梁鴻"', 'simplified', '"梁鸿"', 10, 20
       it_behaves_like "matches in vern person authors first", 'author', '"梁鸿"', /(梁鴻|梁鸿)/, 7
       it_behaves_like "matches in vern person authors first", 'author', '"梁鸿"', /^(梁鴻|梁鸿)[^[[:alpha:]]]*$/, 3
     end
@@ -44,13 +44,13 @@ describe "Chinese Author", :chinese => true do
   end
 
   context "Shao, Dongfang", :jira => 'SW-207' do
-    # simplified 邵东方  vs. traditional 邵東方  
+    # simplified 邵东方  vs. traditional 邵東方
     it_behaves_like "both scripts get expected result size", 'author', 'traditional', '邵東方', 'simplified', '邵东方', 6, 15
     it_behaves_like "matches in vern person authors first", 'author', '邵東方', /^(邵東方|邵东方)[^[[:alpha:]]]*$/, 6
   end
 
   context "Zhang, Ailing", :jira => 'SW-207' do
-    it_behaves_like "both scripts get expected result size", 'author', 'traditional', '張愛玲', 'simplified', '张爱玲', 75, 90
+    it_behaves_like "both scripts get expected result size", 'author', 'traditional', '張愛玲', 'simplified', '张爱玲', 65, 90
     it_behaves_like "matches in vern person authors first", 'author', '張愛玲', /^(張愛玲|张爱玲)[^[[:alpha:]]]*$/, 50
   end
 

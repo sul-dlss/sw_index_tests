@@ -19,13 +19,14 @@ describe "Korean author", :korean => true do
                 '8827330',
                 '7880024',
                 '7841550',
-                '6972331',
+                #'6972331', # only has author in 700 field
+                '10561883', # has author in more fields, ranks higher
               ]
     irrelevant = ['10150829', # has one contributor with last name, another contributor with first name
                   '9588786',  # has 3 chars jumbled in 710:  경희 대학교. 밝은 사회 연구소
                   ]
     shared_examples_for "good author results for 은희경" do | query |
-      it_behaves_like 'good results for query', 'author', query, 15, 30, relevant, 20
+      it_behaves_like 'good results for query', 'author', query, 15, 30, relevant, 20 # 6972331 appears as 21
       it_behaves_like 'does not find irrelevant results', 'author', query, irrelevant
     end
     context "은희경 (no spaces)" do
@@ -47,13 +48,13 @@ describe "Korean author", :korean => true do
                               '10144316',
                               '10144263' ]
     shared_examples_for "good author results for 강인철" do | query |
-      it_behaves_like 'good results for query', 'author', query, 8, 15, chars_together_in_100 + chars_w_space_in_100_space, 11
+      it_behaves_like 'good results for query', 'author', query, 13, 20, chars_together_in_100 + chars_w_space_in_100_space, 11
     end
     shared_examples_for "good everything results for 강인철" do | query |
       it_behaves_like 'good author results for 강인철', query
       in_245c = '9688452' # 245c has 편집 강 인철].
-      in_245c_and_700 = '7850201'  # 245c has [著者 강 인철
-      it_behaves_like 'best matches first', 'everything', query, [in_245c, in_245c_and_700], 13
+      in_245c_and_700 = '11987524'  # 245c has 편집 강 인철.
+      it_behaves_like 'best matches first', 'everything', query, [in_245c, in_245c_and_700], 15
       chars_out_of_order = '9696801' #  철강인  in 245a, 246a
       it_behaves_like 'does not find irrelevant results', 'author', query, chars_out_of_order
     end
@@ -78,7 +79,7 @@ describe "Korean author", :korean => true do
 
   context "Han, Yŏng-u  한영우" do
     shared_examples_for "good author results for 한영우" do | query |
-      it_behaves_like "expected result size", 'author', query, 29, 40     
+      it_behaves_like "expected result size", 'author', query, 29, 40
       #  7142656:   김영우 (different last name), and the character "한" appears in the "contributor" field, "한국 교육사 학회."
       it_behaves_like 'does not find irrelevant results', 'author', query, '7142656', 'rows' => 30
       it "author matches regex" do

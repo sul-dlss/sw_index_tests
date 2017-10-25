@@ -225,7 +225,7 @@ describe 'boolean operators' do
         end
         it 'should have results that match first term but not second term' do
           # titles 'Indochine'
-          indochine_results = %w(383033 430603 4312384 3083716 3065221 2134301)
+          indochine_results = %w(383033 430603 1921469 3083716 3065221 2134301 10316540)
           expect(@indochine).to include(indochine_results)
           expect(@indochine_or_indochina).to include(indochine_results)
           expect(@indochina).not_to include(indochine_results)
@@ -255,28 +255,40 @@ describe 'boolean operators' do
 
     it 'lesbian OR gay videos', jira: ['VUF-300', 'VUF-301', 'VUF-311'] do
       resp = solr_resp_doc_ids_only('q' => 'lesbian OR gay', 'fq' => 'format:Video')
-      expect(resp.size).to be >= 1520
-      expect(resp.size).to be <= 1770
+      expect(resp.size).to be >= 1800
+      expect(resp.size).to be <= 1900
     end
 
     context 'street art and graffiti', jira: 'VUF-1013' do
-      it '((street art) OR graffiti) AND aspects' do
+      it '((street art) OR graffiti) AND aspects', fixme: true do
+        # this search returns 47 results when the solr query is sent from SearchWorks
+        #  47 here is bigger than using quotes below;  probably that is "good enough" for this
+        #  test as the use case is not a common one (complex boolean query, nested parens)
+        # Solr gets this query from SW app (subject serarch):
+        # "q"=>"( ( _query_:\"{!edismax qf=$qf_subject pf=$pf_subject pf3=$pf3_subject pf2=$pf2_subject}street art\" OR
+        # _query_:\"{!dismax qf=$qf_subject pf=$pf_subject pf3=$pf3_subject pf2=$pf2_subject}graffiti\" ) AND
+        # _query_:\"{!dismax qf=$qf_subject pf=$pf_subject pf3=$pf3_subject pf2=$pf2_subject}aspects\" )"
         resp = solr_resp_doc_ids_only(subject_search_args '((street art) OR graffiti) AND aspects')
         expect(resp.size).to be >= 3820
         expect(resp.size).to be <= 4070
       end
       it '("street art" OR graffiti) AND aspects' do
+        # this search returns 39 results when the solr query is sent from SearchWorks
+        # "q"=>"( _query_:\"{!dismax qf=$qf_subject pf=$pf_subject pf3=$pf3_subject pf2=$pf2_subject mm=1}\\\"street art\\\" graffiti\" AND
+        # _query_:\"{!dismax qf=$qf_subject pf=$pf_subject pf3=$pf3_subject pf2=$pf2_subject}aspects\" )"
         resp = solr_resp_doc_ids_only(subject_search_args '("street art" OR graffiti) AND aspects')
-        expect(resp.size).to be >= 20
-        expect(resp.size).to be <= 40
+        expect(resp.size).to be >= 30
+        expect(resp.size).to be <= 50
+        resp_parens = solr_resp_doc_ids_only(subject_search_args '((street art) OR graffiti) AND aspects')
+        expect(resp.size).to be < resp_parens.size
       end
     end
 
     context 'nested OR within NOT as subject', jira: 'VUF-1387' do
       it 'digestive organs' do
         resp = solr_resp_doc_ids_only(subject_search_args 'digestive organs')
-        expect(resp.size).to be >= 500
-        expect(resp.size).to be <= 600
+        expect(resp.size).to be >= 590
+        expect(resp.size).to be <= 620
       end
       it 'digestive organs NOT disease', fixme: true do
         # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a NOT

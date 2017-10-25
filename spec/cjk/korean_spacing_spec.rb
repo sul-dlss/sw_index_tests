@@ -45,12 +45,12 @@ describe "Korean spacing", :korean => true do
     end # title searches
     context "keyword searches" do
       context "한미동맹" do
-        it_behaves_like 'good results for query', 'everything', '한미동맹', 1, 25, '8375648', 10
+        it_behaves_like 'good results for query', 'everything', '한미동맹', 1, 30, '8375648', 10
       end
       context "한미 동맹" do
         # FIXME:  8375648 is not in these results!
-        # it_behaves_like 'good results for query', 'everything', '한미 동맹', 1, 25, '8375648', 20
-        it_behaves_like "expected result size", 'everything', '한미 동맹', 1, 25
+        it_behaves_like 'good results for query', 'everything', '한미 동맹', 1, 30, '8375648', 30
+        it_behaves_like "expected result size", 'everything', '한미 동맹', 1, 30
       end
     end
   end   # Korea-U.S. alliance relations in the 21st century  VUF-2747
@@ -70,7 +70,7 @@ describe "Korean spacing", :korean => true do
       context "꿈꾸는 자 가 창조한다" do
         # it has additional results
         # it_behaves_like "good results for 꿈꾸는 자가 창조한다", 'title', '꿈꾸는 자 가 창조한다'
-        it_behaves_like 'good results for query', 'title', '꿈꾸는 자 가 창조한다', 1, 3, '7378874', 1
+        it_behaves_like 'good results for query', 'title', '꿈꾸는 자 가 창조한다', 1, 5, '7378874', 1
       end
       context "꿈꾸는 자가 창조 한다" do
         it_behaves_like "good results for 꿈꾸는 자가 창조한다", 'title', '꿈꾸는 자가 창조 한다'
@@ -102,8 +102,8 @@ describe "Korean spacing", :korean => true do
       context "꿈꾸는 자가 창 조한다 (but Korean writing would not give space between 창 and 조 )" do
         it_behaves_like "good results for 꿈꾸는 자가 창조한다", 'everything', '꿈꾸는 자가 창 조한다'
       end
-      context "꿈꾸는 자가 창조한 다 (but Korean writing would not give space between 한 and 다)" do
-        it_behaves_like "good results for 꿈꾸는 자가 창조한다", 'everything', '꿈꾸는 자가 창조한 다'
+      context "꿈꾸는 자가 창조한 다 (but Korean writing would not give space between 한 and 다)", fixme: true do
+        it_behaves_like 'good results for query', 'everything', '꿈꾸는 자가 창조한 다', 1, 2, '7378874', 1
       end
     end
   end # Kkum kkunŭn cha ka chʻangjo handa  VUF-2700
@@ -150,7 +150,7 @@ describe "Korean spacing", :korean => true do
 
   context "Korean economy" do
     shared_examples_for "good results for 한국경제" do | query |
-      it_behaves_like "expected result size", 'everything', query, 800, 1000
+      it_behaves_like "expected result size", 'everything', query, 850, 1050
       # no spaces, exact 245a
       it_behaves_like 'best matches first', 'everything', query, '6812133', 7
       # spaces, exact 245a
@@ -195,11 +195,11 @@ describe "Korean spacing", :korean => true do
     end
     context "귀 를 기울이면 (spacing in catalog)" do
       it_behaves_like "good results for 귀를 기울이면", '귀 를 기울이면'
-      it_behaves_like "best matches first", 'everything', '귀 를 기울이면', '9439991', 1
+      it_behaves_like "best matches first", 'everything', '귀 를 기울이면', '9439991', 2
     end
     context "귀를기울이면 (no spaces)" do
       it_behaves_like "good results for 귀를 기울이면", '귀를기울이면'
-      it_behaves_like "best matches first", 'everything', '귀를기울이면', '9439991', 1
+      it_behaves_like "best matches first", 'everything', '귀를기울이면', '9439991', 2
     end
   end # As I listened
 
@@ -219,7 +219,7 @@ describe "Korean spacing", :korean => true do
   end # Korean economy at the turning point
   context "Korea today" do
     shared_examples_for "good results for 오늘의 한국" do | query |
-      it_behaves_like "good results for query", 'everything', query, 40, 65, '9652283', 1
+      it_behaves_like "good results for query", 'everything', query, 50, 75, '9652283', 1
     end
     context "오늘의 한국 (normal spacing)" do
       it_behaves_like "good results for 오늘의 한국", '오늘의 한국'
@@ -241,7 +241,7 @@ describe "Korean spacing", :korean => true do
   end # on the borderline
   context "World Inside Korea" do
     shared_examples_for "good results for 한국속의 세계" do | query |
-      it_behaves_like "good results for query", 'everything', query, 12, 608, '7906866', 1
+      it_behaves_like "good results for query", 'everything', query, 12, 700, '7906866', 1
     end
     context "한국속의 세계 (normal spacing)" do
       it_behaves_like "good results for 한국속의 세계", '한국속의 세계'
@@ -263,7 +263,7 @@ describe "Korean spacing", :korean => true do
   end # Society of North Korea
   context "New writings on understanding of contemporary North Korea" do
     shared_examples_for "good results for 새로 쓴 현대북한의 이해" do | query |
-      it_behaves_like "good results for query", 'everything', query, 1, 1, '7755546', 1
+      it_behaves_like "good results for query", 'everything', query, 1, 2, '7755546', 1
     end
     context "새로 쓴 현대북한의 이해  (normal spacing)" do
       it_behaves_like "good results for 새로 쓴 현대북한의 이해", '새로 쓴 현대북한의 이해'
@@ -285,7 +285,7 @@ describe "Korean spacing", :korean => true do
   end # Contemporary North Korean literature
   context "Art History of the Choson dynasty" do
     shared_examples_for "good results for 조선미술사" do | query |
-      it_behaves_like "good results for query", 'everything', query, 15, 30, '7676909', 1
+      it_behaves_like "good results for query", 'everything', query, 15, 35, '7676909', 1
     end
     context "조선미술사 (normal spacing)" do
       it_behaves_like "good results for 조선미술사", '조선미술사'
@@ -297,7 +297,7 @@ describe "Korean spacing", :korean => true do
 
   context "History of South Korea" do
     shared_examples_for "good results for 한국의 역사" do | query |
-      it_behaves_like "expected result size", 'everything', query, 500, 750
+      it_behaves_like "expected result size", 'everything', query, 550, 800
     end
     context "한국의 역사 (normal spacing)" do
       it_behaves_like "good results for 한국의 역사", '한국의 역사'
@@ -309,7 +309,7 @@ describe "Korean spacing", :korean => true do
 
   context "Experience and the type of novel" do
     shared_examples_for "good results for 경험과 소설의 형식" do | query |
-      it_behaves_like "good results for query", 'everything', query, 1, 4, '7875464', 1
+      it_behaves_like "good results for query", 'everything', query, 1, 10, '7875464', 1
     end
     context "경험과 소설의 형식 (normal spacing)" do
       it_behaves_like "good results for 경험과 소설의 형식", '경험과 소설의 형식'
@@ -333,7 +333,7 @@ describe "Korean spacing", :korean => true do
     end
     context "Beauty of Korea" do
       shared_examples_for "good results for 韓國의 美" do | query |
-        it_behaves_like "good results for query", 'everything', query, 30, 60, '6665111', 1
+        it_behaves_like "good results for query", 'everything', query, 35, 65, '6665111', 1
       end
       context "韓國의 美  (normal spacing)" do
         it_behaves_like "good results for 韓國의 美", '韓國의 美'

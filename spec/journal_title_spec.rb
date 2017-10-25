@@ -148,9 +148,9 @@ describe "journal/newspaper titles" do
                     ]
       book = ['2613193', # fed doc on floods
               '10549995', # 1868, online - galenet
-              '7815517', # lingeman  245 |a The Nation : b| guide to the Nation / c| by Richard Lingeman ; introduction by Victor Navasky and Katrina Vanden Heuvel ; original drawings by Ed Koren.
-              '2098094', # mulford
-              # Pushed down below 22
+              # Pushed down below 20
+              # '7815517', # lingeman  245 |a The Nation : b| guide to the Nation / c| by Richard Lingeman ; introduction by Victor Navasky and Katrina Vanden Heuvel ; original drawings by Ed Koren.
+              # '2098094', # mulford
               #'9296914', # mulford, online - galenet
               #'7170814', # mulford, online - galenet
               ]
@@ -291,7 +291,7 @@ describe "journal/newspaper titles" do
   end # the state
 
   context "the world" do
-    it_behaves_like "great results for format journal", "The world" do
+    it_behaves_like "great results for format journal", "The world", :fixme => true do
       journal = ['2131497', # st marks 0043-8154, green
                   '4514062', # fitz-adam, spec
                   '4443623', # south africa, hoover
@@ -400,6 +400,7 @@ describe "journal/newspaper titles" do
               '423194', # johannesburg, sal newark
                 ]
       book = ['4287908', # johannesburg, sal1
+              '11931578', # london, sal3
               ]
       other = ['8928527', # marcit
                '8161058', # marcit
@@ -409,8 +410,10 @@ describe "journal/newspaper titles" do
                '5960691', # video
                '389374', # hoover, other
                '287788', # music score
-               '8392304', # recording
-               '287667', # music score
+               '10354180', # marcit
+              #  pushed down results
+              # '8392304', # recording
+              #  '287667', # music score
                 ]
       let(:all_formats) { journal + news + book + other }
       let(:journal_only) { journal }
@@ -445,7 +448,7 @@ describe "journal/newspaper titles" do
   end
 
   context "the journal" do
-    it_behaves_like "great results for journal/newspaper", "The journal" do
+    it_behaves_like "great results for journal/newspaper", "The journal", :fixme => true do
       journal = [ '4144519', # bar assoc dc, law
                   '441812', # mecca, green
                   '9696658', # cleveland, heinonline
@@ -457,8 +460,12 @@ describe "journal/newspaper titles" do
                   '667316', # metal polishers, green mfilm
                   '354858', # burma, sal3
                   '2941201', # tech horiz, educ, 0192-592x
+                  '11699410', # Seychelles, sal3
+                  '10553544', # marcit
                 ]
-      news = ['10354148']
+      news = ['10354148',
+              '11939504', # marcit
+              ]
       book = ['1186556', # dana, green
               '1293085', # 1721, green mfilm
               '4374587', # columbus, green
@@ -481,9 +488,7 @@ describe "journal/newspaper titles" do
       book = ['4104255', # butel, green, ebrary
               '128007', #outhwaite, green
               ]
-      other = ['9209068', # marcit, online
-                ]
-      let(:all_formats) { journal + news + book + other }
+      let(:all_formats) { journal + news + book }
       let(:journal_only) { journal }
       let(:newspaper_only) { news }
     end

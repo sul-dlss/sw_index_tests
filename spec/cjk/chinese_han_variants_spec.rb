@@ -31,7 +31,7 @@ describe 'Chinese Han variants', chinese: true do
                            ]
     shared_examples_for 'great matches for Hiroshi' do |query|
       it_behaves_like 'matches in vern short titles first', 'title', query, /(廣|广)(甯|寧|宁)(縣|县)/, 9 # modern
-      it_behaves_like 'best matches first', 'title', query, addl_desired_results, 10
+      it_behaves_like 'best matches first', 'title', query, addl_desired_results, 15
     end
     trad = '廣甯縣'
     simp = '广宁县'
@@ -49,7 +49,7 @@ describe 'Chinese Han variants', chinese: true do
       it_behaves_like 'matches in vern short titles first', query_type, query, /^歷史(硏|研)究$/, 2
     end
     context 'no spaces' do
-      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '歷史研究', 'simplified', '历史研究', 562, 1800
+      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '歷史研究', 'simplified', '历史研究', 700, 1850
       it_behaves_like 'great matches for history research', 'title', '歷史研究'
       it_behaves_like 'great matches for history research', 'title', '历史研究'
     end
@@ -83,9 +83,10 @@ describe 'Chinese Han variants', chinese: true do
     # 3rd char: correct mapping of 緖 784F (variant) => 研 7814 (std trad)
     it_behaves_like 'best matches first', 'title', '戲劇研究', ['6694075', # 245a 戲劇研究
                                                             '9669954', # 245a  戯劇硏究
+                                                            '12084994', # 245a 戯劇硏究
                                                             '6694086', # 245a  戯劇硏究
                                                             '6860183', # 245a  戏剧硏究
-                                                           ], 4, 'fq' => 'format:Journal/Periodical'
+                                                           ], 5, 'fq' => 'format:Journal/Periodical'
     it_behaves_like 'matches in vern short titles first', 'title', '戲劇研究', /^(戯|戱|戲|戏)(劇|剧)(硏|研)究[^[[:alnum:]]]*$/, 6
   end
 

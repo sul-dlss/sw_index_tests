@@ -39,7 +39,7 @@ describe 'Japanese Everything Searches', japanese: true do
   end
 
   context 'Japan China thought', jira: 'VUF-2737' do
-    it_behaves_like 'expected result size', 'everything', '日本  中国  思想', 65, 90
+    it_behaves_like 'expected result size', 'everything', '日本  中国  思想', 65, 100
     context 'w lang limit' do
       it_behaves_like 'expected result size', 'everything', '日本  中国  思想', 32, 40, lang_limit
     end
@@ -50,7 +50,7 @@ describe 'Japanese Everything Searches', japanese: true do
   end
 
   context '(local/regional society)', jira: 'VUF-2717' do
-    it_behaves_like 'expected result size', 'everything', '地域社会', 490, 650
+    it_behaves_like 'expected result size', 'everything', '地域社会', 490, 675
     it_behaves_like 'matches in vern short titles first', 'everything', '地域社会', /^地域社会$/, 1 # exact title match
     context 'w lang limit' do
       it_behaves_like 'expected result size', 'everything', '地域社会', 450, 550, lang_limit
