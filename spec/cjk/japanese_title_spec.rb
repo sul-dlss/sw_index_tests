@@ -53,7 +53,7 @@ describe 'Japanese Title searches', japanese: true do
   end
   context "'hiragana'  ひらがな", jira: 'VUF-2693' do
     it_behaves_like 'expected result size', 'title', 'ひらがな', 4, 10
-    it_behaves_like 'best matches first', 'title', 'ひらがな', %w(4217219 9252490), 3 # both in 245b
+    it_behaves_like 'best matches first', 'title', 'ひらがな', %w(4217219 12142832), 3 # 4217219 in 245b and 12142832 in 245a
   end
   context 'historical records' do
     it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '古記錄', 'modern', '古記録', 120, 200
