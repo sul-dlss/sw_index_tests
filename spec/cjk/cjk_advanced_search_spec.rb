@@ -43,7 +43,7 @@ describe 'CJK Advanced Search' do
         expect(@resp).to include(exact_matches).in_first(exact_matches.size).documents
       end
       it 'matches without spaces present' do
-        no_space_exact_matches = %w(4196577 12085500) # 2 out of many
+        no_space_exact_matches = %w(4196577 12117527) # 2 out of many
         expect(@resp).to include(no_space_exact_matches).in_first(20).documents
       end
     end
