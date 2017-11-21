@@ -33,8 +33,8 @@ describe 'Japanese Kanji variants', japanese: true do
       # Second char of traditional doesn't translate to second char of modern with ICU traditional->simplified
       # FIXME:  these do not give the same numbers of results.
       # it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '江戶', 'modern', '江戸', 1900, 2000
-      it_behaves_like 'expected result size', 'everything', '江戶', 2000, 2190  # trad
-      it_behaves_like 'expected result size', 'everything', '江戸', 2000, 2190  # modern
+      it_behaves_like 'expected result size', 'everything', '江戶', 2100, 2250  # trad
+      it_behaves_like 'expected result size', 'everything', '江戸', 2100, 2250  # modern
 
       it_behaves_like 'matches in vern short titles first', 'everything', '江戶', /(江戶|江戸)/, 100  # trad
       it_behaves_like 'matches in vern short titles first', 'everything', '江戸', /(江戶|江戸)/, 100  # modern
@@ -66,7 +66,7 @@ describe 'Japanese Kanji variants', japanese: true do
       # FIXME:  these do not give the same numbers of results.  Even with lang_limit.  But they are both analyzed to the same char string  2013-10-14
       #      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '慶應義塾大学', 'modern', '慶応義塾大学', 375, 450
       it_behaves_like 'expected result size', 'everything', '慶應義塾大学', 375, 550  # trad
-      it_behaves_like 'expected result size', 'everything', '慶応義塾大学', 375, 515 # modern
+      it_behaves_like 'expected result size', 'everything', '慶応義塾大学', 375, 550 # modern
     end
 
     context 'Mahayana Buddhism', jira: 'VUF-2761' do
@@ -83,7 +83,7 @@ describe 'Japanese Kanji variants', japanese: true do
     context 'the origin', jira: 'VUF-2782' do
       # first char doesn't translate the same (modern != simplified)
       # both retrieve 24 results, but they do not retrieve the SAME results
-      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '緣起', 'modern', '縁起', 50, 65, lang_limit
+      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '緣起', 'modern', '縁起', 60, 75, lang_limit
     end
 
     context 'painting dictionary', jira: 'VUF-2697' do

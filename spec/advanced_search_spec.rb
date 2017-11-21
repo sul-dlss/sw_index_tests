@@ -183,8 +183,8 @@ describe 'advanced search' do
       end
       it 'title' do
         resp = solr_resp_doc_ids_only({ 'q' => "#{title_query('the history man')}" }.merge(solr_args))
-        expect(resp.size).to be >= 1320
-        expect(resp.size).to be <= 1420
+        expect(resp.size).to be >= 1370
+        expect(resp.size).to be <= 1470
       end
       it 'author and title' do
         resp = solr_resp_doc_ids_only({ 'q' => "#{author_query('malcolm bradbury')} AND #{title_query('the history man')}" }.merge(solr_args))
@@ -334,8 +334,8 @@ describe 'advanced search' do
       end
       it 'pub info 2010' do
         resp = solr_resp_doc_ids_only({ 'q' => "#{pub_info_query('2010')}" }.merge(solr_args))
-        expect(resp.size).to be >= 145_000
-        expect(resp.size).to be <= 155_000
+        expect(resp.size).to be >= 155_000
+        expect(resp.size).to be <= 165_000
       end
       it 'pub info 2011' do
         resp = solr_resp_doc_ids_only({ 'q' => "#{pub_info_query('2011')}" }.merge(solr_args))
@@ -416,8 +416,8 @@ describe 'advanced search' do
       end
       it 'before topics selected' do
         resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Media & Microtext Center")', 'q' => 'collection:*' }.merge(solr_args))
-        expect(resp.size).to be >= 30_000
-        expect(resp.size).to be <= 40_000
+        expect(resp.size).to be >= 35_000
+        expect(resp.size).to be <= 45_000
       end
       it 'add topic feature films' do
         resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Media & Microtext Center"), topic_facet:("Feature films")', 'q' => 'collection:*' }.merge(solr_args))

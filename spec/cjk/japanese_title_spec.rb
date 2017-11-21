@@ -53,7 +53,7 @@ describe 'Japanese Title searches', japanese: true do
   end
   context "'hiragana'  ひらがな", jira: 'VUF-2693' do
     it_behaves_like 'expected result size', 'title', 'ひらがな', 4, 10
-    it_behaves_like 'best matches first', 'title', 'ひらがな', %w(4217219 9252490), 3 # both in 245b
+    it_behaves_like 'best matches first', 'title', 'ひらがな', %w(4217219 12142832), 3 # 4217219 in 245b and 12142832 in 245a
   end
   context 'historical records' do
     it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '古記錄', 'modern', '古記録', 120, 200
@@ -147,12 +147,12 @@ describe 'Japanese Title searches', japanese: true do
   context 'tale', jira: ['VUF-2705', 'VUF-2743', 'VUF-2742', 'VUF-2740'] do
     # (see also japanese hiragana - han spec)
     context 'hiragana', jira: ['VUF-2705', 'VUF-2743'] do
-      it_behaves_like 'expected result size', 'title', 'ものがたり', 60, 83
+      it_behaves_like 'expected result size', 'title', 'ものがたり', 80, 100
       it_behaves_like 'matches in vern short titles first', 'title', 'ものがたり', /ものがたり/, 35
     end
     context 'kanji', jira: ['VUF-2705', 'VUF-2742', 'VUF-2740'] do
       # Japanese do not use 语 (2nd char as simplified chinese) but rather 語 (trad char)
-      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '物語', 'chinese simp', '物语', 2550, 2700
+      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '物語', 'chinese simp', '物语', 2700, 2850
       it_behaves_like 'matches in vern titles first', 'title', '物語', /物語/, 13 # 14 is 4223454 which has it in 240a
       it_behaves_like 'matches in vern titles first', 'title', '物語', /物語/, 100, lang_limit
     end

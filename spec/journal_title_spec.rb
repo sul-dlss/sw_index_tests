@@ -565,7 +565,7 @@ describe "journal/newspaper titles" do
         expect(@resp).to include("7716332").in_first(3) # database
       end
       it "everything search should include the Lane/Medical record" do
-        expect(@resp).to include("10673520").in_first(10) # medical/lane
+        expect(@resp).to include("12208312").in_first(10) # medical/lane
       end
     end
 
@@ -581,7 +581,7 @@ describe "journal/newspaper titles" do
         expect(@tresp).to include("7716332").in_first(2)
       end
       it "title search should include the Lane/Medical record" do
-        expect(@tresp).to include("10673520").in_first(5)
+        expect(@tresp).to include("12208312").in_first(5)
       end
     end
   end # ScienceDirect
