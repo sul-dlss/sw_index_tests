@@ -184,7 +184,8 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
         expect(resp).to have_fewer_results_than(solr_resp_ids_from_query('C sharp minor'))
       end
       it "d#" do
-        resp = solr_resp_ids_from_query('d#')
+        # eloader records caused test to fail; add access facet to exclude volatility of results
+        resp = solr_resp_doc_ids_only('q' => 'd#', 'fq' => 'access_facet:"At the Library"')
         expect(resp).to include('7941865').as_first  # Etude in D sharp minor
         expect(resp.size).to be <= 250  # should not include d  as well, only  d sharp
         # the following all have a short title (245a) of D
