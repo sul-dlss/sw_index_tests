@@ -177,7 +177,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
       it "c# minor" do
         resp = solr_response({'q' => 'c# minor', 'fl'=>'id,title_display', 'facet'=>false})
         expect(resp).to include("title_display" => /c(#|♯|\-sharp| sharp) minor/i).in_each_of_first(10).documents
-        expect(resp.size).to be <= 3200
+        expect(resp.size).to be <= 3350
         expect(resp).to have_the_same_number_of_results_as(solr_resp_ids_from_query('C♯ minor'))
         expect(resp).to have_the_same_number_of_results_as(solr_resp_ids_from_query('C-sharp minor'))
         # would also match  c ... minor ... sharp
