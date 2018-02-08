@@ -19,7 +19,7 @@ describe "Japanese Unigrams", :japanese => true do
   context "Zen" do
     it_behaves_like "result size and vern short title matches first", 'title', '禅', 1000, 1300, /禅/, 4
     it_behaves_like "both scripts get expected result size", 'title', 'traditional', '禪', 'modern', '禅', 1000, 1300
-    it_behaves_like "both scripts get expected result size", 'title', 'traditional', '禪', 'modern', '禅', 525, 625, lang_limit
+    it_behaves_like "both scripts get expected result size", 'title', 'traditional', '禪', 'modern', '禅', 575, 675, lang_limit
     # 4193363 - modern;  6667691 - trad
     it_behaves_like "best matches first", 'title', '禅', ['4193363', '6667691'], 8, lang_limit
     # FIXME:  interesting that the sort order changes with the trad char ...
