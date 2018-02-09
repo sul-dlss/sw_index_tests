@@ -255,7 +255,7 @@ describe 'boolean operators' do
 
     it 'lesbian OR gay videos', jira: ['VUF-300', 'VUF-301', 'VUF-311'] do
       # eloader records cause results to explode; add access facet to keep expected results stable
-      resp = solr_resp_doc_ids_only('q' => 'lesbian OR gay', 'fq' => 'format:Video', 'access_facet:"At the Library"')
+      resp = solr_resp_doc_ids_only('q' => 'lesbian OR gay', 'fq' => 'format:("Video"), access_facet:("At the Library")')
       expect(resp.size).to be >= 1200
       expect(resp.size).to be <= 1400
     end
