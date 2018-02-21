@@ -196,7 +196,9 @@ describe "hyphen in queries" do
   end
 
   context "'red-rose chain'", :jira => 'SW-388' do
-    it_behaves_like "hyphens without spaces imply phrase", "red-rose chain", ["5335304", "8702148"], 3
+    # record 12197834 ranks higher than 8702148 because "red rose" appears twice in record
+    # however "red rose chain" is not a phrase in record 12197834
+    it_behaves_like "hyphens without spaces imply phrase", "red-rose chain", ["5335304", "8702148"], 4
   end
   context "'prisoner in a red-rose chain'", :jira => 'SW-388' do
     it_behaves_like "hyphens without spaces imply phrase", "prisoner in a red-rose chain", "8702148", 1
