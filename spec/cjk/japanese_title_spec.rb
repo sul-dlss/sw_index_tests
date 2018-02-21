@@ -132,12 +132,12 @@ describe 'Japanese Title searches', japanese: true do
   context 'survey/investigation', jira: 'VUF-2727' do
     # second trad char isn't translated to modern with ICU trad -> simp
     # (see also japanese han variants)
-    it_behaves_like 'both scripts get expected result size', 'title', 'traditional', ' 調查', 'modern', '調査', 8000, 9000
+    it_behaves_like 'both scripts get expected result size', 'title', 'traditional', ' 調查', 'modern', '調査', 8050, 9050
     # exact title match
     it_behaves_like 'matches in vern short titles first', 'title', '調查', /^(調查|調査)[^[[:alnum:]]]*$/, 1 # trad
     it_behaves_like 'matches in vern short titles first', 'title', '調査', /^(調查|調査)[^[[:alnum:]]]*$/, 1 # mod
     context 'w lang limit' do
-      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', ' 調查', 'modern', '調査', 4625, 4825, lang_limit
+      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', ' 調查', 'modern', '調査', 4650, 4850, lang_limit
       it_behaves_like 'matches in vern short titles first', 'title', '調查', /(調查|調査)/, 100, lang_limit # trad
       it_behaves_like 'matches in vern short titles first', 'title', '調査', /(調查|調査)/, 100, lang_limit # modern
       # exact title match
@@ -172,7 +172,7 @@ describe 'Japanese Title searches', japanese: true do
   end
   context 'weekly' do
     # (see also japanese han variants) 2nd modern char isn't same as translated simplified han (modern != simplified)
-    it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '週刋', 'modern', '週刊', 73, 100, lang_limit
+    it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '週刋', 'modern', '週刊', 80, 110, lang_limit
     it_behaves_like 'matches in vern short titles first', 'title', '週刊', /週(刊|刋)/, 20, lang_limit # modern
     it_behaves_like 'matches in vern short titles first', 'title', '週刋', /週(刊|刋)/, 20, lang_limit # trad
   end
