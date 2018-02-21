@@ -173,7 +173,7 @@ describe "Chinese Title", :chinese => true do
       it_behaves_like "great results for Three Kingdoms", '三国 演义'
     end
     context "first space" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '三 國演義', 'simplified', '三 国演义', 83, 100
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '三 國演義', 'simplified', '三 国演义', 90, 110
       it_behaves_like "great results for Three Kingdoms", '三 國演義'
       it_behaves_like "great results for Three Kingdoms", '三 国演义'
     end
