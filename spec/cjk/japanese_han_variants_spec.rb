@@ -95,7 +95,7 @@ describe 'Japanese Kanji variants', japanese: true do
 
     context 'survey/investigation (kanji)', jira: 'VUF-2727' do
       # second trad char isn't translated to modern by ICU trad-simp
-      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', ' 調查', 'modern', '調査', 8000, 13_500
+      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', ' 調查', 'modern', '調査', 10_000, 14_500
       # exact title match
       it_behaves_like 'matches in vern short titles first', 'everything', '調查', /^(調查|調査)[^[[:alnum:]]]*$/, 1
       it_behaves_like 'matches in vern short titles first', 'everything', '調査', /^(調查|調査)[^[[:alnum:]]]*$/, 1
@@ -142,7 +142,7 @@ describe 'Japanese Kanji variants', japanese: true do
       # 2nd trad char isn't translated to modern by ICU - these should be equivalent
       #  modern 刊 520A => trad 刋 520B
       # (see also japanese title)
-      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '週刋', 'modern', '週刊', 73, 100, lang_limit
+      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '週刋', 'modern', '週刊', 80, 110, lang_limit
     end
   end # modern Kanji != simplified Han
 end
