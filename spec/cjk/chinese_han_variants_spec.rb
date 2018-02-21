@@ -119,7 +119,7 @@ describe 'Chinese Han variants', chinese: true do
   end
 
   context '戯 6231 (variant) => 戲 6232 (std trad)' do
-    it_behaves_like 'both scripts get expected result size', 'everything', 'variant', '戯作文学', 'std trad', '戏作文学', 5, 12
+    it_behaves_like 'both scripts get expected result size', 'everything', 'variant', '戯作文学', 'std trad', '戏作文学', 10, 17
   end
 
   context '敎 654E (variant) => 教 6559 (std trad)' do
