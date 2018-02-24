@@ -68,13 +68,13 @@ describe "facet values and queries" do
       expect(resp).to have_facet_field('author_person_facet').with_value("Carnoy, Martin")
       expect(resp).to have_facet_field('author_person_facet').with_value("Hannaway, Jane")
     end
-    
+
     it "language facet should not include value 'Unknown'" do
       resp = solr_response({'fl' => 'id', 'facet.field' => 'language', 'facet.limit' => '-1', 'rows' => '0'})
       expect(resp).not_to have_facet_field('language').with_value('Unknown')
     end
   end
-  
+
   context "expected values in the author person facet", :jira => 'VUF-138' do
     it "war and peace should have tolstoy" do
       resp = solr_response({'q' => 'war and peace', 'fl'=>'id', 'facet.field'=>'author_person_facet'})
@@ -89,7 +89,7 @@ describe "facet values and queries" do
       expect(resp).to have_facet_field('author_person_facet').with_value('Thoreau, Henry David, 1817-1862')
     end
   end
-  
+
   context "expected values in the author person facet", :jira => 'VUF-138' do
     it "war and peace should have tolstoy" do
       resp = solr_response({'q' => 'war and peace', 'fl'=>'id', 'facet.field'=>'author_person_facet'})
@@ -102,6 +102,34 @@ describe "facet values and queries" do
     it "civil disobedience should have thoreau" do
       resp = solr_response({'q' => 'civil disobedience', 'fl'=>'id', 'facet.field'=>'author_person_facet'})
       expect(resp).to have_facet_field('author_person_facet').with_value('Thoreau, Henry David, 1817-1862')
+    end
+  end
+
+  context 'expected results in the Stanford student work facet' do
+    it 'Thesis/Dissertation results' do
+      resp = solr_resp_doc_ids_only({'fq'=>['stanford_work_facet_hsim:"Thesis/Dissertation"']})
+      expect(resp.size).to be >= 51_400
+      expect(resp.size).to be <= 55_400
+    end
+    it 'Thesis/Dissertation|Bachelor\'s results' do
+      resp = solr_resp_doc_ids_only({'fq'=>['stanford_work_facet_hsim:"Thesis/Dissertation|Bachelor\'s"']})
+      expect(resp.size).to be >= 400
+      expect(resp.size).to be <= 600
+    end
+    it 'Thesis/Dissertation|Master\'s results' do
+      resp = solr_resp_doc_ids_only({'fq'=>['stanford_work_facet_hsim:"Thesis/Dissertation|Master\'s"']})
+      expect(resp.size).to be >= 14_100
+      expect(resp.size).to be <= 15_100
+    end
+    it 'Thesis/Dissertation|Doctoral results' do
+      resp = solr_resp_doc_ids_only({'fq'=>['stanford_work_facet_hsim:"Thesis/Dissertation|Doctoral"']})
+      expect(resp.size).to be >= 36_600
+      expect(resp.size).to be <= 37_600
+    end
+    it 'Other student work results' do
+      resp = solr_resp_doc_ids_only({'fq'=>['stanford_work_facet_hsim:"Other student work"']})
+      expect(resp.size).to be >= 330
+      expect(resp.size).to be <= 530
     end
   end
 
