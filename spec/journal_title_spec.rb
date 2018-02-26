@@ -121,18 +121,23 @@ describe "journal/newspaper titles" do
 
     it_behaves_like "great results for journal/newspaper", "The Nation" do
       news = [ '8217400', # malawi, green mfilm
-              '4772643', # malawi, sal
+              # '4772643', # malawi, sal (pushed below 20 in everything query)
               '2833546', # liberia, sal newark
               ]
       let(:newspaper_only) { news }
       journal = [ '497417', # green current
-                  '464445', # green micro
+                  '464445', # media microtext
                   '10039114', # biz
                   '3448713', # law
                   '405604', # gambia
                   '7859278', # swaziland
                   '381709', # hoover, south africa
-                  '454276', # sierra leone
+                  # '454276', # sierra leone (pushed below 20 in title query)
+                  # marcit records:
+                  '10560869',
+                  '12119944',
+                  '8229021',
+                  '12115052'
                   # problematic
                   #  9131572  245  a| Finances of the nation h| [electronic resource]
                   #  7689978  245 a| The Nation's hospitals h| [print].
