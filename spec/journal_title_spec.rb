@@ -170,12 +170,17 @@ describe "journal/newspaper titles" do
                   '7859278', # swaziland
                   '381709', # hoover, south africa
                   '454276', # sierra leone
+                  # marcit records:
+                  '10560869',
+                  '12119944',
+                  '8229021',
+                  '12115052'
                 ]
       resp = solr_resp_ids_titles(title_search_args('The Nation.').merge({'fq' => 'format_main_ssim:Journal/Periodical'}))
       resp_wo = solr_resp_ids_titles(title_search_args('The Nation').merge({'fq' => 'format_main_ssim:Journal/Periodical'}))
       expect(resp).to have_the_same_number_of_results_as(resp_wo)
       expect(resp).to include({'title_245a_display' => /^the nation\W*$/i}).in_each_of_first(journals.size)
-      expect(resp).to include(journals).in_first(journals.size + 2) # a little slop built in
+      expect(resp).to include(journals).in_first(journals.size + 3) # a little slop built in
     end
   end # the Nation
 
