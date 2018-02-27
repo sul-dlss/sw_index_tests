@@ -600,23 +600,23 @@ describe "journal/newspaper titles" do
   context "Nature" do
     it "as everything search", :jira => 'VUF-1515' do
       resp = solr_response({'q' => 'nature', 'fl'=>'id,title_display', 'facet'=>false})
-      expect(resp).to include({'title_display' => /^Nature \[print\/digital\]\./}).in_first(3)
+      expect(resp).to include({'title_display' => /^Nature/}).in_first(3)
     end
 
     it "as title search" do
       resp = solr_response(title_search_args('nature').merge({'fl'=>'id,title_display', 'facet'=>false}))
-      expect(resp).to include({'title_display' => /^Nature \[print\/digital\]\./}).in_first(3)
+      expect(resp).to include({'title_display' => /^Nature/}).in_first(3)
     end
 
     it "as title search with format journal" do
       resp = solr_response(title_search_args('nature').merge({'fq' => 'format_main_ssim:"Journal/Periodical"', 'fl'=>'id,title_display', 'facet'=>false}))
       expect(resp.size).to be <= 1400
-      expect(resp).to include({'title_display' => /^Nature \[print\/digital\]\./}).in_first(5)
+      expect(resp).to include({'title_display' => /^Nature/}).in_first(5)
       expect(resp).to include({'title_display' => /^Nature; international journal of science/}).in_first(5)
     end
 
     it_behaves_like "great results for format journal", "Nature" do
-      journal = ['11534561', # london 0028-0836, lane/medical
+      journal = ['12360585', # london 0028-0836, lane/medical
                   '3195844', # london 0028-0836, biology
                   '8829478', # london, spec
                   '466281', # directory of biologicals
