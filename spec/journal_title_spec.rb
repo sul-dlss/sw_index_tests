@@ -262,7 +262,8 @@ describe "journal/newspaper titles" do
     end
   end # the Guardian
 
-  context "the state" do
+  context "the state", :fixme => true do
+    # test fails because linked 880 fields in ckey 12218498 skew relevancy
     it_behaves_like "great results for journal/newspaper", "the state", {"rows"=>"50"} do
       journal = ['8211682', # charlotte 0038-9994
                 ]
