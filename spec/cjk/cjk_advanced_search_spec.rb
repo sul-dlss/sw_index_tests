@@ -120,8 +120,8 @@ describe 'CJK Advanced Search' do
   context 'Description (catchall only)' do
     it 'Ningxia Border Region ( 陝甘寧邊區) num expected' do
       resp = cjk_adv_solr_resp({ 'q' => "#{cjk_everything_query('陝甘寧邊區')}" }.merge(solr_args))
-      expect(resp.size).to be >= 150 # 63 match whitespace (non-CJK aware search)
-      expect(resp.size).to be <= 250
+      expect(resp.size).to be >= 200 # 63 match whitespace (non-CJK aware search)
+      expect(resp.size).to be <= 300
     end
     it 'Tsu (津):  num expected' do
       resp = cjk_adv_solr_resp({ 'q' => "#{cjk_everything_query('津')}" }.merge(solr_args))
@@ -152,8 +152,8 @@ describe 'CJK Advanced Search' do
         end
         it 'OR' do
           resp = cjk_adv_solr_resp({ 'q' => "#{cjk_title_query('基礎戰術')} OR #{cjk_author_query('毛澤東')}" }.merge(solr_args))
-          expect(resp.size).to be >= 350 # 316 with non-CJK aware fields
-          expect(resp.size).to be <= 550
+          expect(resp.size).to be >= 450 # 316 with non-CJK aware fields
+          expect(resp.size).to be <= 650
         end
       end
     end # title + author
@@ -181,8 +181,8 @@ describe 'CJK Advanced Search' do
         end
         it 'OR' do
           resp = cjk_adv_solr_resp({ 'q' => "#{cjk_title_query('飄')} OR #{cjk_pub_info_query('上海')}" }.merge(solr_args))
-          expect(resp.size).to be >= 40_000 # over 36000 with non-CJK aware fields
-          expect(resp.size).to be <= 45_000
+          expect(resp.size).to be >= 42_000 # over 36000 with non-CJK aware fields
+          expect(resp.size).to be <= 47_000
         end
       end
     end # title + pub info
@@ -190,13 +190,13 @@ describe 'CJK Advanced Search' do
       context "Ningxia Border Region (陝甘寧邊區), place Yan'an (延安)" do
         it 'AND' do
           resp = cjk_adv_solr_resp({ 'q' => "#{cjk_everything_query('陝甘寧邊區')} AND #{cjk_pub_info_query('延安')}" }.merge(solr_args))
-          expect(resp.size).to be >= 30 # 25 with non-CJK aware fields
-          expect(resp.size).to be <= 40
+          expect(resp.size).to be >= 40 # 25 with non-CJK aware fields
+          expect(resp.size).to be <= 65
         end
         it 'OR' do
           resp = cjk_adv_solr_resp({ 'q' => "#{cjk_everything_query('陝甘寧邊區')} OR #{cjk_pub_info_query('延安')}" }.merge(solr_args))
-          expect(resp.size).to be >= 375 # 329 with non-CJK aware fields
-          expect(resp.size).to be <= 525
+          expect(resp.size).to be >= 575 # 329 with non-CJK aware fields
+          expect(resp.size).to be <= 725
         end
       end
     end

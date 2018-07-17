@@ -107,7 +107,8 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
       end
       it "professional C++" do
         resp = solr_resp_ids_from_query('professional C++')
-        expect(resp).to include(['9612289', '9240287', '7534583', '8257317', '9801531']).in_first(10).results
+        # ckey 7534583 doesn't exist anymore; replaced with ckey 11728202
+        expect(resp).to include(['9612289', '9240287', '11728202', '8257317', '9801531']).in_first(10).results
         expect(resp.size).to be <= 150
         expect(resp).not_to have_the_same_number_of_results_as(solr_resp_ids_from_query "professional C")
       end
@@ -177,14 +178,15 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
       it "c# minor" do
         resp = solr_response({'q' => 'c# minor', 'fl'=>'id,title_display', 'facet'=>false})
         expect(resp).to include("title_display" => /c(#|♯|\-sharp| sharp) minor/i).in_each_of_first(10).documents
-        expect(resp.size).to be <= 3200
+        expect(resp.size).to be <= 3350
         expect(resp).to have_the_same_number_of_results_as(solr_resp_ids_from_query('C♯ minor'))
         expect(resp).to have_the_same_number_of_results_as(solr_resp_ids_from_query('C-sharp minor'))
         # would also match  c ... minor ... sharp
         expect(resp).to have_fewer_results_than(solr_resp_ids_from_query('C sharp minor'))
       end
       it "d#" do
-        resp = solr_resp_ids_from_query('d#')
+        # eloader records caused test to fail; add access facet to exclude volatility of results
+        resp = solr_resp_doc_ids_only('q' => 'd#', 'fq' => 'access_facet:"At the Library"')
         expect(resp).to include('7941865').as_first  # Etude in D sharp minor
         expect(resp.size).to be <= 250  # should not include d  as well, only  d sharp
         # the following all have a short title (245a) of D

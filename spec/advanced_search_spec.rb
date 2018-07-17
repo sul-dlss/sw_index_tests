@@ -77,8 +77,8 @@ describe 'advanced search' do
       end
       it 'keyword chicano' do
         resp = solr_resp_doc_ids_only({ 'q' => 'chicano' }.merge(solr_args))
-        expect(resp.size).to be >= 2300
-        expect(resp.size).to be <= 3000
+        expect(resp.size).to be >= 2700
+        expect(resp.size).to be <= 3400
       end
       # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a OR
       # https://issues.apache.org/jira/browse/SOLR-2649
@@ -108,8 +108,8 @@ describe 'advanced search' do
       it 'keyword' do
         resp = solr_resp_doc_ids_only({ 'q' => 'IEEE xplore' }.merge(solr_args))
         expect(resp).to have_the_same_number_of_results_as(solr_resp_ids_from_query('IEEE Xplore'))
-        expect(resp.size).to be >= 12_500
-        expect(resp.size).to be <= 13_700
+        expect(resp.size).to be >= 13_500
+        expect(resp.size).to be <= 14_700
         expect(resp).to have_fewer_results_than(solr_resp_doc_ids_only({ 'q' => 'IEEE OR xplore' }.merge(solr_args)))
       end
       it 'subject NOT congresses and keyword' do
@@ -130,16 +130,16 @@ describe 'advanced search' do
         expect(@sub_no_phrase).to have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args('home schooling')))
       end
       it 'subject as a phrase' do
-        expect(@sub_phrase.size).to be >= 550
-        expect(@sub_phrase.size).to be <= 615
+        expect(@sub_phrase.size).to be >= 600
+        expect(@sub_phrase.size).to be <= 675
         expect(@sub_phrase).to have_fewer_results_than(solr_resp_doc_ids_only(subject_search_args("home schooling")))
         expect(@sub_phrase).to have_fewer_results_than @sub_no_phrase
       end
       it 'keyword' do
         resp = solr_resp_doc_ids_only({ 'q' => 'Socialization' }.merge(solr_args))
         expect(resp).to have_fewer_results_than(solr_resp_ids_from_query('Socialization'))
-        expect(resp.size).to be >= 525_000
-        expect(resp.size).to be <= 555_000
+        expect(resp.size).to be >= 535_000
+        expect(resp.size).to be <= 575_000
       end
       it 'subject (not a phrase) and keyword' do
         resp = solr_resp_doc_ids_only({ 'q' => "#{subject_query('home schooling')} AND Socialization" }.merge(solr_args))
@@ -252,15 +252,15 @@ describe 'advanced search' do
       end
       it 'author' do
         expect(@author_resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only({ 'q' => "#{author_query('campana')}" }.merge(solr_args)))
-        expect(@author_resp.size).to be >= 175
-        expect(@author_resp.size).to be <= 250
+        expect(@author_resp.size).to be >= 200
+        expect(@author_resp.size).to be <= 275
         expect(@author_resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only(author_search_args('campana')))
       end
       it 'keyword' do
         resp = solr_resp_doc_ids_only({ 'q' => 'storia e letteratura' }.merge(solr_args))
         expect(resp).to have_the_same_number_of_results_as(solr_resp_ids_from_query('storia e letteratura'))
-        expect(resp.size).to be >= 1950
-        expect(resp.size).to be <= 2200
+        expect(resp.size).to be >= 2050
+        expect(resp.size).to be <= 2300
       end
       it 'author and keyword' do
         resp = solr_resp_doc_ids_only({ 'q' => "#{author_query('campana')} AND storia e letteratura" }.merge(solr_args))

@@ -77,7 +77,7 @@ describe 'Chinese Everything', chinese: true do
       end
     end # shared examples  great search results for old fiction (Han)
     context 'no spaces' do
-      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '舊小說', 'simplified', '旧小说', 30, 70
+      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '舊小說', 'simplified', '旧小说', 40, 80
       trad_resp = cjk_query_resp_ids('everything', '舊小說', 'rows' => 40)
       simp_resp = cjk_query_resp_ids('everything', '旧小说', 'rows' => 40)
       it_behaves_like 'great everything search results for old fiction' do
@@ -88,7 +88,7 @@ describe 'Chinese Everything', chinese: true do
       end
     end
     context 'with space' do
-      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '舊 小說', 'simplified', '旧 小说', 30, 70
+      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '舊 小說', 'simplified', '旧 小说', 40, 80
       trad_resp = cjk_query_resp_ids('title', '舊 小說')
       simp_resp = cjk_query_resp_ids('title', '旧 小说')
       it_behaves_like 'great everything search results for old fiction' do
@@ -180,7 +180,7 @@ describe 'Chinese Everything', chinese: true do
       end
     end
     context 'one space' do
-      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '婦女 婚姻法', 'simplified', '妇女 婚姻法', 10, 15
+      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '婦女 婚姻法', 'simplified', '妇女 婚姻法', 15, 20
       trad_resp = cjk_query_resp_ids('everything', '婦女 婚姻法')
       simp_resp = cjk_query_resp_ids('everything', '妇女 婚姻法')
       it_behaves_like 'great search results for women marriage law' do
@@ -191,7 +191,7 @@ describe 'Chinese Everything', chinese: true do
       end
     end
     context 'two spaces' do
-      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '婦女 婚姻 法', 'simplified', '妇女 婚姻 法', 10, 15
+      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '婦女 婚姻 法', 'simplified', '妇女 婚姻 法', 15, 20
       trad_resp = cjk_query_resp_ids('everything', '婦女 婚姻 法')
       simp_resp = cjk_query_resp_ids('everything', '妇女 婚姻 法')
       it_behaves_like 'great search results for women marriage law' do

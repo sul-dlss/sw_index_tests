@@ -136,7 +136,7 @@ describe "Diacritics" do
 
   it "Kreska Ṡ" do
     resp = solr_resp_doc_ids_only({'q'=>'Ṡpiewy polskie'})
-    expect(resp).to include(["2209396", "307686"])
+    expect(resp).to include(["299636", "307686"]) # replaced 2209396 with more relevant record
     expect(resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'Spiewy polskie'}))
   end
 

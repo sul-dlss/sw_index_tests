@@ -19,12 +19,12 @@ describe "journal/newspaper titles" do
     it_behaves_like "great search results", my_params
   end
   shared_examples_for 'everything query, format journal' do | title, solr_params |
-    my_params = {'q'=>title, 'fq'=>'format:Journal/Periodical'}
+    my_params = {'q'=>title, 'fq'=>'format_main_ssim:Journal/Periodical'}
     my_params.merge!(solr_params) if solr_params
     it_behaves_like "great search results", my_params
   end
   shared_examples_for 'everything query, format newspaper' do | title, solr_params |
-    my_params = {'q'=>title, 'fq'=>'format:Newspaper'}
+    my_params = {'q'=>title, 'fq'=>'format_main_ssim:Newspaper'}
     my_params.merge!(solr_params) if solr_params
     it_behaves_like "great search results", my_params
   end
@@ -35,12 +35,12 @@ describe "journal/newspaper titles" do
     it_behaves_like "great search results", my_params
   end
   shared_examples_for 'title query, format journal' do | title, solr_params |
-    my_params = title_search_args(title).merge({'fq'=>'format:Journal/Periodical'})
+    my_params = title_search_args(title).merge({'fq'=>'format_main_ssim:Journal/Periodical'})
     my_params.merge!(solr_params) if solr_params
     it_behaves_like "great search results", my_params
   end
   shared_examples_for 'title query, format newspaper' do | title, solr_params |
-    my_params = title_search_args(title).merge({'fq'=>'format:Newspaper'})
+    my_params = title_search_args(title).merge({'fq'=>'format_main_ssim:Newspaper'})
     my_params.merge!(solr_params) if solr_params
     it_behaves_like "great search results", my_params
   end
@@ -111,7 +111,7 @@ describe "journal/newspaper titles" do
     end
 
     it "as title search with format journal" do
-      resp = solr_resp_ids_titles(title_search_args('The Nation').merge({'fq' => 'format:Journal/Periodical'}))
+      resp = solr_resp_ids_titles(title_search_args('The Nation').merge({'fq' => 'format_main_ssim:Journal/Periodical'}))
       expect(resp).to include({'title_245a_display' => /^The Nation$/i}).in_each_of_first(7)
       expect(resp).to include(@law).in_first(4)
       expect(resp).to include([@law, @green_current]).in_first(5)
@@ -121,18 +121,23 @@ describe "journal/newspaper titles" do
 
     it_behaves_like "great results for journal/newspaper", "The Nation" do
       news = [ '8217400', # malawi, green mfilm
-              '4772643', # malawi, sal
+              # '4772643', # malawi, sal (pushed below 20 in everything query)
               '2833546', # liberia, sal newark
               ]
       let(:newspaper_only) { news }
       journal = [ '497417', # green current
-                  '464445', # green micro
+                  '464445', # media microtext
                   '10039114', # biz
                   '3448713', # law
                   '405604', # gambia
                   '7859278', # swaziland
                   '381709', # hoover, south africa
-                  '454276', # sierra leone
+                  # '454276', # sierra leone (pushed below 20 in title query)
+                  # marcit records:
+                  '10560869',
+                  '12119944',
+                  '8229021',
+                  '12115052'
                   # problematic
                   #  9131572  245  a| Finances of the nation h| [electronic resource]
                   #  7689978  245 a| The Nation's hospitals h| [print].
@@ -165,12 +170,17 @@ describe "journal/newspaper titles" do
                   '7859278', # swaziland
                   '381709', # hoover, south africa
                   '454276', # sierra leone
+                  # marcit records:
+                  '10560869',
+                  '12119944',
+                  '8229021',
+                  '12115052'
                 ]
-      resp = solr_resp_ids_titles(title_search_args('The Nation.').merge({'fq' => 'format:Journal/Periodical'}))
-      resp_wo = solr_resp_ids_titles(title_search_args('The Nation').merge({'fq' => 'format:Journal/Periodical'}))
+      resp = solr_resp_ids_titles(title_search_args('The Nation.').merge({'fq' => 'format_main_ssim:Journal/Periodical'}))
+      resp_wo = solr_resp_ids_titles(title_search_args('The Nation').merge({'fq' => 'format_main_ssim:Journal/Periodical'}))
       expect(resp).to have_the_same_number_of_results_as(resp_wo)
       expect(resp).to include({'title_245a_display' => /^the nation\W*$/i}).in_each_of_first(journals.size)
-      expect(resp).to include(journals).in_first(journals.size + 2) # a little slop built in
+      expect(resp).to include(journals).in_first(journals.size + 3) # a little slop built in
     end
   end # the Nation
 
@@ -223,7 +233,7 @@ describe "journal/newspaper titles" do
       let(:newspaper_only) { news }
     end
     it "'Times of London' - common words ... as a phrase  (it's actually a newspaper ...)" do
-      resp = solr_resp_doc_ids_only(title_search_args('"Times of London"').merge({'fq' => 'format:Newspaper'}))
+      resp = solr_resp_doc_ids_only(title_search_args('"Times of London"').merge({'fq' => 'format_main_ssim:Newspaper'}))
       expect(resp).to include(['425948', '425951']).in_first(3)
     end
   end # the Times
@@ -252,7 +262,8 @@ describe "journal/newspaper titles" do
     end
   end # the Guardian
 
-  context "the state" do
+  context "the state", :fixme => true do
+    # test fails because linked 880 fields in ckey 12218498 skew relevancy
     it_behaves_like "great results for journal/newspaper", "the state", {"rows"=>"50"} do
       journal = ['8211682', # charlotte 0038-9994
                 ]
@@ -589,23 +600,23 @@ describe "journal/newspaper titles" do
   context "Nature" do
     it "as everything search", :jira => 'VUF-1515' do
       resp = solr_response({'q' => 'nature', 'fl'=>'id,title_display', 'facet'=>false})
-      expect(resp).to include({'title_display' => /^Nature \[print\/digital\]\./}).in_first(3)
+      expect(resp).to include({'title_display' => /^Nature/}).in_first(3)
     end
 
     it "as title search" do
       resp = solr_response(title_search_args('nature').merge({'fl'=>'id,title_display', 'facet'=>false}))
-      expect(resp).to include({'title_display' => /^Nature \[print\/digital\]\./}).in_first(3)
+      expect(resp).to include({'title_display' => /^Nature/}).in_first(3)
     end
 
     it "as title search with format journal" do
-      resp = solr_response(title_search_args('nature').merge({'fq' => 'format:"Journal/Periodical"', 'fl'=>'id,title_display', 'facet'=>false}))
-      expect(resp.size).to be <= 1400
-      expect(resp).to include({'title_display' => /^Nature \[print\/digital\]\./}).in_first(5)
+      resp = solr_response(title_search_args('nature').merge({'fq' => 'format_main_ssim:"Journal/Periodical"', 'fl'=>'id,title_display', 'facet'=>false}))
+      expect(resp.size).to be <= 1750
+      expect(resp).to include({'title_display' => /^Nature/}).in_first(5)
       expect(resp).to include({'title_display' => /^Nature; international journal of science/}).in_first(5)
     end
 
     it_behaves_like "great results for format journal", "Nature" do
-      journal = ['11534561', # london 0028-0836, lane/medical
+      journal = ['12360585', # london 0028-0836, lane/medical
                   '3195844', # london 0028-0836, biology
                   '8829478', # london, spec
                   '466281', # directory of biologicals

@@ -5,7 +5,10 @@ describe "Korean author", :korean => true do
 
   context "Ŭn, Hŭi-gyŏng  은희경", :jira => 'VUF-2729' do
     #  "top 15 results are all relevant for searches both with and without whitespace between author’s last and first name."
-    relevant = ['9628681',
+    relevant = ['10398437', # has author in 100 field
+                '10629338', # has author in 100 and 700 fields
+                '11731637', # has author in 100 and 700 fields
+                '9628681',
                 '8814719',
                 '7874461',
                 '8299426',
@@ -16,17 +19,19 @@ describe "Korean author", :korean => true do
                 '7890077',
                 '7868363',
                 '7849970',
-                '8827330',
-                '7880024',
-                '7841550',
-                #'6972331', # only has author in 700 field
-                '10561883', # has author in more fields, ranks higher
+                '8827330', # only has author in 700 field
+                '7880024', # only has author in 700 field
+                '7841550', # author in 505 and 700 fields
+                '10691377', # only has author in 700 field
+                '11037442', # only has author in 700 field
+                #'6972331', # only has author in 700 field; not in first 20 results
+                #'10561883', # only has author in 700 field; not in first 20 results
               ]
     irrelevant = ['10150829', # has one contributor with last name, another contributor with first name
                   '9588786',  # has 3 chars jumbled in 710:  경희 대학교. 밝은 사회 연구소
                   ]
     shared_examples_for "good author results for 은희경" do | query |
-      it_behaves_like 'good results for query', 'author', query, 15, 30, relevant, 20 # 6972331 appears as 21
+      it_behaves_like 'good results for query', 'author', query, 15, 30, relevant, 20
       it_behaves_like 'does not find irrelevant results', 'author', query, irrelevant
     end
     context "은희경 (no spaces)" do

@@ -46,7 +46,7 @@ describe 'Japanese Everything Searches', japanese: true do
   end
 
   context 'kawaru no ka  変わるのか', jira: 'VUF-2802' do
-    it_behaves_like 'result size and vern title matches first', 'everything', '変わるのか', 30, 40, /変わるのか/, 4
+    it_behaves_like 'result size and vern title matches first', 'everything', '変わるのか', 40, 50, /変わるのか/, 4
   end
 
   context '(local/regional society)', jira: 'VUF-2717' do
@@ -77,7 +77,7 @@ describe 'Japanese Everything Searches', japanese: true do
   context 'manchuria', jira: ['VUF-2712', 'VUF-2713'] do
     # FIXME:  we currently have no katakana <-> han mapping.  (see also japanese_katakana_han_spec)
     context 'katakana', jira: 'VUF-2712' do
-      it_behaves_like 'good results for query', 'everything', ' マンチュリヤ', 2, 3, %w(6326474 10667394), 2
+      it_behaves_like 'good results for query', 'everything', ' マンチュリヤ', 2, 5, %w(6326474 10667394), 2
     end
     context 'kanji', jira: 'VUF-2713' do
       # note: first char is a modern japanese variant
@@ -116,7 +116,7 @@ describe 'Japanese Everything Searches', japanese: true do
   end
 
   context 'TPP', jira: 'VUF-2694' do
-    it_behaves_like 'result size and vern short title matches first', 'everything', 'TPP', 100, 200, /TPP/, 6
+    it_behaves_like 'result size and vern short title matches first', 'everything', 'TPP', 125, 225, /TPP/, 6
     context 'w lang limit' do
       it_behaves_like 'result size and vern short title matches first', 'everything', 'TPP', 25, 50, /TPP/, 6, lang_limit
     end
