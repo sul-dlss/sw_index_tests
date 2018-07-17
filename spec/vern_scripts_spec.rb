@@ -1,6 +1,3 @@
-# -*- encoding : utf-8 -*-
-require 'spec_helper'
-
 describe "Non-Latin, Non-CJK scripts" do
     
     # TODO:  vernacular with and without diacritics (greek, hebrew, arabic)

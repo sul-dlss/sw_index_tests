@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe "journal/newspaper titles" do
 
 # -------   shared example groups --------

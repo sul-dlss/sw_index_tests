@@ -1,6 +1,3 @@
-# -*- encoding : utf-8 -*-
-require 'spec_helper'
-
 describe "Author-Title Search" do
 
   it "Steinbeck Pearl", :jira => 'SW-778' do

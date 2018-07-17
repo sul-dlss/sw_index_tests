@@ -1,6 +1,3 @@
-# encoding : utf-8
-require 'spec_helper'
-
 describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
 
   context "RDA changes for authority headings", :jira => 'SW-845' do

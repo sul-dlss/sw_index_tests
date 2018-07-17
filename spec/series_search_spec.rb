@@ -1,7 +1,3 @@
-# encoding: utf-8
-
-require 'spec_helper'
-
 describe "Series Search" do
 
   it "lecture notes in computer science" do

@@ -1,6 +1,3 @@
-# encoding: utf-8
-require 'spec_helper'
-
 # This spec is for the methods in spec_helper and support/shared_examples_cjk -- it is not a relevancy spec.
 describe "CJK Helper", :chinese => true, :fixme => true do
   

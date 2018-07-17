@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 # collection is indexed, it will be "sirsi" for MARC records, a druid for MODS, and a ckey for MODS with MARC collection records
 # collection_type will only ever be the value "Digital Collection"
 

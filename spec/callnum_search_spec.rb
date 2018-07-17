@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe "callnum search" do
 
   context "LC" do

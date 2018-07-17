@@ -1,6 +1,3 @@
-# encoding: utf-8
-require 'spec_helper'
-
 describe "Terms with Numbers or other oddities" do
 
   it "q of 'Two3' should have excellent results", :jira => 'VUF-386', :icu => true do

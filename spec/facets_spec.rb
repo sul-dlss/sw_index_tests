@@ -1,7 +1,3 @@
-# encoding: utf-8
-
-require 'spec_helper'
-
 describe "facet values and queries" do
 
   context "facet queries" do

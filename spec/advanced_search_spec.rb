@@ -1,7 +1,3 @@
-# encoding: utf-8
-
-require 'spec_helper'
-
 describe 'advanced search' do
   context 'title with boolean', jira: 'SW-939' do
     context 'color OR colour photography', jira: 'SW-939' do

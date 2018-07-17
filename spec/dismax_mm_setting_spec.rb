@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 #I want to be able to use long multi-word queries
 #In order to get great results which may not contain all the words in my queries
 describe "mm threshold setting for dismax (8 as of 2017/02)" do

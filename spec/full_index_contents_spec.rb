@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe "Index Contents" do
 
   shared_examples_for 'collection has all its items' do | coll_val, min_num_exp |

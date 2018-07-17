@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe "Stopwords such as 'the' 'a' 'or' should now work" do
 
   it "A Zukofsky", :jira => 'SW-501' do
