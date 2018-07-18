@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe "Stemming of English words" do
   context "exact matches before stemmed matches" do
     

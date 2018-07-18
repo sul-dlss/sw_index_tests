@@ -1,7 +1,3 @@
-# encoding: utf-8
-
-require 'spec_helper'
-
 describe "wildcards in queries" do
   
   context "multi-char wildcard: *" do

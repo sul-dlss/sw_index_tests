@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe 'boolean operators' do
   # TODO: more better tests for lowercase and?
   context 'default operator:  AND' do

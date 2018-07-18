@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe 'Default Request Handler' do
   it "q of 'Buddhism' should get 12,000 - 13,000 results", jira: 'VUF-160' do
     resp = solr_resp_ids_from_query 'Buddhism'

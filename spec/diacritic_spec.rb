@@ -1,6 +1,3 @@
-# -*- encoding : utf-8 -*-
-require 'spec_helper'
-
 describe "Diacritics" do
 
   it "Acute Accent é", :jira => 'VUF-106' do

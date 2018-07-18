@@ -1,6 +1,3 @@
-# -*- encoding : utf-8 -*-
-require 'spec_helper'
-
 describe 'Greek script' do
   context 'alpha A α' do
     it 'α in και' do

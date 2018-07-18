@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 # this file is named aaa_blah so it executes first
 describe "Output Solr Information from #{@@solr.uri}" do
   

@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe 'sorting results' do
   context 'empty query' do
     it 'default sort should be by pub date desc (not in Solr default of document id order)' do

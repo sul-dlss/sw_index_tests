@@ -1,6 +1,3 @@
-# encoding: utf-8
-require 'spec_helper'
-
 describe "Title Search" do
 
   it "780t, 758t included in title search: japanese journal of applied physics", :jira => ['VUF-89', 'SW-441'] do

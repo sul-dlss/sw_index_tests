@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe "Number as Query String" do
 
   context "ISSN", :jira => 'VUF-169' do

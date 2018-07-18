@@ -1,6 +1,3 @@
-# -*- encoding : utf-8 -*-
-require 'spec_helper'
-
 describe "Author Search" do
 
   context "Corporate author should be included in author search", :jira => 'VUF-633' do
