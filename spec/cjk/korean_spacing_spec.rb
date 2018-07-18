@@ -47,7 +47,7 @@ describe "Korean spacing", :korean => true do
       context "한미동맹" do
         it_behaves_like 'good results for query', 'everything', '한미동맹', 1, 30, '8375648', 10
       end
-      context "한미 동맹", :fixme => true do
+      context "한미 동맹", pending: 'fixme', skip: true do
         # FIXME:  8375648 is not in these results!
         it_behaves_like 'good results for query', 'everything', '한미 동맹', 1, 30, '8375648', 30
         it_behaves_like "expected result size", 'everything', '한미 동맹', 1, 30
@@ -102,7 +102,7 @@ describe "Korean spacing", :korean => true do
       context "꿈꾸는 자가 창 조한다 (but Korean writing would not give space between 창 and 조 )" do
         it_behaves_like "good results for 꿈꾸는 자가 창조한다", 'everything', '꿈꾸는 자가 창 조한다'
       end
-      context "꿈꾸는 자가 창조한 다 (but Korean writing would not give space between 한 and 다)", fixme: true do
+      context "꿈꾸는 자가 창조한 다 (but Korean writing would not give space between 한 and 다)" do
         it_behaves_like 'good results for query', 'everything', '꿈꾸는 자가 창조한 다', 1, 2, '7378874', 1
       end
     end

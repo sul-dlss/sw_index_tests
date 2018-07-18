@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
 
-describe "Korean: Hangul and Hancha scripts", :korean => true, :fixme => true do
+describe "Korean: Hangul and Hancha scripts", :korean => true, pending: 'fixme' do
   
   it "hangul  광주 should get results for hancha  光州" do
     resp = solr_resp_doc_ids_only({'q'=>'광주'}) 

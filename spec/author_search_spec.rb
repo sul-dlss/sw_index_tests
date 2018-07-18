@@ -117,7 +117,7 @@ describe "Author Search" do
         resp = solr_resp_doc_ids_only(author_search_args 'david sandlin')
         expect(resp).to include(@correct).before(@false_drop)
       end
-      it "author search, phrase - words in wrong order", :fixme => true do
+      it "author search, phrase - words in wrong order", pending: 'fixme' do
         resp = solr_resp_doc_ids_only(author_search_args '"david sandlin"')
         expect(resp.size).to be <= 10
         expect(resp).to include(@correct)
@@ -141,7 +141,7 @@ describe "Author Search" do
       expect(resp.size).to be >= 100
       expect(resp.size).to be <= 150
     end
-    it "author search Vyacheslav Ivanov", :fixme => true do
+    it "author search Vyacheslav Ivanov", pending: 'fixme' do
       # this is "misspelled" per our data
       resp = solr_resp_doc_ids_only(author_search_args 'Vyacheslav Ivanov')
       expect(resp).to have_results
@@ -179,13 +179,13 @@ describe "Author Search" do
       expect(resp.size).to be <= 50
     end
     # waiting for name authorities linkage
-    it "author search william haywood", :fixme => true do
+    it "author search william haywood", pending: 'fixme' do
       resp = solr_resp_doc_ids_only(author_search_args 'william haywood')
       expect(resp.size).to be >= 20
       expect(resp).to include('141584')
       expect(resp.size).to be <= 50
     end
-    it "author phrase search  haywood william", :fixme => true do
+    it "author phrase search  haywood william", pending: 'fixme' do
       resp = solr_resp_doc_ids_only(author_search_args '"haywood, william"')
       expect(resp.size).to be >= 20
       expect(resp).to include('141584')
@@ -215,11 +215,11 @@ describe "Author Search" do
     end
     # the following is busted due to Solr edismax bug
     # https://issues.apache.org/jira/browse/SOLR-2649
-    it "everything search with author and years", :fixme => true do
+    it "everything search with author and years", pending: 'fixme' do
       resp = solr_resp_ids_from_query 'johann David Heinichen 1711 OR 1728'
       expect(resp).to include(['9858935', '3301463'])
     end
-    it "everything phrase search with author and years", :fixme => true do
+    it "everything phrase search with author and years", pending: 'fixme' do
       resp = solr_resp_ids_from_query '"Heinichen, johann David" 1711 OR 1728'
       expect(resp).to include(['9858935', '3301463'])
     end
@@ -261,7 +261,7 @@ describe "Author Search" do
   end
 
   context "contributor 710 with |k manuscript", :jira => ['SW-579', 'VUF-1684'] do
-    it "phrase search", :fixme => true do
+    it "phrase search", pending: 'fixme' do
       resp = solr_resp_doc_ids_only(author_search_args('"Bibliothèque nationale de France. Manuscript. Musique 226. "'))
       expect(resp).to include(['278333', '6288243'])
       expect(resp.size).to be <= 5
@@ -269,7 +269,7 @@ describe "Author Search" do
     # this test fails with mm setting 8; jira ticket SW-1698
     # 710 |k and |n need to be parsed into the author-title index
     # FIXME : StanfordIndexer.java line 951
-    it "non-phrase search", :fixme => true do
+    it "non-phrase search", pending: 'fixme' do
       resp = solr_resp_doc_ids_only(author_search_args('Bibliothèque nationale de France. Manuscript. Musique 226. '))
       expect(resp).to include(['278333', '6288243'])
       expect(resp.size).to be <= 5

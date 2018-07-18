@@ -156,7 +156,7 @@ shared_examples_for "great search results for women and literature (Han)" do
   simp_245a_not_adjacent = ['7944106'] # women, and, lit in 245a, but char between women and and:  妇女观与文学
   simp_245a_diff_order = ['7833961', # lit then women in 245a, other chars between
                           '8802530', # lit then women in 245a, and in 245b'
-                          ] 
+                          ]
   simp_partial_245a = ['5930857'] # women in  245b, 246a, other 246a;  lit in 245b, 246a, other 246a; chars between
   it "traditional char matches" do
     expect(resp).to include(trad_245a_exact).before(trad_245a)
@@ -183,7 +183,7 @@ shared_examples_for "great search results for women and literature (Han)" do
   it "addl title results" do
     expect(resp).to include(trad_addl_titles)
   end
-  it "does not have irrelvant results", :fixme => true do
+  it "does not have irrelvant results", pending: 'fixme', skip: true do
     expect(resp).not_to include('6544163')
     expect(resp).not_to include('5539339')
   end

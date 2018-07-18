@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
 
-describe "Japanese Hiragana-Han translations", :japanese => true, :fixme => true do
+describe "Japanese Hiragana-Han translations", :japanese => true, pending: 'fixme' do
 
   lang_limit = {'fq'=>'language:Japanese'}
 
@@ -11,7 +11,7 @@ describe "Japanese Hiragana-Han translations", :japanese => true, :fixme => true
     # "There are several kanji conversions, such as ”けいちゅう”　<=>  契沖,  傾注　 景中,  刑中, etc.,
     # and if "けいちゅう" retrieves all that, the search results may be too inclusive & not useful"
     it_behaves_like "both scripts get expected result size", 'author', 'hiragana', 'けいちゅう', 'kanji', '契沖', 5, 5
-    context "hiragana  けいちゅう", :fixme => true do
+    context "hiragana  けいちゅう", pending: 'fixme' do
       it_behaves_like "expected result size", 'author', 'けいちゅう', 0, 5
       it_behaves_like "does not find irrelevant results", 'author', 'けいちゅう', '4227249'
     end
@@ -19,7 +19,7 @@ describe "Japanese Hiragana-Han translations", :japanese => true, :fixme => true
   
   # hiragana-kanji:  see 'lantern shop' title search, :jira => 'VUF-2702'
 
-  context "tale", :jira => ['VUF-2705', 'VUF-2743', 'VUF-2742', 'VUF-2740'], :fixme => true do
+  context "tale", :jira => ['VUF-2705', 'VUF-2743', 'VUF-2742', 'VUF-2740'], pending: 'fixme' do
     it_behaves_like "both scripts get expected result size", 'title', 'hiragana', 'ものがたり', 'kanji', '物語', 5, 5
     context "hiragana", :jira => ['VUF-2705', 'VUF-2743'] do
       it_behaves_like "expected result size", 'title', 'ものがたり', 60, 83

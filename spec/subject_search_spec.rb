@@ -209,7 +209,7 @@ describe 'Subject Search' do
 
   context 'left anchored subjects desired', jira: ['SW-393', 'SW-394'] do
     context 'Authorship history 18th century but not poetry' do
-      it 'as phrase', fixme: true do
+      it 'as phrase', pending: 'fixme' do
         resp = solr_resp_doc_ids_only(subject_search_args '"Authorship history 18th century"')
         expect(resp).to include(%w(9544929 2889425))
         expect(resp).not_to include('4144101') # poetry > authorship > history > 18th century

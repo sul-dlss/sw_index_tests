@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
 
-describe "Japanese Katakana-Han translations", :japanese => true, :fixme => true do
+describe "Japanese Katakana-Han translations", :japanese => true, pending: 'fixme' do
 
   lang_limit = {'fq'=>'language:Japanese'}
 

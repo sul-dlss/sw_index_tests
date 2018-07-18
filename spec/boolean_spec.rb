@@ -53,7 +53,7 @@ describe 'boolean operators' do
 
     context 'history man by malcolm bradbury', jira: 'SW-805' do
       # lowercase and is considered a query term
-      it 'history man and bradbury', fixme: true do
+      it 'history man and bradbury', pending: 'fixme' do
         resp = solr_resp_ids_from_query 'history man and bradbury'
         expect(resp).to include('1433520').in_first(3)
       end
@@ -95,7 +95,7 @@ describe 'boolean operators' do
       before(:all) do
         @resp = solr_resp_ids_from_query query
       end
-      it 'should have expected results' do
+      it 'should have expected results', pending: 'fixme' do
         expect(@resp).to include(exp_ids).in_first(first_n).documents
       end
       it 'should not have unexpected results' do
@@ -108,7 +108,7 @@ describe 'boolean operators' do
       end
       # the following is busted due to Solr edismax bug
       # https://issues.apache.org/jira/browse/SOLR-2649
-      it 'should have fewer results than query without NOT clause', fixme: true do
+      it 'should have fewer results than query without NOT clause', pending: 'fixme' do
         expect(@resp).to have_fewer_documents_than(solr_resp_ids_from_query query.sub(/ NOT \S+ ?/, ' '))
       end
       it "hyphen with space before but not after (' -a') should be equivalent to NOT" do
@@ -120,9 +120,9 @@ describe 'boolean operators' do
     context 'actual user queries' do
       # the following is busted due to Solr edismax bug
       # https://issues.apache.org/jira/browse/SOLR-2649
-      context 'space exploration NOT nasa', fixme: true do
+      context 'space exploration NOT nasa' do
         it_behaves_like 'NOT negates following term', 'space exploration NOT nasa', '4146206', '2678639', 5
-        it 'has an appropriate number of results' do
+        it 'has an appropriate number of results', pending: 'fixme' do
           resp = solr_resp_ids_from_query 'space exploration NOT nasa'
           expect(resp.size).to be >= 6300
           expect(resp.size).to be <= 7250 # 2013-05-21  space exploration: 7896 results
@@ -191,7 +191,7 @@ describe 'boolean operators' do
         expect(@resp).to have_the_same_number_of_documents_as(solr_resp_ids_from_query 'mark twain NOT "tom )sawyer"')
         expect(@resp).to have_the_same_number_of_documents_as(solr_resp_ids_from_query 'mark twain NOT "tom sawyer)"')
       end
-      it 'with unmatched parent outside quote', fixme: true do
+      it 'with unmatched parent outside quote', pending: 'fixme' do
         expect(@resp).to have_the_same_number_of_documents_as(solr_resp_ids_from_query 'mark twain NOT ("tom sawyer"')
         expect(@resp).to have_the_same_number_of_documents_as(solr_resp_ids_from_query 'mark twain NOT "tom sawyer"(')
         expect(@resp).to have_the_same_number_of_documents_as(solr_resp_ids_from_query 'mark twain NOT )"tom sawyer"')
@@ -259,7 +259,7 @@ describe 'boolean operators' do
     end
 
     context 'street art and graffiti', jira: 'VUF-1013' do
-      it '((street art) OR graffiti) AND aspects', fixme: true do
+      it '((street art) OR graffiti) AND aspects', pending: 'fixme' do
         # this search returns 47 results when the solr query is sent from SearchWorks
         #  47 here is bigger than using quotes below;  probably that is "good enough" for this
         #  test as the use case is not a common one (complex boolean query, nested parens)
@@ -289,21 +289,21 @@ describe 'boolean operators' do
         expect(resp.size).to be >= 590
         expect(resp.size).to be <= 620
       end
-      it 'digestive organs NOT disease', fixme: true do
+      it 'digestive organs NOT disease', pending: 'fixme' do
         # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a NOT
         # https://issues.apache.org/jira/browse/SOLR-2649
         resp = solr_resp_doc_ids_only(subject_search_args 'digestive organs NOT disease')
         expect(resp.size).to be >= 100
         expect(resp.size).to be <= 200
       end
-      it 'digestive organs NOT disease NOT cancer', fixme: true do
+      it 'digestive organs NOT disease NOT cancer', pending: 'fixme' do
         # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a NOT
         # https://issues.apache.org/jira/browse/SOLR-2649
         resp = solr_resp_doc_ids_only(subject_search_args 'digestive organs NOT disease NOT cancer')
         expect(resp.size).to be >= 80
         expect(resp.size).to be <= 100
       end
-      it 'with parens', fixme: true do
+      it 'with parens', pending: 'fixme' do
         # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a NOT
         # https://issues.apache.org/jira/browse/SOLR-2649
         resp = solr_resp_doc_ids_only(subject_search_args 'digestive organs NOT (disease OR cancer)')

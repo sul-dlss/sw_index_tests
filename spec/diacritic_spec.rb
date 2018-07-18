@@ -280,7 +280,7 @@ describe "Diacritics" do
     expect(resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>'Lap Ban do phan Viet'}))
   end
 
-  it "ʻ (Korean)", :jira => ['SW-754', 'SW-648'], :fixme => true do
+  it "ʻ (Korean)", :jira => ['SW-754', 'SW-648'], pending: 'fixme' do
     resp = solr_resp_doc_ids_only({'q'=>"yi t'ae-jun"})
     expect(resp.size).to be >= 15
     expect(resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only({'q'=>"yi tʻae-jun"}))

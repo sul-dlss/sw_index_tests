@@ -88,7 +88,7 @@ describe 'Default Request Handler' do
   end
 
   context 'world atlas of sea grasses', jira: 'VUF-2451' do
-    it 'world atlas of sea grasses', fixme: true do
+    it 'world atlas of sea grasses', pending: 'fixme' do
       # because it's 'seagrasses' not 'sea grasses'
       resp = solr_resp_ids_from_query 'world atlas of sea grasses'
       expect(resp).to include('5454691').as_first

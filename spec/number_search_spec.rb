@@ -68,7 +68,7 @@ describe "Number as Query String" do
     end
 
     # the leading 0 is no longer returning items.
-    it "leading zero shouldn't matter", :fixme => true do
+    it "leading zero shouldn't matter", pending: 'fixme' do
       resp = solr_resp_ids_from_query '08313857'
       expect(resp).to include('7138571').as_first
       expect(resp.size).to be <= 1
