@@ -31,7 +31,7 @@ describe 'Japanese Title searches', japanese: true do
     it_behaves_like 'matches in vern titles', 'title', '論說', /論說/, 20, lang_limit # traditional script is in results
     # no 説 (modern) in results
     it 'should not sort series titles matches before main titles' do
-      expect(cjk_query_resp_ids('title', '論説', lang_limit)).not_to include('6808627')
+      expect(cjk_query_resp_ids('title', '論説', 'fq' => 'language:Japanese')).not_to include('6808627')
     end
   end
   context 'February 26 Incident', jira: 'VUF-2755' do
