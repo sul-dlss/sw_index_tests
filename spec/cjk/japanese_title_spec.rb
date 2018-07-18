@@ -15,7 +15,6 @@ describe 'Japanese Title searches', japanese: true do
     it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '佛教', 'modern', '仏教', 3000, 3500
     it_behaves_like 'matches in vern short titles first', 'title', '佛教', /(佛|仏)(教|敎)/, 100  # trad
     it_behaves_like 'matches in vern short titles first', 'title', '仏教', /(佛|仏)(教|敎)/, 100  # modern
-    exact_245a = %w(6854317 4162614 6276328 10243029 10243045 10243039)
     it_behaves_like 'matches in vern short titles first', 'title', '仏教', /^(佛|仏)(教|敎)[^[[:alnum:]]]*$/, 3 # exact title match
     it_behaves_like 'matches in vern short titles first', 'title', '仏教', /^(佛|仏)(教|敎).*$/, 7 # title starts w match
     context 'w lang limit' do
@@ -31,9 +30,8 @@ describe 'Japanese Title searches', japanese: true do
     it_behaves_like 'matches in vern titles first', 'title', '論説', /論說|論説/, 20, lang_limit
     it_behaves_like 'matches in vern titles', 'title', '論說', /論說/, 20, lang_limit # traditional script is in results
     # no 説 (modern) in results
-    resp = cjk_query_resp_ids('title', '論説', lang_limit)
     it 'should not sort series titles matches before main titles' do
-      expect(resp).not_to include('6808627')
+      expect(cjk_query_resp_ids('title', '論説', 'fq' => 'language:Japanese')).not_to include('6808627')
     end
   end
   context 'February 26 Incident', jira: 'VUF-2755' do
