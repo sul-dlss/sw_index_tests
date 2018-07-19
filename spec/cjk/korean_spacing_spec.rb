@@ -122,7 +122,8 @@ describe "Korean spacing", :korean => true do
     context "강물이 될때 까지 (space between  이 and 될,  때 and 까)" do
       it_behaves_like "good results for 강물이될때까지", '강물이 될때 까지'
     end
-    context "강물 이 될 때 까지 (as in the record)", pending: 'includes newly cataloged catkey 12437806' do
+    context "강물 이 될 때 까지 (as in the record)", fixme: true do
+      # per Korean cataloger, the results should not include ckey 12437806.
       it_behaves_like "good results for 강물이될때까지", '강물 이 될 때 까지'
     end
   end # until the river  VUF-2744
