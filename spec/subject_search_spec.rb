@@ -24,8 +24,8 @@ describe 'Subject Search' do
     it 'not as phrase' do
       # not a heading, but a combo of words from 3 diff headings
       resp = solr_resp_doc_ids_only(subject_search_args('China women history').merge(fq: 'language:English'))
-      expect(resp.size).to be >= 170
-      expect(resp.size).to be <= 250
+      expect(resp.size).to be >= 230
+      expect(resp.size).to be <= 300
     end
     it 'as phrase' do
       resp = solr_resp_doc_ids_only(subject_search_args '"China women history"')
@@ -51,8 +51,8 @@ describe 'Subject Search' do
 
   it 'Rock music 1951-1960', jira: 'VUF-388' do
     resp = solr_resp_doc_ids_only(subject_search_args 'Rock music 1951-1960')
-    expect(resp.size).to be >= 30
-    expect(resp.size).to be <= 40
+    expect(resp.size).to be >= 35
+    expect(resp.size).to be <= 45
   end
 
   context 'Hmong asia(N) people', jira: 'VUF-1245' do
@@ -70,8 +70,8 @@ describe 'Subject Search' do
   context 'home schooling vs home and school', jira: 'VUF-1353' do
     it 'home schooling' do
       resp = solr_resp_doc_ids_only(subject_search_args '"home schooling"')
-      expect(resp.size).to be >= 500
-      expect(resp.size).to be <= 625
+      expect(resp.size).to be >= 600
+      expect(resp.size).to be <= 675
       expect(resp).to include('8834110')
     end
     it 'home and school' do
@@ -171,7 +171,7 @@ describe 'Subject Search' do
         resp = solr_resp_doc_ids_only(subject_search_args('"Older people abuse of"').merge('rows' => 100))
         expect(resp).to include(%w(4544375 11417477))
         expect(resp).not_to include('7631176')
-        expect(resp.size).to be <= 225
+        expect(resp.size).to be <= 235
       end
       it 'Older people > Abuse of > Illinois > Prevention.' do
         resp = solr_resp_doc_ids_only(subject_search_args '"Older people abuse of illinois prevention"')

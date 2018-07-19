@@ -31,7 +31,7 @@ describe "Korean author", :korean => true do
                   '9588786',  # has 3 chars jumbled in 710:  경희 대학교. 밝은 사회 연구소
                   ]
     shared_examples_for "good author results for 은희경" do | query |
-      it_behaves_like 'good results for query', 'author', query, 15, 30, relevant, 20
+      it_behaves_like 'good results for query', 'author', query, 20, 35, relevant, 20
       it_behaves_like 'does not find irrelevant results', 'author', query, irrelevant
     end
     context "은희경 (no spaces)" do

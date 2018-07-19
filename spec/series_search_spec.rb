@@ -2,14 +2,14 @@ describe "Series Search" do
 
   it "lecture notes in computer science" do
     resp = solr_resp_doc_ids_only(series_search_args 'lecture notes in computer science')
-    expect(resp.size).to be >= 9450
-    expect(resp.size).to be <= 9700
+    expect(resp.size).to be >= 11000
+    expect(resp.size).to be <= 12000
   end
 
   it "Lecture notes in statistics (Springer-Verlag)", :jira => 'VUF-1221' do
     resp = solr_resp_doc_ids_only(series_search_args 'Lecture notes in statistics (Springer-Verlag)')
-    expect(resp.size).to be >= 175
-    expect(resp.size).to be <= 300
+    expect(resp.size).to be >= 300
+    expect(resp.size).to be <= 325
   end
 
   it "Japanese journal of applied physics" do

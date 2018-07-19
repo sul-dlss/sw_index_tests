@@ -16,7 +16,7 @@ describe 'Chinese Everything', chinese: true do
   context 'contemporary china economic study', jira: 'VUF-2767' do
     trad = '當代中國經濟研究'
     simp = '当代中国经济研究'
-    it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', trad, 'simplified', simp, 12, 170
+    it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', trad, 'simplified', simp, 12, 190
     it_behaves_like 'best matches first', 'everything', simp, '4188269', 4
     it_behaves_like 'best matches first', 'everything', simp,
                     %w(4164852 4188269 10153644 8225832 4335450 4185340
@@ -44,10 +44,10 @@ describe 'Chinese Everything', chinese: true do
 
   context 'history research', jira: 'VUF-2771' do
     context 'no spaces' do
-      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '歷史研究', 'simplified', '历史研究', 7300, 7600
+      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '歷史研究', 'simplified', '历史研究', 7400, 7700
     end
     context 'with space' do
-      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '歷史研究', 'simplified', '历史研究', 7300, 7600
+      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '歷史研究', 'simplified', '历史研究', 7400, 7700
     end
     context 'as phrase' do
       it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '"歷史研究"', 'simplified', '"历史研究"', 600, 900
@@ -55,10 +55,10 @@ describe 'Chinese Everything', chinese: true do
   end
 
   context 'Nanyang or Nanʼyō', jira: 'SW-100' do
-    it_behaves_like 'result size and vern short title matches first', 'everything', '南洋', 750, 850, /南洋/, 100
+    it_behaves_like 'result size and vern short title matches first', 'everything', '南洋', 775, 875, /南洋/, 100
     it_behaves_like 'matches in vern titles', 'everything', '南洋', /南洋群島/, 20
     # Nan'yō Guntō
-    it_behaves_like 'result size and vern short title matches first', 'everything', '南洋群島', 50, 60, /南洋群島/, 15
+    it_behaves_like 'result size and vern short title matches first', 'everything', '南洋群島', 55, 65, /南洋群島/, 15
     it_behaves_like 'good results for query', 'everything', '椰風蕉雨話南洋', 1, 1, '5564542', 1
   end
 
