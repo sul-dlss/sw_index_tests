@@ -16,8 +16,8 @@ describe "Number as Query String" do
     end
 
     it "'The Times' ISSN 0140-0460 should get great results with or without hyphen", :icu => true do
-      expect(solr_resp_ids_from_query('0140-0460')).to include(['425948', '425951']).in_first(5)
-      expect(solr_resp_ids_from_query('01400460')).to include(['425948', '425951']).in_first(5)
+      expect(solr_resp_ids_from_query('0140-0460')).to include(['425948', '425951']).in_first(7)
+      expect(solr_resp_ids_from_query('01400460')).to include(['425948', '425951']).in_first(7)
     end
 
     context "with X as last char" do

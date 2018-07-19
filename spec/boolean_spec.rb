@@ -75,7 +75,7 @@ describe 'boolean operators' do
       end
       it 'history man' do
         resp = solr_resp_ids_from_query 'history man'
-        expect(resp).to include('1433520').in_first(3)
+        expect(resp).to include('1433520').in_first(5)
       end
     end
 

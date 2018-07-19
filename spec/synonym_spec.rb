@@ -104,8 +104,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
       end
       it "professional C++" do
         resp = solr_resp_ids_from_query('professional C++')
-        # ckey 7534583 doesn't exist anymore; replaced with ckey 11728202
-        expect(resp).to include(['9612289', '9240287', '11728202', '8257317', '9801531']).in_first(10).results
+        expect(resp).to include(['9612289', '9240287', '11728202', '8257317', '12422871']).in_first(10).results
         expect(resp.size).to be <= 150
         expect(resp).not_to have_the_same_number_of_results_as(solr_resp_ids_from_query "professional C")
       end
