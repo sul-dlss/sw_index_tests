@@ -26,7 +26,7 @@ describe "Terms with Numbers or other oddities" do
       expect(resp).to have_the_same_number_of_results_as(solr_resp_ids_from_query '"mark twain pseud"')
     end
 
-    it "not preceded by space as part of a query string should be ignored", :fixme => true do
+    it "not preceded by space as part of a query string should be ignored", pending: 'fixme' do
       resp = solr_resp_ids_from_query 'Alice Wonderland serie[s]'
       expect(resp.size).to be >= 2
       expect(resp).to have_the_same_number_of_results_as(solr_resp_ids_from_query "Alice Wonderland series")
@@ -60,7 +60,7 @@ describe "Terms with Numbers or other oddities" do
       expect(resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('I want...')))
       expect(resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('I want ... ')))
     end
-    it "trailing ellipsis preceded by a space should be ignored", :fixme => true do
+    it "trailing ellipsis preceded by a space should be ignored", pending: 'fixme' do
       #  This works for a title search, but not for an everything search ...
       resp = solr_resp_doc_ids_only({'q' => 'I want ...'})
       expect(resp).to include('10062710')

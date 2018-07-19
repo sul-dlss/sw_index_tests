@@ -34,7 +34,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
         expect(resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args "qoran"))
       end
     end
-    context '"O.T." and "N.T." will change to "Old Testament" and "New Testament"', :fixme => true do
+    context '"O.T." and "N.T." will change to "Old Testament" and "New Testament"', pending: 'fixme' do
       # old testament => o.t.
       # new testament => n.t.
       #
@@ -217,7 +217,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
         expect(resp).to have_fewer_results_than(solr_resp_ids_from_query('f sharp minor'))
       end
 
-      it "f# major results should not include f major", :fixme => true do
+      it "f# major results should not include f major", pending: 'fixme' do
         resp = solr_resp_ids_titles({'q' => 'F# major'})
         expect(resp).not_to include({'title_245a_display' => /F major/i})
       end
@@ -226,11 +226,11 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
         before(:all) do
           no_phrase_resp = solr_resp_ids_titles({'q' => 'F# major'})
         end
-        it "first token in phrase", :fixme => true do
+        it "first token in phrase", pending: 'fixme' do
           resp = solr_resp_ids_titles({'q' => '"F# major"'})
           expect(resp).to include({'title_245a_display' => /(F#|F♯|F\-sharp|F sharp) major/i}).in_each_of_first(10).documents
         end
-        it "first token in phrase with preceding space", :fixme => true do
+        it "first token in phrase with preceding space", pending: 'fixme' do
           resp = solr_resp_ids_titles({'q' => '" F# major"'})
           expect(resp).to include({'title_245a_display' => /(F#|F♯|F\-sharp|F sharp) major/i}).in_each_of_first(10).documents
         end
@@ -242,7 +242,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
           resp = solr_resp_ids_titles({'q' => '"symphony in F# "'})
           expect(resp).to include({'title_245a_display' => /symphony in (F#|F♯|F\-sharp|F sharp)/i}).in_each_of_first(5).documents
         end
-        it "middle token in phrase", :fixme => true do
+        it "middle token in phrase", pending: 'fixme' do
           resp = solr_resp_ids_from_query '"nocturne in F# minor"'
           expect(resp).to include(280328).in_first(3) # 'Nocturne in F# minor'
         end
@@ -269,7 +269,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
           expect(resp).to include('8156248').as_first # Geo B. Sharp
           expect(resp.size).to be <= 2000
         end
-        it "paul f sharp", :fixme => true do
+        it "paul f sharp", pending: 'fixme' do
           # from solr logs - doesn't work because it's paul frederic sharp
           resp = solr_resp_ids_from_query "paul f sharp whoop up country"
           expect(resp).to include('2127815').as_first
@@ -356,12 +356,12 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
           expect(resp).to include("title_display" => /e. ?b. white/i).in_each_of_first(20).documents
           expect(resp.size).to be >= 350
         end
-        it "eb white", :fixme => true do
+        it "eb white", pending: 'fixme' do
           resp = solr_response({'q' => 'eb white', 'fl'=>'id,title_display', 'facet'=>false})
           expect(resp).to include("title_display" => /e.? ?b.? white/i).in_each_of_first(10).documents
           expect(resp.size).to be >= 10
         end
-        it "fb - title search", :fixme => true do
+        it "fb - title search", pending: 'fixme' do
           resp = solr_response(title_search_args('fb').merge!({'fl'=>'id,title_display', 'facet'=>false}))
           expect(resp).to include("title_display" => /f\.?b/i).in_each_of_first(5).documents
           expect(resp.size).to be >= 100 # not w synonyms;  ok with f.b.

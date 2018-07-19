@@ -260,7 +260,7 @@ describe "journal/newspaper titles" do
     end
   end # the Guardian
 
-  context "the state", :fixme => true do
+  context "the state", pending: 'fixme', skip: true do
     # test fails because linked 880 fields in ckey 12218498 skew relevancy
     it_behaves_like "great results for journal/newspaper", "the state", {"rows"=>"50"} do
       journal = ['8211682', # charlotte 0038-9994
@@ -300,7 +300,7 @@ describe "journal/newspaper titles" do
   end # the state
 
   context "the world" do
-    it_behaves_like "great results for format journal", "The world", :fixme => true do
+    it_behaves_like "great results for format journal", "The world", pending: 'fixme' do
       journal = ['2131497', # st marks 0043-8154, green
                   '4514062', # fitz-adam, spec
                   '4443623', # south africa, hoover
@@ -457,7 +457,7 @@ describe "journal/newspaper titles" do
   end
 
   context "the journal" do
-    it_behaves_like "great results for journal/newspaper", "The journal", :fixme => true do
+    it_behaves_like "great results for journal/newspaper", "The journal", pending: 'fixme' do
       journal = [ '4144519', # bar assoc dc, law
                   '441812', # mecca, green
                   '9696658', # cleveland, heinonline
@@ -649,7 +649,7 @@ describe "journal/newspaper titles" do
       resp = solr_resp_ids_titles(title_search_args 'THE new york times')
       expect(resp).to include('495710').in_first(3)
     end
-    it "should get ckey 495710 above fold without 'the'", :fixme => true do
+    it "should get ckey 495710 above fold without 'the'", pending: 'fixme' do
       # note:  this only works when 'the' is included, due to title_245a_exact matching in edismax (and our data)
       resp = solr_resp_ids_titles(title_search_args 'new york times')
       expect(resp).to include('495710').in_first(3)

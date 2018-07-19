@@ -82,7 +82,7 @@ describe 'CJK Advanced Search' do
   end # Publication Info
 
   # summary/ToC is no more - see INDEX-111;  this is left here for historical purposes
-  context 'Summary/ToC', fixme: true do
+  context 'Summary/ToC', pending: 'fixme' do
     context 'ToC: Haiku futabashū  俳句二葉集' do
       before(:all) do
         @resp = cjk_adv_solr_resp({ 'q' => "#{cjk_summary_query('俳句二葉集')}" }.merge(solr_args))

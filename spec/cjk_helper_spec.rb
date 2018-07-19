@@ -1,6 +1,6 @@
 # This spec is for the methods in spec_helper and support/shared_examples_cjk -- it is not a relevancy spec.
-describe "CJK Helper", :chinese => true, :fixme => true do
-  
+describe "CJK Helper", :chinese => true do
+
   context "diff CJK scripts" do
     it "should return false when there are no CJK chars" do
       expect(cjk_bigram_tokens('no cjk')).to eq(nil)
@@ -35,7 +35,7 @@ describe "CJK Helper", :chinese => true, :fixme => true do
     it "should detect mixed scripts" do
       expect(cjk_bigram_tokens("近世仮名遣い")).to be > 0
     end
-    
+
     context "mixed with non-CJK scripts" do
       it "should detect first character CJK" do
         expect(cjk_bigram_tokens("舊小說abc")).to be > 0
@@ -55,7 +55,7 @@ describe "CJK Helper", :chinese => true, :fixme => true do
       end
     end # mixed
   end # detecting CJK chars
-  
+
   context "counting CJK chars" do
     context "CJK only" do
       it "single unigram" do
@@ -141,15 +141,15 @@ describe "CJK Helper", :chinese => true, :fixme => true do
           expect(cjk_bigram_tokens("abc 董桥 abc")).to eq(5)
         end
       end
-    end  # mixed    
+    end  # mixed
   end # counting CJK chars
-    
+
   context "num_cjk_uni" do
     it "should detect hangul" do
       expect(num_cjk_uni('한국주택은행')).to eq(6)
     end
   end
-  
+
   context "Solr mm and ps parameters" do
     context "should not send in a Solr mm param if only 1 or 2 CJK chars" do
       it "1 CJK char" do
@@ -177,10 +177,10 @@ describe "CJK Helper", :chinese => true, :fixme => true do
             expect(cjk_mm_qs_params("abc 董桥 abc")['mm']).to eq(nil)
           end
         end
-      end # mixed      
+      end # mixed
     end
 
-    context "only CJK chars in query" do
+    context "only CJK chars in query", pending: 'fixme' do
       it "3 CJK (adj) char: mm=cjk_mm_val, ps=cjk_ps_val" do
         expect(cjk_mm_qs_params("マンガ")).to eq({'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val})
       end
@@ -197,8 +197,8 @@ describe "CJK Helper", :chinese => true, :fixme => true do
         expect(cjk_mm_qs_params("中国地方志集成")).to eq({'mm'=>cjk_mm_val, 'ps'=>cjk_ps_val})
       end
     end
-    
-    context "mixed with non-CJK scripts" do
+
+    context "mixed with non-CJK scripts", pending: 'fixme' do
       # for each non-cjk token, add 1 to the lower limit of mm
       it "first CJK" do
         expect(cjk_mm_qs_params("マンガabc")).to eq({'mm'=>mm_plus_1, 'ps'=>cjk_ps_val})
@@ -227,7 +227,7 @@ describe "CJK Helper", :chinese => true, :fixme => true do
         lower_limit = cjk_mm_val[0].to_i
         (lower_limit + 2).to_s + cjk_mm_val[1, cjk_mm_val.size]
       end
-    end # mixed      
+    end # mixed
   end # mm and qs params
 
 end

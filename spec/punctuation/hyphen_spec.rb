@@ -139,14 +139,14 @@ describe "hyphen in queries" do
     end
     # the following is busted due to Solr edismax bug
     # https://issues.apache.org/jira/browse/SOLR-2649
-    it "should treat hyphen as NOT in everything searches", :fixme => true do
+    it "should treat hyphen as NOT in everything searches", pending: 'fixme', skip: true do
       expect(@resp).to have_the_same_number_of_documents_as(@resp_not)
       # the below isn't true for edismax b/c mm is basically set to 0  https://issues.apache.org/jira/browse/SOLR-2649
       expect(@resp).to have_fewer_results_than(solr_resp_ids_from_query(@q_no_term))
     end
     # the following is busted due to Solr edismax bug
     # https://issues.apache.org/jira/browse/SOLR-2649
-    it "should treat hyphen as NOT in title searches", :fixme => true do
+    it "should treat hyphen as NOT in title searches", pending: 'fixme', skip: true do
       expect(@tresp).to have_the_same_number_of_documents_as(@tresp_not)
       # the below isn't true for edismax b/c mm is basically set to 0  https://issues.apache.org/jira/browse/SOLR-2649
       expect(@tresp).to have_fewer_results_than(solr_resp_doc_ids_only(title_search_args(@q_no_term)))
@@ -263,7 +263,7 @@ describe "hyphen in queries" do
     end
   end
 
-  context "hyphens with spaces from the usage logs", :fixme => true do
+  context "hyphens with spaces from the usage logs", pending: 'fixme', skip: true do
     context "Europe - North Korea: between humanitarism and business" do
       it_behaves_like "hyphens ignored", "Europe - North Korea: between humanitarism and business", "8935347", 1
     end
@@ -290,7 +290,7 @@ describe "hyphen in queries" do
 
   # the following is busted due to Solr edismax bug
   # https://issues.apache.org/jira/browse/SOLR-2649
-  context "'beyond race in a race -obsessed world'", :fixme => true do
+  context "'beyond race in a race -obsessed world'", pending: 'fixme', skip: true do
     it_behaves_like "hyphens with space before but not after are treated as NOT, but ignored in phrase", "beyond race in a race -obsessed world", "3148369", "3381968"
   end
 
