@@ -608,7 +608,7 @@ describe "journal/newspaper titles" do
 
     it "as title search with format journal" do
       resp = solr_response(title_search_args('nature').merge({'fq' => 'format_main_ssim:"Journal/Periodical"', 'fl'=>'id,title_display', 'facet'=>false}))
-      expect(resp.size).to be <= 1750
+      expect(resp.size).to be <= 1775
       expect(resp).to include({'title_display' => /^Nature/}).in_first(5)
       expect(resp).to include({'title_display' => /^Nature; international journal of science/}).in_first(5)
     end

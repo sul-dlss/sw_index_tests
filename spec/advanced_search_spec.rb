@@ -73,8 +73,8 @@ describe 'advanced search' do
       end
       it 'keyword chicano' do
         resp = solr_resp_doc_ids_only({ 'q' => 'chicano' }.merge(solr_args))
-        expect(resp.size).to be >= 2700
-        expect(resp.size).to be <= 3400
+        expect(resp.size).to be >= 3500
+        expect(resp.size).to be <= 4100
       end
       # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a OR
       # https://issues.apache.org/jira/browse/SOLR-2649
@@ -134,8 +134,8 @@ describe 'advanced search' do
       it 'keyword' do
         resp = solr_resp_doc_ids_only({ 'q' => 'Socialization' }.merge(solr_args))
         expect(resp).to have_fewer_results_than(solr_resp_ids_from_query('Socialization'))
-        expect(resp.size).to be >= 535_000
-        expect(resp.size).to be <= 575_000
+        expect(resp.size).to be >= 575_000
+        expect(resp.size).to be <= 600_000
       end
       it 'subject (not a phrase) and keyword' do
         resp = solr_resp_doc_ids_only({ 'q' => "#{subject_query('home schooling')} AND Socialization" }.merge(solr_args))
@@ -179,8 +179,8 @@ describe 'advanced search' do
       end
       it 'title' do
         resp = solr_resp_doc_ids_only({ 'q' => "#{title_query('the history man')}" }.merge(solr_args))
-        expect(resp.size).to be >= 1370
-        expect(resp.size).to be <= 1470
+        expect(resp.size).to be >= 1450
+        expect(resp.size).to be <= 1550
       end
       it 'author and title' do
         resp = solr_resp_doc_ids_only({ 'q' => "#{author_query('malcolm bradbury')} AND #{title_query('the history man')}" }.merge(solr_args))
@@ -325,13 +325,13 @@ describe 'advanced search' do
       it "subject without 'and'" do
         resp = solr_resp_doc_ids_only({ 'q' => "#{subject_query('soviet union historiography')}" }.merge(solr_args))
         expect(resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args 'soviet union historiography'))
-        expect(resp.size).to be >= 900
-        expect(resp.size).to be <= 1000
+        expect(resp.size).to be >= 950
+        expect(resp.size).to be <= 1050
       end
       it 'pub info 2010' do
         resp = solr_resp_doc_ids_only({ 'q' => "#{pub_info_query('2010')}" }.merge(solr_args))
-        expect(resp.size).to be >= 155_000
-        expect(resp.size).to be <= 165_000
+        expect(resp.size).to be >= 165_000
+        expect(resp.size).to be <= 175_000
       end
       it 'pub info 2011' do
         resp = solr_resp_doc_ids_only({ 'q' => "#{pub_info_query('2011')}" }.merge(solr_args))

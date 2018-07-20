@@ -54,13 +54,13 @@ describe "Chinese Title", :chinese => true do
   context "history research", :jira => 'VUF-2771' do
     # see also chinese_han_variants spec, as the 3rd character isn't matching what's in the record
     context "no spaces" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '歷史研究', 'simplified', '历史研究', 1300, 1850
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '歷史研究', 'simplified', '历史研究', 1350, 1900
     end
     context "with space" do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '歷史 研究', 'simplified', '历史 研究', 2000, 2500
     end
     context "as phrase" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '"歷史研究"', 'simplified', '"历史研究"', 250, 325
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '"歷史研究"', 'simplified', '"历史研究"', 275, 350
     end
   end
 
@@ -134,12 +134,12 @@ describe "Chinese Title", :chinese => true do
       it_behaves_like "matches in vern short titles first", 'title', query, /^全宋(筆|笔)(記|记)[^[[:alpha:]]]*$/, 5
     end
     context "no spaces" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '全宋笔记', 'simplified', '全宋筆記', 6, 8
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '全宋笔记', 'simplified', '全宋筆記', 8, 10
       it_behaves_like "great results for Quan Song bi ji", '全宋笔记'
       it_behaves_like "great results for Quan Song bi ji", '全宋筆記'
     end
     context "middle space" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '全宋 笔记', 'simplified', '全宋 筆記', 6, 8
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '全宋 笔记', 'simplified', '全宋 筆記', 8, 10
       it_behaves_like "great results for Quan Song bi ji", '全宋 笔记'
       it_behaves_like "great results for Quan Song bi ji", '全宋 筆記'
     end
@@ -159,7 +159,7 @@ describe "Chinese Title", :chinese => true do
       it_behaves_like "matches in vern short titles first", 'title', query, /^三(國|国|囯)演(義|义)[^[[:alpha:]]]*$/, 13
     end
     context "no spaces" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '三國演義', 'simplified', '三国演义', 90, 100
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '三國演義', 'simplified', '三国演义', 95, 105
       it_behaves_like "great results for Three Kingdoms", '三國演義'
       it_behaves_like "great results for Three Kingdoms", '三国演义'
     end

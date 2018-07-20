@@ -75,7 +75,7 @@ describe 'boolean operators' do
       end
       it 'history man' do
         resp = solr_resp_ids_from_query 'history man'
-        expect(resp).to include('1433520').in_first(3)
+        expect(resp).to include('1433520').in_first(5)
       end
     end
 
@@ -286,8 +286,8 @@ describe 'boolean operators' do
     context 'nested OR within NOT as subject', jira: 'VUF-1387' do
       it 'digestive organs' do
         resp = solr_resp_doc_ids_only(subject_search_args 'digestive organs')
-        expect(resp.size).to be >= 590
-        expect(resp.size).to be <= 620
+        expect(resp.size).to be >= 600
+        expect(resp.size).to be <= 650
       end
       it 'digestive organs NOT disease', pending: 'fixme' do
         # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a NOT

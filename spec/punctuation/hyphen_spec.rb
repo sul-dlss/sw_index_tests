@@ -221,8 +221,8 @@ describe "hyphen in queries" do
   end
 
   context "'customer-driven academic library'", :jira => ['SW-388', 'VUF-846'] do
-    it_behaves_like "hyphens without spaces imply phrase", "customer-driven academic library", "7778647", 1
-    it_behaves_like "hyphens ignored", "customer- driven academic library", "7778647", 1
+    it_behaves_like "hyphens without spaces imply phrase", "customer-driven academic library", "7778647", 3
+    it_behaves_like "hyphens ignored", "customer- driven academic library", "7778647", 3
     it_behaves_like "hyphens with space before but not after are treated as NOT, but ignored in phrase", "customer -driven academic library", nil, "7778647"
 #   hyphens with both spaces don't work right
 #    it_behaves_like "hyphens ignored", "customer - driven academic library", "7778647", 1
@@ -295,8 +295,8 @@ describe "hyphen in queries" do
   end
 
   context "'Silence : a thirteenth-century French romance'" do
-    it_behaves_like "hyphens without spaces imply phrase", "Silence : a thirteenth-century French romance", "11484079", 1
-    it_behaves_like "hyphens ignored", "Silence : a thirteenth- century French romance", "11484079", 1
+    it_behaves_like "hyphens without spaces imply phrase", "Silence : a thirteenth-century French romance", "2416395", 2
+    it_behaves_like "hyphens ignored", "Silence : a thirteenth- century French romance", "2416395", 2
     # the following is busted due to Solr edismax bug
     # https://issues.apache.org/jira/browse/SOLR-2649
 #    it_behaves_like "hyphens with space before but not after are treated as NOT, but ignored in phrase", "Silence : a thirteenth -century French romance", nil, "11484079"

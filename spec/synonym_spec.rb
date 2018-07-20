@@ -104,8 +104,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
       end
       it "professional C++" do
         resp = solr_resp_ids_from_query('professional C++')
-        # ckey 7534583 doesn't exist anymore; replaced with ckey 11728202
-        expect(resp).to include(['9612289', '9240287', '11728202', '8257317', '9801531']).in_first(10).results
+        expect(resp).to include(['9612289', '9240287', '11728202', '8257317', '12422871']).in_first(10).results
         expect(resp.size).to be <= 150
         expect(resp).not_to have_the_same_number_of_results_as(solr_resp_ids_from_query "professional C")
       end
@@ -166,7 +165,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
 
       it "a#" do
         resp = solr_resp_ids_from_query('a#')
-        expect(resp.size).to be <= 1825  # should not include a as well, only a sharp
+        expect(resp.size).to be <= 1900  # should not include a as well, only a sharp
       end
       it "a# - title search" do
         resp = solr_resp_doc_ids_only(title_search_args('a#'))
@@ -175,7 +174,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
       it "c# minor" do
         resp = solr_response({'q' => 'c# minor', 'fl'=>'id,title_display', 'facet'=>false})
         expect(resp).to include("title_display" => /c(#|♯|\-sharp| sharp) minor/i).in_each_of_first(10).documents
-        expect(resp.size).to be <= 3350
+        expect(resp.size).to be <= 3500
         expect(resp).to have_the_same_number_of_results_as(solr_resp_ids_from_query('C♯ minor'))
         expect(resp).to have_the_same_number_of_results_as(solr_resp_ids_from_query('C-sharp minor'))
         # would also match  c ... minor ... sharp
@@ -262,7 +261,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
         it "a short sharp (qs = 1)" do
           resp = solr_resp_ids_from_query('a short sharp')
           expect(resp).to include('3965729').as_first.document # A short, sharp shock / Kim Stanley Robinson.
-          expect(resp.size).to be <= 1300
+          expect(resp.size).to be <= 1350
         end
         it "B sharp - title" do
           resp = solr_resp_doc_ids_only(title_search_args('b sharp'))
@@ -376,7 +375,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
         it "a flat world - title search" do
           resp = solr_response(title_search_args('a flat world').merge!({'fl'=>'id,title_display', 'facet'=>false}))
           expect(resp).to include("title_display" => /a flat world/i).in_each_of_first(5).documents
-          expect(resp.size).to be <= 125
+          expect(resp.size).to be <= 135
         end
         it "a bent flat (qs = 1)" do
           resp = solr_resp_ids_from_query('a bent flat')
