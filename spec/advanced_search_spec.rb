@@ -122,7 +122,7 @@ describe 'advanced search' do
       end
       it 'subject not as a phrase' do
         expect(@sub_no_phrase.size).to be >= 600
-        expect(@sub_no_phrase.size).to be <= 750
+        expect(@sub_no_phrase.size).to be <= 770
         expect(@sub_no_phrase).to have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args('home schooling')))
       end
       it 'subject as a phrase' do
