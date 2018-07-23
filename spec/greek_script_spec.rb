@@ -1,6 +1,6 @@
 describe 'Greek script' do
   context 'alpha A α' do
-    it 'α in και' do
+    it 'α in και', pending: 'fixme' do
       resp = solr_response('q' => 'και', 'fl' => 'id,vern_title_245a_display', 'facet' => false)
       expect(resp.size).to be >= 20
       expect(resp).to include('vern_title_245a_display' => /\bκαι\b/i).in_each_of_first(6).documents
@@ -52,7 +52,7 @@ describe 'Greek script' do
     end
   end
   context 'iota Ι ι' do
-    it 'ι in και' do
+    it 'ι in και', pending: 'fixme' do
       resp = solr_response('q' => 'και', 'fl' => 'id,vern_title_245a_display', 'facet' => false)
       expect(resp.size).to be >= 20
       expect(resp).to include('vern_title_245a_display' => /\bκαι\b/i).in_each_of_first(6).documents
@@ -61,7 +61,7 @@ describe 'Greek script' do
     end
   end
   context 'kappa Κ κ' do
-    it 'κ in και' do
+    it 'κ in και', pending: 'fixme' do
       resp = solr_response('q' => 'και', 'fl' => 'id,vern_title_245a_display', 'facet' => false)
       expect(resp.size).to be >= 20
       expect(resp).to include('vern_title_245a_display' => /\bκαι\b/i).in_each_of_first(6).documents
