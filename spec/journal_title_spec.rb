@@ -407,7 +407,8 @@ describe "journal/newspaper titles" do
               '4533025', # johannesburg, hoover
               '423194', # johannesburg, sal newark
                 ]
-      book = ['4287908', # johannesburg, sal1
+      book = [
+              # '4287908', # johannesburg, sal1
               '11931578', # london, sal3
               ]
       other = ['8928527', # marcit
