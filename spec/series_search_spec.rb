@@ -127,7 +127,7 @@ describe "Series Search" do
     it "everything search, phrase" do
       resp = solr_resp_ids_from_query  '"Studies in Modern Poetry"'
       expect(resp.size).to be >= 15
-      expect(resp).to include(['5709847', '4075051', '3865171', '10727485', '588517'])
+      expect(resp).to include(['5709847', '4075051', '3865171', '588517'])
     end
   end
 
