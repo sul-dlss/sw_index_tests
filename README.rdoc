@@ -1,7 +1,5 @@
 = SearchWorks Solr Index Tests
 
-{<img src="https://gemnasium.com/sul-dlss/sw_index_tests.png" alt="Dependency Status" />}[https://gemnasium.com/sul-dlss/sw_index_tests] 
-
 A ruby "application" for testing the Stanford University Libraries SearchWorks Solr index, using rspec-solr and rsolr gems.  
 
 The main reason this is in publicly accessible web space is to allow it to serve as an exemplar for folks who want to use rspec-solr or who want to figure out a way to automate testing searches against a Solr index.
