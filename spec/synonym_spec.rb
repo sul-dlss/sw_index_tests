@@ -144,7 +144,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
         expect(resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args "F♯"))
         # it is distinct from results for F
         f_resp = solr_response(title_search_args("F").merge!({'fl'=>'id,title_245a_display', 'facet'=>false}))
-        expect(f_resp).to include("title_245a_display" => /^"?F\.?"?$/).in_each_of_first(5).documents
+        expect(f_resp).to include("title_245a_display" => /^"?F[^#♯]*"?$/).in_each_of_first(5).documents
         expect(resp).not_to have_the_same_number_of_results_as(f_resp)
       end
     end
