@@ -1,11 +1,11 @@
 describe 'Greek script' do
   context 'alpha A α' do
     it 'α in και' do
-      resp = solr_response('q' => 'και', 'fl' => 'id,vern_title_245a_display', 'facet' => false)
+      resp = solr_response('q' => 'και', 'fl' => 'id,vern_title_245a_display', fq: 'date_cataloged:*', 'facet' => false)
       expect(resp.size).to be >= 20
       expect(resp).to include('vern_title_245a_display' => /\bκαι\b/i).in_each_of_first(6).documents
       expect(resp).to include('7822463')
-      expect(resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only('q' => 'κΑι'))
+      expect(resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only('q' => 'κΑι', fq: 'date_cataloged:*'))
     end
   end
   #  context "beta Β β" do
@@ -53,20 +53,20 @@ describe 'Greek script' do
   end
   context 'iota Ι ι' do
     it 'ι in και' do
-      resp = solr_response('q' => 'και', 'fl' => 'id,vern_title_245a_display', 'facet' => false)
+      resp = solr_response('q' => 'και', 'fl' => 'id,vern_title_245a_display', fq: 'date_cataloged:*', 'facet' => false)
       expect(resp.size).to be >= 20
       expect(resp).to include('vern_title_245a_display' => /\bκαι\b/i).in_each_of_first(6).documents
       expect(resp).to include('7822463')
-      expect(resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only('q' => 'καΙ'))
+      expect(resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only('q' => 'καΙ', fq: 'date_cataloged:*'))
     end
   end
   context 'kappa Κ κ' do
     it 'κ in και' do
-      resp = solr_response('q' => 'και', 'fl' => 'id,vern_title_245a_display', 'facet' => false)
+      resp = solr_response('q' => 'και', 'fl' => 'id,vern_title_245a_display', fq: 'date_cataloged:*', 'facet' => false)
       expect(resp.size).to be >= 20
       expect(resp).to include('vern_title_245a_display' => /\bκαι\b/i).in_each_of_first(6).documents
       expect(resp).to include('7822463')
-      expect(resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only('q' => 'Και'))
+      expect(resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only('q' => 'Και', fq: 'date_cataloged:*'))
     end
   end
   context 'lambda Λ λ' do
