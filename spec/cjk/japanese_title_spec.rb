@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 describe 'Japanese Title searches', japanese: true do
-  lang_limit = { 'fq' => 'language:Japanese' }
+  lang_limit = { 'fq' => ['language:Japanese', 'collection:sirsi'] }
 
   context 'blocking ブロック化 (katakana-kanji mix)', jira: 'VUF-2695' do
     it_behaves_like 'expected result size', 'title', 'ブロック化', 15, 20
