@@ -7,7 +7,7 @@ describe 'Japanese Everything Searches', japanese: true do
   context '1900 (year)', jira: 'VUF-2754' do
     it_behaves_like 'expected result size', 'everything', '千九百年', 25, 35
     context 'w lang limit' do
-      it_behaves_like 'expected result size', 'everything', '千九百年', 3, 5, lang_limit
+      it_behaves_like 'expected result size', 'everything', '千九百年', 3, 8, lang_limit
     end
   end
 
