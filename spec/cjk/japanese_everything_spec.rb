@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 describe 'Japanese Everything Searches', japanese: true do
-  lang_limit = { 'fq' => 'language:Japanese' }
+  lang_limit = { 'fq' => ['language:Japanese', 'collection:sirsi'] }
 
   context '1900 (year)', jira: 'VUF-2754' do
     it_behaves_like 'expected result size', 'everything', '千九百年', 25, 35
@@ -115,10 +115,9 @@ describe 'Japanese Everything Searches', japanese: true do
     it_behaves_like 'result size and vern short title matches first', 'everything', '高松 塚古墳', 6, 8, /高松\s*塚古墳/, 1
   end
 
-  context 'TPP', jira: 'VUF-2694', pending: 'fixme' do
-    it_behaves_like 'result size and vern short title matches first', 'everything', 'TPP', 125, 225, /TPP/, 6
+  context 'TPP', jira: 'VUF-2694' do
     context 'w lang limit' do
-      it_behaves_like 'result size and vern short title matches first', 'everything', 'TPP', 50, 75, /TPP/, 6, lang_limit
+      it_behaves_like 'result size and vern short title matches first', 'everything', 'TPP', 35, 75, /TPP/, 6, lang_limit
     end
   end
 end
