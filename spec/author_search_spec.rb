@@ -302,4 +302,15 @@ describe "Author Search" do
     end
   end
 
+  context 'Fred Vargas', jira: 'SW-1986' do
+    it 'author search same as author facet' do
+      resp = solr_resp_ids_author_person(author_search_args('Vargas, Fred'))
+      expect(resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only({'fq'=>'author_person_facet:"Vargas, Fred"', 'q'=>"Vargas"}))
+    end
+    it 'author search returns records with author in author display field' do
+      resp = solr_resp_ids_author_person(author_search_args('Vargas, Fred'))
+      expect(resp).to include({'author_person_display' => /^Vargas, Fred/i}).in_each_of_first(20)
+    end
+  end
+
 end
