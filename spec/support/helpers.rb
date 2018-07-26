@@ -44,6 +44,14 @@ module Helpers
     solr_response(solr_params.merge(doc_ids_full_titles))
   end
 
+  # send a GET request to the default Solr request handler with the indicated Solr parameters
+  # @param solr_params [Hash] the key/value pairs to be sent to Solr as HTTP parameters, in addition to
+  #  those to get only id fields and author_person_display and no facets in the response
+  # @return [RSpecSolr::SolrResponseHash] object for rspec-solr testing the Solr response, with no facets, and only the id and author person display field for each Solr doc
+  def solr_resp_ids_author_person(solr_params)
+    solr_response(solr_params.merge(doc_ids_author_person))
+  end
+
   def author_search_args(query_str)
     {'q'=>"{!qf=$qf_author pf=$pf_author pf3=$pf3_author pf2=$pf2_author}#{query_str}", 'qt'=>'search'}
   end
@@ -207,6 +215,12 @@ module Helpers
   # @return [Hash] Solr HTTP params to reduce the size of the Solr responses
   def doc_ids_full_titles
     {'fl'=>'id,title_full_display', 'facet'=>'false'}
+  end
+
+  # response documents will only have id and author_person_display fields, and there will be no facets in the response
+  # @return [Hash] Solr HTTP params to reduce the size of the Solr responses
+  def doc_ids_author_person
+    {'fl'=>'id,author_person_display', 'facet'=>'false'}
   end
 
   def solr_conn
