@@ -111,4 +111,15 @@ describe "Title Search" do
     end
   end
 
+  context 'Race and Arab Americans', jira: 'VUF-5783' do
+    it 'title search not as phrase' do
+      resp = solr_resp_ids_titles(title_search_args('race and arab americans'))
+      expect(resp).to include('title_245a_display' => /^Race and Arab Americans/i).as_first
+    end
+    it 'title search as phrase' do
+      resp = solr_resp_ids_titles(title_search_args('"race and arab americans"'))
+      expect(resp).to include('title_245a_display' => /^Race and Arab Americans/i).as_first
+    end
+  end
+
 end
