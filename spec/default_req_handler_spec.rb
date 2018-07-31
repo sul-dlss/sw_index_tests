@@ -227,4 +227,11 @@ describe 'Default Request Handler' do
     expect(resp.size).to be <= 100
     expect(resp).to include('title_full_display' => /the jews of arab lands/i).in_each_of_first(2).documents
   end
+
+  context 'collection records should rank first' do
+    it 'Homebrew Computer Club Newsletter and Meeting Announcements', jira: 'VUF-4315', pending: 'fixme' do
+      resp = solr_resp_ids_titles_from_query('homebrew computer club newsletter')
+      expect(resp).to include('title_245a_display' => /^Homebrew Computer Club Newsletter and Meeting Announcements/i).as_first
+    end
+  end
 end
