@@ -47,6 +47,17 @@ describe 'sorting results' do
     end
   end
 
+  context 'title sort for historical abstracts search', jira: 'VUF-3421' do
+    let(:resp_asc) { solr_resp_ids_titles('q' => 'historical abstracts','fq' => 'format_main_ssim:Database', 'sort' => 'title_sort asc') }
+    let(:resp_desc) { solr_resp_ids_titles('q' => 'historical abstracts','fq' => 'format_main_ssim:Database', 'sort' => 'title_sort desc') }
+    it 'should sort alphabetically' do
+      expect(resp_asc.send(:docs).first).to eq(resp_desc.send(:docs).last)
+    end
+    it 'historical abstracts should not appear first' do
+      expect(resp_asc.get_first_doc_index({'title_245a_display'=>'Historical abstracts with full text'})).not_to eq(1)
+    end
+  end
+
   #   # these are TODO
   #   Scenario: Spaces should be significant
   #   Scenario: Case / Capitalization should have no effect on sorting
