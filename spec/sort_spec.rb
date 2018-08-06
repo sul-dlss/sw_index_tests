@@ -58,6 +58,29 @@ describe 'sorting results' do
     end
   end
 
+  context 'author sort' do
+    let(:resp_asc) { solr_response('q' => 'Stravinsky Igor Zhar-ptitsa suite 1919',
+                                   'fq' => 'access_facet:"At the Library"',
+                                   'fl' => 'id,author_person_display,title_uniform_display,title_245a_display',
+                                   'sort' => 'author_sort asc',
+                                   'rows' => 50,
+                                   'facet' => false) }
+   let(:resp_desc) { solr_response('q' => 'Stravinsky Igor Zhar-ptitsa suite 1919',
+                                   'fq' => 'access_facet:"At the Library"',
+                                   'fl' => 'id,author_person_display,title_uniform_display,title_245a_display',
+                                   'sort' => 'author_sort desc',
+                                   'rows' => 50,
+                                   'facet' => false) }
+   it 'should sort alphabetically' do
+     expect(resp_asc.send(:docs).first).to eq(resp_desc.send(:docs).last)
+   end
+    it 'should sort by 245 when 240 is present' do
+      feuervogel_ix = resp_asc.get_first_doc_index({ 'title_245a_display' => 'Der Feuervogel (Ballettsuite)' })
+      firebird_ix = resp_asc.get_first_doc_index({ 'title_245a_display'=> 'Firebird suite' })
+      expect(feuervogel_ix).to be < firebird_ix
+    end
+  end
+
   #   # these are TODO
   #   Scenario: Spaces should be significant
   #   Scenario: Case / Capitalization should have no effect on sorting
