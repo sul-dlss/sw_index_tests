@@ -207,7 +207,10 @@ describe 'boolean operators' do
     context 'actual user queries' do
       context 'indochine OR indochina' do
         before(:all) do
-          @indochine_or_indochina = solr_resp_ids_from_query 'indochine OR indochina'
+          @indochine_or_indochina = solr_resp_doc_ids_only(
+            q: '_query_:"{!dismax pf2=$p2 pf3=$pf3  mm=1}indochine OR indochina"',
+            defType: 'lucene'
+          )
           @indochine = solr_resp_ids_from_query 'indochine' # 513 docs  2013-05-21
           @indochina = solr_resp_ids_from_query 'indochina' # 1522 docs  2013-05-21
         end
@@ -253,7 +256,14 @@ describe 'boolean operators' do
 
     it 'lesbian OR gay videos', jira: ['VUF-300', 'VUF-301', 'VUF-311'] do
       # eloader records cause results to explode; add access facet to keep expected results stable
-      resp = solr_resp_doc_ids_only('q' => 'lesbian OR gay', 'fq' => 'format:("Video"), access_facet:("At the Library")')
+      resp = solr_resp_doc_ids_only(
+        'q' => '_query_:"{!dismax pf2=$p2 pf3=$pf3 mm=1}lesbian OR gay"',
+        'defType' => 'lucene',
+        'fq' => [
+          'format:("Video")',
+          'access_facet:("At the Library")'
+        ]
+      )
       expect(resp.size).to be >= 1200
       expect(resp.size).to be <= 1400
     end
