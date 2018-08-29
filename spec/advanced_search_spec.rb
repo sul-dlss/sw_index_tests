@@ -200,8 +200,7 @@ describe 'advanced search' do
         expect(@author_resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only(author_search_args('stalin')))
       end
       it 'title rechi OR sochineniia' do
-        resp = solr_resp_doc_ids_only({ 'q' => "#{title_query('rechi OR sochineniia')}" }.merge(solr_args))
-        expect(resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('rechi OR sochineniia')))
+        resp = solr_resp_doc_ids_only({ 'q' => "#{title_query_or('rechi OR sochineniia')}" }.merge(solr_args))
         expect(resp.size).to be >= 2200
         expect(resp.size).to be <= 2400
       end
@@ -218,7 +217,7 @@ describe 'advanced search' do
         expect(resp.size).to be <= 12
       end
       it 'author and title both terms optional' do
-        resp = solr_resp_doc_ids_only({ 'q' => "#{author_query('stalin')} AND #{title_query('rechi OR sochineniia')}" }.merge(solr_args))
+        resp = solr_resp_doc_ids_only({ 'q' => "#{author_query('stalin')} AND #{title_query_or('rechi OR sochineniia')}" }.merge(solr_args))
         expect(resp).to have_fewer_results_than @author_resp
         expect(resp.size).to be >= 20
         expect(resp.size).to be <= 30
@@ -439,7 +438,12 @@ describe 'advanced search' do
   end
 
   def title_query(terms)
-    '_query_:"{!edismax qf=$qf_title pf=$pf_title pf3=$pf3_title pf2=$pf2_title}' + terms + '"'
+    "_query_:\"{!edismax qf=$qf_title pf=$pf_title pf3=$pf3_title pf2=$pf2_title}#{terms}\""
+  end
+
+  # Blacklight Advanced Search uses a modified query for OR queries
+  def title_query_or(terms)
+    "_query_:\"{!dismax qf=$qf_title pf=$pf_title pf3=$pf3_title pf2=$pf2_title mm=1}#{terms}\""
   end
 
   def author_query(terms)
