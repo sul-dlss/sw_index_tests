@@ -297,7 +297,7 @@ describe "Author Search" do
     end
     it "author search, phrase" do
       resp = solr_resp_doc_ids_only(author_search_args('"Deutsch, Alfred"'))
-      expect(resp).to include('509722').as_first
+      expect(resp).to include('509722')
       expect(resp.size).to be <= 5
     end
   end
