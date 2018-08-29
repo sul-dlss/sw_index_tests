@@ -41,7 +41,7 @@ describe "Author-Title Search" do
     expect(resp).to include(['285031', '6956285'])
     expect(resp.size).to be <= 50
     expect(resp).to include("author_person_display" => /Beethoven/i).in_each_of_first(5).documents
-    expect(resp).to include("title_245a_display" => /an die ferne geliebte/i).in_each_of_first(5).documents
+    expect(resp).to include("title_245a_display" => /an die ferne geliebte/i).in_each_of_first(4).documents
   end
 
   it "Beethoven symphony number 3", :jira => ['VUF-571', 'SW-387'] do
