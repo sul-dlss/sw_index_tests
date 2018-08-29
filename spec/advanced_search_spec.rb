@@ -5,9 +5,7 @@ describe 'advanced search' do
         @color = solr_resp_doc_ids_only({ 'q' => "#{title_query('color photography')}" }.merge(solr_args))
         @colour = solr_resp_doc_ids_only({ 'q' => "#{title_query('colour photography')}" }.merge(solr_args))
       end
-      it 'color OR colour photography', pending: 'fixme' do
-        # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a OR
-        # https://issues.apache.org/jira/browse/SOLR-2649
+      it 'color OR colour photography' do
         resp = solr_resp_ids_titles({ 'q' => "#{title_query('(color OR colour) photography')}" }.merge(solr_args))
         expect(resp).to have_more_results_than(@color)
         expect(resp).to have_more_results_than(@colour)
@@ -17,9 +15,7 @@ describe 'advanced search' do
         expect(resp.size).to be >= 50
         expect(resp.size).to be <= 200
       end
-      it 'colour OR color photography', pending: 'fixme' do
-        # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a OR
-        # https://issues.apache.org/jira/browse/SOLR-2649
+      it 'colour OR color photography' do
         resp = solr_resp_ids_titles({ 'q' => "#{title_query('(colour OR color) photography')}" }.merge(solr_args))
         expect(resp).to have_more_results_than(@color)
         expect(resp).to have_more_results_than(@colour)
@@ -35,9 +31,7 @@ describe 'advanced search' do
         @nossa = solr_resp_doc_ids_only({ 'q' => "#{title_query('nossa america')}" }.merge(solr_args))
         @nuestra = solr_resp_doc_ids_only({ 'q' => "#{title_query('nuestra america')}" }.merge(solr_args))
       end
-      it 'nossa OR nuestra america', pending: 'fixme' do
-        # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a OR
-        # https://issues.apache.org/jira/browse/SOLR-2649
+      it 'nossa OR nuestra america' do
         resp = solr_resp_ids_titles({ 'q' => "#{title_query('(nossa OR nuestra) america')}" }.merge(solr_args))
         expect(resp).to have_more_results_than(@nossa)
         expect(resp).to have_more_results_than(@nuestra)
@@ -47,9 +41,7 @@ describe 'advanced search' do
         expect(resp.size).to be >= 375
         expect(resp.size).to be <= 500
       end
-      it 'nuestra OR nossa america', pending: 'fixme' do
-        # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a OR
-        # https://issues.apache.org/jira/browse/SOLR-2649
+      it 'nuestra OR nossa america' do
         resp = solr_resp_ids_titles({ 'q' => "#{title_query('(nuestra OR nossa) america')}" }.merge(solr_args))
         expect(resp).to have_more_results_than(@nossa)
         expect(resp).to have_more_results_than(@nuestra)
