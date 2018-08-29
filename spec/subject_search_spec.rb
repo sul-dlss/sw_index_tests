@@ -137,8 +137,8 @@ describe 'Subject Search' do
     end
     it 'as phrase' do
       resp = solr_response(subject_search_args('"C programming"').merge('fl' => 'id,topic_display', 'facet' => false))
-      expect(resp.size).to be >= 500
-      expect(resp.size).to be <= 1200
+      expect(resp.size).to be >= 450
+      expect(resp.size).to be <= 600
       expect(resp).to include('topic_display' => /C \(?programming/i).in_each_of_first(17).documents
       expect(resp).to include('4617632') # 16th in production as of 2013-07-01
       expect(resp).to have_fewer_results_than(solr_resp_doc_ids_only(subject_search_args 'C programming'))
