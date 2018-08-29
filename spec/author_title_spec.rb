@@ -3,8 +3,8 @@ describe "Author-Title Search" do
   it "Steinbeck Pearl", :jira => 'SW-778' do
     q = '"Steinbeck, John, 1902-1968. Pearl"'
     resp = solr_response(author_title_search_args(q).merge!({'fl'=>'id,author_person_display', 'facet'=>false}))
-    expect(resp.size).to be >= 100
-    expect(resp.size).to be <= 130
+    expect(resp.size).to be >= 90
+    expect(resp.size).to be <= 120
     expect(resp).to include("author_person_display" => /Steinbeck/i).in_each_of_first(20).documents
     expect(resp).not_to include("author_person_display" => /Yong/i).in_each_of_first(20).documents
   end
