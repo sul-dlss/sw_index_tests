@@ -350,7 +350,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
           expect(resp.size).to be >= 180
 #          resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('the great eb'))
         end
-        it "e.b. white" do
+        it "e.b. white", pending: 'fixme' do
           resp = solr_response({'q' => 'e.b. white', 'fl'=>'id,title_display', 'facet'=>false})
           expect(resp).to include("title_display" => /e. ?b. white/i).in_each_of_first(20).documents
           expect(resp.size).to be >= 350
