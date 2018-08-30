@@ -65,7 +65,8 @@ describe "ampersands in queries" do
     it_behaves_like "ampersand ignored", "crosby stills nash & young", "5627798", 3
   end
 
-  context "4 term query 'steam boat & canal routes'" do
+  context "4 term query 'steam boat & canal routes'", pending: :fixme do
+    # there's a bunch of relevant SDR objects that pop up.
     it_behaves_like "ampersand ignored", "steam boat & canal routes", "10451543", 2
   end
 
