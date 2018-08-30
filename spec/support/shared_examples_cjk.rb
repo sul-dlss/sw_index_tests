@@ -109,13 +109,12 @@ shared_examples_for "great search results for old fiction (Han)" do
   # old (simp)  旧   (trad)  舊
   # fiction (simp)  小说   (trad)  小說
   trad_245a = ['9262744', '6797638', '6695967']
-  trad_245a_not_adjacent = ['6696790']
   trad_245a_diff_order = ['6695904']
   trad_245ab = ['6699444']
   simp_245a = ['8834455']
   simp_245a_diff_order = ['4192734']  #  小说旧
   it "traditional char matches" do
-    expect(resp).to include(trad_245a).before(trad_245a_not_adjacent + trad_245a_diff_order + trad_245ab)
+    expect(resp).to include(trad_245a).before(trad_245a_diff_order + trad_245ab)
   end
   it "simplified char matches" do
     expect(resp).to include(simp_245a).before(simp_245a_diff_order)
@@ -124,23 +123,17 @@ shared_examples_for "great search results for old fiction (Han)" do
     expect(resp).to include(trad_245a + simp_245a).in_first(5).results
   end
   it "both words in 245a but not adjacent" do
-    expect(resp).to include(trad_245a_not_adjacent + trad_245a_diff_order + simp_245a_diff_order).in_first(8).results
+    expect(resp).to include(trad_245a_diff_order + simp_245a_diff_order).in_first(8).results
   end
   it "one word in 245a and the other in 245b" do
     ab245 = ["6695904", # fiction 245a; old 245a
               "6699444", # old 245a; fiction 245b
-              "6696790", # old 245a; fiction 245a
-              "7198256", # old 245b; fiction: 245a  (Korean also in record)
               "6793760", # old (simplified) 245a; fiction 245b
             ]
     expect(resp).to include(ab245).in_first(12).results
   end
   it "other relevant results" do
-    other = ["6288832", # old 505t; fiction 505t x2
-            #  "7699186", # old (simp) in 245a, fiction (simp) in 490 and 830
-            #  "6204747", # old 245a; fiction 490a; 830a
-            #  "6698466", # old 245a; fiction 490a, 830a
-            ]
+    other = ["6288832"] # old 505t; fiction 505t x2
     expect(resp).to include(other)
   end
 end # shared examples  great search results for old fiction (Han)
