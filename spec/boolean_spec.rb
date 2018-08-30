@@ -106,9 +106,7 @@ describe 'boolean operators' do
         resp_w_term = solr_resp_ids_from_query query.sub(' NOT ', ' ')
         expect(resp_w_term).to include(un_exp_ids)
       end
-      # the following is busted due to Solr edismax bug
-      # https://issues.apache.org/jira/browse/SOLR-2649
-      it 'should have fewer results than query without NOT clause', pending: 'fixme' do
+      it 'should have fewer results than query without NOT clause' do
         expect(@resp).to have_fewer_documents_than(solr_resp_ids_from_query query.sub(/ NOT \S+ ?/, ' '))
       end
       it "hyphen with space before but not after (' -a') should be equivalent to NOT" do
