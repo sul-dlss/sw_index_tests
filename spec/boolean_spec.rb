@@ -55,23 +55,23 @@ describe 'boolean operators' do
       # lowercase and is considered a query term
       it 'history man and bradbury', pending: 'fixme' do
         resp = solr_resp_ids_from_query 'history man and bradbury'
-        expect(resp).to include('1433520').in_first(3)
+        expect(resp).to include('1433520').in_first(5)
       end
       it 'history man AND bradbury' do
         resp = solr_resp_ids_from_query 'history man AND bradbury'
-        expect(resp).to include('1433520').in_first(3)
+        expect(resp).to include('1433520').in_first(5)
       end
       it 'history man bradbury' do
         resp = solr_resp_ids_from_query 'history man bradbury'
-        expect(resp).to include('1433520').in_first(3)
+        expect(resp).to include('1433520').in_first(5)
       end
       it 'history man bradbury malcolm' do
         resp = solr_resp_ids_from_query 'history man bradbury malcolm'
-        expect(resp).to include('1433520').in_first(3)
+        expect(resp).to include('1433520').in_first(5)
       end
       it 'history man malcolm bradbury' do
         resp = solr_resp_ids_from_query 'history man malcolm bradbury'
-        expect(resp).to include('1433520').in_first(3)
+        expect(resp).to include('1433520').in_first(5)
       end
       it 'history man' do
         resp = solr_resp_ids_from_query 'history man'
