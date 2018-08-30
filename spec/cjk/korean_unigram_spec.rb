@@ -15,7 +15,7 @@ describe "Korean: Unigram Searches", :korean => true do
 #      @resp.should include({'vern_title_245a_display' => /창/}).in_each_of_first(9).documents
     end
     it "should have expected ckeys" do
-      expect(@resp).to include("7875201").as_first
+      expect(@resp).to include("7875201").in_first(3)
     end
   end
 
