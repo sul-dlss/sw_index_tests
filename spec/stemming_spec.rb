@@ -110,8 +110,8 @@ describe "Stemming of English words" do
       expect(resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args 'silent'))
     end
     it "knightly should stem to same as knight" do
-      resp = solr_resp_ids_titles(title_search_args('knightly').merge({:rows => '30'}))
-      expect(resp).to include('title_245a_display' => /knights? /i)
+      resp = solr_resp_ids_full_titles(title_search_args('knightly').merge({:rows => '30'}))
+      expect(resp).to include('title_full_display' => /knights? /i)
       expect(resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args 'knight'))
     end
     it "deeply should stem to same as deep" do
