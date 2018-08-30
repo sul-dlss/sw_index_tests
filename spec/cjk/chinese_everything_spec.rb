@@ -66,14 +66,6 @@ describe 'Chinese Everything', chinese: true do
     # fiction (simp)  小说   (trad)  小說
     shared_examples_for 'great everything search results for old fiction' do
       it_behaves_like 'great search results for old fiction (Han)'
-      it 'other relevant results' do
-        other = ['6288832', # old 505t; fiction 505t x2
-                 '7699186', # old (simp) in 245a, fiction (simp) in 490 and 830
-                 '6204747', # old 245a; fiction 490a; 830a
-                 '6698466', # old 245a; fiction 490a, 830a
-                ]
-        expect(resp).to include(other)
-      end
     end # shared examples  great search results for old fiction (Han)
     context 'no spaces' do
       it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '舊小說', 'simplified', '旧小说', 40, 80
