@@ -35,12 +35,9 @@ describe 'Japanese Title searches', japanese: true do
     end
   end
   context 'February 26 Incident', jira: 'VUF-2755' do
-    it_behaves_like 'expected result size', 'title', 'ニ・ニ六事件', 2, 5
-    it_behaves_like 'best matches first', 'title', 'ニ・ニ六事件', '6325833', 1 # all in 245a, but as ニ・  ニ六事件・
-    it_behaves_like 'best matches first', 'title', 'ニ・ニ六事件', '6279541', 4 # in 246
-    # other two results are not relevant:
-    #  6617115 seems to confuse "ニ (= Japanese kana, romanized as 'ni')" which appears after "小作 (kosaku)" with "ニ (= number 2 in Kanji)
-    #  6360442 seems to confuse "に (= Japanese kana, romanized as 'ni') which appears after "十六名 (jurokumei)" with "ニ (= number 2 in Kanji)"
+    it_behaves_like 'expected result size', 'title', '二・二六事件', 60, 90
+    it_behaves_like 'best matches first', 'title', '二・二六事件', '6279752', 1 # all in 245a, but as ニ・  ニ六事件・
+    it_behaves_like 'best matches first', 'title', '二・二六事件', '4174677', 4 # in 246
   end
   context 'grandpa  おじいさん (hiragana)', jira: 'VUF-2715' do
     it_behaves_like 'both scripts get expected result size', 'title', 'hiragana', 'おじいさん', 'katagana', 'オジいサン', 10, 25
