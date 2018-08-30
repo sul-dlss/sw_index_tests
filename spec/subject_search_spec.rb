@@ -41,7 +41,7 @@ describe 'Subject Search' do
       expect(resp.size).to be >= 400
       expect(resp.size).to be <= 600
       expect(resp).not_to include(%w(6064341 8837304 11755085 5793780)).in_first(20).documents
-      expect(resp).to include(%w(9730602 2731118 1710052))
+      expect(resp).to include(%w(2731118 1710052))
     end
     it 'as phrase' do
       resp = solr_resp_doc_ids_only(subject_search_args '"France Social Life and customs 20th century"')
