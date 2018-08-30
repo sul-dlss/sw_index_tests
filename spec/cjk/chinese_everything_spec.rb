@@ -5,11 +5,12 @@ describe 'Chinese Everything', chinese: true do
   context 'china economic policy', jira: 'SW-100' do
     it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '中國經濟政策', 'simplified', '中国经济政策', 300, 400
     it_behaves_like 'matches in vern short titles first', 'everything', '中國經濟政策', /^中國經濟政策$/, 1
-    it_behaves_like 'matches in vern short titles first', 'everything', '中國經濟政策', /(中國經濟政策|中国经济政策|中国経済政策史)/, 7
+    # 圈点 (4648314) has a full title that includes an exact match
+    it_behaves_like 'matches in vern short titles first', 'everything', '中國經濟政策', /(中國經濟政策|中国经济政策|中国経済政策史|圈点)/, 7
     context 'with spaces' do
       it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '中國 經濟 政策', 'simplified', '中国 经济 政策', 300, 400
       it_behaves_like 'matches in vern short titles first', 'everything', '中國 經濟 政策', /^中國經濟政策$/, 1
-      it_behaves_like 'matches in vern short titles first', 'everything', '中國 經濟 政策', /(中國經濟政策|中国经济政策|中国経済政策史)/, 7
+      it_behaves_like 'matches in vern short titles first', 'everything', '中國 經濟 政策', /(中國經濟政策|中国经济政策|中国経済政策史|圈点)/, 7
     end
   end
 
