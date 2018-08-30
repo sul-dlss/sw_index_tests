@@ -72,8 +72,8 @@ describe 'CJK Advanced Search' do
     context 'Unigram' do
       it 'Place: Tsu (津):  num expected' do
         resp = cjk_adv_solr_resp({ 'q' => "#{cjk_pub_info_query('tsu 津')}" }.merge(solr_args))
-        expect(resp.size).to be >= 30 # matches 19 wo cjk search fields
-        expect(resp.size).to be <= 50 # 55 match everything search
+        expect(resp.size).to be >= 20 # matches 19 wo cjk search fields
+        expect(resp.size).to be <= 40 # 55 match everything search
       end
       it 'Place: 津  (no Tsu term): num expected' do
         resp = cjk_adv_solr_resp({ 'q' => "#{cjk_pub_info_query('津')}" }.merge(solr_args))
@@ -197,8 +197,8 @@ describe 'CJK Advanced Search' do
         end
         it 'OR' do
           resp = cjk_adv_solr_resp({ 'q' => "#{cjk_everything_query('陝甘寧邊區')} OR #{cjk_pub_info_query('延安')}" }.merge(solr_args))
-          expect(resp.size).to be >= 575 # 329 with non-CJK aware fields
-          expect(resp.size).to be <= 725
+          expect(resp.size).to be >= 500 # 329 with non-CJK aware fields
+          expect(resp.size).to be <= 650
         end
       end
     end
