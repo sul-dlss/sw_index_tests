@@ -5,27 +5,13 @@ describe 'advanced search' do
         @color = solr_resp_doc_ids_only({ 'q' => "#{title_query('color photography')}" }.merge(solr_args))
         @colour = solr_resp_doc_ids_only({ 'q' => "#{title_query('colour photography')}" }.merge(solr_args))
       end
-      it 'color OR colour photography', pending: 'fixme' do
-        # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a OR
-        # https://issues.apache.org/jira/browse/SOLR-2649
-        resp = solr_resp_ids_titles({ 'q' => "#{title_query('(color OR colour) photography')}" }.merge(solr_args))
+      it 'color OR colour photography' do
+        resp = solr_resp_ids_titles({ 'q' => "#{title_query('photography')} AND #{title_query_or('(color OR colour)')}" }.merge(solr_args))
         expect(resp).to have_more_results_than(@color)
         expect(resp).to have_more_results_than(@colour)
         expect(resp).to include('title_245a_display' => /color photography/i)
         expect(resp).to include('title_245a_display' => /colour photography/i)
-        # as of 2013-07-25, there are 65 color photography titles and 23 colour photography titles
-        expect(resp.size).to be >= 50
-        expect(resp.size).to be <= 200
-      end
-      it 'colour OR color photography', pending: 'fixme' do
-        # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a OR
-        # https://issues.apache.org/jira/browse/SOLR-2649
-        resp = solr_resp_ids_titles({ 'q' => "#{title_query('(colour OR color) photography')}" }.merge(solr_args))
-        expect(resp).to have_more_results_than(@color)
-        expect(resp).to have_more_results_than(@colour)
-        expect(resp).to include('title_245a_display' => /color photography/i)
-        expect(resp).to include('title_245a_display' => /colour photography/i)
-        # as of 2013-07-25, there are 65 color photography titles and 23 colour photography titles
+        # as of 2018-08-30, there are 84 color photography titles and 27 colour photography titles
         expect(resp.size).to be >= 50
         expect(resp.size).to be <= 200
       end
@@ -35,27 +21,13 @@ describe 'advanced search' do
         @nossa = solr_resp_doc_ids_only({ 'q' => "#{title_query('nossa america')}" }.merge(solr_args))
         @nuestra = solr_resp_doc_ids_only({ 'q' => "#{title_query('nuestra america')}" }.merge(solr_args))
       end
-      it 'nossa OR nuestra america', pending: 'fixme' do
-        # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a OR
-        # https://issues.apache.org/jira/browse/SOLR-2649
-        resp = solr_resp_ids_titles({ 'q' => "#{title_query('(nossa OR nuestra) america')}" }.merge(solr_args))
+      it 'nossa OR nuestra america' do
+        resp = solr_resp_ids_titles({ 'q' => "#{title_query('america')} AND #{title_query_or('(nossa OR nuestra)')}" }.merge(solr_args))
         expect(resp).to have_more_results_than(@nossa)
         expect(resp).to have_more_results_than(@nuestra)
         expect(resp).to include('title_245a_display' => /nossa am[eé]rica/i)
         expect(resp).to include('title_245a_display' => /nuestra am[eé]rica/i)
-        # as of 2013-07-25, there are 12 nossa america titles and 391 nuestra america titles
-        expect(resp.size).to be >= 375
-        expect(resp.size).to be <= 500
-      end
-      it 'nuestra OR nossa america', pending: 'fixme' do
-        # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a OR
-        # https://issues.apache.org/jira/browse/SOLR-2649
-        resp = solr_resp_ids_titles({ 'q' => "#{title_query('(nuestra OR nossa) america')}" }.merge(solr_args))
-        expect(resp).to have_more_results_than(@nossa)
-        expect(resp).to have_more_results_than(@nuestra)
-        expect(resp).to include('title_245a_display' => /nossa am[eé]rica/i)
-        expect(resp).to include('title_245a_display' => /nuestra am[eé]rica/i)
-        # as of 2013-07-25, there are 12 nossa america titles and 391 nuestra america titles
+        # as of 2018-08-30, there are 13 nossa america titles and 471 nuestra america titles
         expect(resp.size).to be >= 375
         expect(resp.size).to be <= 500
       end
