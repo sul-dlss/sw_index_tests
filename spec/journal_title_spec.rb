@@ -299,6 +299,10 @@ describe "journal/newspaper titles" do
 
   context "the world" do
     it_behaves_like "great results for format journal", "The world", pending: 'fixme' do
+      # linked 880 for 245 is skewing the results for this search
+      # per some cataloging rule, we have multi-lingual text in both
+      # the 245 and linked 880, hence record with "the world" in both
+      # fields is treated as more relevant and ranked #1 in the results
       journal = ['2131497', # st marks 0043-8154, green
                   '4514062', # fitz-adam, spec
                   '4443623', # south africa, hoover
