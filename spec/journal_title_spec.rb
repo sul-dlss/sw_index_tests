@@ -190,8 +190,7 @@ describe "journal/newspaper titles" do
               '425951', # london, database, green, 0140-0460
               '395098', # malawi
               ]
-      addl = [ '8161078', # marcit, other
-                '8161079', # marcit, other
+      addl = [ '8161079', # marcit, other
                 '8161081', # marcit, other
                 '924097', # past, present, future, book
                 '8403328', # by church, via proquest, book
