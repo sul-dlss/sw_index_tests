@@ -117,7 +117,6 @@ describe 'Subject Search' do
       resp = solr_resp_doc_ids_only(subject_search_args 'world war 1945 dictionaries')
       expect(resp.size).to be >= 150
       expect(resp.size).to be <= 200
-      expect(resp).to include('4148453')
     end
     it 'as phrase' do
       resp = solr_resp_doc_ids_only(subject_search_args '"world war 1945 dictionaries"')
