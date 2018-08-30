@@ -190,8 +190,7 @@ describe "journal/newspaper titles" do
               '425951', # london, database, green, 0140-0460
               '395098', # malawi
               ]
-      addl = [ '8161078', # marcit, other
-                '8161079', # marcit, other
+      addl = [ '8161079', # marcit, other
                 '8161081', # marcit, other
                 '924097', # past, present, future, book
                 '8403328', # by church, via proquest, book
@@ -300,6 +299,10 @@ describe "journal/newspaper titles" do
 
   context "the world" do
     it_behaves_like "great results for format journal", "The world", pending: 'fixme' do
+      # linked 880 for 245 is skewing the results for this search
+      # per some cataloging rule, we have multi-lingual text in both
+      # the 245 and linked 880, hence record with "the world" in both
+      # fields is treated as more relevant and ranked #1 in the results
       journal = ['2131497', # st marks 0043-8154, green
                   '4514062', # fitz-adam, spec
                   '4443623', # south africa, hoover
