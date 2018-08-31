@@ -37,7 +37,10 @@ describe 'Japanese Everything Searches', japanese: true do
   end
 
   context 'Imperial' do
-    it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '帝國', 'modern', '帝国', 1475, 1650, lang_limit
+    # Marked pending as its unclear whether these having different result counts is bad.
+    it '', pending: 'fixme' do
+      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '帝國', 'modern', '帝国', 1475, 1650, lang_limit
+    end
   end
 
   context 'Japan China thought', jira: 'VUF-2737' do
