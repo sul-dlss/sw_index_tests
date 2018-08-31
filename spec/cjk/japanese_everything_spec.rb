@@ -46,7 +46,7 @@ describe 'Japanese Everything Searches', japanese: true do
   context 'Japan China thought', jira: 'VUF-2737' do
     it_behaves_like 'expected result size', 'everything', '日本  中国  思想', 80, 125
     context 'w lang limit' do
-      it_behaves_like 'expected result size', 'everything', '日本  中国  思想', 5, 10, lang_limit
+      it_behaves_like 'expected result size', 'everything', '日本  中国  思想', 30, 60, lang_limit
     end
   end
 
