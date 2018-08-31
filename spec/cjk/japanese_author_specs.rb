@@ -31,10 +31,10 @@ describe "Japanese Author Searches", :japanese => true do
     # FIXME:  second character of traditional doesn't translate to second char of 
     #  modern with ICU traditional->simplified    (see also japanese han variants)
     context "modern" do
-      it_behaves_like "result size and vern person author matches first", 'author', '慈円', 10, 15, /慈円/, 3
+      it_behaves_like "result size and vern person author matches first", 'author', '慈円', 10, 18, /慈円/, 3
     end
     context "traditional" do
-      it_behaves_like "result size and vern person author matches first", 'author', '慈圓', 2, 15, /慈圓/, 1
+      it_behaves_like "result size and vern person author matches first", 'author', '慈圓', 2, 18, /慈圓/, 1
     end
   end
 
