@@ -99,7 +99,7 @@ describe "journal/newspaper titles" do
 
     it "as everything search" do
       resp = solr_resp_ids_from_query 'The Nation'
-      expect(resp).to include(@orig).in_first(4)
+      expect(resp).to include(@orig).in_first(6)
     end
 
     it "as title search" do
@@ -111,15 +111,15 @@ describe "journal/newspaper titles" do
     it "as title search with format journal" do
       resp = solr_resp_ids_titles(title_search_args('The Nation').merge({'fq' => 'format_main_ssim:Journal/Periodical'}))
       expect(resp).to include({'title_245a_display' => /^The Nation$/i}).in_each_of_first(7)
-      expect(resp).to include(@law).in_first(4)
-      expect(resp).to include([@law, @green_current]).in_first(5)
+      expect(resp).to include(@law).in_first(7)
+      expect(resp).to include([@law, @green_current]).in_first(7)
       expect(resp).to include(@orig).in_first(7)
     end
 # -- end OLD tests
 
     it_behaves_like "great results for journal/newspaper", "The Nation" do
       news = [ '8217400', # malawi, green mfilm
-              # '4772643', # malawi, sal (pushed below 20 in everything query)
+              '4772643', # malawi, sal
               '2833546', # liberia, sal newark
               ]
       let(:newspaper_only) { news }
@@ -142,20 +142,20 @@ describe "journal/newspaper titles" do
                   #  6743421  245 a| State of the nation.
                 ]
       let(:journal_only) { journal }
-      format_other = [ '393626', # burma
-                      '385051', # ireland, hoover
+      format_other = ['385051', # ireland, hoover
                       '385052', # hoover
                       '8412029', # fisher, online - galenet
                       # problematic
                       #  9211530   245 a| The Beat (The Nation)
+                      # '393626', # burma - this record just has a title field and ranks lower
                     ]
-      book = ['2613193', # fed doc on floods
-              '10549995', # 1868, online - galenet
+      book = ['2613193' # fed doc on floods
               # Pushed down below 20
               # '7815517', # lingeman  245 |a The Nation : b| guide to the Nation / c| by Richard Lingeman ; introduction by Victor Navasky and Katrina Vanden Heuvel ; original drawings by Ed Koren.
               # '2098094', # mulford
               #'9296914', # mulford, online - galenet
               #'7170814', # mulford, online - galenet
+              # '10549995', # 1868, online - galenet
               ]
       let(:all_formats) { news + journal + format_other + book }
     end
