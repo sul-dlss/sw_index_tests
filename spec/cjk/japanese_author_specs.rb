@@ -59,11 +59,11 @@ describe "Japanese Author Searches", :japanese => true do
     # FIXME:  some characters of traditional doesn't translate to modern with
     #  ICU traditional->simplified    (see also japanese han variants)
     context "modern" do
-      it_behaves_like "expected result size", 'author', '南満州鉄道株式会社', 35, 45
+      it_behaves_like "expected result size", 'author', '南満州鉄道株式会社', 700, 800
     end
     context "traditional" do
       # Han simplified:  南滿洲鐵道株式会社
-      it_behaves_like "result size and vern corp author matches first", 'author', '南滿洲鐵道株式會社', 690, 725, /(南滿洲鐵道株式會社|南滿洲鐵道株式会社)/, 100
+      it_behaves_like "result size and vern corp author matches first", 'author', '南滿洲鐵道株式會社', 725, 775, /(南滿洲鐵道株式會社|南滿洲鐵道株式会社)/, 100
       it_behaves_like "matches in vern corp authors first", 'author', '南滿洲鐵道株式會社', /南滿洲鐵道株式會社/, 6
     end
   end
@@ -73,7 +73,7 @@ describe "Japanese Author Searches", :japanese => true do
   end
   
   context "Takahashi (common personal name)", :jira => 'VUF-2711' do
-    it_behaves_like "result size and vern person author matches first", 'author', '高橋', 1021, 1075, /高橋/, 100
+    it_behaves_like "result size and vern person author matches first", 'author', '高橋', 1200, 1300, /高橋/, 100
   end
 
 end
