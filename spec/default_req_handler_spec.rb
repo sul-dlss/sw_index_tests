@@ -173,7 +173,7 @@ describe 'Default Request Handler' do
   it 'the atomic' do
     resp = solr_resp_ids_titles_from_query 'the atomic'
     expect(resp.size).to be >= 12_000
-    expect(resp).to include('title_245a_display' => /the atomic/i).in_each_of_first(20).documents
+    expect(resp).to include('title_245a_display' => /^(the )?atomic/i).in_each_of_first(20).documents
     # resp.should include('title_245a_display' => /^the atomic/i).in_each_of_first(20).documents  # works with Solr 3.6 dismax
   end
 
