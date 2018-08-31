@@ -39,8 +39,7 @@ describe "Japanese Author Searches", :japanese => true do
   end
 
   context "Keichū (personal name)", :jira => 'VUF-2772' do
-    # FIXME:  we have no translation from hiragana to Kanji.  See japanese_hiragana_han_specs
-    context "hiragana  けいちゅう", pending: 'fixme' do
+    context "hiragana  けいちゅう" do
       it_behaves_like "expected result size", 'author', 'けいちゅう', 0, 5
       it_behaves_like "does not find irrelevant results", 'author', 'けいちゅう', '4227249'
     end
