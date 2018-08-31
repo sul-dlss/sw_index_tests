@@ -50,9 +50,9 @@ describe "Japanese Author Searches", :japanese => true do
   end
 
   context "Kuginuki (personal name): kanji surname  釘貫 (surname of 釘貫亨)" do
-    it_behaves_like "good results for query", 'author', '釘貫', 1, 1, '7926218', 1
-    it_behaves_like "good results for query", 'author', '釘貫亨', 1, 1, '7926218', 1
-    it_behaves_like "good results for query", 'author', ' 釘  貫亨', 1, 1, '7926218', 1
+    it_behaves_like "good results for query", 'author', '釘貫', 1, 3, '7926218', 3
+    it_behaves_like "good results for query", 'author', '釘貫亨', 1, 3, '7926218', 3
+    it_behaves_like "good results for query", 'author', ' 釘  貫亨', 1, 3, '7926218', 3
   end
 
   context "South Manchurian Railroad Company", :jira => ['VUF-2736', 'VUF-2739'] do
