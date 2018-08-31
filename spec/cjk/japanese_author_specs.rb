@@ -9,15 +9,15 @@ describe "Japanese Author Searches", :japanese => true do
     # FIXME:  first character of traditional doesn't translate to first char of 
     #  modern with ICU traditional->simplified    (see also japanese han variants)
     context "traditional 佛教" do
-      it_behaves_like "result size and vern corp author matches first", 'author', '佛教', 90, 125, /佛教/, 7
+      it_behaves_like "result size and vern corp author matches first", 'author', '佛教', 90, 300, /佛教/, 7
       context "w lang limit" do
-        it_behaves_like "result size and vern corp author matches first", 'author', '佛教', 35, 50, /佛教/, 3, lang_limit
+        it_behaves_like "result size and vern corp author matches first", 'author', '佛教', 35, 200, /佛教/, 3, lang_limit
       end
     end
     context "modern 仏教" do
-      it_behaves_like "result size and vern corp author matches first", 'author', '仏教', 80, 90, /仏教/, 2
+      it_behaves_like "result size and vern corp author matches first", 'author', '仏教', 90, 300, /仏教/, 2
       context "w lang limit" do
-        it_behaves_like "result size and vern corp author matches first", 'author', '仏教', 80, 90, /仏教/, 2, lang_limit
+        it_behaves_like "result size and vern corp author matches first", 'author', '仏教', 80, 200, /仏教/, 2, lang_limit
       end
     end
   end
