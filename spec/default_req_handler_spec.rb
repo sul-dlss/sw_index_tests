@@ -225,7 +225,7 @@ describe 'Default Request Handler' do
   it 'the jews of arab lands in modern times' do
     resp = solr_resp_ids_full_titles_from_query 'the jews of arab lands in modern times'
     expect(resp.size).to be <= 100
-    expect(resp).to include('title_full_display' => /the jews of arab lands/i).in_each_of_first(2).documents
+    expect(resp).to include('title_full_display' => /the jews of arab lands/i).in_each_of_first(1).documents
   end
 
   context 'collection records should rank first' do
