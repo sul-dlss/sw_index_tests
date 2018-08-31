@@ -115,8 +115,8 @@ describe 'Default Request Handler' do
   it 'Lectures on the Calculus of Variations and Optimal Control Theory', jira: 'VUF-1995' do
     resp = solr_resp_ids_titles_from_query 'Lectures on the Calculus of Variations and Optimal Control Theory'
     expect(resp).to include('560042').as_first
-    expect(resp).not_to include('title_245a_display' => /Shape optimization and optimal design/i)
-    expect(resp.size).to be <= 350
+    expect(resp).not_to include('title_245a_display' => /Shape optimization and optimal design/i).in_each_of_first(5)
+    expect(resp.size).to be <= 100
   end
 
   it 'death and taxes', jira: 'SW-721' do
