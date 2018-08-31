@@ -5,7 +5,7 @@ describe 'Japanese Everything Searches', japanese: true do
   lang_limit = { 'fq' => ['language:Japanese', 'collection:sirsi'] }
 
   context '1900 (year)', jira: 'VUF-2754' do
-    it_behaves_like 'expected result size', 'everything', '千九百年', 25, 35
+    it_behaves_like 'expected result size', 'everything', '千九百年', 25, 65
     context 'w lang limit' do
       it_behaves_like 'expected result size', 'everything', '千九百年', 2, 8, lang_limit
     end
