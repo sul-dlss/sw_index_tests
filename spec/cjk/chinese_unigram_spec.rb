@@ -3,19 +3,19 @@ require 'spec_helper'
 
 describe 'Chinese Unigrams', chinese: true do
   context 'Gone with the Wind', jira: 'VUF-2789' do
-    it_behaves_like 'result size and vern short title matches first', 'title', '飘', 145, 175, /(飘|飄)/, 2
+    it_behaves_like 'result size and vern short title matches first', 'title', '飘', 130, 160, /(飘|飄)/, 2
     it_behaves_like 'best matches first', 'title', '飘', '6701323', 5 # book
     it_behaves_like 'best matches first', 'title', '飘', '7737681', 5 # video
   end
 
   context 'home' do
-    it_behaves_like 'result size and vern short title matches first', 'title', '家', 19_000, 23_000, /^家[^[[:alnum:]]]*$/, 20
+    it_behaves_like 'result size and vern short title matches first', 'title', '家', 5_000, 6_000, /^家[^[[:alnum:]]]*$/, 20
     it_behaves_like 'best matches first', 'title', '家', '4172748', 12
   end
 
   context 'Zen', jira: 'VUF-2790' do
-    it_behaves_like 'result size and vern short title matches first', 'title', '禪', 925, 1300, /(禪|禅)/, 50
-    it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '禪', 'simplified', '禅', 925, 1300
+    it_behaves_like 'result size and vern short title matches first', 'title', '禪', 600, 800, /(禪|禅)/, 50
+    it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '禪', 'simplified', '禅', 600, 800
     it_behaves_like 'best matches first', 'title', '禪', '6815304', 10
   end
 

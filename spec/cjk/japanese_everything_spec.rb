@@ -7,7 +7,7 @@ describe 'Japanese Everything Searches', japanese: true do
   context '1900 (year)', jira: 'VUF-2754' do
     it_behaves_like 'expected result size', 'everything', '千九百年', 25, 35
     context 'w lang limit' do
-      it_behaves_like 'expected result size', 'everything', '千九百年', 3, 8, lang_limit
+      it_behaves_like 'expected result size', 'everything', '千九百年', 2, 8, lang_limit
     end
   end
 
@@ -41,12 +41,12 @@ describe 'Japanese Everything Searches', japanese: true do
   context 'Japan China thought', jira: 'VUF-2737' do
     it_behaves_like 'expected result size', 'everything', '日本  中国  思想', 80, 125
     context 'w lang limit' do
-      it_behaves_like 'expected result size', 'everything', '日本  中国  思想', 32, 40, lang_limit
+      it_behaves_like 'expected result size', 'everything', '日本  中国  思想', 5, 10, lang_limit
     end
   end
 
   context 'kawaru no ka  変わるのか', jira: 'VUF-2802' do
-    it_behaves_like 'result size and vern title matches first', 'everything', '変わるのか', 40, 50, /変わるのか/, 4
+    it_behaves_like 'result size and vern title matches first', 'everything', '変わるのか', 20, 30, /変わるのか/, 4
   end
 
   context '(local/regional society)', jira: 'VUF-2717' do
@@ -77,7 +77,7 @@ describe 'Japanese Everything Searches', japanese: true do
   context 'manchuria', jira: ['VUF-2712', 'VUF-2713'] do
     # FIXME:  we currently have no katakana <-> han mapping.  (see also japanese_katakana_han_spec)
     context 'katakana', jira: 'VUF-2712' do
-      it_behaves_like 'good results for query', 'everything', ' マンチュリヤ', 2, 5, %w(6326474 10667394), 2
+      it_behaves_like 'good results for query', 'everything', ' マンチュリヤ', 1, 5, %w(6326474 10667394), 2
     end
     context 'kanji', jira: 'VUF-2713' do
       # note: first char is a modern japanese variant
@@ -99,7 +99,7 @@ describe 'Japanese Everything Searches', japanese: true do
   end
 
   context 'seven wonders 七不思議', jira: 'VUF-2710' do
-    it_behaves_like 'result size and vern short title matches first', 'everything', '七不思議', 3, 4, /七不思議/, 1
+    it_behaves_like 'result size and vern short title matches first', 'everything', '七不思議', 2, 4, /七不思議/, 1
   end
 
   context 'seven wonders of sassafras springs  ササフラス・スプリングスの七不思議', jira: 'VUF-2709' do

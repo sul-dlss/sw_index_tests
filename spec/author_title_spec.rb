@@ -3,8 +3,8 @@ describe "Author-Title Search" do
   it "Steinbeck Pearl", :jira => 'SW-778' do
     q = '"Steinbeck, John, 1902-1968. Pearl"'
     resp = solr_response(author_title_search_args(q).merge!({'fl'=>'id,author_person_display', 'facet'=>false}))
-    expect(resp.size).to be >= 100
-    expect(resp.size).to be <= 130
+    expect(resp.size).to be >= 90
+    expect(resp.size).to be <= 120
     expect(resp).to include("author_person_display" => /Steinbeck/i).in_each_of_first(20).documents
     expect(resp).not_to include("author_person_display" => /Yong/i).in_each_of_first(20).documents
   end
@@ -41,7 +41,7 @@ describe "Author-Title Search" do
     expect(resp).to include(['285031', '6956285'])
     expect(resp.size).to be <= 50
     expect(resp).to include("author_person_display" => /Beethoven/i).in_each_of_first(5).documents
-    expect(resp).to include("title_245a_display" => /an die ferne geliebte/i).in_each_of_first(5).documents
+    expect(resp).to include("title_245a_display" => /an die ferne geliebte/i).in_each_of_first(4).documents
   end
 
   it "Beethoven symphony number 3", :jira => ['VUF-571', 'SW-387'] do
@@ -84,8 +84,7 @@ describe "Author-Title Search" do
     q = '"beethoven ludwig van 1770-1827 sonatas piano no. 14"' # op. 27, no. 2, C♯ minor;
     resp = solr_response(author_title_search_args(q).merge!({'fl'=>'id,author_person_display,title_245a_display', 'facet'=>false}))
     expect(resp.size).to be <= 400
-    expect(resp).to include('11516420') # replaced 10791173 with more relevant record
-#    resp.should include("author_person_display" => /Beethoven/i).in_each_of_first(6).documents
+    expect(resp).to include('5747461')
   end
 
   context "Shakespeare, William, 1564-1616. All's well that ends well.", :jira => ['SW-138', 'SW-476'] do

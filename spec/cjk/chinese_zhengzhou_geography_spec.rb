@@ -19,7 +19,7 @@ describe "Chinese: 郑州 (zhengzhou - a place in China)  地理 (geography)", :
   context "title search" do
     shared_examples_for "great title search results for 郑州地理" do
       it "should have an appropriate number of results" do
-        expect(resp.size).to be <= 2
+        expect(resp.size).to be <= 5
       end
     end
 
@@ -77,7 +77,7 @@ describe "Chinese: 郑州 (zhengzhou - a place in China)  地理 (geography)", :
       # 119747:  zhengzhou trad  鄭州  in 245a;  can't find geography
       it "should get a reasonable number of results" do
         expect(resp.size).to be >= 8
-        expect(resp.size).to be <= 20
+        expect(resp.size).to be <= 30
       end
       it "should rank highest the documents with both words in 245a" do
         expect(resp).to include("9612993").as_first.result  # both words in 245a, but separated;  record not in cjk batch
@@ -90,15 +90,11 @@ describe "Chinese: 郑州 (zhengzhou - a place in China)  地理 (geography)", :
         expect(resp).to include("4203541").in_first(10).results  # geography in 245a 490a, 830a;  郑州 (zhengzhou) in 260a
         #  geography in 245a; zhengzhou in 260a
         expect(resp).to include("5809974").in_first(10).results # zhengzhou 260a; geography 245a
-        expect(resp).to include("11980491").in_first(15).results # zhengzhou 260a; geography 520a
+        expect(resp).to include("11980491").in_first(20).results # zhengzhou 260a; geography 520a
         expect(resp).to include("10111516").in_first(15).results # zhengzhou (simp) 260a;  geography 245a
         expect(resp).to include("4197620").in_first(10).results # zhengzhou 260a, geography 245a
         expect(resp).to include("4808042").in_first(10).results # zhengzhou 260a, geography 245a
         expect(resp).to include("6704074").in_first(10).results # zhengzhou 260a, geography 245a
-      end
-      it "should rank less high the documents with both words present but not in 245" do
-        expect(resp).to include("7833848") # zhengzhou 260a, geography 490a
-        expect(resp).to include("5456407") # zhengzhou in 260a,  geography in 260b, 710b
       end
     end
 

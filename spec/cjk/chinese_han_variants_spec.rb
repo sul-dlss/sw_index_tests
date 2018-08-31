@@ -7,17 +7,17 @@ describe 'Chinese Han variants', chinese: true do
     # In the Unicode standard, it is the "without dot" version (U+7DD2) that is linked to the simplified form (U+7EEA). The "with dot" version is not.
     # We have more records with the "with dot" version than the "without dot" version.
     #   added  7DD6 -> 7DD2 mapping
-    it_behaves_like 'both scripts get expected result size', 'everything', 'with dot', '光緖', 'without dot', '光緒', 5500, 6500
-    it_behaves_like 'both scripts get expected result size', 'everything', 'traditional (with dot)', '光緖', 'simplified', '光绪', 5500, 6500
-    it_behaves_like 'both scripts get expected result size', 'everything', 'without dot', '光緒', 'simplified', '光绪', 5500, 6500
+    it_behaves_like 'both scripts get expected result size', 'everything', 'with dot', '光緖', 'without dot', '光緒', 4500, 5500
+    it_behaves_like 'both scripts get expected result size', 'everything', 'traditional (with dot)', '光緖', 'simplified', '光绪', 4500, 5500
+    it_behaves_like 'both scripts get expected result size', 'everything', 'without dot', '光緒', 'simplified', '光绪', 4500, 5500
     context 'with dot U+7DD6  緖' do
-      it_behaves_like 'expected result size', 'everything', '光緖', 5500, 6500
+      it_behaves_like 'expected result size', 'everything', '光緖', 4500, 5500
     end
     context 'without dot U+7DD2 緒' do
-      it_behaves_like 'expected result size', 'everything', '光緒', 5500, 6500
+      it_behaves_like 'expected result size', 'everything', '光緒', 4500, 5500
     end
     context 'simplified U+7EEA 绪' do
-      it_behaves_like 'expected result size', 'everything', '光绪', 5500, 6500
+      it_behaves_like 'expected result size', 'everything', '光绪', 4500, 5500
     end
   end
 
@@ -95,9 +95,9 @@ describe 'Chinese Han variants', chinese: true do
     desired_results = %w(10160893 11458846 9646016)
     qtrad = '嶽州府志'
     qsimp = '岳州府志'
-    it_behaves_like 'both scripts get expected result size', 'title', 'traditional', qtrad, 'simplified', qsimp, 3, 10
-    it_behaves_like 'best matches first', 'title', qtrad, desired_results, 10
-    it_behaves_like 'best matches first', 'title', qsimp, desired_results, 10
+    it_behaves_like 'both scripts get expected result size', 'title', 'traditional', qtrad, 'simplified', qsimp, 3, 15
+    it_behaves_like 'best matches first', 'title', qtrad, desired_results, 15
+    it_behaves_like 'best matches first', 'title', qsimp, desired_results, 15
   end
 
   context 'Minguo shi qi she hui diao cha cong bian' do
@@ -115,7 +115,7 @@ describe 'Chinese Han variants', chinese: true do
   end
 
   context '囯 56EF (variant) => 國 570B (std trad)' do
-    it_behaves_like 'both scripts get expected result size', 'title', 'variant', '国家の', 'std trad', '國家の', 900, 1000
+    it_behaves_like 'both scripts get expected result size', 'title', 'variant', '国家の', 'std trad', '國家の', 800, 900
   end
 
   context '戯 6231 (variant) => 戲 6232 (std trad)' do

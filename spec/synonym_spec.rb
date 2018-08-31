@@ -216,7 +216,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
         expect(resp).to have_fewer_results_than(solr_resp_ids_from_query('f sharp minor'))
       end
 
-      it "f# major results should not include f major", pending: 'fixme' do
+      it "f# major results should not include f major" do
         resp = solr_resp_ids_titles({'q' => 'F# major'})
         expect(resp).not_to include({'title_245a_display' => /F major/i})
       end
@@ -225,11 +225,11 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
         before(:all) do
           no_phrase_resp = solr_resp_ids_titles({'q' => 'F# major'})
         end
-        it "first token in phrase", pending: 'fixme' do
+        it "first token in phrase" do
           resp = solr_resp_ids_titles({'q' => '"F# major"'})
           expect(resp).to include({'title_245a_display' => /(F#|F♯|F\-sharp|F sharp) major/i}).in_each_of_first(10).documents
         end
-        it "first token in phrase with preceding space", pending: 'fixme' do
+        it "first token in phrase with preceding space" do
           resp = solr_resp_ids_titles({'q' => '" F# major"'})
           expect(resp).to include({'title_245a_display' => /(F#|F♯|F\-sharp|F sharp) major/i}).in_each_of_first(10).documents
         end
@@ -350,7 +350,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
           expect(resp.size).to be >= 180
 #          resp.should have_the_same_number_of_results_as(solr_resp_ids_from_query('the great eb'))
         end
-        it "e.b. white" do
+        it "e.b. white", pending: 'fixme' do
           resp = solr_response({'q' => 'e.b. white', 'fl'=>'id,title_display', 'facet'=>false})
           expect(resp).to include("title_display" => /e. ?b. white/i).in_each_of_first(20).documents
           expect(resp.size).to be >= 350

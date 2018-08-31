@@ -4,7 +4,7 @@ require 'spec_helper'
 describe "Chinese Author", :chinese => true do
 
   context "Dong Quai" do
-    it_behaves_like "both scripts get expected result size", 'author', 'traditional', '董橋', 'simplified', '董桥', 43, 50
+    it_behaves_like "both scripts get expected result size", 'author', 'traditional', '董橋', 'simplified', '董桥', 43, 55
     it_behaves_like "matches in vern person authors first", 'author', '董橋', /(董橋|董桥)/, 40
     it_behaves_like "matches in vern person authors first", 'author', '董桥', /(董橋|董桥)/, 40
   end
@@ -28,7 +28,7 @@ describe "Chinese Author", :chinese => true do
   end
 
   context "Liang, Hong", :jira => 'VUF-2688' do
-    it_behaves_like "both scripts get expected result size", 'author', 'traditional', '梁鴻', 'simplified', '梁鸿', 8, 15
+    it_behaves_like "both scripts get expected result size", 'author', 'traditional', '梁鴻', 'simplified', '梁鸿', 8, 25
     it_behaves_like "matches in vern person authors first", 'author', '梁鸿', /(梁鴻|梁鸿)/, 7
     it_behaves_like "matches in vern person authors first", 'author', '梁鸿', /^(梁鴻|梁鸿)[^[[:alpha:]]]*$/, 3
     context "phrase" do

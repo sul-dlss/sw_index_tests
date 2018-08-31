@@ -33,8 +33,8 @@ describe 'Japanese Kanji variants', japanese: true do
       # Second char of traditional doesn't translate to second char of modern with ICU traditional->simplified
       # FIXME:  these do not give the same numbers of results.
       # it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '江戶', 'modern', '江戸', 1900, 2000
-      it_behaves_like 'expected result size', 'everything', '江戶', 2150, 2300  # trad
-      it_behaves_like 'expected result size', 'everything', '江戸', 2150, 2300  # modern
+      it_behaves_like 'expected result size', 'everything', '江戶', 2000, 2100  # trad
+      it_behaves_like 'expected result size', 'everything', '江戸', 2000, 2100  # modern
 
       it_behaves_like 'matches in vern short titles first', 'everything', '江戶', /(江戶|江戸)/, 100  # trad
       it_behaves_like 'matches in vern short titles first', 'everything', '江戸', /(江戶|江戸)/, 100  # modern
@@ -100,7 +100,7 @@ describe 'Japanese Kanji variants', japanese: true do
       it_behaves_like 'matches in vern short titles first', 'everything', '調查', /^(調查|調査)[^[[:alnum:]]]*$/, 1
       it_behaves_like 'matches in vern short titles first', 'everything', '調査', /^(調查|調査)[^[[:alnum:]]]*$/, 1
       context 'w lang limit' do
-        it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', ' 調查', 'modern', '調査', 7500, 8500, lang_limit
+        it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', ' 調查', 'modern', '調査', 7000, 7500, lang_limit
         it_behaves_like 'matches in vern short titles first', 'everything', '調查', /(調查|調査)/, 100, lang_limit # trad
         it_behaves_like 'matches in vern short titles first', 'everything', '調査', /(調查|調査)/, 100, lang_limit # modern
         # exact title match

@@ -41,7 +41,8 @@ describe "Terms with Numbers or other oddities" do
   end
 
   context "ellipses" do
-    it "leading ellipsis should be ignored" do
+    it "leading ellipsis should be ignored", pending: :fixme do
+      # this is an interesting definition of 'ignored'..
       resp = solr_resp_doc_ids_only(title_search_args('...Nature'))
       expect(resp).to include("1361438")
       expect(resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('Nature')))

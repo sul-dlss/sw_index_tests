@@ -41,7 +41,7 @@ describe 'Subject Search' do
       expect(resp.size).to be >= 400
       expect(resp.size).to be <= 600
       expect(resp).not_to include(%w(6064341 8837304 11755085 5793780)).in_first(20).documents
-      expect(resp).to include(%w(9730602 2731118 1710052))
+      expect(resp).to include(%w(2731118 1710052))
     end
     it 'as phrase' do
       resp = solr_resp_doc_ids_only(subject_search_args '"France Social Life and customs 20th century"')
@@ -117,7 +117,6 @@ describe 'Subject Search' do
       resp = solr_resp_doc_ids_only(subject_search_args 'world war 1945 dictionaries')
       expect(resp.size).to be >= 150
       expect(resp.size).to be <= 200
-      expect(resp).to include('4148453')
     end
     it 'as phrase' do
       resp = solr_resp_doc_ids_only(subject_search_args '"world war 1945 dictionaries"')
@@ -137,8 +136,8 @@ describe 'Subject Search' do
     end
     it 'as phrase' do
       resp = solr_response(subject_search_args('"C programming"').merge('fl' => 'id,topic_display', 'facet' => false))
-      expect(resp.size).to be >= 500
-      expect(resp.size).to be <= 1200
+      expect(resp.size).to be >= 450
+      expect(resp.size).to be <= 600
       expect(resp).to include('topic_display' => /C \(?programming/i).in_each_of_first(17).documents
       expect(resp).to include('4617632') # 16th in production as of 2013-07-01
       expect(resp).to have_fewer_results_than(solr_resp_doc_ids_only(subject_search_args 'C programming'))
