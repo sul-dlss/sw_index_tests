@@ -26,7 +26,7 @@ describe "Terms with Numbers or other oddities" do
       expect(resp).to have_the_same_number_of_results_as(solr_resp_ids_from_query '"mark twain pseud"')
     end
 
-    it "not preceded by space as part of a query string should be ignored", pending: 'fixme' do
+    it "not preceded by space as part of a query string should be ignored" do
       resp = solr_resp_ids_from_query 'Alice Wonderland serie[s]'
       expect(resp.size).to be >= 2
       expect(resp).to have_the_same_number_of_results_as(solr_resp_ids_from_query "Alice Wonderland series")
