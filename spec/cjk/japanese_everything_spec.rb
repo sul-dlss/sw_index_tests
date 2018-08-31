@@ -30,8 +30,10 @@ describe 'Japanese Everything Searches', japanese: true do
     it_behaves_like 'matches in vern short titles first', 'everything', '江戶', /^(江戶|江戸)[^[[:alnum:]]]*$/, 2, lang_limit  # trad
     it_behaves_like 'matches in vern short titles first', 'everything', '江戸', /^(江戶|江戸)[^[[:alnum:]]]*$/, 1, lang_limit  # modern
     # starts w
-    it_behaves_like 'matches in vern short titles first', 'everything', '江戶', /^(江戶|江戸)/, 12, lang_limit  # trad
-    it_behaves_like 'matches in vern short titles first', 'everything', '江戸', /^(江戶|江戸)/, 12, lang_limit  # modern
+    it 'starts with string', pending: 'fixme' do
+      it_behaves_like 'matches in vern short titles first', 'everything', '江戶', /^(江戶|江戸)/, 12, lang_limit  # trad
+      it_behaves_like 'matches in vern short titles first', 'everything', '江戸', /^(江戶|江戸)/, 12, lang_limit  # modern
+    end
   end
 
   context 'Imperial' do
