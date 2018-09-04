@@ -39,8 +39,9 @@ describe "Chinese Author", :chinese => true do
   end
 
   context "Liang, Shiqiu" do
+    # doc 7522843 is only picked up with the modern script that matches the metadata
     it_behaves_like "both scripts get expected result size", 'author', 'traditional', '梁實秋', 'simplified', '梁实秋', 75, 90
-    it_behaves_like "matches in vern person authors first", 'author', '梁實秋', /^(梁實秋|梁实秋)[^[[:alpha:]]]*$/, 35
+    it_behaves_like "matches in vern person authors first", 'author', '梁實秋', /^(梁實秋|梁实秋)[^[[:alpha:]]]*$/, 30
   end
 
   context "Shao, Dongfang", :jira => 'SW-207' do
@@ -53,5 +54,4 @@ describe "Chinese Author", :chinese => true do
     it_behaves_like "both scripts get expected result size", 'author', 'traditional', '張愛玲', 'simplified', '张爱玲', 65, 90
     it_behaves_like "matches in vern person authors first", 'author', '張愛玲', /^(張愛玲|张爱玲)[^[[:alpha:]]]*$/, 50
   end
-
 end
