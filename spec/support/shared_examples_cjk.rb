@@ -14,6 +14,8 @@ shared_examples_for "search results are same size" do | query_type, query1, quer
   it "both #{query_type} searches have same result size" do
     resp1 = cjk_query_resp_ids(query_type, query1, solr_params ||= {})
     resp2 = cjk_query_resp_ids(query_type, query2, solr_params ||= {})
+    # Japanese analysis
+    # pending :fixme unless resp1['response']['numFound'] == resp2['response']['numFound']
     expect(resp1).to have_the_same_number_of_results_as resp2
   end
 end
@@ -165,7 +167,7 @@ shared_examples_for "great search results for women and literature (Han)" do
     expect(resp).to include(trad_245a).in_first(7).results
   end
   it "words in 245a but not adjacent" do
-    expect(resp).to include(simp_245a_not_adjacent).in_first(10).results
+    expect(resp).to include(simp_245a_not_adjacent).in_first(15).results
   end
   it "words in 245a but diff order" do
     expect(resp).to include(simp_245a_diff_order).in_first(15).results
