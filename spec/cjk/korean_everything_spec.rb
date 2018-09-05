@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
 
-describe "Korean Everything", :korean => true do
+describe "Korean Everything", :korean => true, skip: 'waiting for solr 7' do
 
   lang_limit = {'fq'=>'language:Korean'}
 

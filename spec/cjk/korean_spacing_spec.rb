@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
 
-describe "Korean spacing", :korean => true do
+describe "Korean spacing", :korean => true, skip: 'waiting for solr 7' do
 
   context "Korea-U.S. alliance relations in the 21st century", :jira => 'VUF-2747' do
     shared_examples_for "good title results for 21세기의  한미동맹관계" do | query |
