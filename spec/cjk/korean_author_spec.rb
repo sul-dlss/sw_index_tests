@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
 
-describe "Korean author", :korean => true do
+describe "Korean author", :korean => true, skip: 'waiting for solr 7' do
 
   context "Ŭn, Hŭi-gyŏng  은희경", :jira => 'VUF-2729' do
     #  "top 15 results are all relevant for searches both with and without whitespace between author’s last and first name."
