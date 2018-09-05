@@ -43,7 +43,7 @@ describe 'Japanese Everything Searches', japanese: true do
     end
   end
 
-  context 'Japan China thought', jira: 'VUF-2737' do
+  context 'Japan China thought', jira: 'VUF-2737', pending: :fixme do
     it_behaves_like 'expected result size', 'everything', '日本  中国  思想', 80, 125
     context 'w lang limit' do
       it_behaves_like 'expected result size', 'everything', '日本  中国  思想', 30, 60, lang_limit
@@ -89,9 +89,9 @@ describe 'Japanese Everything Searches', japanese: true do
     end
     context 'kanji', jira: 'VUF-2713' do
       # note: first char is a modern japanese variant
-      it_behaves_like 'result size and vern short title matches first', 'everything', '満洲', 2000, 3000, /(満|滿|满)(洲|州)/, 100
+      it_behaves_like 'result size and vern short title matches first', 'everything', '満洲', 2000, 3000, /(満|滿|满)(洲|州)/, 20
       context 'w lang limit' do
-        it_behaves_like 'result size and vern short title matches first', 'everything', '満洲', 1775, 2300, /(満|滿|满)(洲|州)/, 100, lang_limit
+        it_behaves_like 'result size and vern short title matches first', 'everything', '満洲', 1775, 2300, /(満|滿|满)(洲|州)/, 20, lang_limit
       end
     end
   end

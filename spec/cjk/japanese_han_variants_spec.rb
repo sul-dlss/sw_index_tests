@@ -11,7 +11,7 @@ describe 'Japanese Kanji variants', japanese: true do
       # second char also has variant:   敎 654E (variant) => 教 6559 (std trad)
       it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '佛教', 'modern', '仏教', 3000, 4000
       it_behaves_like 'matches in vern short titles first', 'everything', '佛教', /(佛|仏)(教|敎)/, 100  # trad
-      it_behaves_like 'matches in vern short titles first', 'everything', '仏教', /(佛|仏)(教|敎)/, 100  # modern
+      it_behaves_like 'matches in vern short titles first', 'everything', '仏教', /(佛|仏)(教|敎)/, 15  # modern
       # exact_245a = %w(6854317 4162614 6276328 10243029 10243045 10243039)
       it_behaves_like 'matches in vern short titles first', 'everything', '仏教', /^(佛|仏)(教|敎)[^[[:alnum:]]]*$/, 3 # exact title match
       it_behaves_like 'matches in vern short titles first', 'title', '仏教', /^(佛|仏)(教|敎).*$/, 7 # title starts w match
@@ -19,7 +19,7 @@ describe 'Japanese Kanji variants', japanese: true do
         # trad
         it_behaves_like 'result size and vern short title matches first', 'everything', '佛教', 1325, 1725, /(佛|仏)(教|敎)/, 100, lang_limit
         # modern
-        it_behaves_like 'result size and vern short title matches first', 'everything', '仏教', 1325, 1725, /(佛|仏)(教|敎)/, 100, lang_limit
+        it_behaves_like 'result size and vern short title matches first', 'everything', '仏教', 1325, 1725, /(佛|仏)(教|敎)/, 15, lang_limit
       end
     end # buddhism
 
@@ -33,8 +33,8 @@ describe 'Japanese Kanji variants', japanese: true do
       # Second char of traditional doesn't translate to second char of modern with ICU traditional->simplified
       # FIXME:  these do not give the same numbers of results.
       # it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '江戶', 'modern', '江戸', 1900, 2000
-      it_behaves_like 'expected result size', 'everything', '江戶', 2000, 2100  # trad
-      it_behaves_like 'expected result size', 'everything', '江戸', 2000, 2100  # modern
+      it_behaves_like 'expected result size', 'everything', '江戶', 2000, 2200  # trad
+      it_behaves_like 'expected result size', 'everything', '江戸', 2000, 2200  # modern
 
       it_behaves_like 'matches in vern short titles first', 'everything', '江戶', /(江戶|江戸)/, 100  # trad
       it_behaves_like 'matches in vern short titles first', 'everything', '江戸', /(江戶|江戸)/, 100  # modern
@@ -42,8 +42,8 @@ describe 'Japanese Kanji variants', japanese: true do
       it_behaves_like 'matches in vern short titles first', 'everything', '江戶', /^(江戶|江戸)[^[[:alnum:]]]*$/, 2  # trad
       it_behaves_like 'matches in vern short titles first', 'everything', '江戸', /^(江戶|江戸)[^[[:alnum:]]]*$/, 1  # modern
       # starts w
-      it_behaves_like 'matches in vern short titles first', 'everything', '江戶', /^(江戶|江戸)/, 12  # trad
-      it_behaves_like 'matches in vern short titles first', 'everything', '江戸', /^(江戶|江戸)/, 12  # modern
+      it_behaves_like 'matches in vern short titles first', 'everything', '江戶', /^(江戶|江戸)/, 7  # trad
+      it_behaves_like 'matches in vern short titles first', 'everything', '江戸', /^(江戶|江戸)/, 7  # modern
     end
 
     context 'Jien (personal name)', jira: 'VUF-2779' do
@@ -101,8 +101,8 @@ describe 'Japanese Kanji variants', japanese: true do
       it_behaves_like 'matches in vern short titles first', 'everything', '調査', /^(調查|調査)[^[[:alnum:]]]*$/, 1
       context 'w lang limit' do
         it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', ' 調查', 'modern', '調査', 7000, 7500, lang_limit
-        it_behaves_like 'matches in vern short titles first', 'everything', '調查', /(調查|調査)/, 100, lang_limit # trad
-        it_behaves_like 'matches in vern short titles first', 'everything', '調査', /(調查|調査)/, 100, lang_limit # modern
+        it_behaves_like 'matches in vern short titles first', 'everything', '調查', /(調查|調査)/, 40, lang_limit # trad
+        it_behaves_like 'matches in vern short titles first', 'everything', '調査', /(調查|調査)/, 50, lang_limit # modern
         # exact title match
         it_behaves_like 'matches in vern short titles first', 'everything', '調查', /^(調查|調査)[^[[:alnum:]]]*$/, 1
         it_behaves_like 'matches in vern short titles first', 'everything', '調査', /^(調查|調査)[^[[:alnum:]]]*$/, 1
@@ -117,8 +117,10 @@ describe 'Japanese Kanji variants', japanese: true do
       it_behaves_like 'both scripts get expected result size', 'author', 'traditional', '南滿洲鐵道株式會社', 'modern', '南満州鉄道株式会社', 600, 750
       it_behaves_like 'expected result size', 'author', '南滿洲鐵道株式會社', 600, 750  # trad
       it_behaves_like 'expected result size', 'author', '南満州鉄道株式会社', 600, 750  # modern
-      it_behaves_like 'matches in vern corp authors first', 'author', '南滿洲鐵道株式會社', /^南(滿|満)(洲|州)(鉄|鐵)道株式(会|會)社[^[[:alnum:]]]*.*$/, 100 # traditional
-      it_behaves_like 'matches in vern corp authors first', 'author', '南満州鉄道株式会社', /^南(滿|満)(洲|州)(鉄|鐵)道株式(会|會)社[^[[:alnum:]]]*.*$/, 100 # modern
+      context '', pending: :fixme do
+        it_behaves_like 'matches in vern corp authors first', 'author', '南滿洲鐵道株式會社', /^南(滿|満)(洲|州)(鉄|鐵)道株式(会|會)社[^[[:alnum:]]]*.*$/, 100 # traditional
+        it_behaves_like 'matches in vern corp authors first', 'author', '南満州鉄道株式会社', /^南(滿|満)(洲|州)(鉄|鐵)道株式(会|會)社[^[[:alnum:]]]*.*$/, 100 # modern
+      end
     end
 
     context 'tale', jira: ['VUF-2742', 'VUF-2740'] do
@@ -138,7 +140,8 @@ describe 'Japanese Kanji variants', japanese: true do
       it_behaves_like 'matches in vern titles first', 'title', '天氣', /天(氣|気|气)/, 11 # trad
     end
 
-    context 'weekly' do
+    # TODO: this is a bigram that's also used as the suffix for various publications (treated as a unified N-gram)
+    context 'weekly', skip: :fixme do
       # 2nd trad char isn't translated to modern by ICU - these should be equivalent
       #  modern 刊 520A => trad 刋 520B
       # (see also japanese title)
