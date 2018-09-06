@@ -115,8 +115,8 @@ describe 'Default Request Handler' do
   it 'Lectures on the Calculus of Variations and Optimal Control Theory', jira: 'VUF-1995' do
     resp = solr_resp_ids_titles_from_query 'Lectures on the Calculus of Variations and Optimal Control Theory'
     expect(resp).to include('560042').as_first
-    expect(resp).not_to include('title_245a_display' => /Shape optimization and optimal design/i)
-    expect(resp.size).to be <= 350
+    expect(resp).not_to include('title_245a_display' => /Shape optimization and optimal design/i).in_each_of_first(5)
+    expect(resp.size).to be <= 100
   end
 
   it 'death and taxes', jira: 'SW-721' do
@@ -173,7 +173,7 @@ describe 'Default Request Handler' do
   it 'the atomic' do
     resp = solr_resp_ids_titles_from_query 'the atomic'
     expect(resp.size).to be >= 12_000
-    expect(resp).to include('title_245a_display' => /the atomic/i).in_each_of_first(20).documents
+    expect(resp).to include('title_245a_display' => /^(the )?atomic/i).in_each_of_first(20).documents
     # resp.should include('title_245a_display' => /^the atomic/i).in_each_of_first(20).documents  # works with Solr 3.6 dismax
   end
 
@@ -225,7 +225,7 @@ describe 'Default Request Handler' do
   it 'the jews of arab lands in modern times' do
     resp = solr_resp_ids_full_titles_from_query 'the jews of arab lands in modern times'
     expect(resp.size).to be <= 100
-    expect(resp).to include('title_full_display' => /the jews of arab lands/i).in_each_of_first(2).documents
+    expect(resp).to include('title_full_display' => /the jews of arab lands/i).in_each_of_first(1).documents
   end
 
   context 'collection records should rank first' do

@@ -46,7 +46,7 @@ describe 'Chinese Han variants', chinese: true do
     #   correct mapping of 緖 784F (variant) => 研 7814 (std trad, also simp)
     shared_examples_for 'great matches for history research' do |query_type, query|
       it_behaves_like 'best matches first', query_type, query, %w(6433575 9336336), 2
-      it_behaves_like 'matches in vern short titles first', query_type, query, /^歷史(硏|研)究$/, 2
+      it_behaves_like 'matches in vern short titles first', query_type, query, /^歷史\s*(硏|研)究$/, 2
     end
     context 'no spaces' do
       it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '歷史研究', 'simplified', '历史研究', 750, 1900
@@ -55,11 +55,12 @@ describe 'Chinese Han variants', chinese: true do
     end
     context 'with space' do
       it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '歷史 研究', 'simplified', '历史 研究', 2000, 2500
-      it_behaves_like 'best matches first', 'title', '歷史 研究', %w(6433575 9336336), 3
-      it_behaves_like 'best matches first', 'title', '历史 研究', %w(6433575 9336336), 3
+
+      it_behaves_like 'best matches first', 'title', '歷史 研究', %w(6433575 9336336), 10
+      it_behaves_like 'best matches first', 'title', '历史 研究', %w(6433575 9336336), 10
     end
     context 'as phrase' do
-      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '"歷史研究"', 'simplified', '"历史研究"', 300, 400
+      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '"歷史研究"', 'simplified', '"历史研究"', 275, 400
       it_behaves_like 'great matches for history research', 'title', '"歷史研究"'
       it_behaves_like 'great matches for history research', 'title', '"历史研究"'
     end
@@ -114,8 +115,9 @@ describe 'Chinese Han variants', chinese: true do
     it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '富嶽', 'simplified', '富岳', 3, 10
   end
 
-  context '囯 56EF (variant) => 國 570B (std trad)' do
-    it_behaves_like 'both scripts get expected result size', 'title', 'variant', '国家の', 'std trad', '國家の', 800, 900
+  context '囯 56EF (variant) => 國 570B (std trad)', skip: :fixme do
+    # TODO: these return different results because the text_ja analysis doesn't simplify chinese characters
+    it_behaves_like 'both scripts get expected result size', 'title', 'variant', '国家の', 'std trad', '國家の', 1400, 2200
   end
 
   context '戯 6231 (variant) => 戲 6232 (std trad)' do
