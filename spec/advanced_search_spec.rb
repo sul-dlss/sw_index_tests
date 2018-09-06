@@ -76,8 +76,8 @@ describe 'advanced search' do
       it 'keyword' do
         resp = solr_resp_doc_ids_only({ 'q' => 'IEEE xplore' }.merge(solr_args))
         expect(resp).to have_the_same_number_of_results_as(solr_resp_ids_from_query('IEEE Xplore'))
-        expect(resp.size).to be >= 13_500
-        expect(resp.size).to be <= 14_700
+        expect(resp.size).to be >= 14_500
+        expect(resp.size).to be <= 15_700
         expect(resp).to have_fewer_results_than(solr_resp_doc_ids_only({ 'q' => 'IEEE OR xplore' }.merge(solr_args)))
       end
       it 'subject NOT congresses and keyword' do
