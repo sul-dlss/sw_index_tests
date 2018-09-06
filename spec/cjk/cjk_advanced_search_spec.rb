@@ -81,42 +81,6 @@ describe 'CJK Advanced Search' do
     end
   end # Publication Info
 
-  # summary/ToC is no more - see INDEX-111;  this is left here for historical purposes
-  context 'Summary/ToC', pending: 'fixme' do
-    context 'ToC: Haiku futabashū  俳句二葉集' do
-      before(:all) do
-        @resp = cjk_adv_solr_resp({ 'q' => "#{cjk_summary_query('俳句二葉集')}" }.merge(solr_args))
-      end
-      it 'num expected' do
-        # there is only 1 exact match as of 2013-10-25; these are the only ones found w/o cjk search fields
-        expect(@resp.size).to be >= 1
-        expect(@resp.size).to be <= 5 # 3 match everything search
-      end
-      it 'whitespace exact matches first' do
-        exact_matches = ['6626123']
-        expect(@resp).to include(exact_matches).in_first(exact_matches.size).documents
-      end
-      it 'matches without spaces present' do
-        no_space_exact_matches = %w(6305856 6626759)
-        expect(@resp).to include(no_space_exact_matches).in_first(5).documents
-      end
-    end
-    context 'Ningxia Border Region  陝甘寧邊區' do
-      before(:all) do
-        @resp = cjk_adv_solr_resp({ 'q' => "#{cjk_summary_query('陝甘寧邊區')}" }.merge(solr_args))
-      end
-      no_space_exact_matches = %w(6326387 6328507 8795876 9134891 6514338 6723694 6723782 6298281)
-      it 'num expected' do
-        # there are 0 exact matches as of 2013-10-29; these are the only ones found w/o cjk search fields
-        expect(@resp.size).to be >= no_space_exact_matches.size
-        expect(@resp.size).to be <= 20 # 180 match everything search
-      end
-      it 'matches without spaces present' do
-        expect(@resp).to include(no_space_exact_matches).in_first(10).documents
-      end
-    end
-  end
-
   context 'Description (catchall only)' do
     it 'Ningxia Border Region ( 陝甘寧邊區) num expected' do
       resp = cjk_adv_solr_resp({ 'q' => "#{cjk_everything_query('陝甘寧邊區')}" }.merge(solr_args))
