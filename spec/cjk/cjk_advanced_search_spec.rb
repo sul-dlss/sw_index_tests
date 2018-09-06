@@ -32,9 +32,7 @@ describe 'CJK Advanced Search' do
       before(:all) do
         @resp = cjk_adv_solr_resp({ 'q' => "#{cjk_pub_info_query('ミネルヴァ 書房')}" }.merge(solr_args))
       end
-      it 'num expected', pending: 'fixme' do
-        # Marking pending as Solr 6.x needs an implementation of a Katakana stemmer. Stemming is
-        # not happening for `katakana kanji` query, but without the space it is.
+      it 'num expected' do
         # there are only 6 exact matches as of 2013-10-25; these are the only ones found w/o cjk search fields
         expect(@resp.size).to be >= 800
         everything_num = cjk_query_resp_ids('everything', 'ミネルヴァ 書房').size
