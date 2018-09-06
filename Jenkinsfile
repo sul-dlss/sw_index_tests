@@ -22,7 +22,7 @@ pipeline {
       steps {
         sh '''#!/bin/bash -l
         rvm use 2.4.4@sw_index_tests
-        bundle exec rake URL=https://sul-solr.stanford.edu/solr/searchworks-dev/
+        bundle exec rake URL=https://sul-solr.stanford.edu/solr/searchworks-prod/
         '''
       }
     }
