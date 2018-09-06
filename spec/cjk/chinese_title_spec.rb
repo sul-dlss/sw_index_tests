@@ -326,8 +326,8 @@ describe "Chinese Title", :chinese => true do
       end
       it "ranks higher docs with one word in 245a and the other in 245b" do
         #  9229845 - woman 245ab, 246a; marriage 245a
-        expect(trad_resp).to  include("9229845").in_first(6).results
-        expect(simp_resp).to  include("9229845").in_first(6).results
+        expect(trad_resp).to  include("9229845").in_first(7).results
+        expect(simp_resp).to  include("9229845").in_first(7).results
       end
       it "includes additional relevant docs" do
         # 9956874 has 'marriage law' as a trigram
