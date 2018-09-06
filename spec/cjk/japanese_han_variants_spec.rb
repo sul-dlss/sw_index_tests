@@ -101,7 +101,7 @@ describe 'Japanese Kanji variants', japanese: true do
       it_behaves_like 'matches in vern short titles first', 'everything', '調査', /^(調查|調査)[^[[:alnum:]]]*$/, 1
       context 'w lang limit' do
         it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', ' 調查', 'modern', '調査', 7000, 7500, lang_limit
-        it_behaves_like 'matches in vern short titles first', 'everything', '調查', /(調查|調査)/, 40, lang_limit # trad
+        it_behaves_like 'matches in vern short titles first', 'everything', '調查', /(調查|調査)/, 35, lang_limit # trad
         it_behaves_like 'matches in vern short titles first', 'everything', '調査', /(調查|調査)/, 50, lang_limit # modern
         # exact title match
         it_behaves_like 'matches in vern short titles first', 'everything', '調查', /^(調查|調査)[^[[:alnum:]]]*$/, 1

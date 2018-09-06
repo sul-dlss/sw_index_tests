@@ -51,7 +51,7 @@ describe 'Japanese Everything Searches', japanese: true do
   end
 
   context 'kawaru no ka  変わるのか', jira: 'VUF-2802' do
-    it_behaves_like 'result size and vern title matches first', 'everything', '変わるのか', 25, 35, /変わるのか/, 4
+    it_behaves_like 'result size and vern title matches first', 'everything', '変わるのか', 20, 35, /変わるのか/, 4
   end
 
   context '(local/regional society)', jira: 'VUF-2717' do

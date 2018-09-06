@@ -51,9 +51,7 @@ describe 'Japanese Title searches', japanese: true do
   context "'hiragana'  ひらがな", jira: 'VUF-2693' do
     it_behaves_like 'expected result size', 'title', 'ひらがな', 4, 15
     # new record 12320088 has ひらがな in 245a and pushes record 4217219 down results ranking
-    context 'the new relevancy doesnt seem as good due to stemming.', pending: :fixme do
-      it_behaves_like 'best matches first', 'title', 'ひらがな', %w(4217219 12142832), 5 # 4217219 in 245b and 12142832 in 245a
-    end
+    it_behaves_like 'best matches first', 'title', 'ひらがな', %w(4217219 12142832), 5 # 4217219 in 245b and 12142832 in 245a
   end
   context 'historical records' do
     it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '古記錄', 'modern', '古記録', 120, 200
@@ -139,7 +137,7 @@ describe 'Japanese Title searches', japanese: true do
     it_behaves_like 'matches in vern short titles first', 'title', '調査', /^(調查|調査)[^[[:alnum:]]]*$/, 1 # mod
     context 'w lang limit' do
       it_behaves_like 'both scripts get expected result size', 'title', 'traditional', ' 調查', 'modern', '調査', 4000, 4200, lang_limit
-      it_behaves_like 'matches in vern short titles first', 'title', '調查', /(調查|調査)/, 40, lang_limit # trad
+      it_behaves_like 'matches in vern short titles first', 'title', '調查', /(調查|調査)/, 35, lang_limit # trad
       it_behaves_like 'matches in vern short titles first', 'title', '調査', /(調查|調査)/, 50, lang_limit # modern
       # exact title match
       it_behaves_like 'matches in vern short titles first', 'title', '調查', /^(調查|調査)[^[[:alnum:]]]*$/, 1
@@ -150,7 +148,7 @@ describe 'Japanese Title searches', japanese: true do
     # (see also japanese hiragana - han spec)
     context 'hiragana', jira: ['VUF-2705', 'VUF-2743'] do
       it_behaves_like 'expected result size', 'title', 'ものがたり', 70, 100
-      it_behaves_like 'matches in vern short titles first', 'title', 'ものがたり', /ものがたり/, 20
+      it_behaves_like 'matches in vern short titles first', 'title', 'ものがたり', /ものがたり/, 6
     end
     context 'kanji', jira: ['VUF-2705', 'VUF-2742', 'VUF-2740'] do
       # Japanese do not use 语 (2nd char as simplified chinese) but rather 語 (trad char)
