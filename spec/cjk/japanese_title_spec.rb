@@ -85,7 +85,7 @@ describe 'Japanese Title searches', japanese: true do
     it_behaves_like 'matches in vern short titles first', 'title', 'まんが', /まんが|マンガ/, 100
     it_behaves_like 'matches in vern titles', 'title', 'まんが', /まんが/, 20 # hiragana script is in results
     it_behaves_like 'matches in vern titles', 'title', 'マンガ', /マンガ/, 20 # katagana script is in results
-    it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '漫畫', 'modern', ' 漫画', 275, 525
+    it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '漫畫', 'modern', ' 漫画', 475, 600
     it_behaves_like 'matches in vern short titles first', 'title', '漫画', /漫画|漫畫/, 50
     it_behaves_like 'matches in vern titles', 'title', '漫画', /漫画/, 20 # modern script is in results
     it_behaves_like 'matches in vern titles', 'title', '漫畫', /漫畫/, 20 # traditional script is in results

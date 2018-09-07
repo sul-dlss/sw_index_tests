@@ -112,7 +112,7 @@ describe 'Chinese Han variants', chinese: true do
   end
 
   context '嶽 5DBD (std trad) => 岳 5CB3 (simp)' do
-    it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '富嶽', 'simplified', '富岳', 3, 10
+    it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '富嶽', 'simplified', '富岳', 3, 15
   end
 
   context '囯 56EF (variant) => 國 570B (std trad)', skip: :fixme do

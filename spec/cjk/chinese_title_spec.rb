@@ -126,12 +126,12 @@ describe "Chinese Title", :chinese => true do
       it_behaves_like "matches in vern short titles first", 'title', query, /^全宋(筆|笔)(記|记)[^[[:alpha:]]]*$/, 5
     end
     context "no spaces" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '全宋笔记', 'simplified', '全宋筆記', 8, 10
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '全宋笔记', 'simplified', '全宋筆記', 8, 15
       it_behaves_like "great results for Quan Song bi ji", '全宋笔记'
       it_behaves_like "great results for Quan Song bi ji", '全宋筆記'
     end
     context "middle space" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '全宋 笔记', 'simplified', '全宋 筆記', 8, 10
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '全宋 笔记', 'simplified', '全宋 筆記', 8, 15
       it_behaves_like "great results for Quan Song bi ji", '全宋 笔记'
       it_behaves_like "great results for Quan Song bi ji", '全宋 筆記'
     end
@@ -351,7 +351,7 @@ describe "Chinese Title", :chinese => true do
     context "with spaces" do
       let(:trad_resp) { cjk_query_resp_ids('title', '婦女 與 婚姻') }
       let(:simp_resp) { cjk_query_resp_ids('title', '妇女 与 婚姻') }
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '婦女 與 婚姻', 'simplified', '妇女 与 婚姻', 7, 11
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '婦女 與 婚姻', 'simplified', '妇女 与 婚姻', 7, 15
       it_behaves_like "great results for women marriage" do
         let (:resp) { trad_resp }
       end
