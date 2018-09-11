@@ -11,7 +11,7 @@ describe 'Chinese Unigrams', chinese: true do
   context 'home' do
     # TODO: revisit this range after we switch indexes
     it_behaves_like 'result size and vern short title matches first', 'title', '家', 5_000, 23_000, /^家[^[[:alnum:]]]*$/, 20
-    it_behaves_like 'best matches first', 'title', '家', '4172748', 12
+    it_behaves_like 'best matches first', 'title', '家', '4172748', 15
   end
 
   context 'Zen', jira: 'VUF-2790' do
