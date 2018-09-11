@@ -88,7 +88,7 @@ describe "Korean author", :korean => true, skip: 'waiting for solr 7' do
       #  7142656:   김영우 (different last name), and the character "한" appears in the "contributor" field, "한국 교육사 학회."
       it_behaves_like 'does not find irrelevant results', 'author', query, '7142656', 'rows' => 30
       it "author matches regex" do
-        resp = solr_response({'q'=>cjk_q_arg('author', query), 'fl'=>'id,vern_author_person_display', 'facet'=>false, 'rows' => 30})
+        resp = solr_response(cjk_query_args('author', query).merge({'fl'=>'id,vern_author_person_display', 'facet'=>false, 'rows' => 30}))
         expect(resp).to include({'vern_author_person_display' => /한[[:space:]]*영우/}).in_each_of_first(25)
       end
     end

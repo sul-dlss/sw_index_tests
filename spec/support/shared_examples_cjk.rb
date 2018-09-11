@@ -50,7 +50,7 @@ shared_examples_for "matches in vern short titles first" do | query_type, query,
   it "finds #{regex} in first #{num} vern short titles" do
     solr_params ||= {}
     solr_params.merge!('rows'=>num) if num > 20
-    resp = solr_response({'q' => cjk_q_arg(query_type, query), 'fl'=>'id,vern_title_245a_display', 'facet'=>false}.merge(solr_params))
+    resp = solr_response(cjk_query_args(query_type, query).merge({'fl'=>'id,vern_title_245a_display', 'facet'=>false}.merge(solr_params)))
     expect(resp).to include({'vern_title_245a_display' => regex}).in_each_of_first(num)
   end
 end
@@ -63,7 +63,7 @@ shared_examples_for "matches in vern titles first" do | query_type, query, regex
   it "finds #{regex} in first #{num} vern titles" do
     solr_params ||= {}
     solr_params.merge!('rows'=>num) if num > 20
-    resp = solr_response({'q' => cjk_q_arg(query_type, query), 'fl'=>'id,vern_title_full_display', 'facet'=>false}.merge(solr_params))
+    resp = solr_response(cjk_query_args(query_type, query).merge({'fl'=>'id,vern_title_full_display', 'facet'=>false}.merge(solr_params)))
     expect(resp).to include({'vern_title_full_display' => regex}).in_each_of_first(num)
   end
 end
@@ -76,7 +76,7 @@ shared_examples_for "matches in vern titles" do | query_type, query, regex, num,
   it "finds #{regex} in vern titles" do
     solr_params ||= {}
     solr_params.merge!('rows'=>num) if num > 20
-    resp = solr_response({'q' => cjk_q_arg(query_type, query), 'fl'=>'id,vern_title_full_display', 'facet'=>false}.merge(solr_params))
+    resp = solr_response(cjk_query_args(query_type, query).merge({'fl'=>'id,vern_title_full_display', 'facet'=>false}.merge(solr_params)))
     expect(resp).to include({'vern_title_full_display' => regex})
   end
 end
@@ -85,7 +85,7 @@ shared_examples_for "matches in vern person authors first" do | query_type, quer
   it "finds #{regex} in first #{num} vern person authors" do
     solr_params ||= {}
     solr_params.merge!('rows'=>num) if num > 20
-    resp = solr_response({'q' => cjk_q_arg(query_type, query), 'fl'=>'id,vern_author_person_display', 'facet'=>false}.merge(solr_params))
+    resp = solr_response(cjk_query_args(query_type, query).merge({'fl'=>'id,vern_author_person_display', 'facet'=>false}.merge(solr_params)))
     expect(resp).to include({'vern_author_person_display' => regex}).in_each_of_first(num)
   end
 end
@@ -98,7 +98,7 @@ shared_examples_for "matches in vern corp authors first" do | query_type, query,
   it "finds #{regex} in first #{num} vern corp authors" do
     solr_params ||= {}
     solr_params.merge!('rows'=>num) if num > 20
-    resp = solr_response({'q' => cjk_q_arg(query_type, query), 'fl'=>'id,vern_author_corp_display', 'facet'=>false}.merge(solr_params))
+    resp = solr_response(cjk_query_args(query_type, query).merge({'fl'=>'id,vern_author_corp_display', 'facet'=>false}.merge(solr_params)))
     expect(resp).to include({'vern_author_corp_display' => regex}).in_each_of_first(num)
   end
 end

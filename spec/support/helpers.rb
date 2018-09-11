@@ -45,38 +45,38 @@ module Helpers
   end
 
   def author_search_args(query_str)
-    {'q'=>"{!qf=$qf_author pf=$pf_author pf3=$pf3_author pf2=$pf2_author}#{query_str}", 'qt'=>'search'}
+    {'q'=>query_str, 'qt'=>'search', 'qf' => '${qf_author}', 'pf' => '${pf_author}', 'pf3' => '${pf3_author}', 'pf2' => '${pf2_author}'}
   end
   def title_search_args(query_str)
-    {'q'=>"{!qf=$qf_title pf=$pf_title pf3=$pf3_title pf2=$pf2_title}#{query_str}", 'qt'=>'search'}
+    {'q'=>query_str, 'qt'=>'search', 'qf' => '${qf_title}', 'pf' => '${pf_title}', 'pf3' => '${pf3_title}', 'pf2' => '${pf2_title}'}
   end
   def subject_search_args(query_str)
-    {'q'=>"{!qf=$qf_subject pf=$pf_subject pf3=$pf3_subject pf2=$pf2_subject}#{query_str}", 'qt'=>'search'}
+    {'q'=>query_str, 'qt'=>'search', 'qf' => '${qf_subject}', 'pf' => '${pf_subject}', 'pf3' => '${pf3_subject}', 'pf2' => '${pf2_subject}'}
   end
   def series_search_args(query_str)
-    {'q'=>"{!qf=$qf_series pf=$pf_series pf3=$pf3_series pf2=$pf2_series}#{query_str}", 'qt'=>'search'}
+    {'q'=>query_str, 'qt'=>'search', 'qf' => '${qf_series}', 'pf' => '${pf_series}', 'pf3' => '${pf3_series}', 'pf2' => '${pf2_series}'}
   end
   def callnum_search_args(query_str)
     {'q'=>"#{query_str}", 'defType'=>'lucene', 'df'=>'callnum_search', 'qt'=>'search'}
   end
   def author_title_search_args(query_str)
-    {'q'=>"{!qf=author_title_search pf='author_title_search^10' pf3='author_title_search^5' pf2='author_title_search^2'}#{query_str}", 'qt'=>'search'}
+    {'q'=>query_str, 'qt'=>'search', 'qf' => 'author_title_search', 'pf' => 'author_title_search^10', 'pf3' => 'author_title_search^5',  'pf2' => 'author_title_search^2'}
   end
 
-  def cjk_everything_q_arg(query_str)
-    "{!qf=$qf_cjk pf=$pf_cjk pf3=$pf3_cjk pf2=$pf2_cjk}#{query_str}"
+  def cjk_everything_q_args(query_str)
+    { 'q' => query_str, 'qf' => '${qf_cjk}', 'pf' => '${pf_cjk}', 'pf3' => '${pf3_cjk}', 'pf2' => '${pf2_cjk}' }
   end
-  def cjk_author_q_arg(query_str)
-    "{!qf=$qf_author_cjk pf=$pf_author_cjk pf3=$pf3_author_cjk pf2=$pf2_author_cjk}#{query_str}"
+  def cjk_author_q_args(query_str)
+    { 'q' => query_str, 'qf' => '${qf_author_cjk}', 'pf' => '${pf_author_cjk}', 'pf3' => '${pf3_author_cjk}', 'pf2' => '${pf2_author_cjk}' }
   end
-  def cjk_title_q_arg(query_str)
-    "{!qf=$qf_title_cjk pf=$pf_title_cjk pf3=$pf3_title_cjk pf2=$pf2_title_cjk}#{query_str}"
+  def cjk_title_q_args(query_str)
+    { 'q' => query_str, 'qf' => '${qf_title_cjk}', 'pf' => '${pf_title_cjk}', 'pf3' => '${pf3_title_cjk}', 'pf2' => '${pf2_title_cjk}' }
   end
-  def cjk_subject_q_arg(query_str)
-    "{!qf=$qf_subject_cjk pf=$pf_subject_cjk pf3=$pf3_subject_cjk pf2=$pf2_subject_cjk}#{query_str}"
+  def cjk_subject_q_args(query_str)
+    { 'q' => query_str, 'qf' => '${qf_subject_cjk}', 'pf' => '${pf_subject_cjk}', 'pf3' => '${pf3_subject_cjk}', 'pf2' => '${pf2_subject_cjk}' }
   end
-  def cjk_series_q_arg(query_str)
-    "{!qf=$qf_series_cjk pf=$pf_series_cjk pf3=$pf3_series_cjk pf2=$pf2_series_cjk}#{query_str}"
+  def cjk_series_q_args(query_str)
+    { 'q' => query_str, 'qf' => '${qf_series_cjk}', 'pf' => '${pf_series_cjk}', 'pf3' => '${pf3_series_cjk}', 'pf2' => '${pf2_series_cjk}' }
   end
 
   # return the number of CJK unigrams in the str
@@ -131,24 +131,24 @@ module Helpers
   # @param solr_params [Hash<String>,<String>] any additional parameters to send to Solr
   # @return [RSpecSolr::SolrResponseHash] object based on the query type and the query
   def cjk_query_resp_ids(query_type, query, solr_params = {})
-    solr_resp_doc_ids_only({'q'=>cjk_q_arg(query_type, query)}.merge(solr_params))
+    solr_resp_doc_ids_only(cjk_query_args(query_type, query).merge(solr_params))
   end
 
   # @param query_type [String] the type of query:  title, author, ...
   # @param query [String] the query string to be used against cjk-expecting qf, pf, pf3, pf2 args
   # @return [String] the value of the q arg (including all Solr local params) for a CJK query, based on the query_type
-  def cjk_q_arg(query_type, query)
+  def cjk_query_args(query_type, query)
     case query_type
       when 'author'
-        cjk_author_q_arg(query)
+        cjk_author_q_args(query)
       when 'subject'
-        cjk_subject_q_arg(query)
+        cjk_subject_q_args(query)
       when 'series'
-        cjk_series_q_arg(query)
+        cjk_series_q_args(query)
       when 'title'
-        cjk_title_q_arg(query)
+        cjk_title_q_args(query)
       else
-        cjk_everything_q_arg(query)
+        cjk_everything_q_args(query)
     end
   end
 
@@ -163,25 +163,18 @@ module Helpers
     if num_cjk_uni(q_val) == 0
       RSpecSolr::SolrResponseHash.new(solr_conn.send_and_receive(req_handler, {:method => :get, :params => solr_params.merge("testing"=>"sw_index_test")}))
     else
-      # we have CJK - separate user query string out from local params
-      if q_val =~ /\{(.*)\}(.*)/
-        qf_pf_args = $1
-        q_val = $2
-        # use CJK local params
-        if qf_pf_args && q_val
-          case qf_pf_args
-            when /qf_author/
-              solr_params['q'] = cjk_author_q_arg q_val
-            when /qf_title/
-              solr_params['q'] = cjk_title_q_arg q_val
-            when /qf_subject/
-              solr_params['q'] = cjk_subject_q_arg q_val
-            when /qf_series/
-              solr_params['q'] = cjk_series_q_arg q_val
-          end
-        end
+      # use CJK fielded search params
+      case solr_params['qf']
+      when /qf_author/
+        solr_params.merge! cjk_author_q_args(q_val)
+      when /qf_title/
+        solr_params.merge! cjk_title_q_args(q_val)
+      when /qf_subject/
+        solr_params.merge! cjk_subject_q_args(q_val)
+      when /qf_series/
+        solr_params.merge! cjk_series_q_args(q_val)
       else
-        solr_params['q'] = cjk_everything_q_arg q_val
+        solr_params.merge! cjk_everything_q_args(q_val)
       end
       RSpecSolr::SolrResponseHash.new(
                       solr_conn.send_and_receive(req_handler, {:method => :get,

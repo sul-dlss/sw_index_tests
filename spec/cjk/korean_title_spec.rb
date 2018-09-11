@@ -57,7 +57,7 @@ describe "Korean Titles", :korean => true, skip: 'waiting for solr 7' do
   context "Hangul: Korean modern history", :jira => 'VUF-2722' do
     shared_examples_for "good title results for 한국 근대사" do | query |
       it "titles match regex" do
-        resp = solr_response({'q'=>cjk_q_arg('title', query), 'fl'=>'id,vern_title_display', 'facet'=>false} )
+        resp = solr_response(cjk_query_args('title', query).merge({'fl'=>'id,vern_title_display', 'facet'=>false}))
         expect(resp).to include({'vern_title_display' => /한국[[:space:]]*근대[[:space:]]*사/i}).in_each_of_first(20)
       end
       # 세계 속 한국 근대사 (Korean modern history in the world)
