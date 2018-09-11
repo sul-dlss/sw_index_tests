@@ -54,11 +54,6 @@ describe "facet values and queries" do
       expect(resp).not_to have_facet_field('topic_facet').with_value("Fulltext")
     end
 
-    it "facets for Jane Austen Everything Search with author facet should have Videos", :jira => 'VUF-255' do
-      resp = solr_response({'q'=>'jane austen', 'fq'=>'author_person_facet:"Austen, Jane, 1775-1817"', 'fl' => 'id', 'facet.field'=>'format'})
-      expect(resp).to have_facet_field('format').with_value("Video")
-    end
-
     it "author_person_facet should include 700 fields" do
       resp = solr_response({'q'=>'"decentralization and school improvement"', 'fl' => 'id', 'facet.field' => 'author_person_facet'})
       expect(resp).to have_facet_field('author_person_facet').with_value("Carnoy, Martin")

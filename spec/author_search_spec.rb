@@ -43,12 +43,6 @@ describe "Author Search" do
     expect(resp.size).to be >= 8
   end
 
-  it "added authors (700 fields) : author search for jane austen should get video results", :jira => 'VUF-255' do
-    resp = solr_response(author_search_args('jane austen').merge({'fl'=>'id,format,author_person_display', 'facet.field'=>'format'}))
-    expect(resp.size).to be >= 275
-    expect(resp).to have_facet_field("format").with_value("Video")
-  end
-
   it "unstemmed author names should precede stemmed variants", :jira => ['VUF-120', 'VUF-433'] do
     resp = solr_response(author_search_args('Zare').merge({'fl'=>'id,author_person_display', 'facet'=>false}))
     expect(resp).to include("author_person_display" => /\bZare\W/).in_each_of_first(3).documents
