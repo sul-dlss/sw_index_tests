@@ -7,7 +7,7 @@ describe "Korean: Unigram Searches", :korean => true do
   context "title  창 (window)" do
     it_behaves_like "expected result size", 'title', '창', 825, 1050
     before(:all) do
-      @resp = solr_response({'q'=>cjk_q_arg('title', '창'), 'fl'=>'id,vern_title_245a_display', 'facet'=>false} )
+      @resp = solr_response(cjk_query_args('title', '창').merge({'fl'=>'id,vern_title_245a_display', 'facet'=>false} ))
     end
     it "titles should match regex" do
       expect(@resp).to include({'vern_title_245a_display' => /^창$/}).in_first(2)
@@ -22,7 +22,7 @@ describe "Korean: Unigram Searches", :korean => true do
   context "title  꿈 (dream)" do
     it_behaves_like "expected result size", 'title', '꿈', 250, 350
     before(:all) do
-      @resp = solr_response({'q'=>cjk_q_arg('title', '꿈'), 'fl'=>'id,vern_title_245a_display', 'facet'=>false, 'rows'=>75} )
+      @resp = solr_response(cjk_query_args('title', '꿈').merge({'fl'=>'id,vern_title_245a_display', 'facet'=>false, 'rows'=>75} ))
     end
     it "titles should match regex" do
       expect(@resp).to include({'vern_title_245a_display' => /꿈/}).in_each_of_first(75).documents

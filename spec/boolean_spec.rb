@@ -206,7 +206,7 @@ describe 'boolean operators' do
       context 'indochine OR indochina' do
         before(:all) do
           @indochine_or_indochina = solr_resp_doc_ids_only(
-            q: '_query_:"{!dismax pf2=$p2 pf3=$pf3  mm=1}indochine OR indochina"',
+            q: '_query_:"{!dismax mm=1}indochine OR indochina"',
             defType: 'lucene'
           )
           @indochine = solr_resp_ids_from_query 'indochine' # 513 docs  2013-05-21
