@@ -49,7 +49,7 @@ describe 'Japanese Title searches', japanese: true do
     it_behaves_like 'matches in vern titles', 'title', 'おじいさん', /オジいサン/, 11 # katagana script is in results
   end
   context "'hiragana'  ひらがな", jira: 'VUF-2693' do
-    it_behaves_like 'expected result size', 'title', 'ひらがな', 4, 15
+    it_behaves_like 'expected result size', 'title', 'ひらがな', 10, 25
     # new record 12320088 has ひらがな in 245a and pushes record 4217219 down results ranking
     it_behaves_like 'best matches first', 'title', 'ひらがな', %w(4217219 12142832), 5 # 4217219 in 245b and 12142832 in 245a
   end
@@ -117,7 +117,7 @@ describe 'Japanese Title searches', japanese: true do
   context 'Study of Buddhism', jira: ['VUF-2732', 'VUF-2733'] do
     # First char of traditional doesn't translate to first char of modern with ICU traditional->simplified
     # (see also japanese han variants for plain buddhism)
-    it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '佛教學', 'modern', '仏教学', 100, 200
+    it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '佛教學', 'modern', '仏教学', 200, 270
     it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '佛教學', 'modern', '仏教学', 40, 70, lang_limit
     it_behaves_like 'matches in vern short titles first', 'title', '佛教學', /(佛|仏)(教|敎)(學|学)/, 15, lang_limit # trad
     it_behaves_like 'matches in vern short titles first', 'title', '仏教学', /(佛|仏)(教|敎)(學|学)/, 15, lang_limit # modern
@@ -131,12 +131,12 @@ describe 'Japanese Title searches', japanese: true do
   context 'survey/investigation', jira: 'VUF-2727' do
     # second trad char isn't translated to modern with ICU trad -> simp
     # (see also japanese han variants)
-    it_behaves_like 'both scripts get expected result size', 'title', 'traditional', ' 調查', 'modern', '調査', 7500, 8500
+    it_behaves_like 'both scripts get expected result size', 'title', 'traditional', ' 調查', 'modern', '調査', 8500, 9500
     # exact title match
     it_behaves_like 'matches in vern short titles first', 'title', '調查', /^(調查|調査)[^[[:alnum:]]]*$/, 1 # trad
     it_behaves_like 'matches in vern short titles first', 'title', '調査', /^(調查|調査)[^[[:alnum:]]]*$/, 1 # mod
     context 'w lang limit' do
-      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', ' 調查', 'modern', '調査', 4000, 4200, lang_limit
+      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', ' 調查', 'modern', '調査', 4500, 5000, lang_limit
       it_behaves_like 'matches in vern short titles first', 'title', '調查', /(調查|調査)/, 35, lang_limit # trad
       it_behaves_like 'matches in vern short titles first', 'title', '調査', /(調查|調査)/, 50, lang_limit # modern
       # exact title match

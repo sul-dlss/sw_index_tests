@@ -43,7 +43,7 @@ describe 'Japanese Everything Searches', japanese: true do
     end
   end
 
-  context 'Japan China thought', jira: 'VUF-2737', pending: :fixme do
+  context 'Japan China thought', jira: 'VUF-2737' do
     it_behaves_like 'expected result size', 'everything', '日本  中国  思想', 80, 125
     context 'w lang limit' do
       it_behaves_like 'expected result size', 'everything', '日本  中国  思想', 30, 60, lang_limit
@@ -99,7 +99,10 @@ describe 'Japanese Everything Searches', japanese: true do
   context 'outside of Japan', jira: 'VUF-2699' do
     # Socrates everything search for 日外:2411  (this is closer to what I would expect
     #  for this very general search; the Searchworks result makes me wonder)
-    it_behaves_like 'result size and vern title matches first', 'everything', '日外', 500, 2500, /日外/, 5
+    it_behaves_like 'expected result size', 'everything', '日外', 500, 2500
+    context '', skip: :fixme do
+      it_behaves_like 'result size and vern title matches first', 'everything', '日外', 500, 2500, /日外/, 5
+    end
   end
   context "publisher's name starting with 'outside of Japan'", jira: 'VUF-2699' do
     it_behaves_like 'expected result size', 'everything', '日外アソシエーツ', 600, 750

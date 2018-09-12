@@ -144,7 +144,7 @@ describe "hyphen in queries" do
   context "'neo-romantic'", :jira => 'VUF-798' do
     it_behaves_like "hyphens without spaces", "neo-romantic", ["7789846", "2095712", "7916667", "5627730", "1665493", "2775888", "1688481"], 12
     it_behaves_like "hyphens ignored", "neo- romantic", ["7789846", "2095712", "7916667", "5627730", "1665493", "2775888", "1688481"], 12
-    it_behaves_like "hyphens ignored", "neo- romantic", ["1665493", "2775888"], 10
+    it_behaves_like "hyphens ignored", "neo- romantic", ["1665493", "2775888"], 15
 #   hyphens with both spaces don't work right
    # it_behaves_like "hyphens ignored", "neo - romantic", ["1665493", "2775888"], 10
     it_behaves_like "hyphens with space before but not after are treated as NOT, but ignored in phrase", "neo -romantic", '445186', ["7789846", "2095712", "7916667", "5627730", "1665493", "2775888", "1688481"]
