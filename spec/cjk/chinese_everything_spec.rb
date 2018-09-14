@@ -35,7 +35,7 @@ describe 'Chinese Everything', chinese: true do
       it_behaves_like 'best matches first', 'everything', query, '5701106', 11 # record has  全宋筆记
       it_behaves_like 'best matches first', 'everything', query, %w(9579321 9579315 6734714 8146870), 10 # records have  全宋筆記
     end # shared examples  great search results for old fiction (Han)
-    it_behaves_like 'both scripts get expected result size', 'everything', 'trad', '全宋筆記', 'simp', '全宋笔記', 6, 12
+    it_behaves_like 'both scripts get expected result size', 'everything', 'trad', '全宋筆記', 'simp', '全宋笔記', 10, 22
     it_behaves_like 'great results for Full Song notes', '全宋筆记'
     it_behaves_like 'great results for Full Song notes', '全宋筆記'
     it_behaves_like 'great results for Full Song notes', '全  宋  筆記'

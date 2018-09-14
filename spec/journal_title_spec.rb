@@ -638,7 +638,6 @@ describe "journal/newspaper titles" do
       journal = [ '394654', # 0036-8075, green
                   '3195846', # 0036-8075, biology
                   '433334', # bimonthly, 0193-4511
-                  '6704180', # SAL1&2 (on-campus shelving)
                 ]
       let(:exp_ids) { journal }
     end

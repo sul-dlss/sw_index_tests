@@ -243,7 +243,7 @@ describe "Stemming of English words" do
         resp = solr_resp_ids_titles(title_search_args('conversion').merge({:rows => '500'}))
         expect(resp).not_to include('title_245a_display' => /converse/i)
       end
-      it "conversion should not match conversation", pending: 'fixme' do
+      it "conversion should not match conversation" do
         resp = solr_resp_ids_titles(title_search_args 'conversion')
         expect(resp).not_to include('title_245a_display' => /conversation/i)
       end
