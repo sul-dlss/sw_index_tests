@@ -57,9 +57,11 @@ describe 'boolean operators' do
         resp = solr_resp_ids_from_query 'history man and bradbury'
         expect(resp).to include('1433520').in_first(5)
       end
-      it 'history man AND bradbury' do
+      it 'history man AND bradbury', jira: 'SW-1994', pending: 'fixme' do
+        # ckey 1433520 is most relevant hit
         resp = solr_resp_ids_from_query 'history man AND bradbury'
         expect(resp).to include('1433520').in_first(5)
+        expect(resp).to include('1433520').as_first
       end
       it 'history man bradbury' do
         resp = solr_resp_ids_from_query 'history man bradbury'
