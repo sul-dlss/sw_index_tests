@@ -87,7 +87,7 @@ describe 'Chinese Han variants', chinese: true do
                                                             '12084994', # 245a 戯劇硏究
                                                             '6694086', # 245a  戯劇硏究
                                                             '6860183', # 245a  戏剧硏究
-                                                           ], 5, 'fq' => 'format:Journal/Periodical'
+                                                           ], 5, 'fq' => 'format_main_ssim:Journal/Periodical'
     it_behaves_like 'matches in vern short titles first', 'title', '戲劇研究', /^(戯|戱|戲|戏)(劇|剧)(硏|研)究[^[[:alnum:]]]*$/, 6
   end
 

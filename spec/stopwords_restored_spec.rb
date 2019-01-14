@@ -13,7 +13,7 @@ describe "Stopwords such as 'the' 'a' 'or' should now work" do
   it "Search for OR spektrum (must be with lowercase 'or', otherwise boolean without first clause)", :jira => 'SW-483' do
     resp = solr_resp_doc_ids_only({'q'=>'or spektrum'})
     expect(resp).to include("490100").in_first(3).results
-    resp = solr_response({'q'=>'or spektrum', 'fq' => 'format:"Journal/Periodical"', 'fl' => 'id', 'facet' => 'false'})
+    resp = solr_response({'q'=>'or spektrum', 'fq' => 'format_main_ssim:"Journal/Periodical"', 'fl' => 'id', 'facet' => 'false'})
     expect(resp).to include("490100").in_first(1).results
   end
 

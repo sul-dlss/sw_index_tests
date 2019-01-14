@@ -383,7 +383,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
           expect(resp.size).to be >= 12
         end
         it "3-d flat - book, title search" do
-          book_facet_arg = {'fq' => '{!raw f=format}Book'}
+          book_facet_arg = {'fq' => '{!raw f=format_main_ssim}Book'}
           resp = solr_resp_doc_ids_only(title_search_args('3-d flat').merge!(book_facet_arg))
           expect(resp).to include('3143706')  # "Design of 3-D nacelle near flat-plate wing ..."
           expect(resp).to include('8613091')  # " ... 3-D forms from flat curved shapes ..."

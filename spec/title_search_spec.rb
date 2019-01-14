@@ -3,7 +3,7 @@ describe "Title Search" do
   it "780t, 758t included in title search: japanese journal of applied physics", :jira => ['VUF-89', 'SW-441'] do
     resp = solr_resp_doc_ids_only(title_search_args('japanese journal of applied physics'))
     expect(resp).to include(["365562", "491322", "491323", "7519522", "7519487", "787934"]).in_first(10).results
-    resp = solr_resp_doc_ids_only(title_search_args('japanese journal of applied physics').merge({:fq => 'format:"Journal/Periodical"'}))
+    resp = solr_resp_doc_ids_only(title_search_args('japanese journal of applied physics').merge({:fq => 'format_main_ssim:"Journal/Periodical"'}))
     expect(resp).to include(["7519522", "365562", "491322", "491323"]).in_first(5).results
 #    pending "need include_at_least in rspec-solr"
 #    resp.should include_at_least(4).of(["7519522", "365562", "491322", "491323", "7519487"]).in_first(5).results
@@ -12,14 +12,14 @@ describe "Title Search" do
   it "780t, 758t included in title search: japanese journal of applied physics PAPERS", :jira => ['VUF-89', 'SW-441'] do
     resp = solr_resp_doc_ids_only(title_search_args('japanese journal of applied physics papers'))
     expect(resp).to include(["365562", "491322", "7519522", "8207522"]).in_first(8).results
-    resp = solr_resp_doc_ids_only(title_search_args('japanese journal of applied physics papers').merge({:fq => 'format:"Journal/Periodical"'}))
+    resp = solr_resp_doc_ids_only(title_search_args('japanese journal of applied physics papers').merge({:fq => 'format_main_ssim:"Journal/Periodical"'}))
     expect(resp).to include(["365562", "491322", "7519522", "8207522"]).in_first(5).results
   end
 
   it "780t, 758t included in title search: japanese journal of applied physics LETTERS", :jira => ['VUF-89', 'SW-441'] do
     resp = solr_resp_doc_ids_only(title_search_args('japanese journal of applied physics letters'))
     expect(resp).to include(["365562", "491323", "7519487", "8207522"]).in_first(8).results
-    resp = solr_resp_doc_ids_only(title_search_args('japanese journal of applied physics letters').merge({:fq => 'format:"Journal/Periodical"'}))
+    resp = solr_resp_doc_ids_only(title_search_args('japanese journal of applied physics letters').merge({:fq => 'format_main_ssim:"Journal/Periodical"'}))
     expect(resp).to include(["365562", "491323", "7519487", "8207522"]).in_first(5).results
   end
 
@@ -28,7 +28,7 @@ describe "Title Search" do
     # 1963062  785t
     resp = solr_resp_doc_ids_only(title_search_args('journal of marine biotechnology'))
     expect(resp).to include(["1963062", "4278409"]).in_first(3).results
-    resp = solr_resp_doc_ids_only(title_search_args('journal of marine biotechnology').merge({:fq => 'format:"Journal/Periodical"'}))
+    resp = solr_resp_doc_ids_only(title_search_args('journal of marine biotechnology').merge({:fq => 'format_main_ssim:"Journal/Periodical"'}))
     expect(resp).to include(["1963062", "4278409"]).in_first(3).results
   end
 

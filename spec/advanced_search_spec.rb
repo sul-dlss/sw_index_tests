@@ -363,17 +363,17 @@ describe 'advanced search' do
       before(:all) do
       end
       it 'before topics selected' do
-        resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Green")', 'q' => 'collection:*' }.merge(solr_args))
+        resp = solr_resp_doc_ids_only({ 'fq' => 'format_main_ssim:("Video"), language:("English"), building_facet:("Green")', 'q' => 'collection:*' }.merge(solr_args))
         expect(resp.size).to be >= 150
         expect(resp.size).to be <= 450
       end
       it 'add topic feature films' do
-        resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Green"), topic_facet:("Feature films")', 'q' => 'collection:*' }.merge(solr_args))
+        resp = solr_resp_doc_ids_only({ 'fq' => 'format_main_ssim:("Video"), language:("English"), building_facet:("Green"), topic_facet:("Feature films")', 'q' => 'collection:*' }.merge(solr_args))
         expect(resp.size).to be >= 15
         expect(resp.size).to be <= 50
       end
       it 'add genre feature films' do
-        resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Green"), genre_ssim:("Feature films")', 'q' => 'collection:*' }.merge(solr_args))
+        resp = solr_resp_doc_ids_only({ 'fq' => 'format_main_ssim:("Video"), language:("English"), building_facet:("Green"), genre_ssim:("Feature films")', 'q' => 'collection:*' }.merge(solr_args))
         expect(resp.size).to be >= 5
         expect(resp.size).to be <= 15
       end
@@ -382,27 +382,27 @@ describe 'advanced search' do
       before(:all) do
       end
       it 'before topics selected' do
-        resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Media & Microtext Center")', 'q' => 'collection:*' }.merge(solr_args))
+        resp = solr_resp_doc_ids_only({ 'fq' => 'format_main_ssim:("Video"), language:("English"), building_facet:("Media & Microtext Center")', 'q' => 'collection:*' }.merge(solr_args))
         expect(resp.size).to be >= 35_000
         expect(resp.size).to be <= 45_000
       end
       it 'add topic feature films' do
-        resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Media & Microtext Center"), topic_facet:("Feature films")', 'q' => 'collection:*' }.merge(solr_args))
+        resp = solr_resp_doc_ids_only({ 'fq' => 'format_main_ssim:("Video"), language:("English"), building_facet:("Media & Microtext Center"), topic_facet:("Feature films")', 'q' => 'collection:*' }.merge(solr_args))
         expect(resp.size).to be >= 9_300
         expect(resp.size).to be <= 10_500
       end
       it 'add topic science fiction' do
-        resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Media & Microtext Center"), topic_facet:("Feature films"), topic_facet:("Science fiction films")', 'q' => 'collection:*' }.merge(solr_args))
+        resp = solr_resp_doc_ids_only({ 'fq' => 'format_main_ssim:("Video"), language:("English"), building_facet:("Media & Microtext Center"), topic_facet:("Feature films"), topic_facet:("Science fiction films")', 'q' => 'collection:*' }.merge(solr_args))
         expect(resp.size).to be >= 200
         expect(resp.size).to be <= 300
       end
       it 'use genre feature films' do
-        resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Media & Microtext Center"), genre_ssim:("Feature films")', 'q' => 'collection:*' }.merge(solr_args))
+        resp = solr_resp_doc_ids_only({ 'fq' => 'format_main_ssim:("Video"), language:("English"), building_facet:("Media & Microtext Center"), genre_ssim:("Feature films")', 'q' => 'collection:*' }.merge(solr_args))
         expect(resp.size).to be >= 12_100
         expect(resp.size).to be <= 14_100
       end
       it 'add genre science fiction' do
-        resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Media & Microtext Center"), genre_ssim:("Feature films"), genre_ssim:("Science fiction films")', 'q' => 'collection:*' }.merge(solr_args))
+        resp = solr_resp_doc_ids_only({ 'fq' => 'format_main_ssim:("Video"), language:("English"), building_facet:("Media & Microtext Center"), genre_ssim:("Feature films"), genre_ssim:("Science fiction films")', 'q' => 'collection:*' }.merge(solr_args))
         expect(resp.size).to be >= 400
         expect(resp.size).to be <= 500
       end

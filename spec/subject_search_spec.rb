@@ -225,19 +225,19 @@ describe 'Subject Search' do
 
   context 'database subjects' do
     it 'geology', jira: 'VUF-1740' do
-      resp = solr_resp_doc_ids_only(subject_search_args('geology').merge(fq: 'format:Database'))
+      resp = solr_resp_doc_ids_only(subject_search_args('geology').merge(fq: 'format_main_ssim:Database'))
       expect(resp.size).to be >= 10
       expect(resp).to include('4246894')
       expect(resp.size).to be <= 30
     end
     it 'geology theses', jira: 'VUF-1740' do
       # note:  NOT a subject search
-      resp = solr_resp_doc_ids_only('q' => 'geology theses', fq: 'format:Database')
+      resp = solr_resp_doc_ids_only('q' => 'geology theses', fq: 'format_main_ssim:Database')
       expect(resp).to include('3755800')
       expect(resp.size).to be <= 5
     end
     it 'PAIS Index', jira: 'SW-644' do
-      resp = solr_resp_doc_ids_only('q' => 'political science', fq: 'format:Database')
+      resp = solr_resp_doc_ids_only('q' => 'political science', fq: 'format_main_ssim:Database')
       expect(resp).to include('11696645')
     end
   end

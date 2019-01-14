@@ -258,7 +258,7 @@ describe 'boolean operators' do
         'q' => '_query_:"{!dismax pf2=$p2 pf3=$pf3 mm=1}lesbian OR gay"',
         'defType' => 'lucene',
         'fq' => [
-          'format:("Video")',
+          'format_main_ssim:("Video")',
           'access_facet:("At the Library")'
         ]
       )
