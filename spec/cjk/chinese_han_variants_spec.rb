@@ -49,12 +49,12 @@ describe 'Chinese Han variants', chinese: true do
       it_behaves_like 'matches in vern short titles first', query_type, query, /^歷史\s*(硏|研)究$/, 2
     end
     context 'no spaces' do
-      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '歷史研究', 'simplified', '历史研究', 750, 1900
+      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '歷史研究', 'simplified', '历史研究', 1250, 2400
       it_behaves_like 'great matches for history research', 'title', '歷史研究'
       it_behaves_like 'great matches for history research', 'title', '历史研究'
     end
     context 'with space' do
-      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '歷史 研究', 'simplified', '历史 研究', 2000, 2500
+      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '歷史 研究', 'simplified', '历史 研究', 2200, 2700
 
       it_behaves_like 'best matches first', 'title', '歷史 研究', %w(6433575 9336336), 10
       it_behaves_like 'best matches first', 'title', '历史 研究', %w(6433575 9336336), 10

@@ -33,8 +33,8 @@ describe 'Japanese Kanji variants', japanese: true do
       # Second char of traditional doesn't translate to second char of modern with ICU traditional->simplified
       # FIXME:  these do not give the same numbers of results.
       # it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '江戶', 'modern', '江戸', 1900, 2000
-      it_behaves_like 'expected result size', 'everything', '江戶', 2100, 2300  # trad
-      it_behaves_like 'expected result size', 'everything', '江戸', 2100, 2300  # modern
+      it_behaves_like 'expected result size', 'everything', '江戶', 2200, 2400  # trad
+      it_behaves_like 'expected result size', 'everything', '江戸', 2200, 2400  # modern
 
       it_behaves_like 'matches in vern short titles first', 'everything', '江戶', /(江戶|江戸)/, 100  # trad
       it_behaves_like 'matches in vern short titles first', 'everything', '江戸', /(江戶|江戸)/, 100  # modern
@@ -65,15 +65,15 @@ describe 'Japanese Kanji variants', japanese: true do
       # "慶応義塾大学(Keio Gijuku University)" + "Search everything" retrieves 146 hits (all relevant). "慶應義塾大学" retrieves 262 hits (all relevant).
       # FIXME:  these do not give the same numbers of results.  Even with lang_limit.  But they are both analyzed to the same char string  2013-10-14
       #      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '慶應義塾大学', 'modern', '慶応義塾大学', 375, 450
-      it_behaves_like 'expected result size', 'everything', '慶應義塾大学', 400, 575  # trad
-      it_behaves_like 'expected result size', 'everything', '慶応義塾大学', 400, 575 # modern
+      it_behaves_like 'expected result size', 'everything', '慶應義塾大学', 575, 625  # trad
+      it_behaves_like 'expected result size', 'everything', '慶応義塾大学', 575, 625 # modern
     end
 
     context 'Mahayana Buddhism', jira: 'VUF-2761' do
       # 大乘仏教 (Mahayana Buddhism; 大乘 = traditional Japanese characters, 仏教 = modern Japanese)
       # Socrates retrieves ten records: the same two Japanese records and
       # eight Chinese records that contain the term written in traditional characters, 大乘佛教.
-      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '大乘佛教', 'modern', '大乘仏教', 10, 65
+      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '大乘佛教', 'modern', '大乘仏教', 10, 75
       it_behaves_like 'best matches first', 'title', '大乘佛教', %w(4192936 6667604), 2  # trad
       it_behaves_like 'best matches first', 'title', '大乘仏教', %w(4192936 6667604), 2  # modern
       it_behaves_like 'matches in vern short titles first', 'title', '大乘佛教', /^大(乗|乘)(佛|仏)教[^[[:alnum:]]]*$/, 2 # trad
@@ -83,7 +83,7 @@ describe 'Japanese Kanji variants', japanese: true do
     context 'the origin', jira: 'VUF-2782' do
       # first char doesn't translate the same (modern != simplified)
       # both retrieve 24 results, but they do not retrieve the SAME results
-      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '緣起', 'modern', '縁起', 60, 75, lang_limit
+      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '緣起', 'modern', '縁起', 70, 85, lang_limit
     end
 
     context 'painting dictionary', jira: 'VUF-2697' do
@@ -132,8 +132,8 @@ describe 'Japanese Kanji variants', japanese: true do
       # traditional:   天氣
       # modern:   天気
       # chinese simp:  天气
-      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '天氣', 'modern', '天気', 10, 17
-      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '天氣', 'chinese', '天气', 10, 17
+      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '天氣', 'modern', '天気', 10, 20
+      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '天氣', 'chinese', '天气', 10, 20
       it_behaves_like 'matches in vern short titles first', 'title', '天気', /天(氣|気|气)/, 9 # modern
       it_behaves_like 'matches in vern short titles first', 'title', '天氣', /天(氣|気|气)/, 9 # trad
       it_behaves_like 'matches in vern titles first', 'title', '天気', /天(氣|気|气)/, 11 # modern

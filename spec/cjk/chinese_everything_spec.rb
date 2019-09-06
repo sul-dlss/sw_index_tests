@@ -44,10 +44,10 @@ describe 'Chinese Everything', chinese: true do
 
   context 'history research', jira: 'VUF-2771' do
     context 'no spaces' do
-      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '歷史研究', 'simplified', '历史研究', 7000, 7700
+      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '歷史研究', 'simplified', '历史研究', 7500, 8200
     end
     context 'with space' do
-      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '歷史研究', 'simplified', '历史研究', 7000, 7700
+      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '歷史研究', 'simplified', '历史研究', 7500, 8200
     end
     context 'as phrase' do
       it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '"歷史研究"', 'simplified', '"历史研究"', 600, 900

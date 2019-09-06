@@ -21,8 +21,8 @@ describe 'Japanese Everything Searches', japanese: true do
     # (see also japanese_han_variants_spec)
     # FIXME:  these do not give the same numbers of results.
     # it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '江戶', 'modern', '江戸', 1900, 2000, lang_limit
-    it_behaves_like 'expected result size', 'everything', '江戶', 1975, 2250, lang_limit  # trad
-    it_behaves_like 'expected result size', 'everything', '江戸', 1975, 2250, lang_limit  # modern
+    it_behaves_like 'expected result size', 'everything', '江戶', 2050, 2350, lang_limit  # trad
+    it_behaves_like 'expected result size', 'everything', '江戸', 2050, 2350, lang_limit  # modern
 
     it_behaves_like 'matches in vern short titles first', 'everything', '江戶', /(江戶|江戸)/, 100, lang_limit # trad
     it_behaves_like 'matches in vern short titles first', 'everything', '江戸', /(江戶|江戸)/, 100, lang_limit # modern
@@ -44,7 +44,7 @@ describe 'Japanese Everything Searches', japanese: true do
   end
 
   context 'Japan China thought', jira: 'VUF-2737' do
-    it_behaves_like 'expected result size', 'everything', '日本  中国  思想', 80, 125
+    it_behaves_like 'expected result size', 'everything', '日本  中国  思想', 100, 150
     context 'w lang limit' do
       it_behaves_like 'expected result size', 'everything', '日本  中国  思想', 30, 60, lang_limit
     end
@@ -55,13 +55,13 @@ describe 'Japanese Everything Searches', japanese: true do
   end
 
   context '(local/regional society)', jira: 'VUF-2717' do
-    it_behaves_like 'expected result size', 'everything', '地域社会', 525, 725
+    it_behaves_like 'expected result size', 'everything', '地域社会', 700, 850
     it_behaves_like 'matches in vern short titles first', 'everything', '地域社会', /^地域社会$/, 1 # exact title match
     context 'w lang limit' do
-      it_behaves_like 'expected result size', 'everything', '地域社会', 450, 550, lang_limit
+      it_behaves_like 'expected result size', 'everything', '地域社会', 550, 700, lang_limit
     end
     context 'phrase' do
-      it_behaves_like 'expected result size', 'everything', '"地域社会"', 275, 350
+      it_behaves_like 'expected result size', 'everything', '"地域社会"', 340, 420
     end
   end
 
@@ -91,7 +91,7 @@ describe 'Japanese Everything Searches', japanese: true do
       # note: first char is a modern japanese variant
       it_behaves_like 'result size and vern short title matches first', 'everything', '満洲', 2000, 3000, /(満|滿|满)(洲|州)/, 20
       context 'w lang limit' do
-        it_behaves_like 'result size and vern short title matches first', 'everything', '満洲', 1775, 2300, /(満|滿|满)(洲|州)/, 20, lang_limit
+        it_behaves_like 'result size and vern short title matches first', 'everything', '満洲', 2000, 2500, /(満|滿|满)(洲|州)/, 20, lang_limit
       end
     end
   end
