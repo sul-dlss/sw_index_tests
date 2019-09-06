@@ -14,7 +14,7 @@ describe "mm threshold setting for dismax (8 as of 2017/02)" do
 
     it "5 terms should all matter: royal institution library of science", :jira => 'VUF-1685' do
       resp = solr_resp_doc_ids_only({'q'=>'royal institution library of science'})
-      expect(resp.size).to be <= 350
+      expect(resp.size).to be <= 450
       resp2 = solr_resp_doc_ids_only({'q'=>'royal institution library of science bragg'})
       expect(resp2).to have_documents
       expect(resp).to have_more_results_than(resp2)
@@ -23,13 +23,13 @@ describe "mm threshold setting for dismax (8 as of 2017/02)" do
 
     it "6 terms should all matter: shanghai social life customs 20th century", :jira => 'VUF-1129' do
       resp = solr_resp_doc_ids_only({'q'=>'shanghai social life customs 20th century'})
-      expect(resp.size).to be <= 50
+      expect(resp.size).to be <= 65
       expect(resp).to have_fewer_documents_than(solr_resp_doc_ids_only({'q'=>'shanghai social life customs century'}))
     end
 
     it "7 terms should all matter: France Social life and customs 20th century", :jira => 'SW-1692' do
       resp = solr_resp_doc_ids_only(subject_search_args 'France Social life and customs 20th century')
-      expect(resp.size).to be <= 500
+      expect(resp.size).to be <= 550
       expect(resp).to have_fewer_documents_than(solr_resp_doc_ids_only(subject_search_args 'France Social life customs century'))
     end
   end
