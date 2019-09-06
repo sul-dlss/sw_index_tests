@@ -104,8 +104,8 @@ describe "facet values and queries" do
     end
     it 'Thesis/Dissertation|Bachelor\'s results' do
       resp = solr_resp_doc_ids_only({'fq'=>['stanford_work_facet_hsim:"Thesis/Dissertation|Bachelor\'s"']})
-      expect(resp.size).to be >= 400
-      expect(resp.size).to be <= 600
+      expect(resp.size).to be >= 1000
+      expect(resp.size).to be <= 1400
     end
     it 'Thesis/Dissertation|Master\'s results' do
       resp = solr_resp_doc_ids_only({'fq'=>['stanford_work_facet_hsim:"Thesis/Dissertation|Master\'s"']})
@@ -114,13 +114,13 @@ describe "facet values and queries" do
     end
     it 'Thesis/Dissertation|Doctoral results' do
       resp = solr_resp_doc_ids_only({'fq'=>['stanford_work_facet_hsim:"Thesis/Dissertation|Doctoral"']})
-      expect(resp.size).to be >= 38_000
-      expect(resp.size).to be <= 39_000
+      expect(resp.size).to be >= 40_000
+      expect(resp.size).to be <= 43_000
     end
     it 'Other student work results' do
       resp = solr_resp_doc_ids_only({'fq'=>['stanford_work_facet_hsim:"Other student work"']})
-      expect(resp.size).to be >= 330
-      expect(resp.size).to be <= 530
+      expect(resp.size).to be >= 470
+      expect(resp.size).to be <= 750
     end
   end
 
