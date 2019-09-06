@@ -56,8 +56,8 @@ describe "Author Search" do
 
   it "Wender, Paul A. should not get results for Wender, Paul H", :jira => 'VUF-1398' do
     resp = solr_resp_doc_ids_only(author_search_args('"Wender, Paul A., "').merge({:rows => 150}))
-    expect(resp.size).to be >= 85
-    expect(resp.size).to be <= 135
+    expect(resp.size).to be >= 100
+    expect(resp.size).to be <= 150
     paul_h_docs = ["781472", "10830886", "750072", "11839442", "12576610"]
     paul_h_docs.each { |doc_id| expect(resp).not_to include(doc_id) }
     resp = solr_resp_doc_ids_only(author_search_args '"Wender, Paul H., "')
@@ -221,8 +221,8 @@ describe "Author Search" do
 
   it "mark applebaum", :jira => 'VUF-89' do
     resp = solr_resp_doc_ids_only(author_search_args 'mark applebaum')
-    expect(resp.size).to be >= 85
-    expect(resp.size).to be <= 150
+    expect(resp.size).to be >= 105
+    expect(resp.size).to be <= 170
     expect(resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only(author_search_args 'applebaum, mark'))
   end
 
