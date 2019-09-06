@@ -86,9 +86,9 @@ describe "Title Search" do
   it "Zeitschrift", :jira => 'VUF-511' do
     resp = solr_resp_ids_titles(title_search_args 'Zeitschrift')
     expect(resp).to include('title_245a_display' => /^zeitschrift$/i).in_each_of_first(15)
-    expect(resp).to include(['4443145', '486819']) # has 245a of Zeitschrift
+    expect(resp).to include(['4443145', '362427']) # has 245a of Zeitschrift
     resp = solr_resp_ids_titles(title_search_args 'Zeitschrift des historischen Vereines für Steiermark') # 246 of 4443145
-    expect(resp).to include('486819') # also has 245a of Zeitschrift
+    expect(resp).to include('486819')
     expect(resp.size).to be >= 10
   end
 
