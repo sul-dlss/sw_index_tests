@@ -8,7 +8,7 @@ describe 'Subject Search' do
 
   it "'Archaeology and literature' vs. 'Archaeology in literature'", jira: 'SW-372' do
     resp = solr_resp_doc_ids_only(subject_search_args '"Archaeology and literature"')
-    expect(resp.size).to be <= 5
+    expect(resp.size).to be <= 10
     expect(resp).to include(%w(8517619 6653471))
     expect(resp).not_to include('9388767')  # only has 'in
     expect(resp).not_to include('8545853')  # has neither
@@ -24,8 +24,8 @@ describe 'Subject Search' do
     it 'not as phrase' do
       # not a heading, but a combo of words from 3 diff headings
       resp = solr_resp_doc_ids_only(subject_search_args('China women history').merge(fq: 'language:English'))
-      expect(resp.size).to be >= 230
-      expect(resp.size).to be <= 300
+      expect(resp.size).to be >= 280
+      expect(resp.size).to be <= 350
     end
     it 'as phrase' do
       resp = solr_resp_doc_ids_only(subject_search_args '"China women history"')
@@ -70,14 +70,14 @@ describe 'Subject Search' do
   context 'home schooling vs home and school', jira: 'VUF-1353' do
     it 'home schooling' do
       resp = solr_resp_doc_ids_only(subject_search_args '"home schooling"')
-      expect(resp.size).to be >= 600
-      expect(resp.size).to be <= 675
+      expect(resp.size).to be >= 650
+      expect(resp.size).to be <= 725
       expect(resp).to include('8834110')
     end
     it 'home and school' do
       resp = solr_resp_doc_ids_only(subject_search_args('"home and school"').merge('rows' => 100))
-      expect(resp.size).to be >= 425
-      expect(resp.size).to be <= 550
+      expect(resp.size).to be >= 475
+      expect(resp.size).to be <= 600
       expect(resp).to include('337849')
     end
   end
@@ -115,8 +115,8 @@ describe 'Subject Search' do
     # 367056  dictionaries in separate heading
     it 'not as phrase' do
       resp = solr_resp_doc_ids_only(subject_search_args 'world war 1945 dictionaries')
-      expect(resp.size).to be >= 150
-      expect(resp.size).to be <= 200
+      expect(resp.size).to be >= 180
+      expect(resp.size).to be <= 230
     end
     it 'as phrase' do
       resp = solr_resp_doc_ids_only(subject_search_args '"world war 1945 dictionaries"')
@@ -225,19 +225,19 @@ describe 'Subject Search' do
 
   context 'database subjects' do
     it 'geology', jira: 'VUF-1740' do
-      resp = solr_resp_doc_ids_only(subject_search_args('geology').merge(fq: 'format:Database'))
+      resp = solr_resp_doc_ids_only(subject_search_args('geology').merge(fq: 'format_main_ssim:Database'))
       expect(resp.size).to be >= 10
       expect(resp).to include('4246894')
       expect(resp.size).to be <= 30
     end
     it 'geology theses', jira: 'VUF-1740' do
       # note:  NOT a subject search
-      resp = solr_resp_doc_ids_only('q' => 'geology theses', fq: 'format:Database')
+      resp = solr_resp_doc_ids_only('q' => 'geology theses', fq: 'format_main_ssim:Database')
       expect(resp).to include('3755800')
       expect(resp.size).to be <= 5
     end
     it 'PAIS Index', jira: 'SW-644' do
-      resp = solr_resp_doc_ids_only('q' => 'political science', fq: 'format:Database')
+      resp = solr_resp_doc_ids_only('q' => 'political science', fq: 'format_main_ssim:Database')
       expect(resp).to include('11696645')
     end
   end

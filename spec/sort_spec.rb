@@ -10,14 +10,14 @@ describe 'sorting results' do
 
     it 'with facet format_main_ssim:Book; default sort should be by pub date desc then title asc' do
       # TODO:  temporary fix until display year is better determined and coded
-      #      resp = solr_response({'fq'=>'format:Book', 'fl'=>'id,pub_date', 'facet'=>false})
+      #      resp = solr_response({'fq'=>'format_main_ssim:Book', 'fl'=>'id,pub_date', 'facet'=>false})
       #      year = Time.new.year
       #      resp.should include("pub_date" => /(#{year}|#{year + 1}|#{year + 2})/).in_each_of_first(20).documents
       resp = solr_response('fq' => 'format_main_ssim:Book', 'fl' => 'id,pub_date,imprint_display,title_245a_display', 'facet' => false, 'rows' => 5000)
       docs_match_current_year resp
-      # 12283692: _Gendered lives_ (pub_date (008) as 2019)
-      # before 12283105: _Brain & behavior_ (pub_date (008) as 2018)
-      expect(resp).to include('12283692').before('12283105')
+      # 13327294: pub_date (008) as 2020
+      # before 13312684: (pub_date (008) as 2019)
+      expect(resp).to include('13327294').before('13312684')
     end
 
     it 'with facet access:Online; default sort should be by pub date desc then title asc' do

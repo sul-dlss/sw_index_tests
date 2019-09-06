@@ -2,7 +2,7 @@ describe "facet values and queries" do
 
   context "facet queries" do
     it "facet queries with diacritics should work - é" do
-      resp = solr_resp_doc_ids_only({'fq'=>['author_person_facet:"Franck, César, 1822-1890"', 'format:"Music - Score"', 'topic_facet:"Organ music"']})
+      resp = solr_resp_doc_ids_only({'fq'=>['author_person_facet:"Franck, César, 1822-1890"', 'format_main_ssim:"Music score"', 'topic_facet:"Organ music"']})
       expect(resp.size).to be >= 15
     end
 
@@ -17,7 +17,7 @@ describe "facet values and queries" do
     end
 
     it "format Books" do
-      resp = solr_resp_doc_ids_only({'q'=>'French miniatures', 'fq'=>'format:Book', 'rows'=>30})
+      resp = solr_resp_doc_ids_only({'q'=>'French miniatures', 'fq'=>'format_main_ssim:Book', 'rows'=>30})
       expect(resp.size).to be >= 200
       expect(resp).to include(["728793", "2043360"]).in_first(3)
       expect(resp).to include("1067894") # French Revolution in Miniature
@@ -29,10 +29,10 @@ describe "facet values and queries" do
     end
 
     it "ethiopia maps", :jira => 'VUF-2535' do
-      resp = solr_resp_doc_ids_only({'q'=>'ethiopia', 'fq'=>'format:Map/Globe'})
+      resp = solr_resp_doc_ids_only({'q'=>'ethiopia', 'fq'=>'format_main_ssim:Map'})
       expect(resp.size).to be >= 80
       expect(resp).not_to include('9689856') # a San Francisco atlas
-      resp = solr_resp_doc_ids_only({'q'=>'ethiopia', 'fq'=>'format:Map/Globe', 'sort' => 'pub_date_sort desc, title_sort asc'})
+      resp = solr_resp_doc_ids_only({'q'=>'ethiopia', 'fq'=>'format_main_ssim:Map', 'sort' => 'pub_date_sort desc, title_sort asc'})
       expect(resp.size).to be >= 80
       expect(resp).to include('9689856')
     end
@@ -104,8 +104,8 @@ describe "facet values and queries" do
     end
     it 'Thesis/Dissertation|Bachelor\'s results' do
       resp = solr_resp_doc_ids_only({'fq'=>['stanford_work_facet_hsim:"Thesis/Dissertation|Bachelor\'s"']})
-      expect(resp.size).to be >= 400
-      expect(resp.size).to be <= 600
+      expect(resp.size).to be >= 1000
+      expect(resp.size).to be <= 1400
     end
     it 'Thesis/Dissertation|Master\'s results' do
       resp = solr_resp_doc_ids_only({'fq'=>['stanford_work_facet_hsim:"Thesis/Dissertation|Master\'s"']})
@@ -114,13 +114,13 @@ describe "facet values and queries" do
     end
     it 'Thesis/Dissertation|Doctoral results' do
       resp = solr_resp_doc_ids_only({'fq'=>['stanford_work_facet_hsim:"Thesis/Dissertation|Doctoral"']})
-      expect(resp.size).to be >= 38_000
-      expect(resp.size).to be <= 39_000
+      expect(resp.size).to be >= 40_000
+      expect(resp.size).to be <= 43_000
     end
     it 'Other student work results' do
       resp = solr_resp_doc_ids_only({'fq'=>['stanford_work_facet_hsim:"Other student work"']})
-      expect(resp.size).to be >= 330
-      expect(resp.size).to be <= 530
+      expect(resp.size).to be >= 470
+      expect(resp.size).to be <= 750
     end
   end
 

@@ -28,8 +28,8 @@ describe 'advanced search' do
         expect(resp).to include('title_245a_display' => /nossa am[eé]rica/i)
         expect(resp).to include('title_245a_display' => /nuestra am[eé]rica/i)
         # as of 2018-08-30, there are 13 nossa america titles and 471 nuestra america titles
-        expect(resp.size).to be >= 375
-        expect(resp.size).to be <= 500
+        expect(resp.size).to be >= 450
+        expect(resp.size).to be <= 575
       end
     end
   end
@@ -45,8 +45,8 @@ describe 'advanced search' do
       end
       it 'keyword chicano' do
         resp = solr_resp_doc_ids_only({ 'q' => 'chicano' }.merge(solr_args))
-        expect(resp.size).to be >= 3500
-        expect(resp.size).to be <= 4100
+        expect(resp.size).to be >= 3900
+        expect(resp.size).to be <= 4500
       end
       # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a OR
       # https://issues.apache.org/jira/browse/SOLR-2649
@@ -76,14 +76,14 @@ describe 'advanced search' do
       it 'keyword' do
         resp = solr_resp_doc_ids_only({ 'q' => 'IEEE xplore' }.merge(solr_args))
         expect(resp).to have_the_same_number_of_results_as(solr_resp_ids_from_query('IEEE Xplore'))
-        expect(resp.size).to be >= 14_500
-        expect(resp.size).to be <= 15_700
+        expect(resp.size).to be >= 16_500
+        expect(resp.size).to be <= 17_700
         expect(resp).to have_fewer_results_than(solr_resp_doc_ids_only({ 'q' => 'IEEE OR xplore' }.merge(solr_args)))
       end
       it 'subject NOT congresses and keyword' do
         resp = solr_resp_doc_ids_only({ 'q' => "#{subject_query('NOT congresses')} AND IEEE xplore" }.merge(solr_args))
-        expect(resp.size).to be >= 1500
-        expect(resp.size).to be <= 2500
+        expect(resp.size).to be >= 1700
+        expect(resp.size).to be <= 2700
       end
     end
 
@@ -93,27 +93,27 @@ describe 'advanced search' do
         @sub_phrase = solr_resp_doc_ids_only({ 'q' => "#{subject_query('\"home schooling\"')}" }.merge(solr_args))
       end
       it 'subject not as a phrase' do
-        expect(@sub_no_phrase.size).to be >= 600
-        expect(@sub_no_phrase.size).to be <= 770
+        expect(@sub_no_phrase.size).to be >= 660
+        expect(@sub_no_phrase.size).to be <= 830
         expect(@sub_no_phrase).to have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args('home schooling')))
       end
       it 'subject as a phrase' do
-        expect(@sub_phrase.size).to be >= 600
-        expect(@sub_phrase.size).to be <= 675
+        expect(@sub_phrase.size).to be >= 650
+        expect(@sub_phrase.size).to be <= 725
         expect(@sub_phrase).to have_fewer_results_than(solr_resp_doc_ids_only(subject_search_args("home schooling")))
         expect(@sub_phrase).to have_fewer_results_than @sub_no_phrase
       end
       it 'keyword' do
         resp = solr_resp_doc_ids_only({ 'q' => 'Socialization' }.merge(solr_args))
         expect(resp).to have_fewer_results_than(solr_resp_ids_from_query('Socialization'))
-        expect(resp.size).to be >= 575_000
-        expect(resp.size).to be <= 600_000
+        expect(resp.size).to be >= 650_000
+        expect(resp.size).to be <= 680_000
       end
       it 'subject (not a phrase) and keyword' do
         resp = solr_resp_doc_ids_only({ 'q' => "#{subject_query('home schooling')} AND Socialization" }.merge(solr_args))
         expect(resp).to have_fewer_results_than(@sub_no_phrase)
-        expect(resp.size).to be >= 75
-        expect(resp.size).to be <= 150
+        expect(resp.size).to be >= 125
+        expect(resp.size).to be <= 200
       end
     end
   end # subject and keyword
@@ -151,8 +151,8 @@ describe 'advanced search' do
       end
       it 'title' do
         resp = solr_resp_doc_ids_only({ 'q' => "#{title_query('the history man')}" }.merge(solr_args))
-        expect(resp.size).to be >= 1450
-        expect(resp.size).to be <= 1550
+        expect(resp.size).to be >= 1750
+        expect(resp.size).to be <= 1850
       end
       it 'author and title' do
         resp = solr_resp_doc_ids_only({ 'q' => "#{author_query('malcolm bradbury')} AND #{title_query('the history man')}" }.merge(solr_args))
@@ -226,8 +226,8 @@ describe 'advanced search' do
       it 'keyword' do
         resp = solr_resp_doc_ids_only({ 'q' => 'storia e letteratura' }.merge(solr_args))
         expect(resp).to have_the_same_number_of_results_as(solr_resp_ids_from_query('storia e letteratura'))
-        expect(resp.size).to be >= 2050
-        expect(resp.size).to be <= 2300
+        expect(resp.size).to be >= 2250
+        expect(resp.size).to be <= 2500
       end
       it 'author and keyword' do
         resp = solr_resp_doc_ids_only({ 'q' => "#{author_query('campana')} AND storia e letteratura" }.merge(solr_args))
@@ -290,19 +290,19 @@ describe 'advanced search' do
       it 'subject' do
         resp = solr_resp_doc_ids_only({ 'q' => "#{subject_query('soviet union and historiography')}" }.merge(solr_args))
         expect(resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args 'soviet union and historiography'))
-        expect(resp.size).to be >= 200
-        expect(resp.size).to be <= 250
+        expect(resp.size).to be >= 225
+        expect(resp.size).to be <= 275
       end
       it "subject without 'and'" do
         resp = solr_resp_doc_ids_only({ 'q' => "#{subject_query('soviet union historiography')}" }.merge(solr_args))
         expect(resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only(subject_search_args 'soviet union historiography'))
-        expect(resp.size).to be >= 950
-        expect(resp.size).to be <= 1050
+        expect(resp.size).to be >= 1050
+        expect(resp.size).to be <= 1150
       end
       it 'pub info 2010' do
         resp = solr_resp_doc_ids_only({ 'q' => "#{pub_info_query('2010')}" }.merge(solr_args))
-        expect(resp.size).to be >= 165_000
-        expect(resp.size).to be <= 175_000
+        expect(resp.size).to be >= 190_000
+        expect(resp.size).to be <= 200_000
       end
       it 'pub info 2011' do
         resp = solr_resp_doc_ids_only({ 'q' => "#{pub_info_query('2011')}" }.merge(solr_args))
@@ -363,17 +363,17 @@ describe 'advanced search' do
       before(:all) do
       end
       it 'before topics selected' do
-        resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Green")', 'q' => 'collection:*' }.merge(solr_args))
+        resp = solr_resp_doc_ids_only({ 'fq' => 'format_main_ssim:("Video"), language:("English"), building_facet:("Green")', 'q' => 'collection:*' }.merge(solr_args))
         expect(resp.size).to be >= 150
         expect(resp.size).to be <= 450
       end
       it 'add topic feature films' do
-        resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Green"), topic_facet:("Feature films")', 'q' => 'collection:*' }.merge(solr_args))
-        expect(resp.size).to be >= 15
+        resp = solr_resp_doc_ids_only({ 'fq' => 'format_main_ssim:("Video"), language:("English"), building_facet:("Green"), topic_facet:("Feature films")', 'q' => 'collection:*' }.merge(solr_args))
+        expect(resp.size).to be >= 10
         expect(resp.size).to be <= 50
       end
       it 'add genre feature films' do
-        resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Green"), genre_ssim:("Feature films")', 'q' => 'collection:*' }.merge(solr_args))
+        resp = solr_resp_doc_ids_only({ 'fq' => 'format_main_ssim:("Video"), language:("English"), building_facet:("Green"), genre_ssim:("Feature films")', 'q' => 'collection:*' }.merge(solr_args))
         expect(resp.size).to be >= 5
         expect(resp.size).to be <= 15
       end
@@ -382,27 +382,27 @@ describe 'advanced search' do
       before(:all) do
       end
       it 'before topics selected' do
-        resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Media & Microtext Center")', 'q' => 'collection:*' }.merge(solr_args))
+        resp = solr_resp_doc_ids_only({ 'fq' => 'format_main_ssim:("Video"), language:("English"), building_facet:("Media & Microtext Center")', 'q' => 'collection:*' }.merge(solr_args))
         expect(resp.size).to be >= 35_000
         expect(resp.size).to be <= 45_000
       end
       it 'add topic feature films' do
-        resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Media & Microtext Center"), topic_facet:("Feature films")', 'q' => 'collection:*' }.merge(solr_args))
+        resp = solr_resp_doc_ids_only({ 'fq' => 'format_main_ssim:("Video"), language:("English"), building_facet:("Media & Microtext Center"), topic_facet:("Feature films")', 'q' => 'collection:*' }.merge(solr_args))
         expect(resp.size).to be >= 9_300
         expect(resp.size).to be <= 10_500
       end
       it 'add topic science fiction' do
-        resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Media & Microtext Center"), topic_facet:("Feature films"), topic_facet:("Science fiction films")', 'q' => 'collection:*' }.merge(solr_args))
+        resp = solr_resp_doc_ids_only({ 'fq' => 'format_main_ssim:("Video"), language:("English"), building_facet:("Media & Microtext Center"), topic_facet:("Feature films"), topic_facet:("Science fiction films")', 'q' => 'collection:*' }.merge(solr_args))
         expect(resp.size).to be >= 200
         expect(resp.size).to be <= 300
       end
       it 'use genre feature films' do
-        resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Media & Microtext Center"), genre_ssim:("Feature films")', 'q' => 'collection:*' }.merge(solr_args))
+        resp = solr_resp_doc_ids_only({ 'fq' => 'format_main_ssim:("Video"), language:("English"), building_facet:("Media & Microtext Center"), genre_ssim:("Feature films")', 'q' => 'collection:*' }.merge(solr_args))
         expect(resp.size).to be >= 12_100
         expect(resp.size).to be <= 14_100
       end
       it 'add genre science fiction' do
-        resp = solr_resp_doc_ids_only({ 'fq' => 'format:("Video"), language:("English"), building_facet:("Media & Microtext Center"), genre_ssim:("Feature films"), genre_ssim:("Science fiction films")', 'q' => 'collection:*' }.merge(solr_args))
+        resp = solr_resp_doc_ids_only({ 'fq' => 'format_main_ssim:("Video"), language:("English"), building_facet:("Media & Microtext Center"), genre_ssim:("Feature films"), genre_ssim:("Science fiction films")', 'q' => 'collection:*' }.merge(solr_args))
         expect(resp.size).to be >= 400
         expect(resp.size).to be <= 500
       end
