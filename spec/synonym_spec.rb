@@ -105,13 +105,13 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
       it "professional C++" do
         resp = solr_resp_ids_from_query('professional C++')
         expect(resp).to include(['13195660', '13217525', '13033516', '12666104', '13183812']).in_first(10).results
-        expect(resp.size).to be <= 150
+        expect(resp.size).to be <= 200
         expect(resp).not_to have_the_same_number_of_results_as(solr_resp_ids_from_query "professional C")
       end
       it "C++ active learning" do
         resp = solr_resp_ids_from_query('C++ active learning')
         expect(resp).to include('13192152').as_first.result
-        expect(resp.size).to be <= 50
+        expect(resp.size).to be <= 75
         expect(resp).not_to have_the_same_number_of_results_as(solr_resp_ids_from_query "C active learning")
       end
       it "C++ programming" do
