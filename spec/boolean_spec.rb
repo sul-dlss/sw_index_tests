@@ -34,7 +34,7 @@ describe 'boolean operators' do
       expect(resp.size).to eq(1)
       expect(resp).to include('5958831')
       resp = solr_resp_ids_from_query 'eckert sea turtles'
-      expect(resp.size).to eq(2)
+      expect(resp.size).to eq(3)
       expect(resp).to include('5958831')
     end
 
@@ -284,8 +284,8 @@ describe 'boolean operators' do
         # "q"=>"( _query_:\"{!dismax qf=$qf_subject pf=$pf_subject pf3=$pf3_subject pf2=$pf2_subject mm=1}\\\"street art\\\" graffiti\" AND
         # _query_:\"{!dismax qf=$qf_subject pf=$pf_subject pf3=$pf3_subject pf2=$pf2_subject}aspects\" )"
         resp = solr_resp_doc_ids_only(subject_search_args '("street art" OR graffiti) AND aspects')
-        expect(resp.size).to be >= 30
-        expect(resp.size).to be <= 50
+        expect(resp.size).to be >= 50
+        expect(resp.size).to be <= 70
         resp_parens = solr_resp_doc_ids_only(subject_search_args '((street art) OR graffiti) AND aspects')
         expect(resp.size).to be < resp_parens.size
       end
