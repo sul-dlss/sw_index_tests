@@ -37,7 +37,7 @@ describe "ampersands in queries" do
   end
 
   context "3 term query 'of time & place' (former stopword 'of')" do
-    it_behaves_like "ampersand ignored", "of time & place", "2186298", 1
+    it_behaves_like "ampersand ignored", "of time & place", "2186298", 3
     it_behaves_like "ampersand ignored", "of time & place", ["2186298", "9348274"], 6
   end
 
