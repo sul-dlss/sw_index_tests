@@ -62,7 +62,7 @@ describe "ampersands in queries" do
   end
 
   context "4 term query 'crosby stills nash & young'" do
-    it_behaves_like "ampersand ignored", "crosby stills nash & young", "5627798", 3
+    it_behaves_like "ampersand ignored", "crosby stills nash & young", "5627798", 10
   end
 
   context "4 term query 'steam boat & canal routes'" do
