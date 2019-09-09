@@ -131,9 +131,9 @@ describe 'Default Request Handler' do
 
   it 'united states code', jira: 'VUF-2060' do
     resp = solr_resp_ids_titles_from_query 'united states code'
-    expect(resp).to include('8221765').as_first
+    expect(resp).to include('8221765').in_first(2)
+    expect(resp).to include('2852709').in_first(2)
     expect(resp).to include('title_245a_display' => /^united states code$/i).in_each_of_first(4)
-    expect(resp).to include('2852709').in_first(4)
   end
 
   it 'zeitschrift', jira: 'VUF-511' do
