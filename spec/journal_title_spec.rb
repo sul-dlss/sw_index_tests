@@ -642,7 +642,7 @@ describe "journal/newspaper titles" do
   end
   context "Ethics" do
     it_behaves_like "title query, format journal", "Ethics" do
-      journal = ['11536614', # 0014-1704, online, jstor
+      journal = ['13227611', # 0014-1704, online, jstor
                   '497326', # 0014-1704, green
 #                  '8205688', # 1677-2954, brazil, online  Ethic@
                 ]
