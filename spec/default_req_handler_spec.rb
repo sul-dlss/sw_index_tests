@@ -19,7 +19,7 @@ describe 'Default Request Handler' do
   end
 
   it 'matches in title should sort first - waffle' do
-    resp = solr_resp_ids_from_query 'waffle'
+    resp = solr_resp_doc_ids_only 'q' => 'waffle', 'rows' => 30
     expect(resp).to include('6720427').as_first_result
     expect(resp).to include('6720427').before('7763651')
     expect(resp).to include('4535360').before('7763651')
