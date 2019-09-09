@@ -138,7 +138,7 @@ describe 'Default Request Handler' do
 
   it 'zeitschrift', jira: 'VUF-511' do
     resp = solr_resp_ids_titles_from_query 'Zeitschrift'
-    expect(resp).to include(%w(4443145 486819)).in_first(10) # has 245a of Zeitschrift
+    expect(resp).to include(%w(4443145 8371039)).in_first(10) # has 245a of Zeitschrift
     expect(resp).to include('title_245a_display' => /^zeitschrift$/i).in_each_of_first(15)
     expect(resp.size).to be >= 4000
   end
