@@ -126,7 +126,7 @@ describe 'Japanese Title searches', japanese: true do
     it_behaves_like 'best matches first', 'title', '佛教學', '7813279', 1
     it_behaves_like 'best matches first', 'title', '佛教學', '7641164', 10  # in Korean!
     it_behaves_like 'best matches first', 'title', '仏教学', '7813279', 1
-    it_behaves_like 'best matches first', 'title', '仏教学', '7641164', 10  # in Korean!
+    it_behaves_like 'best matches first', 'title', '仏教学', '7641164', 15  # in Korean!
   end
   context 'survey/investigation', jira: 'VUF-2727' do
     # second trad char isn't translated to modern with ICU trad -> simp

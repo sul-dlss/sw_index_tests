@@ -25,13 +25,13 @@ describe "Series Search" do
 
   context "Cahiers series", :jira => 'VUF-1031' do
     before(:all) do
-      @exp_ids = ['8787894', '9503087', '10192127']
+      @exp_ids = ['10192127', '10182359', '10594504']
     end
     it "series search, phrase" do
       resp = solr_resp_doc_ids_only(series_search_args '"Cahiers series"')
-      expect(resp.size).to be >= 40
+      expect(resp.size).to be >= 60
       expect(resp).to include(@exp_ids)
-      expect(resp.size).to be <= 80
+      expect(resp.size).to be <= 100
     end
     it "everything search, phrase" do
       resp = solr_resp_ids_from_query '"Cahiers series"'

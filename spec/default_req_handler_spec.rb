@@ -1,8 +1,8 @@
 describe 'Default Request Handler' do
   it "q of 'Buddhism' should get 12,000 - 13,000 results", jira: 'VUF-160' do
     resp = solr_resp_ids_from_query 'Buddhism'
-    expect(resp.size).to be >= 13_750
-    expect(resp.size).to be <= 14_750
+    expect(resp.size).to be >= 15_750
+    expect(resp.size).to be <= 16_750
   end
 
   it "q of 'String quartets Parts' and variants should be plausible", jira: 'VUF-390' do
@@ -19,7 +19,7 @@ describe 'Default Request Handler' do
   end
 
   it 'matches in title should sort first - waffle' do
-    resp = solr_resp_ids_from_query 'waffle'
+    resp = solr_resp_doc_ids_only 'q' => 'waffle', 'rows' => 30
     expect(resp).to include('6720427').as_first_result
     expect(resp).to include('6720427').before('7763651')
     expect(resp).to include('4535360').before('7763651')
@@ -131,14 +131,14 @@ describe 'Default Request Handler' do
 
   it 'united states code', jira: 'VUF-2060' do
     resp = solr_resp_ids_titles_from_query 'united states code'
-    expect(resp).to include('8221765').as_first
+    expect(resp).to include('8221765').in_first(2)
+    expect(resp).to include('2852709').in_first(2)
     expect(resp).to include('title_245a_display' => /^united states code$/i).in_each_of_first(4)
-    expect(resp).to include('2852709').in_first(4)
   end
 
   it 'zeitschrift', jira: 'VUF-511' do
     resp = solr_resp_ids_titles_from_query 'Zeitschrift'
-    expect(resp).to include(%w(4443145 486819)).in_first(10) # has 245a of Zeitschrift
+    expect(resp).to include(%w(4443145 8371039)).in_first(10) # has 245a of Zeitschrift
     expect(resp).to include('title_245a_display' => /^zeitschrift$/i).in_each_of_first(15)
     expect(resp.size).to be >= 4000
   end

@@ -421,7 +421,6 @@ describe "journal/newspaper titles" do
                '8161058', # marcit
                '8227544', # marcit
                '8227545', # marcit
-               '9208881', # marcit, al bawaba, other
                '5960691', # video
                '389374', # hoover, other
                '287788', # music score
@@ -580,7 +579,7 @@ describe "journal/newspaper titles" do
         expect(@resp).to include("7716332").in_first(3) # database
       end
       it "everything search should include the Lane/Medical record" do
-        expect(@resp).to include("12208312").in_first(10) # medical/lane
+        expect(@resp).to include("13143680").in_first(10) # medical/lane
       end
     end
 
@@ -599,7 +598,7 @@ describe "journal/newspaper titles" do
         expect(@tresp).to include("7716332").in_first(2)
       end
       it "title search should include the Lane/Medical record" do
-        expect(@tresp).to include("12208312").in_first(5)
+        expect(@tresp).to include("13143680").in_first(5)
       end
     end
   end # ScienceDirect
@@ -625,7 +624,6 @@ describe "journal/newspaper titles" do
     it_behaves_like "great results for format journal", "Nature" do
       journal = ['12360585', # london 0028-0836, lane/medical
                   '3195844', # london 0028-0836, biology
-                  '8829478', # london, spec
                   '466281', # directory of biologicals
                   '370787', # physical science, sal
                 ]
@@ -644,7 +642,7 @@ describe "journal/newspaper titles" do
   end
   context "Ethics" do
     it_behaves_like "title query, format journal", "Ethics" do
-      journal = ['11536614', # 0014-1704, online, jstor
+      journal = ['13227611', # 0014-1704, online, jstor
                   '497326', # 0014-1704, green
 #                  '8205688', # 1677-2954, brazil, online  Ethic@
                 ]
