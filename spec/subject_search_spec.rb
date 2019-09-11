@@ -13,8 +13,8 @@ describe 'Subject Search' do
     expect(resp).not_to include('9388767')  # only has 'in
     expect(resp).not_to include('8545853')  # has neither
     resp = solr_resp_doc_ids_only(subject_search_args('"Archaeology in literature"').merge(rows: 25))
-    expect(resp.size).to be >= 15
-    expect(resp.size).to be <= 25
+    expect(resp.size).to be >= 20
+    expect(resp.size).to be <= 30
     expect(resp).to include(%w(8517619 9388767))
     expect(resp).not_to include('6653471') #  only has 'and'
     expect(resp).not_to include('8545853') # has neither
