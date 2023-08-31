@@ -5,13 +5,19 @@ pipeline {
       cron('@daily')
   }
 
+  environment {
+      LC_ALL = 'en_US.UTF-8'
+      LANG    = 'en_US.UTF-8'
+      LANGUAGE = 'en_US.UTF-8'
+  }
+
   stages {
     stage('Build') {
       steps {
         checkout scm
 
         sh '''#!/bin/bash -l
-        rvm use 2.4.4@sw_index_tests --create
+        rvm use 3.2.2@sw_index_tests --create
         gem install bundler
         bundle install
         '''
@@ -21,7 +27,7 @@ pipeline {
     stage('Test') {
       steps {
         sh '''#!/bin/bash -l
-        rvm use 2.4.4@sw_index_tests
+        rvm use 3.2.2@sw_index_tests
         bundle exec rake URL=https://sul-solr.stanford.edu/solr/searchworks-prod/
         '''
       }
