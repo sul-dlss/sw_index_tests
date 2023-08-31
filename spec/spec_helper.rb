@@ -10,13 +10,8 @@ RSpec.configure do |config|
   config.include Helpers
   config.extend Helpers # thanks to the journal_title_spec...
 
-  baseurl = ENV["URL"]
-  if baseurl
-    solr_config = {:url => baseurl}
-  else
-    yml_group = ENV["YML_GROUP"] ||= 'test'
-    solr_config = YAML::load_file('config/solr.yml')[yml_group]
-  end
+  baseurl = ENV.fetch("URL", "https://sul-solr.stanford.edu/solr/searchworks-prod/")
+  solr_config = {:url => baseurl}
 
   config.add_setting :solr, default: RSolr.connect(solr_config)
 

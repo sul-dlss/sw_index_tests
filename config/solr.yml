@@ -1,9 +1,0 @@
-test:
-  :url: http://searchworks-solr-lb.stanford.edu:8983/solr/
-      
-dev:
-  :url: http://your_solr_baseurl
-  
-ci:
-  :url: http://your_solr_baseurl
-  
