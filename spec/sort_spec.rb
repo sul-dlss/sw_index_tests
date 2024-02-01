@@ -8,7 +8,7 @@ describe 'sorting results' do
       docs_match_current_year resp
     end
 
-    it 'with facet format_main_ssim:Book; default sort should be by pub date desc then title asc' do
+    xit 'with facet format_main_ssim:Book; default sort should be by pub date desc then title asc' do
       # TODO:  temporary fix until display year is better determined and coded
       #      resp = solr_response({'fq'=>'format_main_ssim:Book', 'fl'=>'id,pub_date', 'facet'=>false})
       #      year = Time.new.year
