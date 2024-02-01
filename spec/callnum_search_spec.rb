@@ -20,11 +20,10 @@ describe "callnum search" do
       expect(resp).to include('6425766').in_first(3)
     end
 
-    it "QH185.3", :jira => 'VUF-1882' do
-      resp = solr_resp_doc_ids_only(callnum_search_args('QH185.3'))
+    it "QH185 .V", :jira => 'VUF-1882' do
+      resp = solr_resp_doc_ids_only(callnum_search_args('"QH185 .V"'))
       expect(resp).to include('9087723').in_first(3)
       expect(resp.size).to be <= 3
-  	  # would like search for full call number to work:  QH185.3 .VIS 2010 F
     end
   end # context LC
 
