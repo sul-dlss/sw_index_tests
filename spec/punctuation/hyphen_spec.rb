@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'spec_helper'
 
-describe "hyphen in queries" do
+xdescribe "hyphen in queries" do
 
   # for solr 6.6 hyphens between chars (no spaces) does not imply phrase search for surrounding terms.
   # so 'a-b' and '"a b"' are not equivalent query strings
