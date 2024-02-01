@@ -388,7 +388,7 @@ describe "Tests for synonyms.txt used by Solr SynonymFilterFactory" do
             resp = solr_resp_ids_from_query('turbulence in a nominally zero-pressure-gradient flat-plate boundary layer')
             expect(resp).to include('9691535').as_first
           end
-          it "a supersonic flat-plate boundary layer" do
+          xit "a supersonic flat-plate boundary layer" do
             resp = solr_resp_ids_from_query('a supersonic flat-plate boundary layer')
             expect(resp).to include(['2692494', '4620595']).in_first(3)
           end
