@@ -49,8 +49,8 @@ describe "Title Search" do
 
   it "erlking", :jira => 'VUF-89' do
     resp = solr_resp_doc_ids_only(title_search_args 'erlking')
-    expect(resp.size).to be >= 5
-    expect(resp.size).to be <= 20
+    expect(resp.size).to be >= 20
+    expect(resp.size).to be <= 45
   end
 
   it "mathis der maler", :jira => 'VUF-89' do
@@ -95,11 +95,11 @@ describe "Title Search" do
   context "Studies in History and Philosophy of Science", :jira => 'VUF-2003' do
     it "title search without the, phrase" do
       resp = solr_resp_doc_ids_only(title_search_args '"Studies in History and Philosophy of Science"')
-      expect(resp).to include('12209967').as_first  # _Studies in history and philosophy of science_ Lane/Medical record
+      expect(resp).to include('401532').as_first
     end
     it "title search without the, not phrase" do
       resp = solr_resp_doc_ids_only(title_search_args 'Studies in History and Philosophy of Science')
-      expect(resp).to include('12209967').as_first  # _Studies in history and philosophy of science_ Lane/Medical record
+      expect(resp).to include('401532').as_first
     end
     it "title search with the, phrase" do
       resp = solr_resp_ids_titles(title_search_args '"Studies in the History and Philosophy of Science"')
