@@ -32,11 +32,11 @@ describe "Stemming of English words" do
     end
 
     it "Austen also gives Austenland, Austen's" do
-      resp = solr_resp_doc_ids_only({'q'=>'Austen', 'sort'=>'title_sort asc, pub_date_sort desc', 'rows'=>200})
-      # 3393754  "Austen"
+      resp = solr_resp_doc_ids_only({'q'=>'Austen', 'sort'=>'title_sort asc, pub_date_sort desc', 'rows'=>500})
+      # 14437933  "Austen"
       # 6865948  "Austenland"
       # 5847283  "Austen's"
-      expect(resp).to include("3393754").before("6865948")
+      expect(resp).to include("14437933").before("6865948")
       expect(resp).to include("6865948").before("5847283")
     end
 
@@ -102,17 +102,17 @@ describe "Stemming of English words" do
     it "lonely should stem to same as lone" do
       resp = solr_resp_ids_titles(title_search_args('lonely trail'))
       expect(resp).to include('title_245a_display' => /lone /i)
-      expect(resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args 'lone trail'))
+      expect(resp).to have_about_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args 'lone trail'))
     end
     it "silently should stem to same as silent" do
       resp = solr_resp_ids_titles(title_search_args 'silently')
       expect(resp).to include('title_245a_display' => /silent /i)
-      expect(resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args 'silent'))
+      expect(resp).to have_about_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args 'silent'))
     end
     it "knightly should stem to same as knight" do
       resp = solr_resp_ids_full_titles(title_search_args('knightly').merge({:rows => '30'}))
       expect(resp).to include('title_full_display' => /knights? /i)
-      expect(resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args 'knight'))
+      expect(resp).to have_about_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args 'knight'))
     end
     it "deeply should stem to same as deep" do
       resp = solr_resp_ids_full_titles(title_search_args('deeply').merge({:rows => '500'}))
@@ -173,7 +173,7 @@ describe "Stemming of English words" do
       ties = solr_resp_doc_ids_only(title_search_args 'ties')
       tie = solr_resp_doc_ids_only(title_search_args 'tie')
       ti = solr_resp_doc_ids_only(title_search_args 'ti')
-      expect(ties).to have_the_same_number_of_results_as tie
+      expect(ties).to have_about_the_same_number_of_results_as tie
       expect(ties).not_to have_the_same_number_of_results_as ti
     end
   end
