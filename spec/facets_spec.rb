@@ -43,7 +43,7 @@ describe "facet values and queries" do
     end
 
     it "bogus Lane topics, like 'nomesh' and stuff from 655a, should not be topic facet values", :jira => 'VUF-238' do
-      resp = solr_response({'fq'=>'building_facet:"Medical (Lane)"', 'fl' => 'id', 'facet.field'=>'topic_facet'})
+      resp = solr_response({'fq'=>'building_facet:"Lane Medical"', 'fl' => 'id', 'facet.field'=>'topic_facet'})
       expect(resp).to have_facet_field('topic_facet').with_value("Medicine")
       expect(resp).not_to have_facet_field('topic_facet').with_value("nomesh")
       expect(resp).not_to have_facet_field('topic_facet').with_value("Internet Resource")
