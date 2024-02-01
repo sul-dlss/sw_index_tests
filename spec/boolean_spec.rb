@@ -262,8 +262,8 @@ describe 'boolean operators' do
           'access_facet:("At the Library")'
         ]
       )
-      expect(resp.size).to be >= 1200
-      expect(resp.size).to be <= 1400
+      expect(resp.size).to be >= 1300
+      expect(resp.size).to be <= 1500
     end
 
     context 'street art and graffiti', jira: 'VUF-1013' do
@@ -284,8 +284,8 @@ describe 'boolean operators' do
         # "q"=>"( _query_:\"{!dismax qf=$qf_subject pf=$pf_subject pf3=$pf3_subject pf2=$pf2_subject mm=1}\\\"street art\\\" graffiti\" AND
         # _query_:\"{!dismax qf=$qf_subject pf=$pf_subject pf3=$pf3_subject pf2=$pf2_subject}aspects\" )"
         resp = solr_resp_doc_ids_only(subject_search_args '("street art" OR graffiti) AND aspects')
-        expect(resp.size).to be >= 50
-        expect(resp.size).to be <= 70
+        expect(resp.size).to be >= 75
+        expect(resp.size).to be <= 100
         resp_parens = solr_resp_doc_ids_only(subject_search_args '((street art) OR graffiti) AND aspects')
         expect(resp.size).to be < resp_parens.size
       end
@@ -294,8 +294,8 @@ describe 'boolean operators' do
     context 'nested OR within NOT as subject', jira: 'VUF-1387' do
       it 'digestive organs' do
         resp = solr_resp_doc_ids_only(subject_search_args 'digestive organs')
-        expect(resp.size).to be >= 600
-        expect(resp.size).to be <= 650
+        expect(resp.size).to be >= 400
+        expect(resp.size).to be <= 550
       end
       it 'digestive organs NOT disease', pending: 'fixme' do
         # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a NOT

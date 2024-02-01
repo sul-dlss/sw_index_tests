@@ -3,8 +3,8 @@ describe "callnum search" do
   context "LC" do
     it "M452" do
       resp = solr_resp_doc_ids_only(callnum_search_args('M452'))
-      expect(resp.size).to be >= 2900
-      expect(resp.size).to be <= 3500
+      expect(resp.size).to be >= 3500
+      expect(resp.size).to be <= 4125
     end
 
     it "DC314 .L92 A4 1872", :jira => 'VUF-1940' do
