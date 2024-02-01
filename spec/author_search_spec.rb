@@ -132,8 +132,8 @@ describe "Author Search" do
     it "author search Ivanov Viacheslav", :jira => 'VUF-2279' do
       # at least three authors with last name Ivanov, first name Vyacheslav
       resp = solr_resp_doc_ids_only(author_search_args 'Ivanov Viacheslav')
-      expect(resp.size).to be >= 100
-      expect(resp.size).to be <= 150
+      expect(resp.size).to be >= 125
+      expect(resp.size).to be <= 175
     end
     it "author search Vyacheslav Ivanov", pending: 'fixme' do
       # this is "misspelled" per our data
