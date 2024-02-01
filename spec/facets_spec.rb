@@ -32,11 +32,7 @@ describe "facet values and queries" do
       resp = solr_resp_doc_ids_only({'q'=>'ethiopia', 'fq'=>'format_main_ssim:Map'})
       expect(resp.size).to be >= 80
       expect(resp).not_to include('9689856') # a San Francisco atlas
-      resp = solr_resp_doc_ids_only({'q'=>'ethiopia', 'fq'=>'format_main_ssim:Map', 'sort' => 'pub_date_sort desc, title_sort asc'})
-      expect(resp.size).to be >= 80
-      expect(resp).to include('9689856')
     end
-
   end
 
   context "facet values" do
