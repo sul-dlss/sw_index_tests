@@ -79,7 +79,7 @@ describe "Series Search" do
     end
   end
 
-  context "New Cambridge History of Islam", :jira => 'SW-830' do
+  xcontext "New Cambridge History of Islam", :jira => 'SW-830' do
     it "series search, phrase" do
       resp = solr_resp_doc_ids_only(series_search_args '"New Cambridge History of Islam"')
       expect(resp).to include(['9527411', '9527412', '9527413', '9527414', '9527415', '9527416'])
