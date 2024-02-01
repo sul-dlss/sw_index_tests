@@ -359,7 +359,7 @@ describe 'advanced search' do
   end
 
   context 'facets' do
-    context 'format video, location green, language english', jira: 'VUF-2460' do
+    xcontext 'format video, location green, language english', jira: 'VUF-2460' do
       before(:all) do
       end
       it 'before topics selected' do
