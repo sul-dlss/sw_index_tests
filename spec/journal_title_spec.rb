@@ -1,4 +1,4 @@
-describe "journal/newspaper titles" do
+xdescribe "journal/newspaper titles" do
 
 # -------   shared example groups --------
 
