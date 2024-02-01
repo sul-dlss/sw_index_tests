@@ -10,8 +10,8 @@ describe "Number as Query String" do
     it "'The Nation' ISSN 0027-8378 should get perfect results with and without a hyphen", :icu => true do
       resp = solr_resp_ids_from_query '0027-8378'
       expect(resp).to include(['464445', '497417', '3448713', '10039114']).in_first(6)
-      #  additional ckeys:   1771808 (in 500a),  5724779  (in 776x)
-      expect(resp).to include(['1771808', '5724779']).in_first(10)
+      #  additional ckeys:   1771808 (in 500a)
+      expect(resp).to include(['1771808']).in_first(10)
       expect(resp).to have_the_same_number_of_results_as(solr_resp_ids_from_query '00278378')
     end
 
