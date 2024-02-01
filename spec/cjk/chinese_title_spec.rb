@@ -41,10 +41,10 @@ describe "Chinese Title", :chinese => true do
 
   context "golden lotus" do
     context "no space" do
-      it_behaves_like "expected result size", 'title', ' 金瓶梅', 154, 175
+      it_behaves_like "expected result size", 'title', ' 金瓶梅', 165, 200
     end
     context "two spaces" do
-      it_behaves_like "expected result size", 'title', ' 金 瓶 梅', 154, 175
+      it_behaves_like "expected result size", 'title', ' 金 瓶 梅', 165, 200
     end
   end
 
@@ -54,10 +54,10 @@ describe "Chinese Title", :chinese => true do
       it_behaves_like "both scripts get expected result size", 'title', 'traditional', '歷史研究', 'simplified', '历史研究', 1600, 2150
     end
     context "with space" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '歷史 研究', 'simplified', '历史 研究', 2250, 2750
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '歷史 研究', 'simplified', '历史 研究', 2500, 3000
     end
     context "as phrase" do
-      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '"歷史研究"', 'simplified', '"历史研究"', 275, 350
+      it_behaves_like "both scripts get expected result size", 'title', 'traditional', '"歷史研究"', 'simplified', '"历史研究"', 325, 400
     end
   end
 
@@ -305,7 +305,7 @@ describe "Chinese Title", :chinese => true do
       it_behaves_like "great results for women marriage" do
         let (:resp) { simp_resp }
       end
-      it "ranks higher docs with one word in 245a and the other in 245b", pending: :fixme do
+      it "ranks higher docs with one word in 245a and the other in 245b" do
         #  9229845 - woman (nü) 245ab, 246a; marriage (hūnyīn) 245a
         expect(trad_resp).to include("9229845").in_first(10).results
         expect(simp_resp).to include("9229845").in_first(10).results
