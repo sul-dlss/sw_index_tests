@@ -24,12 +24,23 @@ pipeline {
       }
     }
 
-    stage('Test') {
+    stage('Test - Production') {
       steps {
         sh '''#!/bin/bash -l
         rvm use 3.2.2@sw_index_tests
         bundle exec rake URL=https://sul-solr.stanford.edu/solr/searchworks-prod/
         '''
+      }
+    }
+
+    stage('Test - Gryphonsearch') {
+      steps {
+        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+          sh '''#!/bin/bash -l
+          rvm use 3.2.2@sw_index_tests
+          bundle exec rake URL=https://sul-solr.stanford.edu/solr/searchworks-gryphon-search/
+          '''
+        }
       }
     }
   }
