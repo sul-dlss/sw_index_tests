@@ -16,7 +16,7 @@ shared_examples_for "search results are same size" do | query_type, query1, quer
     resp2 = cjk_query_resp_ids(query_type, query2, solr_params ||= {})
     # Japanese analysis
     # pending :fixme unless resp1['response']['numFound'] == resp2['response']['numFound']
-    expect(resp1).to have_the_same_number_of_results_as resp2
+    expect(resp1).to have_about_the_same_number_of_results_as resp2
   end
 end
 

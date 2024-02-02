@@ -202,7 +202,7 @@ describe "Terms with Numbers or other oddities" do
       end
       it "$en$e" do
         resp = solr_resp_ids_from_query "$en$e"
-        expect(resp.size).to be >= 300  # this actually matches  " en e"
+        expect(resp).to include('1127423').as_first # Dollars & $en$e
       end
     end
   end # dollar sign

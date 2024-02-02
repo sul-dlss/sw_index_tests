@@ -44,6 +44,9 @@ module Helpers
     solr_response(solr_params.merge(doc_ids_full_titles))
   end
 
+  def everything_search_args(query_str)
+    {'q'=>query_str}
+  end
   def author_search_args(query_str)
     {'q'=>query_str, 'qt'=>'search', 'qf' => '${qf_author}', 'pf' => '${pf_author}', 'pf3' => '${pf3_author}', 'pf2' => '${pf2_author}'}
   end
@@ -150,6 +153,26 @@ module Helpers
       else
         cjk_everything_q_args(query)
     end
+  end
+
+  # @!method have_the_same_number_of_results_as
+  # Determine if the receiver (a Solr response object) has the same number of total documents as the expected RSpecSolr::SolrResponseHash
+  # NOTE:  this is about the TOTAL number of Solr documents matching the queries, not solely the number of docs in THESE responses
+  RSpec::Matchers.define :have_about_the_same_number_of_results_as do |expected_solr_resp_hash|
+    match do |actual_solr_resp_hash|
+      actual_solr_resp_hash.size * 0.99 <=  expected_solr_resp_hash.size &&
+      actual_solr_resp_hash.size * 1.01 >=  expected_solr_resp_hash.size
+    end
+
+    failure_message do |actual_solr_resp_hash|
+      "expected #{actual_solr_resp_hash.size} documents in Solr response #{expected_solr_resp_hash.num_docs_partial_output_str}"
+    end
+
+    failure_message_when_negated do |actual_solr_resp_hash|
+      "expected (not #{actual_solr_resp_hash.size}) documents in Solr response #{expected_solr_resp_hash.num_docs_partial_output_str}"
+    end
+
+    diffable
   end
 
   private

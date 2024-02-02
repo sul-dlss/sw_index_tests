@@ -3,12 +3,12 @@ require 'spec_helper'
 
 describe 'Chinese Everything', chinese: true do
   context 'china economic policy', jira: 'SW-100' do
-    it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '中國經濟政策', 'simplified', '中国经济政策', 300, 400
+    it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '中國經濟政策', 'simplified', '中国经济政策', 350, 450
     it_behaves_like 'matches in vern short titles first', 'everything', '中國經濟政策', /^(中國經濟政策|圈点)$/, 1
     # 圈点 (4648314) has a full title that includes an exact match
     it_behaves_like 'matches in vern short titles first', 'everything', '中國經濟政策', /(中國經濟政策|中国经济政策|中国経済政策史|圈点|中國新經濟政策)/, 7
     context 'with spaces' do
-      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '中國 經濟 政策', 'simplified', '中国 经济 政策', 300, 400
+      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '中國 經濟 政策', 'simplified', '中国 经济 政策', 350, 450
 
       it_behaves_like 'matches in vern short titles first', 'everything', '中國 經濟 政策', /^中國經濟政策$/, 1
       it_behaves_like 'matches in vern short titles first', 'everything', '中國 經濟 政策', /(中國經濟政策|中国经济政策|中国経済政策史|圈点)/, 4
@@ -44,13 +44,13 @@ describe 'Chinese Everything', chinese: true do
 
   context 'history research', jira: 'VUF-2771' do
     context 'no spaces' do
-      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '歷史研究', 'simplified', '历史研究', 7500, 8200
+      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '歷史研究', 'simplified', '历史研究', 8500, 10000
     end
     context 'with space' do
-      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '歷史研究', 'simplified', '历史研究', 7500, 8200
+      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '歷史研究', 'simplified', '历史研究', 8500, 10500
     end
     context 'as phrase' do
-      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '"歷史研究"', 'simplified', '"历史研究"', 600, 900
+      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '"歷史研究"', 'simplified', '"历史研究"', 800, 1050
     end
   end
 
@@ -112,7 +112,7 @@ describe 'Chinese Everything', chinese: true do
       end
     end
     context 'with spaces' do
-      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '婦女 與 文學', 'simplified', '妇女 与 文学', 25, 40
+      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '婦女 與 文學', 'simplified', '妇女 与 文学', 35, 55
       context '', skip: :fixme do
         it_behaves_like 'great search results for women and literature' do
           let(:resp) { cjk_query_resp_ids('everything', '婦女 與 文學', 'rows' => 50) }

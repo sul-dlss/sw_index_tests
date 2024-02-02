@@ -14,16 +14,16 @@ describe 'Japanese Title searches', japanese: true do
     # First char of traditional doesn't translate to first char of modern with ICU traditional->simplified
     # (traditional and simplified are the same;  modern is different)
     # (see also japanese han variants spec)
-    it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '佛教', 'modern', '仏教', 3000, 3500
+    it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '佛教', 'modern', '仏教', 3250, 3750
     it_behaves_like 'matches in vern short titles first', 'title', '佛教', /(佛|仏)(教|敎)/, 100  # trad
     it_behaves_like 'matches in vern short titles first', 'title', '仏教', /(佛|仏)(教|敎)/, 15  # modern
     it_behaves_like 'matches in vern short titles first', 'title', '仏教', /^(佛|仏)(教|敎)[^[[:alnum:]]]*$/, 3 # exact title match
     it_behaves_like 'matches in vern short titles first', 'title', '仏教', /^(佛|仏)(教|敎).*$/, 7 # title starts w match
     context 'w lang limit' do
       # trad
-      it_behaves_like 'result size and vern short title matches first', 'title', '佛教', 1400, 1550, /(佛|仏)(教|敎)/, 100, lang_limit
+      it_behaves_like 'result size and vern short title matches first', 'title', '佛教', 1600, 1750, /(佛|仏)(教|敎)/, 100, lang_limit
       # modern
-      it_behaves_like 'result size and vern short title matches first', 'title', '仏教', 1400, 1550, /(佛|仏)(教|敎)/, 15, lang_limit
+      it_behaves_like 'result size and vern short title matches first', 'title', '仏教', 1600, 1750, /(佛|仏)(教|敎)/, 15, lang_limit
     end
   end
   context 'editorial' do
@@ -55,7 +55,7 @@ describe 'Japanese Title searches', japanese: true do
   end
   context 'historical records' do
     it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '古記錄', 'modern', '古記録', 120, 200
-    it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '古記錄', 'modern', '古記録', 110, 140, lang_limit
+    it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '古記錄', 'modern', '古記録', 130, 160, lang_limit
     it_behaves_like 'matches in vern short titles first', 'title', '古記録', /古記錄|古記録/, 24, lang_limit
     it_behaves_like 'matches in vern titles first', 'title', '古記録', /古記錄|古記録/, 26, lang_limit # 4647977 at 27, which doesn't match 3 together
   end
@@ -85,7 +85,7 @@ describe 'Japanese Title searches', japanese: true do
     it_behaves_like 'matches in vern short titles first', 'title', 'まんが', /まんが|マンガ/, 100
     it_behaves_like 'matches in vern titles', 'title', 'まんが', /まんが/, 20 # hiragana script is in results
     it_behaves_like 'matches in vern titles', 'title', 'マンガ', /マンガ/, 20 # katagana script is in results
-    it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '漫畫', 'modern', ' 漫画', 475, 600
+    it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '漫畫', 'modern', ' 漫画', 575, 700
     it_behaves_like 'matches in vern short titles first', 'title', '漫画', /漫画|漫畫/, 50
     it_behaves_like 'matches in vern titles', 'title', '漫画', /漫画/, 20 # modern script is in results
     it_behaves_like 'matches in vern titles', 'title', '漫畫', /漫畫/, 20 # traditional script is in results
@@ -111,7 +111,7 @@ describe 'Japanese Title searches', japanese: true do
     it_behaves_like 'good results for query', 'title', '近世仮名遣い論の研究', 1, 1, '7926218', 1
   end
   context 'sports  スポーツ (katakana)', jira: 'VUF-2738' do
-    it_behaves_like 'expected result size', 'title', 'スポーツ', 34, 80
+    it_behaves_like 'expected result size', 'title', 'スポーツ', 75, 120
     it_behaves_like 'matches in vern short titles first', 'title', 'スポーツ', /スポーツ/, 20
   end
   context 'Study of Buddhism', jira: ['VUF-2732', 'VUF-2733'] do
@@ -152,7 +152,7 @@ describe 'Japanese Title searches', japanese: true do
     end
     context 'kanji', jira: ['VUF-2705', 'VUF-2742', 'VUF-2740'] do
       # Japanese do not use 语 (2nd char as simplified chinese) but rather 語 (trad char)
-      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '物語', 'chinese simp', '物语', 2700, 2850
+      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '物語', 'chinese simp', '物语', 2900, 3100
       it_behaves_like 'matches in vern titles first', 'title', '物語', /物語/, 13 # 14 is 4223454 which has it in 240a
       it_behaves_like 'matches in vern titles first', 'title', '物語', /物語/, 100, lang_limit
     end
@@ -176,7 +176,7 @@ describe 'Japanese Title searches', japanese: true do
     it_behaves_like 'matches in vern short titles first', 'title', '週刋', /週(刊|刋)/, 20, lang_limit # trad
   end
   context 'TPP', jira: 'VUF-2696' do
-    it_behaves_like 'expected result size', 'title', 'TPP', 45, 90
+    it_behaves_like 'expected result size', 'title', 'TPP', 75, 120
     it_behaves_like 'expected result size', 'title', 'TPP', 20, 50, lang_limit
     it_behaves_like 'matches in vern short titles first', 'title', 'TPP', /TPP/, 6, lang_limit
     it_behaves_like 'matches in vern titles first', 'title', 'TPP', /TPP/, 7, lang_limit

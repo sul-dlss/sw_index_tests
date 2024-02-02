@@ -54,7 +54,7 @@ describe 'Chinese Han variants', chinese: true do
       it_behaves_like 'great matches for history research', 'title', '历史研究'
     end
     context 'with space' do
-      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '歷史 研究', 'simplified', '历史 研究', 2200, 2700
+      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '歷史 研究', 'simplified', '历史 研究', 2500, 3000
 
       it_behaves_like 'best matches first', 'title', '歷史 研究', %w(6433575 9336336), 10
       it_behaves_like 'best matches first', 'title', '历史 研究', %w(6433575 9336336), 10
@@ -127,8 +127,8 @@ describe 'Chinese Han variants', chinese: true do
   context '敎 654E (variant) => 教 6559 (std trad)' do
     # FIXME:  these do not give the same numbers of results.
     # it_behaves_like "both scripts get expected result size", 'title', 'variant', '敎育', 'std trad', '教育', 3000, 3500, {'fq'=>'language:Japanese'}
-    it_behaves_like 'expected result size', 'title', '敎育', 3000, 4000, 'fq' => 'language:Japanese'  # variant
-    it_behaves_like 'expected result size', 'title', '教育', 3000, 4000, 'fq' => 'language:Japanese'  # std trad
+    it_behaves_like 'expected result size', 'title', '敎育', 3500, 4500, 'fq' => 'language:Japanese'  # variant
+    it_behaves_like 'expected result size', 'title', '教育', 3500, 4500, 'fq' => 'language:Japanese'  # std trad
   end
 
   context '甯 752F (variant) => 寧 5BE7 (std trad)' do
@@ -138,20 +138,20 @@ describe 'Chinese Han variants', chinese: true do
   context '硏 784F (variant) => 研 7814 (std trad)' do
     # FIXME:  these do not give the same numbers of results.
     # it_behaves_like "both scripts get expected result size", 'title', 'variant', '硏究', 'std trad', '研究', 14750, 15250, {'fq'=>'language:Japanese'}
-    it_behaves_like 'expected result size', 'title', '硏究', 14_750, 16_750, 'fq' => 'language:Japanese'  # variant
-    it_behaves_like 'expected result size', 'title', '研究', 14_750, 16_750, 'fq' => 'language:Japanese'  # std trad
+    it_behaves_like 'expected result size', 'title', '硏究', 16_750, 18_750, 'fq' => 'language:Japanese'  # variant
+    it_behaves_like 'expected result size', 'title', '研究', 16_750, 18_750, 'fq' => 'language:Japanese'  # std trad
   end
 
   context '緖 7DD6 (variant) => 緒 7DD2 (std trad)' do
-    it_behaves_like 'both scripts get expected result size', 'title', 'variant', '緖方', 'std trad', '緒方', 20, 30
+    it_behaves_like 'both scripts get expected result size', 'title', 'variant', '緖方', 'std trad', '緒方', 30, 40
   end
 
   context '緖 7DD6 (variant) => 緒 7DD2 (std trad)' do
-    it_behaves_like 'both scripts get expected result size', 'title', 'variant', '緖方', 'std trad', '緒方', 20, 30
+    it_behaves_like 'both scripts get expected result size', 'title', 'variant', '緖方', 'std trad', '緒方', 30, 40
   end
 
   context '緖 7DD6 (variant) => 緒 7DD2 (std trad)' do
-    it_behaves_like 'both scripts get expected result size', 'title', 'variant', '緖方', 'std trad', '緒方', 20, 30
+    it_behaves_like 'both scripts get expected result size', 'title', 'variant', '緖方', 'std trad', '緒方', 30, 40
   end
 
   # '\u520A' => '\u520B' // modern 刊 => trad 刋     see japanese  "weekly"

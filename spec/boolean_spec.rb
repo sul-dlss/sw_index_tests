@@ -91,35 +91,30 @@ describe 'boolean operators' do
   # TODO: what about lowercase not?
 
   context 'NOT operator' do
-    shared_examples_for 'NOT negates following term' do |query, exp_ids, un_exp_ids, first_n|
-      before(:all) do
-        @resp = solr_resp_ids_from_query query
-      end
-      it 'should have expected results', pending: 'fixme' do
-        expect(@resp).to include(exp_ids).in_first(first_n).documents
-      end
-      it 'should not have unexpected results' do
-        expect(@resp).not_to include(un_exp_ids)
-      end
-      it 'query that includes term should match unexpected ids' do
-        # or we don't have good unexpected ids for the test
-        resp_w_term = solr_resp_ids_from_query query.sub(' NOT ', ' ')
-        expect(resp_w_term).to include(un_exp_ids)
-      end
-      it 'should have fewer results than query without NOT clause' do
-        expect(@resp).to have_fewer_documents_than(solr_resp_ids_from_query query.sub(/ NOT \S+ ?/, ' '))
-      end
-      it "hyphen with space before but not after (' -a') should be equivalent to NOT" do
-        expect(@resp).to have_the_same_number_of_documents_as(solr_resp_ids_from_query query.sub(' NOT ', ' -'))
-      end
-    end # shared examples for NOT in query
-
     #  per Google Analytics mid-April - mid- May 2013
     context 'actual user queries' do
       # the following is busted due to Solr edismax bug
       # https://issues.apache.org/jira/browse/SOLR-2649
       context 'space exploration NOT nasa' do
-        it_behaves_like 'NOT negates following term', 'space exploration NOT nasa', '4146206', '2678639', 5
+        it 'should have expected results', pending: 'fixme' do
+          resp = solr_resp_ids_from_query 'space exploration NOT nasa'
+          expect(resp).to include(%w(4146206)).in_first(5).documents
+        end
+        it 'does not have the unexpected results' do
+          resp = solr_resp_ids_from_query 'space exploration NOT nasa'
+          expect(resp).not_to include(%w(2678639))
+
+          resp = solr_resp_ids_from_query 'space exploration nasa'
+          expect(resp).to include(%w(2678639))
+        end
+        it 'has fewer results than query without NOT clause' do
+          resp = solr_resp_ids_from_query 'space exploration NOT nasa'
+          expect(resp).to have_fewer_documents_than(solr_resp_ids_from_query 'space exploration')
+        end
+        it 'has the same results using the lucene syntax' do
+          resp = solr_resp_ids_from_query 'space exploration NOT nasa'
+          expect(resp).to have_the_same_number_of_documents_as(solr_resp_ids_from_query 'space exploration -nasa')
+        end
         it 'has an appropriate number of results', pending: 'fixme' do
           resp = solr_resp_ids_from_query 'space exploration NOT nasa'
           expect(resp.size).to be >= 6300
@@ -262,8 +257,8 @@ describe 'boolean operators' do
           'access_facet:("At the Library")'
         ]
       )
-      expect(resp.size).to be >= 1200
-      expect(resp.size).to be <= 1400
+      expect(resp.size).to be >= 1300
+      expect(resp.size).to be <= 1500
     end
 
     context 'street art and graffiti', jira: 'VUF-1013' do
@@ -284,8 +279,8 @@ describe 'boolean operators' do
         # "q"=>"( _query_:\"{!dismax qf=$qf_subject pf=$pf_subject pf3=$pf3_subject pf2=$pf2_subject mm=1}\\\"street art\\\" graffiti\" AND
         # _query_:\"{!dismax qf=$qf_subject pf=$pf_subject pf3=$pf3_subject pf2=$pf2_subject}aspects\" )"
         resp = solr_resp_doc_ids_only(subject_search_args '("street art" OR graffiti) AND aspects')
-        expect(resp.size).to be >= 50
-        expect(resp.size).to be <= 70
+        expect(resp.size).to be >= 75
+        expect(resp.size).to be <= 100
         resp_parens = solr_resp_doc_ids_only(subject_search_args '((street art) OR graffiti) AND aspects')
         expect(resp.size).to be < resp_parens.size
       end
@@ -294,8 +289,8 @@ describe 'boolean operators' do
     context 'nested OR within NOT as subject', jira: 'VUF-1387' do
       it 'digestive organs' do
         resp = solr_resp_doc_ids_only(subject_search_args 'digestive organs')
-        expect(resp.size).to be >= 600
-        expect(resp.size).to be <= 650
+        expect(resp.size).to be >= 400
+        expect(resp.size).to be <= 550
       end
       it 'digestive organs NOT disease', pending: 'fixme' do
         # the following is busted due to Solr edismax bug that sets mm=1 if it encounters a NOT

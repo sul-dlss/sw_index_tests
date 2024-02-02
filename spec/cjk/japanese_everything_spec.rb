@@ -21,8 +21,8 @@ describe 'Japanese Everything Searches', japanese: true do
     # (see also japanese_han_variants_spec)
     # FIXME:  these do not give the same numbers of results.
     # it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '江戶', 'modern', '江戸', 1900, 2000, lang_limit
-    it_behaves_like 'expected result size', 'everything', '江戶', 2050, 2350, lang_limit  # trad
-    it_behaves_like 'expected result size', 'everything', '江戸', 2050, 2350, lang_limit  # modern
+    it_behaves_like 'expected result size', 'everything', '江戶', 2450, 2750, lang_limit  # trad
+    it_behaves_like 'expected result size', 'everything', '江戸', 2450, 2750, lang_limit  # modern
 
     it_behaves_like 'matches in vern short titles first', 'everything', '江戶', /(江戶|江戸)/, 100, lang_limit # trad
     it_behaves_like 'matches in vern short titles first', 'everything', '江戸', /(江戶|江戸)/, 100, lang_limit # modern
@@ -55,7 +55,7 @@ describe 'Japanese Everything Searches', japanese: true do
   end
 
   context '(local/regional society)', jira: 'VUF-2717' do
-    it_behaves_like 'expected result size', 'everything', '地域社会', 700, 850
+    it_behaves_like 'expected result size', 'everything', '地域社会', 800, 950
     it_behaves_like 'matches in vern short titles first', 'everything', '地域社会', /^地域社会$/, 1 # exact title match
     context 'w lang limit' do
       it_behaves_like 'expected result size', 'everything', '地域社会', 550, 700, lang_limit
@@ -105,7 +105,7 @@ describe 'Japanese Everything Searches', japanese: true do
     end
   end
   context "publisher's name starting with 'outside of Japan'", jira: 'VUF-2699' do
-    it_behaves_like 'expected result size', 'everything', '日外アソシエーツ', 600, 750
+    it_behaves_like 'expected result size', 'everything', '日外アソシエーツ', 700, 850
     it_behaves_like 'matches in vern corp authors first', 'everything', '日外アソシエーツ', /日外アソシエーツ/, 2
   end
 
@@ -123,7 +123,7 @@ describe 'Japanese Everything Searches', japanese: true do
   end
 
   context 'Takamatsu Tumulus', jira: 'VUF-2801' do
-    it_behaves_like 'result size and vern short title matches first', 'everything', '高松 塚古墳', 6, 8, /高松\s*塚古墳/, 1
+    it_behaves_like 'result size and vern short title matches first', 'everything', '高松 塚古墳', 10, 20, /高松\s*塚古墳/, 1
   end
 
   context 'TPP', jira: 'VUF-2694' do

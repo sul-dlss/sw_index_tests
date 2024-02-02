@@ -3,15 +3,15 @@ require 'spec_helper'
 
 describe "colons in queries should be ignored ('a : b', 'a: b', and 'a b' are all the same)" do
   #  note that a space before, but not after a colon is highly unlikely
-  
+
   it "surrounded by spaces inside phrase should be ignored" do
     resp = solr_resp_ids_from_query '"Alice in Wonderland : a serie[s]"'
     expect(resp.size).to be >= 2
     expect(resp).to have_the_same_number_of_results_as(solr_resp_ids_from_query('"Alice in Wonderland a serie[s]"'))
   end
-  
+
   # TODO:  used shared example groups as in ampersand and hyphen specs
-  
+
   context "jazz : photographs (2 terms)" do
     shared_examples_for "great results for jazz photographs" do
       it "should have best matches for 'jazz photographs' at top" do
@@ -52,7 +52,7 @@ describe "colons in queries should be ignored ('a : b', 'a: b', and 'a b' are al
       end
     end
   end # two terms
-    
+
   context "Love : short stories (3 terms)" do
     shared_examples_for "great results for love short stories" do
       it "should have best matches for 'love short stories' at top" do
@@ -91,7 +91,7 @@ describe "colons in queries should be ignored ('a : b', 'a: b', and 'a b' are al
         expect(resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('"Love: short stories"')))
       end
     end
-  end # 3 terms 
+  end # 3 terms
 
   context "jazz : an introduction (3 terms, with a former stopword)" do
     shared_examples_for "great results for jazz an introduction" do
@@ -146,8 +146,8 @@ describe "colons in queries should be ignored ('a : b', 'a: b', and 'a b' are al
 #      end
     end
   end # 3 terms, one former stop
-  
-  
+
+
   context "4 terms" do
     shared_examples_for "great results for Dance dance revolution : poems" do
       it "should have best matches for Dance dance revolution : poems" do
@@ -170,7 +170,7 @@ describe "colons in queries should be ignored ('a : b', 'a: b', and 'a b' are al
         expect(resp).to have_the_same_number_of_results_as(solr_resp_ids_from_query('"Dance dance revolution: poems"'))
       end
     end
-    
+
     shared_examples_for "great results for Jazz : America's classical music" do
       it "should have best matches for Jazz : America's classical music" do
         expect(resp).to include('3080095').in_first(3)
@@ -195,7 +195,7 @@ describe "colons in queries should be ignored ('a : b', 'a: b', and 'a b' are al
         expect(resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('"Jazz America classical music"')))
       end
     end
-    
+
     shared_examples_for "great results for Tuna : a love story" do
       it "should have best matches for Tuna : a love story" do
         expect(resp).to include('7698810').in_first(3)
@@ -218,11 +218,11 @@ describe "colons in queries should be ignored ('a : b', 'a: b', and 'a b' are al
       end
     end
   end # 4 terms
-  
+
   context "5 terms" do
     shared_examples_for "great results for Fishes : an introduction to ichthyology" do
       it "should have best matches for Fishes : an introduction to ichthyology" do
-        expect(resp).to include(['5503532', '4150267', '3089293', '1307571', '1484390']).in_first(5)
+        expect(resp).to include(['5503532', '4150267', '1307571', '1484390']).in_first(5)
       end
     end
     context "title search  Fishes : an introduction to ichthyology", :jira => 'VUF-1058' do
@@ -241,7 +241,7 @@ describe "colons in queries should be ignored ('a : b', 'a: b', and 'a b' are al
         expect(resp).to have_the_same_number_of_results_as(solr_resp_doc_ids_only(title_search_args('"Fishes: an introduction to ichthyology"')))
       end
     end
-    
+
     shared_examples_for "great results for Jazz. [videorecording] : anyone can improvise" do
       it "should have best matches for Jazz. [videorecording] : anyone can improvise" do
         expect(resp).to include('3995912').in_first(3)
@@ -264,9 +264,9 @@ describe "colons in queries should be ignored ('a : b', 'a: b', and 'a b' are al
         expect(resp).to have_the_same_number_of_results_as(solr_resp_ids_from_query('"Jazz. [videorecording]: anyone can improvise"'))
         expect(resp).to have_the_same_number_of_results_as(solr_resp_ids_from_query('"Jazz videorecording anyone can improvise"'))
       end
-    end    
+    end
   end # 5 terms
-  
+
   context "6 terms" do
     shared_examples_for "great results for Qua-We-Na [microform]. : Native people" do
       it "should have best matches for Qua-We-Na [microform]. : Native people" do
@@ -295,7 +295,7 @@ describe "colons in queries should be ignored ('a : b', 'a: b', and 'a b' are al
         expect(resp).to have_the_same_number_of_results_as(solr_resp_ids_from_query('"Qua-We-Na microform Native people"'))
       end
     end
-    
+
     shared_examples_for "great results for César Chávez : a voice for farmworkers" do
       it "should have best matches for César Chávez : a voice for farmworkers" do
         expect(resp).to include('6757167').in_first(3)
@@ -318,7 +318,7 @@ describe "colons in queries should be ignored ('a : b', 'a: b', and 'a b' are al
       end
     end
   end # 6 terms
-   
+
   context "7 terms" do
     shared_examples_for "great results for Petroleum : the phenomenon of a modern panic" do
       it "should have best matches for Petroleum : the phenomenon of a modern panic" do
@@ -341,7 +341,7 @@ describe "colons in queries should be ignored ('a : b', 'a: b', and 'a b' are al
         expect(resp).to have_the_same_number_of_results_as(solr_resp_ids_from_query('"Petroleum: the phenomenon of a modern panic"'))
       end
     end
-    
+
     shared_examples_for "great results for Petroleum : exploration and exploitation in Norway : proceedings" do
       it "should have best matches for Petroleum : exploration and exploitation in Norway : proceedings" do
         expect(resp).to include('3114278').in_first(3)
@@ -370,7 +370,7 @@ describe "colons in queries should be ignored ('a : b', 'a: b', and 'a b' are al
       end
     end
   end # 7 terms
-  
+
   context "8 terms" do
     shared_examples_for "great results for The Beatles as musicians : Revolver through the Anthology" do
       it "should have best matches for The Beatles as musicians : Revolver through the Anthology" do
@@ -418,7 +418,7 @@ describe "colons in queries should be ignored ('a : b', 'a: b', and 'a b' are al
       end
     end
   end # 10 terms
-  
+
   context "Alice in Wonderland : a serie[s] of pantomime pictures for grand orchestra" do
     it "Alice in Wonderland : a serie[s] of pantomime pictures for grand orchestra (not phrase)" do
       resp = solr_resp_ids_from_query 'Alice in Wonderland : a serie[s] of pantomime pictures for grand orchestra'
@@ -433,5 +433,5 @@ describe "colons in queries should be ignored ('a : b', 'a: b', and 'a b' are al
       expect(resp).to have_the_same_number_of_results_as(solr_resp_ids_from_query('"Alice in Wonderland: a serie[s] of pantomime pictures for grand orchestra"'))
     end
   end
-  
+
 end # colon

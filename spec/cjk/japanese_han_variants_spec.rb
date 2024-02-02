@@ -9,7 +9,7 @@ describe 'Japanese Kanji variants', japanese: true do
       # First char of traditional doesn't translate to first char of modern with ICU traditional->simplified
       # (traditional and simplified are the same;  modern is different)
       # second char also has variant:   敎 654E (variant) => 教 6559 (std trad)
-      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '佛教', 'modern', '仏教', 3000, 4000
+      it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '佛教', 'modern', '仏教', 4000, 5000
       it_behaves_like 'matches in vern short titles first', 'everything', '佛教', /(佛|仏)(教|敎)/, 100  # trad
       it_behaves_like 'matches in vern short titles first', 'everything', '仏教', /(佛|仏)(教|敎)/, 15  # modern
       # exact_245a = %w(6854317 4162614 6276328 10243029 10243045 10243039)
@@ -17,9 +17,9 @@ describe 'Japanese Kanji variants', japanese: true do
       it_behaves_like 'matches in vern short titles first', 'title', '仏教', /^(佛|仏)(教|敎).*$/, 7 # title starts w match
       context 'w lang limit' do
         # trad
-        it_behaves_like 'result size and vern short title matches first', 'everything', '佛教', 1325, 1725, /(佛|仏)(教|敎)/, 100, lang_limit
+        it_behaves_like 'result size and vern short title matches first', 'everything', '佛教', 1525, 2000, /(佛|仏)(教|敎)/, 100, lang_limit
         # modern
-        it_behaves_like 'result size and vern short title matches first', 'everything', '仏教', 1325, 1725, /(佛|仏)(教|敎)/, 15, lang_limit
+        it_behaves_like 'result size and vern short title matches first', 'everything', '仏教', 1525, 2000, /(佛|仏)(教|敎)/, 15, lang_limit
       end
     end # buddhism
 
@@ -33,8 +33,8 @@ describe 'Japanese Kanji variants', japanese: true do
       # Second char of traditional doesn't translate to second char of modern with ICU traditional->simplified
       # FIXME:  these do not give the same numbers of results.
       # it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '江戶', 'modern', '江戸', 1900, 2000
-      it_behaves_like 'expected result size', 'everything', '江戶', 2200, 2400  # trad
-      it_behaves_like 'expected result size', 'everything', '江戸', 2200, 2400  # modern
+      it_behaves_like 'expected result size', 'everything', '江戶', 2400, 2750  # trad
+      it_behaves_like 'expected result size', 'everything', '江戸', 2400, 2750  # modern
 
       it_behaves_like 'matches in vern short titles first', 'everything', '江戶', /(江戶|江戸)/, 100  # trad
       it_behaves_like 'matches in vern short titles first', 'everything', '江戸', /(江戶|江戸)/, 100  # modern
@@ -65,8 +65,8 @@ describe 'Japanese Kanji variants', japanese: true do
       # "慶応義塾大学(Keio Gijuku University)" + "Search everything" retrieves 146 hits (all relevant). "慶應義塾大学" retrieves 262 hits (all relevant).
       # FIXME:  these do not give the same numbers of results.  Even with lang_limit.  But they are both analyzed to the same char string  2013-10-14
       #      it_behaves_like "both scripts get expected result size", 'everything', 'traditional', '慶應義塾大学', 'modern', '慶応義塾大学', 375, 450
-      it_behaves_like 'expected result size', 'everything', '慶應義塾大学', 575, 625  # trad
-      it_behaves_like 'expected result size', 'everything', '慶応義塾大学', 575, 625 # modern
+      it_behaves_like 'expected result size', 'everything', '慶應義塾大学', 600, 750  # trad
+      it_behaves_like 'expected result size', 'everything', '慶応義塾大学', 600, 750 # modern
     end
 
     context 'Mahayana Buddhism', jira: 'VUF-2761' do
@@ -114,9 +114,9 @@ describe 'Japanese Kanji variants', japanese: true do
       #  (chars 2 and 4) (char 8 also different)
       # simplified Chinese version of these two characters are 满 (U+6EE1) and 铁 (U+94C1). These are used in Chinese and not Japanese.
       # we don't care about  南满洲铁道株式會社 (Han simplified (non-Japanese) chars 2,4) - a Japanese query wouldn't have it
-      it_behaves_like 'both scripts get expected result size', 'author', 'traditional', '南滿洲鐵道株式會社', 'modern', '南満州鉄道株式会社', 600, 750
-      it_behaves_like 'expected result size', 'author', '南滿洲鐵道株式會社', 600, 750  # trad
-      it_behaves_like 'expected result size', 'author', '南満州鉄道株式会社', 600, 750  # modern
+      it_behaves_like 'both scripts get expected result size', 'author', 'traditional', '南滿洲鐵道株式會社', 'modern', '南満州鉄道株式会社', 700, 850
+      it_behaves_like 'expected result size', 'author', '南滿洲鐵道株式會社', 700, 850  # trad
+      it_behaves_like 'expected result size', 'author', '南満州鉄道株式会社', 700, 850  # modern
       context '', pending: :fixme do
         it_behaves_like 'matches in vern corp authors first', 'author', '南滿洲鐵道株式會社', /^南(滿|満)(洲|州)(鉄|鐵)道株式(会|會)社[^[[:alnum:]]]*.*$/, 100 # traditional
         it_behaves_like 'matches in vern corp authors first', 'author', '南満州鉄道株式会社', /^南(滿|満)(洲|州)(鉄|鐵)道株式(会|會)社[^[[:alnum:]]]*.*$/, 100 # modern
@@ -132,8 +132,8 @@ describe 'Japanese Kanji variants', japanese: true do
       # traditional:   天氣
       # modern:   天気
       # chinese simp:  天气
-      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '天氣', 'modern', '天気', 10, 20
-      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '天氣', 'chinese', '天气', 10, 20
+      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '天氣', 'modern', '天気', 15, 30
+      it_behaves_like 'both scripts get expected result size', 'title', 'traditional', '天氣', 'chinese', '天气', 15, 30
       it_behaves_like 'matches in vern short titles first', 'title', '天気', /天(氣|気|气)/, 9 # modern
       it_behaves_like 'matches in vern short titles first', 'title', '天氣', /天(氣|気|气)/, 9 # trad
       it_behaves_like 'matches in vern titles first', 'title', '天気', /天(氣|気|气)/, 11 # modern

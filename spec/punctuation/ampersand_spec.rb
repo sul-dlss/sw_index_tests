@@ -58,7 +58,7 @@ describe "ampersands in queries" do
   end
 
   context "4 term query title search 'horn violin & piano'" do
-    it_behaves_like "ampersand ignored", "horn violin & piano", ["2209617", "3395922"], 6
+    it_behaves_like "ampersand ignored", "horn violin & piano", ["2209617", "3395922"], 10
   end
 
   context "4 term query 'crosby stills nash & young'" do

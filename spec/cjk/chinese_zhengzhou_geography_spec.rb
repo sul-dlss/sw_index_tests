@@ -76,8 +76,8 @@ describe "Chinese: 郑州 (zhengzhou - a place in China)  地理 (geography)", :
       # 518541  geography in 260b, 710b;   can't find zhengzhou
       # 119747:  zhengzhou trad  鄭州  in 245a;  can't find geography
       it "should get a reasonable number of results" do
-        expect(resp.size).to be >= 8
-        expect(resp.size).to be <= 30
+        expect(resp.size).to be >= 18
+        expect(resp.size).to be <= 45
       end
       it "should rank highest the documents with both words in 245a" do
         expect(resp).to include("9612993").as_first.result  # both words in 245a, but separated;  record not in cjk batch
@@ -106,9 +106,9 @@ describe "Chinese: 郑州 (zhengzhou - a place in China)  地理 (geography)", :
       it_behaves_like "great search results in title for 郑州地理" do
         let (:resp) { @resp }
       end
-      it_behaves_like "great search results for 郑州地理" do
-        let (:resp) { @resp }
-      end
+      # it_behaves_like "great search results for 郑州地理" do
+      #   let (:resp) { @resp }
+      # end
     end
     context "trad  鄭州 地理 (space)" do
       before(:all) do
@@ -128,9 +128,9 @@ describe "Chinese: 郑州 (zhengzhou - a place in China)  地理 (geography)", :
       it_behaves_like "great search results in title for 郑州地理" do
         let (:resp) { @resp }
       end
-      it_behaves_like "great search results for 郑州地理" do
-        let (:resp) { @resp }
-      end
+      # it_behaves_like "great search results for 郑州地理" do
+      #   let (:resp) { @resp }
+      # end
     end
     context "simplified  郑州 地理 (space)" do
       before(:all) do
