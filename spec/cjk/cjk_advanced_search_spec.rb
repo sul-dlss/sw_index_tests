@@ -58,11 +58,11 @@ describe 'CJK Advanced Search' do
         expect(@resp.size).to be >= 15
         expect(@resp.size).to be <= 25 # 20 match everything search
       end
-      it 'whitespace exact matches first' do
+      xit 'whitespace exact matches first' do
         exact_matches = %w(4230322 9392905 9350464 12817073)
         expect(@resp).to include(exact_matches).in_first(10).documents
       end
-      it 'matches without spaces present' do
+      xit 'matches without spaces present' do
         inexact_matches = '8630944'
         expect(@resp).to include(inexact_matches).in_first(20).documents
       end

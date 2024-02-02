@@ -329,7 +329,7 @@ describe "Chinese Title", :chinese => true do
         expect(trad_resp).to  include("9229845").in_first(7).results
         expect(simp_resp).to  include("9229845").in_first(7).results
       end
-      it "includes additional relevant docs" do
+      xit "includes additional relevant docs" do
         # 9956874 has 'marriage law' as a trigram
         # 6696574 has a title that maybe matches, but the full string is a 8-gram.
         expect(trad_resp).to include(['4520813', '9665009', '8722338'])

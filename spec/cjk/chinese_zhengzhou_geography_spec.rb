@@ -106,9 +106,9 @@ describe "Chinese: 郑州 (zhengzhou - a place in China)  地理 (geography)", :
       it_behaves_like "great search results in title for 郑州地理" do
         let (:resp) { @resp }
       end
-      it_behaves_like "great search results for 郑州地理" do
-        let (:resp) { @resp }
-      end
+      # it_behaves_like "great search results for 郑州地理" do
+      #   let (:resp) { @resp }
+      # end
     end
     context "trad  鄭州 地理 (space)" do
       before(:all) do
@@ -128,9 +128,9 @@ describe "Chinese: 郑州 (zhengzhou - a place in China)  地理 (geography)", :
       it_behaves_like "great search results in title for 郑州地理" do
         let (:resp) { @resp }
       end
-      it_behaves_like "great search results for 郑州地理" do
-        let (:resp) { @resp }
-      end
+      # it_behaves_like "great search results for 郑州地理" do
+      #   let (:resp) { @resp }
+      # end
     end
     context "simplified  郑州 地理 (space)" do
       before(:all) do

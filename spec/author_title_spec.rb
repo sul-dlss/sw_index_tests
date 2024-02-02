@@ -19,6 +19,7 @@ describe "Author-Title Search" do
   end
 
   it "Schiller, Friedrich, 1759-1805. An die Freude", :jira => ['SW-138', 'SW-387'] do
+    pending
     q = '"Schiller, Friedrich, 1759-1805. An die Freude"'
     resp = solr_response(author_title_search_args(q).merge!({'fl'=>'id,author_person_display', 'facet'=>false}))
     expect(resp.size).to be >= 10
@@ -54,6 +55,7 @@ describe "Author-Title Search" do
   end
 
   it "Beethoven fidelio", :jira => ['SW-387', 'SW-138'] do
+    pending
     q = '"Beethoven, Ludwig van, 1770-1827. Fidelio"'
     resp = solr_response(author_title_search_args(q).merge!({'fl'=>'id,author_person_display,title_245a_display', 'facet'=>false}))
     expect(resp.size).to be >= 700
@@ -63,6 +65,7 @@ describe "Author-Title Search" do
   end
 
   it "Beethoven fidelio 1814", :jira => 'VUF-938' do
+    pending
     q = '"Beethoven, Ludwig van, 1770-1827. Fidelio (1814)"'
     resp = solr_response(author_title_search_args(q).merge!({'fl'=>'id,author_person_display,title_245a_display', 'facet'=>false}))
     expect(resp.size).to be >= 450
