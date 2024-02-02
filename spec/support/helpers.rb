@@ -44,6 +44,9 @@ module Helpers
     solr_response(solr_params.merge(doc_ids_full_titles))
   end
 
+  def everything_search_args(query_str)
+    {'q'=>query_str}
+  end
   def author_search_args(query_str)
     {'q'=>query_str, 'qt'=>'search', 'qf' => '${qf_author}', 'pf' => '${pf_author}', 'pf3' => '${pf3_author}', 'pf2' => '${pf2_author}'}
   end
