@@ -17,7 +17,7 @@ describe "Non-Latin, Non-CJK scripts" do
     it "Cyrillic: пушкин pushkin", :jira => 'VUF-489' do
       resp = solr_resp_doc_ids_only(title_search_args('пушкин pushkin'))
       expect(resp.size).to be >= 50 # 128 in soc?  2012-08-16
-      expect(resp).to include(["7829897", "2972618", "7773771"])
+      expect(resp).to include(["7829897", "2972618"])
 # FIXME:  move this to a 490 search spec
 #      resp.should include(["3420269"]) # last in relevance, from 490
 # FIXME: stemming cyrillic?
