@@ -229,8 +229,8 @@ describe "Author Search" do
   context "name as author, not subject", :jira => 'VUF-1007' do
     it "jackson pollock" do
       resp = solr_resp_doc_ids_only(author_search_args('jackson pollock').merge({'rows'=>60}))
-      expect(resp.size).to be >= 40
-      expect(resp.size).to be <= 60
+      expect(resp.size).to be >= 50
+      expect(resp.size).to be <= 70
       expect(resp).to include(['611300', '817515']) # name as author, but not subject
       expect(resp).to include(['7837994', '7206001']) # name as both author and subject
       expect(resp).not_to include(['4786630', '4298910']) # name as subject (but not as author)

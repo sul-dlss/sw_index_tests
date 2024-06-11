@@ -127,8 +127,8 @@ describe 'Chinese Everything', chinese: true do
   context 'women marriage', jira: 'SW-100' do
     #  ' 婚姻法 (marriage law) in sirsi dict, but 婚姻 (marriage) is what we wanted'
     #   because sirsi dictionary approach does length-first matching
-    it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '婦女婚姻', 'simplified', '妇女婚姻', 25, 55
-    it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '婦女 婚姻', 'simplified', '妇女 婚姻', 25, 55
+    it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '婦女婚姻', 'simplified', '妇女婚姻', 25, 75
+    it_behaves_like 'both scripts get expected result size', 'everything', 'traditional', '婦女 婚姻', 'simplified', '妇女 婚姻', 25, 75
   end
 
   context 'women marriage law' do

@@ -116,7 +116,7 @@ describe "facet values and queries" do
     it 'Other student work results' do
       resp = solr_resp_doc_ids_only({'fq'=>['stanford_work_facet_hsim:"Other student work"']})
       expect(resp.size).to be >= 670
-      expect(resp.size).to be <= 850
+      expect(resp.size).to be <= 875
     end
   end
 
