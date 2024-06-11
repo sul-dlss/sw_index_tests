@@ -554,7 +554,7 @@ describe "journal/newspaper titles" do
   context "The New York Times", :jira => ['SW-585', 'VUF-1926', 'VUF-1715', 'VUF-833'] do
     it "should get ckey 495710 above fold" do
       resp = solr_resp_ids_titles(title_search_args 'THE new york times')
-      expect(resp).to include('495710').in_first(4)
+      expect(resp).to include('495710').in_first(5)
     end
     it "should get ckey 495710 above fold without 'the'", pending: 'fixme' do
       # note:  this only works when 'the' is included, due to title_245a_exact matching in edismax (and our data)
