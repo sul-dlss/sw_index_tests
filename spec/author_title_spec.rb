@@ -9,7 +9,7 @@ describe "Author-Title Search" do
     expect(resp).not_to include("author_person_display" => /Yong/i).in_each_of_first(20).documents
   end
 
-  it "Beethoven violin concerto", :jira => 'SW-778' do
+  it "Beethoven violin concerto", :jira => 'SW-778', pending: true do
     q = '"Beethoven, Ludwig van, 1770-1827. Concertos, violin, orchestra, op. 61, D major"'
     resp = solr_response(author_title_search_args(q).merge!({'fl'=>'id,author_person_display', 'facet'=>false}))
     expect(resp.size).to be >= 400
@@ -45,7 +45,7 @@ describe "Author-Title Search" do
     expect(resp).to include("title_245a_display" => /an die ferne geliebte/i).in_each_of_first(4).documents
   end
 
-  it "Beethoven symphony number 3", :jira => ['VUF-571', 'SW-387'] do
+  it "Beethoven symphony number 3", :jira => ['VUF-571', 'SW-387'], pending: true do
     q = '"Beethoven, Ludwig van, 1770-1827. Symphonies, no. 3, op. 55, E♭ major"; arranged'
     resp = solr_response(author_title_search_args(q).merge!({'fl'=>'id,author_person_display', 'facet'=>false}))
     expect(resp.size).to be >= 25

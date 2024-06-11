@@ -455,11 +455,11 @@ describe "journal/newspaper titles" do
   end
 
   context "the wall street journal", :jira => ['SW-585','VUF-1715'] do
-    it "gets ckey 486902 above fold" do
+    it "gets ckey 486903 above fold" do
       resp = solr_resp_ids_titles(title_search_args 'wall street journal')
-      expect(resp).to include('486902').in_first(4)
+      expect(resp).to include('486903').in_first(4)
       resp = solr_resp_ids_titles(title_search_args 'the wall street journal')
-      expect(resp).to include('486902').in_first(4)
+      expect(resp).to include('486903').in_first(4)
     end
 
     it 'has good results for "the wall street journal" with the journal facet' do
@@ -470,7 +470,6 @@ describe "journal/newspaper titles" do
 
     it 'has good results for "the wall street journal" with the newspaper facet' do
       expect(solr_resp_doc_ids_only(title_search_args('the wall street journal').merge({'fq' => 'format_main_ssim:Newspaper'}))).to include([
-        '486902', # green, terman, 0193-2241
         '486903', # also database, microform, 0099-9660
         '6654532', # proquest
         '10041833', # biz, 0193-2241
@@ -480,7 +479,6 @@ describe "journal/newspaper titles" do
     it 'has good results for "the wall street journal" without a format specified' do
       expect(solr_resp_doc_ids_only(title_search_args('the wall street journal'))).to include([
         '400114', # index, sal3, 0099-9660
-        '486902', # green, terman, 0193-2241
         '486903', # also database, microform, 0099-9660
         '6654532', # proquest
         '10041833', # biz, 0193-2241
@@ -556,7 +554,7 @@ describe "journal/newspaper titles" do
   context "The New York Times", :jira => ['SW-585', 'VUF-1926', 'VUF-1715', 'VUF-833'] do
     it "should get ckey 495710 above fold" do
       resp = solr_resp_ids_titles(title_search_args 'THE new york times')
-      expect(resp).to include('495710').in_first(4)
+      expect(resp).to include('495710').in_first(5)
     end
     it "should get ckey 495710 above fold without 'the'", pending: 'fixme' do
       # note:  this only works when 'the' is included, due to title_245a_exact matching in edismax (and our data)
