@@ -63,7 +63,7 @@ module Helpers
     {'q'=>"#{query_str}", 'defType'=>'lucene', 'df'=>'callnum_search', 'qt'=>'search'}
   end
   def author_title_search_args(query_str)
-    {'q'=>query_str, 'qt'=>'search', 'qf' => 'author_title_search', 'pf' => 'author_title_search^10', 'pf3' => 'author_title_search^5',  'pf2' => 'author_title_search^2'}
+    {'q'=>query_str, 'qt'=>'search', 'qf' => '${qf_author_title}', 'pf' => '${pf_author_title}', 'pf3' => '${pf3_author_title}', 'pf2' => '${pf2_author_title}'}
   end
 
   def cjk_everything_q_args(query_str)
