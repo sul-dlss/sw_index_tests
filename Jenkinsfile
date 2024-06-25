@@ -44,13 +44,4 @@ pipeline {
       }
     }
   }
-
-  post {
-      failure {
-          step([$class: 'Mailer',
-              notifyEveryUnstableBuild: true,
-              recipients: "sdoljack@stanford.edu",
-              sendToIndividuals: true])
-      }
-  }
 }
